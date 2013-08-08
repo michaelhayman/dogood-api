@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130808192629) do
+ActiveRecord::Schema.define(version: 20130808212447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,11 +48,13 @@ ActiveRecord::Schema.define(version: 20130808192629) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "follows", force: true do |t|
-    t.string   "follower_type"
-    t.integer  "follower_id"
-    t.string   "followable_type"
-    t.integer  "followable_id"
+    t.integer  "followable_id",                   null: false
+    t.string   "followable_type",                 null: false
+    t.integer  "follower_id",                     null: false
+    t.string   "follower_type",                   null: false
+    t.boolean  "blocked",         default: false, null: false
     t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "follows", ["followable_id", "followable_type"], name: "fk_followables", using: :btree

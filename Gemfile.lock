@@ -40,6 +40,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     acts_as_commentable (4.0.0)
+    acts_as_follower (0.1.1)
     acts_as_votable (0.6.0)
       rails (>= 3.2.11)
     arel (4.0.0)
@@ -99,8 +100,6 @@ GEM
     raindrops (0.11.0)
     rake (10.1.0)
     simple_oauth (0.2.0)
-    socialization (1.0.0)
-      activerecord
     sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -135,6 +134,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   acts_as_commentable
+  acts_as_follower
   acts_as_votable (~> 0.6.0)
   devise
   fb_graph
@@ -142,6 +142,5 @@ DEPENDENCIES
   rails (= 4.0.0)
   rails3_serve_static_assets!
   rails_log_stdout!
-  socialization
   twitter
   unicorn

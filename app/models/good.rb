@@ -1,6 +1,5 @@
 class Good < ActiveRecord::Base
   acts_as_commentable
-  acts_as_likeable
   acts_as_votable
 
   attr_accessor :current_user_likes, :current_user_commented

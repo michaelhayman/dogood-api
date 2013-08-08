@@ -8,9 +8,9 @@ gem 'devise'
 gem 'twitter'
 gem 'fb_graph'
 
-gem 'socialization'
 gem 'acts_as_commentable'
 gem 'acts_as_votable', '~> 0.6.0'
+gem 'acts_as_follower'
 
 # Database
 gem 'pg'
