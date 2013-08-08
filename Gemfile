@@ -10,12 +10,16 @@ gem 'fb_graph'
 
 gem 'socialization'
 gem 'acts_as_commentable'
+gem 'acts_as_votable', '~> 0.6.0'
 
 # Database
 gem 'pg'
 
 # JSON
 gem 'active_model_serializers'
+
+# Testing
+# gem "bullet", :group => "development"
 
 # Files
 # gem 'carrierwave'

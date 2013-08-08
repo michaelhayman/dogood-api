@@ -40,6 +40,8 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     acts_as_commentable (4.0.0)
+    acts_as_votable (0.6.0)
+      rails (>= 3.2.11)
     arel (4.0.0)
     atomic (1.1.12)
     attr_required (0.0.5)
@@ -133,6 +135,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   acts_as_commentable
+  acts_as_votable (~> 0.6.0)
   devise
   fb_graph
   pg
