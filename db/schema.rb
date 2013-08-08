@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130807222001) do
+ActiveRecord::Schema.define(version: 20130808023624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,16 +22,15 @@ ActiveRecord::Schema.define(version: 20130807222001) do
     t.datetime "updated_at"
   end
 
-  create_table "comments", force: true do |t|
-    t.text     "body"
+  create_table "claimed_rewards", force: true do |t|
     t.integer  "user_id"
-    t.integer  "good_id"
+    t.integer  "reward_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "comments", ["good_id"], name: "index_comments_on_good_id", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+  add_index "claimed_rewards", ["reward_id"], name: "index_claimed_rewards_on_reward_id", using: :btree
+  add_index "claimed_rewards", ["user_id"], name: "index_claimed_rewards_on_user_id", using: :btree
 
   create_table "goods", force: true do |t|
     t.string   "caption"
@@ -43,16 +42,6 @@ ActiveRecord::Schema.define(version: 20130807222001) do
 
   add_index "goods", ["category_id"], name: "index_goods_on_category_id", using: :btree
   add_index "goods", ["user_id"], name: "index_goods_on_user_id", using: :btree
-
-  create_table "likes", force: true do |t|
-    t.integer  "user_id"
-    t.string   "likeable"
-    t.integer  "likeable_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "likes", ["user_id"], name: "index_likes_on_user_id", using: :btree
 
   create_table "regoods", force: true do |t|
     t.integer  "user_id"
@@ -70,16 +59,6 @@ ActiveRecord::Schema.define(version: 20130807222001) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "user_rewards", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "reward_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "user_rewards", ["reward_id"], name: "index_user_rewards_on_reward_id", using: :btree
-  add_index "user_rewards", ["user_id"], name: "index_user_rewards_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

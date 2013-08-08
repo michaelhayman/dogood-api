@@ -9,6 +9,7 @@ gem 'twitter'
 gem 'fb_graph'
 
 gem 'socialization'
+gem 'acts_as_commentable'
 
 # Database
 gem 'pg'
@@ -17,7 +18,7 @@ gem 'pg'
 gem 'active_model_serializers'
 
 # Files
-gem 'carrierwave'
+# gem 'carrierwave'
 
 # Heroku
 # gem 'rails_12factor', group: :production

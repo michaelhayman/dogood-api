@@ -1,6 +1,6 @@
-class CreateUserRewards < ActiveRecord::Migration
+class ClaimedRewards < ActiveRecord::Migration
   def change
-    create_table :user_rewards do |t|
+    create_table :claimed_rewards do |t|
       t.references :user, index: true
       t.references :reward, index: true
 
