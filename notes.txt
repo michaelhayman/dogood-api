@@ -1,0 +1,11 @@
+Workflowy stuff to get refocused
+
+CollectionProxy
+
+- locations
+    - add foursquare json to good table?
+    - location:string
+    - active record extensions..
+    - the_geom worth using?
+- validations
+- blah
