@@ -12,3 +12,22 @@ class Good < ActiveRecord::Base
   validate :caption, :message => "Enter a name."
   validate :user_id, :message => "Goods must be associated with a user."
 end
+
+class GoodSerializer < ActiveModel::Serializer
+  attributes :caption,
+    :current_user_likes,
+    :current_user_commented,
+    :likes,
+    :comments_count
+
+  has_many :comments
+
+  def comments
+    object.comments.recent.overview
+  end
+
+  def likes
+    object.cached_votes_up
+  end
+end
+
