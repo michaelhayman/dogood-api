@@ -1,5 +1,10 @@
 class GoodSerializer < ActiveModel::Serializer
-  attributes :caption, :current_user_likes, :current_user_commented
+  attributes :caption, :current_user_likes, :current_user_commented,
+    :limited_comments
+
+  def limited_comments
+    object.comments.recent.overview
+  end
 end
 
 class GoodsController < ApplicationController
