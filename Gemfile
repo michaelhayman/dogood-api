@@ -24,8 +24,10 @@ gem 'active_model_serializers'
 # Files
 # gem 'carrierwave'
 
-# Heroku
+# New Relic
+gem 'newrelic_rpm'
 
+# Heroku
 group :production do
   gem 'unicorn'
   gem 'rails_12factor', group: :production
