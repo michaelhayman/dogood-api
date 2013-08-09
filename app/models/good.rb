@@ -56,10 +56,27 @@ class Good < ActiveRecord::Base
 end
 
 class GoodSerializer < ActiveModel::Serializer
+  def serializable_hash
+    current_user_serializer_hash.merge defaults_serializer_hash
+  end
+
+  private
+
+  def current_user_serializer_hash
+    CurrentUserSerializer.new(object, options).serializable_hash
+  end
+
+  def defaults_serializer_hash
+    DefaultsSerializer.new(object, options).serializable_hash
+  end
+end
+
+class DefaultsSerializer < ActiveModel::Serializer
+  cached
+  delegate :cache_key, to: :object
+
   attributes :id,
     :caption,
-    :current_user_liked,
-    :current_user_commented,
     :likes,
     :comments_count,
     :comments
@@ -68,6 +85,18 @@ class GoodSerializer < ActiveModel::Serializer
 
   def likes
     object.cached_votes_up
+  end
+end
+
+class CurrentUserSerializer < ActiveModel::Serializer
+  cached
+
+  attributes :current_user_liked,
+    :current_user_commented,
+    :current_user_regooded
+
+  def cache_key
+    [object, current_user]
   end
 end
 
