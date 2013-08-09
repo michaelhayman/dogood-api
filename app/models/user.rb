@@ -1,3 +1,7 @@
+class UserSerializer < ActiveModel::Serializer
+  attributes :id, :logged_in, :email
+end
+
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable
@@ -12,5 +16,6 @@ class User < ActiveRecord::Base
   has_many :regoods
   has_many :claimed_rewards
   has_many :user_likes
+  has_many :comments
 
 end

@@ -19,4 +19,6 @@ end
 class CommentSerializer < ActiveModel::Serializer
   attributes :comment,
     :user_id
+
+  has_one :user
 end

@@ -1,5 +1,6 @@
 class Good < ActiveRecord::Base
   acts_as_commentable
+
   acts_as_votable
 
   attr_accessor :current_user_likes, :current_user_commented
@@ -14,17 +15,15 @@ class Good < ActiveRecord::Base
 end
 
 class GoodSerializer < ActiveModel::Serializer
-  attributes :caption,
+  attributes :id,
+    :caption,
     :current_user_likes,
     :current_user_commented,
     :likes,
-    :comments_count
+    :comments_count,
+    :comments
 
   has_many :comments
-
-  def comments
-    object.comments.recent.overview
-  end
 
   def likes
     object.cached_votes_up
