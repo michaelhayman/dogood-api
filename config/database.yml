@@ -14,7 +14,7 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-development:
+development: &development
   adapter: postgresql
   encoding: unicode
   database: DoGood-app_development
@@ -51,9 +51,5 @@ test:
   password:
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  database: DoGood-app_production
-  pool: 5
-  username: DoGood-app
-  password:
+  <<: *development
+
