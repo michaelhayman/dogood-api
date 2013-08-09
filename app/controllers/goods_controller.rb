@@ -17,23 +17,8 @@ class GoodsController < ApplicationController
       map(&:commentable_id)
 
     @goods.each do |g|
-      g.current_user_likes = false
-      # select?
-      @current_user_likes.each do |l|
-        if g.id == l
-          g.current_user_likes = true
-          break
-        end
-      end
-
-      g.current_user_commented = false
-      @current_user_comments.each do |c|
-        if g.id == c
-          g.current_user_commented = true
-          break
-        end
-      end
-
+      g.current_user_likes = @current_user_likes.include?(g.id)
+      g.current_user_commented = @current_user_comments.include?(g.id)
     end
 
     respond_with @goods
