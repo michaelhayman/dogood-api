@@ -1,9 +1,12 @@
 class Good < ActiveRecord::Base
   acts_as_commentable
+  acts_as_followable
 
   acts_as_votable
 
-  attr_accessor :current_user_liked, :current_user_commented
+  attr_accessor :current_user_liked,
+    :current_user_commented,
+    :current_user_regooded
 
   belongs_to :category
   belongs_to :user
@@ -38,9 +41,16 @@ class Good < ActiveRecord::Base
             :commentable_id => @good_ids).
       map(&:commentable_id)
 
+    @current_user_regoods = current_user.
+      follows.
+      where(:followable_type => "Good",
+            :followable_id => @good_ids).
+      map(&:followable_id)
+
     @goods.each do |g|
       g.current_user_liked = @current_user_likes.include?(g.id)
       g.current_user_commented = @current_user_comments.include?(g.id)
+      g.current_user_regooded = @current_user_regoods.include?(g.id)
     end
   end
 end
