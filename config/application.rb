@@ -21,7 +21,8 @@ module DoGoodApp
     # config.i18n.default_locale = :de
     #
     # Disable certain things for API-only apps
-    config.assets.enabled = false
+    # config.assets.enabled = false
+    # config.assets.initialize_on_precompile = false
     config.middleware.delete "ActionDispatch::Cookies"
     config.middleware.delete "ActionDispatch::Session::CookieStore"
     config.middleware.delete "ActionDispatch::Flash"
