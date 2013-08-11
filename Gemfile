@@ -4,7 +4,7 @@ ruby "2.0.0"
 gem 'rails', '4.0.0'
 
 # Authentication
-gem 'devise'
+gem 'devise', '3.0.2'
 gem 'twitter'
 gem 'fb_graph'
 
