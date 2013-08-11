@@ -10,7 +10,6 @@ class Good < ActiveRecord::Base
 
   belongs_to :category
   belongs_to :user
-  has_many :regoods
   has_many :user_likes
 
   validate :caption, :message => "Enter a name."
