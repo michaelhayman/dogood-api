@@ -17,8 +17,7 @@ class User < ActiveRecord::Base
   acts_as_voter
 
   has_many :goods
-  has_many :regoods
   has_many :claimed_rewards
-  has_many :user_likes
+  has_many :rewards, :through => :claimed_rewards
   has_many :comments
 end
