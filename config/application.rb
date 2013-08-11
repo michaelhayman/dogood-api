@@ -29,5 +29,17 @@ module DoGoodApp
 
     config.middleware.delete "Rack::Lock"
     config.middleware.delete "ActionDispatch::BestStandardsSupport"
+
+    # config.middleware.delete "ActionDispatch::Static"
+    # config.middleware.delete "Rack::MethodOverride"
+    # config.middleware.delete "Rails::Rack::Logger"
+    # config.middleware.delete "ActionDispatch::DebugExceptions"
+    # config.middleware.delete "ActionDispatch::RequestId"
+    # config.middleware.delete "ActionDispatch::RemoteIp"
+    # config.middleware.delete "ActionDispatch::Reloader"
+
+    # We need a secret token for session, cookies, etc.
+    config.secret_token = "20382038salkjfoiusdfuanklajsdfouoausjdfjlaksjdlfjajsjdfkjslakjdfjjfklajsdfj"
+
   end
 end

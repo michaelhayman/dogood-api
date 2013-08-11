@@ -28,6 +28,9 @@ DoGoodApp::Application.configure do
   config.assets.debug = true
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
+  config.assets.compile = false
+  config.assets.precompile = false
+
   # config.after_initialize do
   #   Bullet.enable = true
   #   Bullet.alert = true
