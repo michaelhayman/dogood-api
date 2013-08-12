@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
     :validatable,
     :authentication_keys => [:username]
 
+  mount_uploader :avatar, AvatarUploader
+
   attr_accessor :logged_in, :username
   # attr_accessible :username, :email, :password,
   #   :password_confirmation, :remember_me, :login

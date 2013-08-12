@@ -22,7 +22,8 @@ gem 'active_model_serializers'
 # gem "bullet", :group => "development"
 
 # Files
-# gem 'carrierwave'
+gem 'carrierwave'
+gem 'fog', '~> 1.3.1'
 
 # New Relic
 gem 'newrelic_rpm'
