@@ -16,13 +16,7 @@ class RegistrationsController < Devise::RegistrationsController
       else
         messages = [ "There were errors.  Please try again." ]
       end
-      # logger.debug "failed #{messages}"
-
-      render :json => {
-        :errors => {
-          :messages => [ messages.first ]
-        }
-      }, :status => :unprocessable_entity
+      render_errors(messages.first)
     end
   end
 
@@ -35,18 +29,12 @@ class RegistrationsController < Devise::RegistrationsController
       render :json => @user
       return
     end
-
-    render :json => {
-      :errors => {
-        :messages => [ "Unable to update your details." ]
-      }
-    }, :status => :unprocessable_entity
+    render_errors("Unable to update your details.")
   end
 
   def resource_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
   private :resource_params
-
 end
 

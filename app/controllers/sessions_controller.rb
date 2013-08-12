@@ -5,7 +5,6 @@ class SessionsController < Devise::SessionsController
 
   def create
     warden.custom_failure!
-    logger.debug "hey what happened #{params[:user][:email]}"
     user = User.find_for_database_authentication(params[:user])
     return invalid_login_attempt unless valid_login_attempt?(user)
 
@@ -17,27 +16,17 @@ class SessionsController < Devise::SessionsController
 
     def ensure_params_exist
       return unless params[:user].blank?
-      render :json => {
-        :errors => {
-          :messages => [ "Missing username or email address." ]
-        }
-      }, :status => :unauthorized
+      render_errors("Missing username or email address.", :unauthorized)
     end
 
     def invalid_login_attempt
       purge_current_user
-
-      render :json => {
-        :errors => {
-          :messages => [ "Invalid username, email or password." ]
-        }
-      }, :status => :unauthorized
+      render_errors("Invalid username, email or password.", :unauthorized)
     end
 
   private
 
     def valid_login_attempt?(user)
-      logger.debug user
       user && user.valid_password?(params[:user][:password])
     end
 

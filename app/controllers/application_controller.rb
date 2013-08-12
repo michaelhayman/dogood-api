@@ -22,6 +22,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def render_errors(messages, status = :unprocessable_entity)
+    messages = Array.wrap(messages)
+    render :json => {
+      :errors => {
+        :messages => messages
+      }
+    }, :status => status
+  end
+
   protected
 
   # def configure_permitted_parameters

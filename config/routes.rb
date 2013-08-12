@@ -10,6 +10,4 @@ DoGoodApp::Application.routes.draw do
   resources :goods
 
   root to: 'goods#index', :defaults => { :format => :json }
-
-  # resources :users
 end

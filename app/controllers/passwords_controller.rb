@@ -4,7 +4,6 @@ class PasswordsController < Devise::PasswordsController
   respond_to :json
 
   def create
-    logger.debug resource_params
     self.resource = resource_class.send_reset_password_instructions(resource_params)
 
     if successfully_sent?(resource)
@@ -14,11 +13,7 @@ class PasswordsController < Devise::PasswordsController
         }
       }, :status => :ok
     else
-      render :json => {
-        :errors => {
-          :messages => [ "Invalid email address." ]
-        }
-      }, :status => :unprocessable_entity
+      render_errors("Invalid email address.")
     end
   end
 
@@ -53,11 +48,7 @@ class PasswordsController < Devise::PasswordsController
           messages = [ message ]
         end
 
-        render :json => {
-          :errors => {
-            :messages => messages
-          }
-        }, :status => :unprocessable_entity
+        render_errors(messages)
       }
     end
   end
