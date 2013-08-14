@@ -1,5 +1,14 @@
 class Good < ActiveRecord::Base
+  mount_uploader :evidence, EvidenceUploader
+
   acts_as_commentable
+  has_many :summarized_comments, -> {
+      limit(5)
+    },
+    :class_name => "Comment",
+    :as => :commentable,
+    :dependent => :destroy
+
   acts_as_followable
 
   acts_as_votable
@@ -12,8 +21,10 @@ class Good < ActiveRecord::Base
   belongs_to :user
   has_many :user_likes
 
-  validate :caption, :message => "Enter a name."
-  validate :user_id, :message => "Goods must be associated with a user."
+  validate :caption,
+    :message => "Enter a name."
+  validate :user_id,
+    :message => "Goods must be associated with a user."
 
   def self.in_category(id)
     where(:category_id => id)
@@ -23,8 +34,31 @@ class Good < ActiveRecord::Base
     where(:user_id => id)
   end
 
+  def self.liked_by_user(user_id)
+    @user = User.by_id(user_id)
+    @user.get_voted Good
+  end
+
+  def self.posted_or_followed_by(user_id)
+    @user = User.by_id(user_id)
+
+    @goods_posted_by_user = Good.by_user(@user)
+    @goods_followed_by_user = @user.follows_by_type("Good".constantize).
+      map(&:followable)
+    @goods_posted_by_user.merge(@goods_followed_by_user)
+  end
+
+  def self.just_created_by(user_id)
+    where("user_id = ? AND created_at < ?", user_id, Time.now - 1.minute)
+  end
+
   def self.stream(current_user)
-    @goods = Good.includes(:comments => :user).load
+    # .not_blocked
+    # @goods = Good.includes(:user).
+    # @goods = Good.#includes(:user, :comments => :user).
+    @goods = Good.includes(:user, :comments => :user).
+      order("goods.created_at desc").
+      load
 
     @good_ids = @goods.map(&:id)
 
@@ -35,7 +69,7 @@ class Good < ActiveRecord::Base
       map(&:votable_id)
 
     @current_user_comments = current_user.
-      comments.
+      comments.unlimited.
       where(:commentable_type => "Good",
             :commentable_id => @good_ids).
       map(&:commentable_id)
@@ -52,6 +86,7 @@ class Good < ActiveRecord::Base
       g.current_user_regooded = @current_user_regoods.include?(g.id)
     end
   end
+
 end
 
 class GoodSerializer < ActiveModel::Serializer
@@ -71,24 +106,38 @@ class GoodSerializer < ActiveModel::Serializer
 end
 
 class DefaultsSerializer < ActiveModel::Serializer
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
   attributes :id,
     :caption,
-    :likes,
+    :likes_count,
     :comments_count,
-    :comments
+    :regoods_count,
+    :evidence,
+    :user
 
-  has_many :comments
+  has_many :comments, polymorphic: true
 
-  def likes
+  def comments
+    object.comments.summary
+  end
+
+  def evidence
+    object.evidence.url
+  end
+
+  def likes_count
     object.cached_votes_up
+  end
+
+  def regoods_count
+    object.follows_count
   end
 end
 
 class CurrentUserSerializer < ActiveModel::Serializer
-  cached
+  # cached
 
   attributes :current_user_liked,
     :current_user_commented,

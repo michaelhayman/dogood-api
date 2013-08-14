@@ -1,10 +1,9 @@
-# encoding: UTF-8
-
 class RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   def create
     user = User.new(resource_params)
+    user.avatar = params[:user][:avatar]
 
     if user.save
       sign_in(:user, user)

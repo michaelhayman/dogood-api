@@ -1,5 +1,54 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :logged_in, :email
+  attributes :id,
+    :logged_in,
+    :email,
+    :username,
+    :avatar,
+    :full_name
+
+  def avatar
+    object.avatar.url
+  end
+
+  def name
+    object.username
+  end
+end
+
+class ExtraUserAttributesSerializer < ActiveModel::Serializer
+  attributes :current_user_following,
+    :followers_count,
+    :following_count,
+    :liked_goods_count,
+    :posted_or_followed_goods_count
+
+  def current_user_following
+    object.following?(object)
+  end
+
+  def followers_count
+    object.follows_count
+  end
+
+  def following_count
+    object.following_users_count
+  end
+
+  def liked_goods_count
+    Good.liked_by_user(object.id).count
+  end
+
+  def posted_or_followed_goods_count
+    Good.posted_or_followed_by(object.id).count
+  end
+end
+
+class FullUserSerializer < ActiveModel::Serializer
+  def serializable_hash
+    u = UserSerializer.new(object, options).serializable_hash
+    e = ExtraUserAttributesSerializer.new(object, options).serializable_hash
+    u.merge e
+  end
 end
 
 class User < ActiveRecord::Base
@@ -12,18 +61,6 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :logged_in, :username
-  # attr_accessible :username, :email, :password,
-  #   :password_confirmation, :remember_me, :login
-
-  validates :username,
-    :uniqueness => {
-      :case_sensitive => false
-    }
-  # validates_uniqueness_of :username
-  validates_presence_of :username
-  validates :username, length: { in: 4..20 }
-
   acts_as_followable
   acts_as_follower
 
@@ -34,34 +71,21 @@ class User < ActiveRecord::Base
   has_many :rewards, :through => :claimed_rewards
   has_many :comments
 
-  # def find_for_database_authentication
-  # def find_for_authentication
+  attr_accessor :logged_in #, :username
 
-  # def self.find_first_by_auth_conditions(warden_conditions)
-  #   conditions = warden_conditions.dup
-  #   logger.debug "conditions! #{conditions}"
-  #   if login = conditions.delete(:email)
-  #     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
-  #   else
-  #     where(conditions).first
-  #   end
-  # end
-
- # def self.find_first_by_auth_conditions(warden_conditions)
- #    conditions = warden_conditions.dup
- #    logger.debug "conditions! #{conditions}"
- #    conditions.delete(:password)
- #    if login = conditions.delete(:username)
- #      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
- #    else
- #      where(conditions).first
- #    end
- #    logger.debug "getting to here"
- #  end
+  validates :username,
+    :uniqueness => {
+      :case_sensitive => false
+    }
+  validates_presence_of :username
+  validates :username, length: { in: 4..20 }
 
   def self.find_for_database_authentication(user)
-    logger.debug "to this condition #{user}"
     self.where("lower(username) = ?", user[:username].downcase).first ||
     self.where("lower(email) = ?", user[:username].downcase).first
+  end
+
+  def self.by_id(user_id)
+    where(:id => user_id).first
   end
 end

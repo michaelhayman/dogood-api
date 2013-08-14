@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130812140724) do
+ActiveRecord::Schema.define(version: 20130815080719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(version: 20130812140724) do
     t.integer  "cached_votes_score", default: 0
     t.integer  "cached_votes_up",    default: 0
     t.integer  "cached_votes_down",  default: 0
+    t.string   "evidence"
+    t.integer  "follows_count",      default: 0
   end
 
   add_index "goods", ["cached_votes_down"], name: "index_goods_on_cached_votes_down", using: :btree
@@ -147,6 +149,9 @@ ActiveRecord::Schema.define(version: 20130812140724) do
     t.datetime "updated_at"
     t.string   "username"
     t.string   "avatar"
+    t.integer  "follows_count",          default: 0
+    t.string   "full_name"
+    t.string   "phone"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
