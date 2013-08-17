@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130815080719) do
+ActiveRecord::Schema.define(version: 20130817033111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,11 +115,16 @@ ActiveRecord::Schema.define(version: 20130815080719) do
   add_index "regoods", ["user_id"], name: "index_regoods_on_user_id", using: :btree
 
   create_table "rewards", force: true do |t|
-    t.string   "name"
-    t.string   "description"
+    t.string   "title"
+    t.string   "subtitle"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "cost",               default: 0
+    t.integer  "quantity",           default: 0
+    t.integer  "quantity_remaining", default: 0
+    t.text     "full_description"
+    t.string   "teaser"
   end
 
   add_index "rewards", ["user_id"], name: "index_rewards_on_user_id", using: :btree
@@ -152,6 +157,7 @@ ActiveRecord::Schema.define(version: 20130815080719) do
     t.integer  "follows_count",          default: 0
     t.string   "full_name"
     t.string   "phone"
+    t.integer  "points",                 default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

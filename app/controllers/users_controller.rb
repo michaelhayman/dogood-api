@@ -20,6 +20,14 @@ class UsersController < ApplicationController
     respond_with @user, root: "user", serializer: FullUserSerializer
   end
 
+  def points
+    render :json => {
+      :user => {
+        :points => current_user.points
+      }
+    }
+  end
+
   def likers
     @instance = params[:type].
       constantize.

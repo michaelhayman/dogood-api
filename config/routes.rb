@@ -11,6 +11,7 @@ DoGoodApp::Application.routes.draw do
       get :likers
       get :followers
       get :following
+      get :points
     end
   end
 
@@ -38,7 +39,14 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
-  resources :rewards
+  resources :rewards do
+    member do
+    end
+    collection do
+      post :claim
+      get :claimed
+    end
+  end
 
   root to: 'goods#index', :defaults => { :format => :json }
 end

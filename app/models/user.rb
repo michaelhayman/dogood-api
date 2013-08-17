@@ -20,6 +20,7 @@ class ExtraUserAttributesSerializer < ActiveModel::Serializer
     :followers_count,
     :following_count,
     :liked_goods_count,
+    :points,
     :posted_or_followed_goods_count
 
   def current_user_following
@@ -69,6 +70,7 @@ class User < ActiveRecord::Base
   has_many :goods
   has_many :claimed_rewards
   has_many :rewards, :through => :claimed_rewards
+  has_many :owned_rewards, :class_name => "Reward", :source => :vendor
   has_many :comments
 
   attr_accessor :logged_in #, :username
