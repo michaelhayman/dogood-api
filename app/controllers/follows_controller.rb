@@ -10,7 +10,7 @@ class FollowsController < ApplicationController
       render_ok(resource_params[:followable_id])
       # polymorphic_associationk0
     else
-      render_error("Follow registered.")
+      render_errors("Follow registered.")
     end
   end
 
@@ -18,7 +18,7 @@ class FollowsController < ApplicationController
     if current_user.stop_following polymorphic_association
       render_ok(resource_params[:followable_id])
     else
-      render_error("Follow not registered.")
+      render_errors("Follow not registered.")
     end
   end
 
