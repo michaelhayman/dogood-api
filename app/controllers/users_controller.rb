@@ -32,21 +32,24 @@ class UsersController < ApplicationController
     @instance = params[:type].
       constantize.
       find(params[:id])
-    respond_with @instance.votes.map(&:voter), root: "user"
+    @likers = @instance.votes.map(&:voter)
+    respond_with @likers, root: "user"
   end
 
   def followers
     @instance = params[:type].
       constantize.
       find(params[:id])
-    respond_with @instance.followers, root: "user"
+    @followers = @instance.followers
+    respond_with @followers, root: "user"
   end
 
   def following
     @instance = params[:type].
       constantize.
       find(params[:id])
-    respond_with @instance.follows_by_type(params[:type]).map(&:followable), root: "user"
+    @following = @instance.follows_by_type(params[:type]).map(&:followable)
+    respond_with @following, root: "user"
   end
 end
 

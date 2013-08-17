@@ -1,10 +1,14 @@
+# need to drop email, logged_in, etc from
+# this base serializer.
 class UserSerializer < ActiveModel::Serializer
   attributes :id,
     :logged_in,
     :email,
     :username,
     :avatar,
-    :full_name
+    :full_name,
+    # N+1
+    :current_user_following
 
   def avatar
     object.avatar.url
@@ -12,6 +16,11 @@ class UserSerializer < ActiveModel::Serializer
 
   def name
     object.username
+  end
+
+  # N+1
+  def current_user_following
+    current_user.following?(object)
   end
 end
 
@@ -24,7 +33,7 @@ class ExtraUserAttributesSerializer < ActiveModel::Serializer
     :posted_or_followed_goods_count
 
   def current_user_following
-    object.following?(object)
+    current_user.following?(object)
   end
 
   def followers_count
