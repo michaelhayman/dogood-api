@@ -52,8 +52,6 @@ class RewardsController < ApplicationController
   end
 
   def resource_params
-    logger.debug "params"
-    logger.debug params
     params.require(:reward).permit(:id, :name)
   end
   private :resource_params

@@ -13,8 +13,6 @@ class ApplicationController < ActionController::Base
 
   def check_auth
     authenticate_or_request_with_http_basic do |username, password|
-      logger.debug username
-      logger.debug password
       resource = User.find_by_username(username)
       if resource && resource.valid_password?(password)
         sign_in :user, resource
