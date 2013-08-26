@@ -32,5 +32,9 @@ gem 'newrelic_rpm'
 group :production do
   gem 'unicorn'
   gem 'rails_12factor', group: :production
+  # Caching
+  gem 'rack-cache'
+  gem 'dalli'
+  gem 'kgio'
 end
 

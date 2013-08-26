@@ -19,10 +19,6 @@ DoGoodApp::Application.configure do
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
-  # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = false
-  config.assets.cache_store = :dalli_store
-
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
@@ -45,7 +41,8 @@ DoGoodApp::Application.configure do
   # config.force_ssl = true
 
   # Set to :debug to see everything in the log.
-  config.log_level = :info
+  # config.log_level = :info
+  config.log_level = :debug
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
@@ -53,8 +50,22 @@ DoGoodApp::Application.configure do
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
+  # Disable Rails's static asset server (Apache or nginx will already do this).
+  config.serve_static_assets = true
+  config.assets.cache_store = :dalli_store
+
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :dalli_store
+
+  client = Dalli::Client.new
+  config.action_dispatch.rack_cache = {
+    :metastore    => client,
+    :entitystore  => client,
+    :allow_reload => false
+  }
+
+  config.static_cache_control = "public, max-age=2592000"
+
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
