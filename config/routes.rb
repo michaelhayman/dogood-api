@@ -15,7 +15,9 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
-  get "category/index"
+  resources :categories, :only => [ :index ]
+
+  # get "category/index"
 
   resources :goods, :only => [ :index, :show, :create ] do
     collection do
