@@ -42,9 +42,10 @@ class GoodsController < ApplicationController
 
   def create
     @good = Good.new(resource_params)
+    @good.user_id = current_user.id
     @good.evidence = params[:good][:evidence]
 
-    if Good.just_created_by(current_user)
+    if Good.just_created_by(current_user).count > 0
       render_errors("Please wait longer before doing more good.")
       return
     end
