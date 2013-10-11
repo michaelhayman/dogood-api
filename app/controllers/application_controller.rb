@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :null_session
   # force_ssl
 
-  before_filter :check_auth, unless: :devise_controller?
+  before_filter :check_auth, unless: :exceptions_met?
   # before_filter :configure_permitted_parameters, if: :devise_controller?
   # before_filter :configure_permitted_parameters, if: :devise_controller?
   respond_to :json
@@ -27,6 +27,11 @@ class ApplicationController < ActionController::Base
         :messages => messages
       }
     }, :status => status
+  end
+
+  def exceptions_met?
+    (params[:controller] == "users" && params[:action] == "status") ||
+    devise_controller?
   end
 
   protected
