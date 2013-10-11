@@ -1,5 +1,48 @@
+class User < ActiveRecord::Base
   include DoGood::Reportable
+
+  devise :database_authenticatable,
+    :registerable,
+    :recoverable,
+    :rememberable,
+    :validatable,
+    :authentication_keys => [:username]
+
+  mount_uploader :avatar, AvatarUploader
+
+  acts_as_followable
+  acts_as_follower
+
+  acts_as_voter
+
   reportable!
+
+  has_many :goods
+  has_many :claimed_rewards
+  has_many :rewards, :through => :claimed_rewards
+  has_many :owned_rewards, :class_name => "Reward", :source => :vendor
+  has_many :comments
+  has_many :reports
+
+  attr_accessor :logged_in #, :username
+
+  validates :username,
+    :uniqueness => {
+      :case_sensitive => false
+    }
+  validates_presence_of :username
+  validates :username, length: { in: 4..20 }
+
+  def self.find_for_database_authentication(user)
+    self.where("lower(username) = ?", user[:username].downcase).first ||
+    self.where("lower(email) = ?", user[:username].downcase).first
+  end
+
+  def self.by_id(user_id)
+    where(:id => user_id).first
+  end
+end
+
 # need to drop email, logged_in, etc from
 # this base serializer.
 class UserSerializer < ActiveModel::Serializer
@@ -16,13 +59,59 @@ class UserSerializer < ActiveModel::Serializer
     object.avatar.url
   end
 
-  def name
-    object.username
-  end
-
   # N+1
   def current_user_following
     current_user.following?(object)
+  end
+
+  # def good_score
+  #   require 'RMagick'
+
+  #   # Demonstrate the annotate method
+  #   Text = 'RMagick'
+
+  #   granite = Magick::ImageList.new('granite:')
+  #   canvas = Magick::ImageList.new
+  #   canvas.new_image(300, 100, Magick::TextureFill.new(granite))
+
+  #   text = Magick::Draw.new
+  #   text.font_family = 'helvetica'
+  #   text.pointsize = 52
+  #   text.gravity = Magick::CenterGravity
+
+  #   text.annotate(canvas, 0,0,2,2, Text) {
+  #      self.fill = 'gray83'
+  #   }
+
+  #   text.annotate(canvas, 0,0,-1.5,-1.5, Text) {
+  #      self.fill = 'gray40'
+  #   }
+
+  #   text.annotate(canvas, 0,0,0,0, Text) {
+  #      self.fill = 'darkred'
+  #   }
+
+  #   canvas.write('rubyname.gif')
+  #   exit
+  # end
+end
+
+class CurrentUserSerializer < ActiveModel::Serializer
+  attributes :id,
+    :email,
+    :location,
+    :biography,
+    :full_name,
+    :username,
+    :points,
+    :avatar,
+    :phone,
+    :twitter_id,
+    :facebook_id
+  # connected, etc...
+
+  def avatar
+    object.avatar.url
   end
 end
 
@@ -63,42 +152,3 @@ class FullUserSerializer < ActiveModel::Serializer
   end
 end
 
-class User < ActiveRecord::Base
-  devise :database_authenticatable,
-    :registerable,
-    :recoverable,
-    :rememberable,
-    :validatable,
-    :authentication_keys => [:username]
-
-  mount_uploader :avatar, AvatarUploader
-
-  acts_as_followable
-  acts_as_follower
-
-  acts_as_voter
-
-  has_many :goods
-  has_many :claimed_rewards
-  has_many :rewards, :through => :claimed_rewards
-  has_many :owned_rewards, :class_name => "Reward", :source => :vendor
-  has_many :comments
-
-  attr_accessor :logged_in #, :username
-
-  validates :username,
-    :uniqueness => {
-      :case_sensitive => false
-    }
-  validates_presence_of :username
-  validates :username, length: { in: 4..20 }
-
-  def self.find_for_database_authentication(user)
-    self.where("lower(username) = ?", user[:username].downcase).first ||
-    self.where("lower(email) = ?", user[:username].downcase).first
-  end
-
-  def self.by_id(user_id)
-    where(:id => user_id).first
-  end
-end
