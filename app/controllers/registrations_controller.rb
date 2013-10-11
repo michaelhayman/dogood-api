@@ -8,7 +8,8 @@ class RegistrationsController < Devise::RegistrationsController
 
     if user.save
       sign_in(:user, user)
-      render :json => user
+      render :json => user, serializer: CurrentUserSerializer, root: "user"
+
       return
     else
       if user.errors.any?
