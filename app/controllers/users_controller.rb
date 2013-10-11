@@ -28,6 +28,49 @@ class UsersController < ApplicationController
       render_errors("Unable to update your details.")
     end
   end
+
+  def social
+    if current_user.update_attributes(social_params)
+      render :json => current_user
+    else
+      render_errors("Couldn't save the social ID.")
+    end
+  end
+
+  def search
+    user = User.arel_table
+    if (params[:search] != "(null)")
+      @users = User.where(user[:full_name].matches("%#{params[:search]}%"))
+    else
+      @users = User.all
+    end
+    respond_with @users, root: "user"
+  end
+
+
+  def search_by_emails
+    @users = User.where(:email => params[:emails])
+    respond_with @users, root: "user"
+  end
+
+  def search_by_twitter_ids
+    @twitter_users = User.where(:twitter_id => params[:twitter_ids])
+    # @already_following = Follow.
+    #   following("User", current_user.id).map(&:twitter_id)
+    # @twitter_users.each
+
+    respond_with @twitter_users, root: "user"
+  end
+
+  def search_by_facebook_ids
+    if (params[:facebook_ids] != nil)
+      @facebook_users = User.where(:facebook_id => params[:facebook_ids])
+    else
+      @facebook_users = nil
+    end
+
+    respond_with @facebook_users, root: "user"
+  end
   def points
     render :json => {
       :user => {
@@ -76,6 +119,11 @@ class UsersController < ApplicationController
 
   def profile_params
     params.require(:user).permit(:full_name, :biography, :location, :phone, :avatar)
+  end
+  private :profile_params
+
+  def social_params
+    params.require(:user).permit(:twitter_id, :facebook_id)
   end
   private :profile_params
 end
