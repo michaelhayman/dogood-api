@@ -51,5 +51,19 @@ class UsersController < ApplicationController
     @following = @instance.follows_by_type(params[:type]).map(&:followable)
     respond_with @following, root: "user"
   end
+
+  # html methods
+  def status
+    @user = User.find_by_id(params[:id])
+    respond_to do |format|
+      format.html {
+        if @user.present?
+          render :status
+        else
+          render :status_not_found
+        end
+      }
+    end
+  end
 end
 

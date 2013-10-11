@@ -21,6 +21,9 @@ DoGoodApp::Application.routes.draw do
       get :score
       post :social
     end
+    member do
+      get :status
+    end
   end
 
   resources :reports
