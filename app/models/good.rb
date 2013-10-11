@@ -74,7 +74,7 @@ class Good < ActiveRecord::Base
     # .not_blocked
     # @goods = Good.includes(:user).
     # @goods = Good.#includes(:user, :comments => :user).
-    @goods = Good.includes(:user, :comments => :user).
+    @goods = Good.includes(:user, :category, :comments => :user).
       order("goods.created_at desc").
       load
 
@@ -140,6 +140,7 @@ class DefaultsSerializer < ActiveModel::Serializer
     :user
 
   has_many :comments, polymorphic: true
+  has_one :category
 
   def comments
     object.comments.summary
