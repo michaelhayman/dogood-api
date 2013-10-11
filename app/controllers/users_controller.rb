@@ -20,6 +20,14 @@ class UsersController < ApplicationController
     respond_with @user, root: "user", serializer: FullUserSerializer
   end
 
+  def update_profile
+    if current_user.update_attributes(profile_params)
+      render :json => current_user, root: "user", serializer: CurrentUserSerializer
+      # render :json => current_user
+    else
+      render_errors("Unable to update your details.")
+    end
+  end
   def points
     render :json => {
       :user => {
@@ -65,5 +73,10 @@ class UsersController < ApplicationController
       }
     end
   end
+
+  def profile_params
+    params.require(:user).permit(:full_name, :biography, :location, :phone, :avatar)
+  end
+  private :profile_params
 end
 
