@@ -103,6 +103,17 @@ class UsersController < ApplicationController
 
     respond_with @facebook_users, root: "user"
   end
+
+  def remove_avatar
+    current_user.remove_avatar!
+
+    if current_user.save
+      render :json => current_user
+      return
+    end
+    render_errors("Unable to delete your photo.")
+  end
+
   def points
     render :json => {
       :user => {
