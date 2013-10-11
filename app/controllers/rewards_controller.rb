@@ -9,7 +9,9 @@ class RewardsController < ApplicationController
   end
 
   def claimed
-    @rewards = current_user.rewards
+    @rewards = current_user.
+      rewards.
+      order('claimed_rewards.created_at DESC')
     respond_with @rewards
   end
 
