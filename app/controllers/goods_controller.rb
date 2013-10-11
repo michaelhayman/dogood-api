@@ -1,7 +1,33 @@
 class GoodsController < ApplicationController
   def index
-    @goods = Good.in_category(1).by_user(1).stream(current_user)
-    respond_with @goods
+    # works for sure
+    # @goods = Good.in_category(1).by_user(1).stream(current_user)
+    # respond_with @goods
+
+    # this one shows regoods etc due to 'stream' keyword
+    # if (params[:category_id])
+    # watch for goodID too
+    # if params[:good_id]
+    # if params[:good_id]
+    #   @goods = Good.find_by_id(params[:good_id])
+    # else
+    # end
+    # # this one doesn't
+    # # @goods = Good.order('created_at desc').all
+
+    if params[:category_id]
+      @goods = Good.in_category(params[:category_id]).by_user(1).stream(current_user)
+    elsif params[:good_id]
+      @goods = Good.find_by_id(params[:good_id])
+    else
+      @goods = Good.most_relevant.stream(current_user)
+    end
+
+    if @goods.present?
+      respond_with @goods
+    else
+      render_errors("Couldn't find any good.")
+    end
   end
 
   def liked_by
