@@ -3,7 +3,7 @@
 class RewardsController < ApplicationController
   def index
     # includes(:user => :sponsor)
-    @rewards = Reward.includes(:user).load
+    @rewards = Reward.available.includes(:user).load
 
     # doing the following client side instead:
     # @rewards = Reward.includes(:user).sufficient_points(current_user)
@@ -37,11 +37,19 @@ class RewardsController < ApplicationController
     @claimed_reward = ClaimedReward.new(
       :reward_id => resource_params[:id],
       :user_id => current_user.id)
+
     if @claimed_reward.reward.cost > current_user.points
       render_errors("Insufficient points.")
       return
     end
-  # wait a bit before claiming another reward
+
+    @reward = Reward.available.find_by_id(resource_params[:id])
+    if !@reward
+      render_errors("Reward not longer available.")
+      return
+    end
+
+    # insert logic to wait a bit before claiming another reward
 
     if @claimed_reward.save
       current_user.increment!(:points, -@claimed_reward.reward.cost)

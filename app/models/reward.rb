@@ -18,7 +18,7 @@ class Reward < ActiveRecord::Base
     where("cost <= ?", user.points)
   end
 
-  def self.available(user)
+  def self.available
     where("quantity_remaining > ?", 0)
   end
 end
