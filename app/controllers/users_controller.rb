@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include ActionView::Helpers::DateHelper
   # alias :followers, :regooders
   def index
     authenticate_user!
@@ -47,6 +48,37 @@ class UsersController < ApplicationController
     respond_with @users, root: "user"
   end
 
+  def capping
+    # naively,
+    # regular goods capped at 300 points
+    # 100 granted immediately
+    # can only post one per five minutes
+    # add 1 point for each like
+  end
+
+  def score
+    @goods = Good.where(:user_id => current_user)
+
+    weight = 1.0
+    score = 0.0
+    @goods.each do |g|
+      if g.created_at > 7.days.ago
+        weight = 1
+      elsif g.created_at > 30.days.ago
+        weight = 0.8
+      elsif g.created_at > 60.days.ago
+        weight = 0.6
+      elsif g.created_at > 90.days.ago
+        weight = 0.1
+      else
+        weight = 0
+      end
+      logger.debug "#{g.id} #{time_ago_in_words(g.created_at)} - #{weight} * #{g.points}"
+      score += (g.points * weight)
+    end
+
+    render :json => score
+  end
 
   def search_by_emails
     @users = User.where(:email => params[:emails])
