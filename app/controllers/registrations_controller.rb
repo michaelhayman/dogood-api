@@ -21,21 +21,10 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def update
-    if @user.update_attributes(
-      :first_name => params[:user][:first_name],
-      :last_name => params[:user][:last_name],
-      :contactable => params[:user][:contactable])
-
-      render :json => @user
-      return
-    end
-    render_errors("Unable to update your details.")
-  end
-
   def resource_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation, :full_name, :phone)
   end
   private :resource_params
+
 end
 
