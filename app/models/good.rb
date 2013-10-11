@@ -47,6 +47,10 @@ class Good < ActiveRecord::Base
     where(:user_id => id)
   end
 
+  def self.specific(id)
+    where("id = ?", id)
+  end
+
   def self.liked_by_user(user_id)
     @user = User.by_id(user_id)
     @user.get_voted Good

@@ -1,24 +1,9 @@
 class GoodsController < ApplicationController
   def index
-    # works for sure
-    # @goods = Good.in_category(1).by_user(1).stream(current_user)
-    # respond_with @goods
-
-    # this one shows regoods etc due to 'stream' keyword
-    # if (params[:category_id])
-    # watch for goodID too
-    # if params[:good_id]
-    # if params[:good_id]
-    #   @goods = Good.find_by_id(params[:good_id])
-    # else
-    # end
-    # # this one doesn't
-    # # @goods = Good.order('created_at desc').all
-
     if params[:category_id]
-      @goods = Good.in_category(params[:category_id]).by_user(1).stream(current_user)
+      @goods = Good.in_category(params[:category_id]).stream(current_user)
     elsif params[:good_id]
-      @goods = Good.find_by_id(params[:good_id])
+      @goods = Good.specific(params[:good_id]).stream(current_user)
     else
       @goods = Good.most_relevant.stream(current_user)
     end
