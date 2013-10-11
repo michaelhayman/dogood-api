@@ -18,11 +18,11 @@ DoGoodApp::Application.routes.draw do
       get :search_by_emails
       get :search_by_twitter_ids
       get :search_by_facebook_ids
-      get :score
       post :social
     end
     member do
       get :status
+      get :score
     end
   end
 

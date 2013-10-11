@@ -57,27 +57,13 @@ class UsersController < ApplicationController
   end
 
   def score
-    @goods = Good.where(:user_id => current_user)
-
-    weight = 1.0
-    score = 0.0
-    @goods.each do |g|
-      if g.created_at > 7.days.ago
-        weight = 1
-      elsif g.created_at > 30.days.ago
-        weight = 0.8
-      elsif g.created_at > 60.days.ago
-        weight = 0.6
-      elsif g.created_at > 90.days.ago
-        weight = 0.1
-      else
-        weight = 0
-      end
-      logger.debug "#{g.id} #{time_ago_in_words(g.created_at)} - #{weight} * #{g.points}"
-      score += (g.points * weight)
+    if params[:id]
+      user = User.find(params[:id])
+    else
+      user = current_user
     end
 
-    render :json => score
+    render :json => user.score
   end
 
   def search_by_emails

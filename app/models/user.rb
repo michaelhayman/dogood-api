@@ -41,6 +41,30 @@ class User < ActiveRecord::Base
   def self.by_id(user_id)
     where(:id => user_id).first
   end
+
+  def score
+    goods = Good.where(:user_id => self.id)
+
+    weight = 1.0
+    score = 0.0
+    goods.each do |g|
+      if g.created_at > 7.days.ago
+        weight = 1
+      elsif g.created_at > 30.days.ago
+        weight = 0.8
+      elsif g.created_at > 60.days.ago
+        weight = 0.6
+      elsif g.created_at > 90.days.ago
+        weight = 0.3
+      else
+        weight = 0.1
+      end
+      # logger.debug "#{g.id} #{time_ago_in_words(g.created_at)} - #{weight} * #{g.points}"
+      score += (g.points * weight)
+    end
+
+    return score
+  end
 end
 
 # need to drop email, logged_in, etc from
