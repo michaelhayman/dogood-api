@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130817033111) do
+ActiveRecord::Schema.define(version: 20131011132802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,11 @@ ActiveRecord::Schema.define(version: 20130817033111) do
     t.integer  "cached_votes_down",  default: 0
     t.string   "evidence"
     t.integer  "follows_count",      default: 0
+    t.integer  "points",             default: 0
+    t.float    "lat"
+    t.float    "lng"
+    t.string   "location_image"
+    t.string   "location_name"
   end
 
   add_index "goods", ["cached_votes_down"], name: "index_goods_on_cached_votes_down", using: :btree
@@ -114,6 +119,14 @@ ActiveRecord::Schema.define(version: 20130817033111) do
   add_index "regoods", ["good_id"], name: "index_regoods_on_good_id", using: :btree
   add_index "regoods", ["user_id"], name: "index_regoods_on_user_id", using: :btree
 
+  create_table "reports", force: true do |t|
+    t.string   "reportable_type"
+    t.integer  "reportable_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "rewards", force: true do |t|
     t.string   "title"
     t.string   "subtitle"
@@ -140,12 +153,12 @@ ActiveRecord::Schema.define(version: 20130817033111) do
   add_index "user_likes", ["user_id"], name: "index_user_likes_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                            default: "", null: false
+    t.string   "encrypted_password",               default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0
+    t.integer  "sign_in_count",                    default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -154,10 +167,14 @@ ActiveRecord::Schema.define(version: 20130817033111) do
     t.datetime "updated_at"
     t.string   "username"
     t.string   "avatar"
-    t.integer  "follows_count",          default: 0
+    t.integer  "follows_count",                    default: 0
     t.string   "full_name"
     t.string   "phone"
-    t.integer  "points",                 default: 0
+    t.integer  "points",                           default: 0
+    t.string   "location"
+    t.string   "biography"
+    t.integer  "facebook_id",            limit: 8
+    t.integer  "twitter_id",             limit: 8
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
