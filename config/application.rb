@@ -8,6 +8,13 @@ Bundler.require(:default, Rails.env)
 
 module DoGoodApp
   class Application < Rails::Application
+
+    %w{
+      lib
+    }.each do |dir|
+      config.autoload_paths << "#{Rails.root}/#{dir}"
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

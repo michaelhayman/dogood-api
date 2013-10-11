@@ -1,4 +1,6 @@
 class Good < ActiveRecord::Base
+  include DoGood::Reportable
+
   mount_uploader :evidence, EvidenceUploader
 
   acts_as_commentable
@@ -12,6 +14,8 @@ class Good < ActiveRecord::Base
   acts_as_followable
 
   acts_as_votable
+
+  reportable!
 
   attr_accessor :current_user_liked,
     :current_user_commented,

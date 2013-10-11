@@ -12,8 +12,18 @@ DoGoodApp::Application.routes.draw do
       get :followers
       get :following
       get :points
+      put :update_profile
+      delete :remove_avatar
+      get :search
+      get :search_by_emails
+      get :search_by_twitter_ids
+      get :search_by_facebook_ids
+      get :score
+      post :social
     end
   end
+
+  resources :reports
 
   resources :categories, :only => [ :index ]
 

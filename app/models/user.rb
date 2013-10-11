@@ -1,3 +1,5 @@
+  include DoGood::Reportable
+  reportable!
 # need to drop email, logged_in, etc from
 # this base serializer.
 class UserSerializer < ActiveModel::Serializer
