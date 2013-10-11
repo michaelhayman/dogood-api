@@ -9,7 +9,7 @@ class SessionsController < Devise::SessionsController
     return invalid_login_attempt unless valid_login_attempt?(user)
 
     sign_in(:user, user)
-    render :json => user
+    render :json => user, serializer: CurrentUserSerializer, root: "user"
   end
 
   protected
