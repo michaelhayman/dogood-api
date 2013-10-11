@@ -5,6 +5,8 @@ class Reward < ActiveRecord::Base
   has_many :users, :through => :claimed_rewards
   belongs_to :user
 
+  scope :recent, -> { order('created_at DESC') }
+
   mount_uploader :teaser, AvatarUploader
 
   # more than > 0
