@@ -15,4 +15,11 @@ class Follow < ActiveRecord::Base
     self.update_attribute(:blocked, true)
   end
 
+  def self.following(type, id)
+    @instance = type.
+      constantize.
+      find(id)
+    @instance.follows_by_type(type).map(&:followable)
+  end
+
 end
