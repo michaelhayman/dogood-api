@@ -27,11 +27,20 @@ class Good < ActiveRecord::Base
 
   validate :caption,
     :message => "Enter a name."
+  validate :caption,
+    length: { maximum: 120 },
+    message: "Please enter a shorter caption."
   validate :user_id,
     :message => "Goods must be associated with a user."
+  validates_presence_of :evidence,
+    :message => "C'mon, upload a photo."
 
   def self.in_category(id)
     where(:category_id => id)
+  end
+
+  def self.most_relevant
+    limit(10)
   end
 
   def self.by_user(id)
@@ -53,7 +62,8 @@ class Good < ActiveRecord::Base
   end
 
   def self.just_created_by(user_id)
-    where("user_id = ? AND created_at < ?", user_id, Time.now - 1.minute)
+    # where("user_id = ? AND created_at > ?", user_id, 1.minute.ago)
+    where("user_id = ? AND created_at > ?", user_id, 60.seconds.ago)
   end
 
   def self.stream(current_user)
@@ -95,13 +105,13 @@ end
 
 class GoodSerializer < ActiveModel::Serializer
   def serializable_hash
-    current_user_serializer_hash.merge defaults_serializer_hash
+    current_user_good_serializer_hash.merge defaults_serializer_hash
   end
 
   private
 
-  def current_user_serializer_hash
-    CurrentUserSerializer.new(object, options).serializable_hash
+  def current_user_good_serializer_hash
+    CurrentUserGoodSerializer.new(object, options).serializable_hash
   end
 
   def defaults_serializer_hash
@@ -118,6 +128,10 @@ class DefaultsSerializer < ActiveModel::Serializer
     :likes_count,
     :comments_count,
     :regoods_count,
+    :lat,
+    :lng,
+    :location_name,
+    :location_image,
     :evidence,
     :user
 
@@ -140,7 +154,7 @@ class DefaultsSerializer < ActiveModel::Serializer
   end
 end
 
-class CurrentUserSerializer < ActiveModel::Serializer
+class CurrentUserGoodSerializer < ActiveModel::Serializer
   # cached
 
   attributes :current_user_liked,
