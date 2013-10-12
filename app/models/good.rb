@@ -1,6 +1,8 @@
 class Good < ActiveRecord::Base
   include DoGood::Reportable
 
+  GOOD_POINTS = 10
+
   mount_uploader :evidence, EvidenceUploader
 
   acts_as_commentable
@@ -34,6 +36,10 @@ class Good < ActiveRecord::Base
     :message => "Goods must be associated with a user."
   validates_presence_of :evidence,
     :message => "C'mon, upload a photo."
+
+  def add_points
+    Point.record_points("Good", self.id, "Post", self.user_id, nil, GOOD_POINTS)
+  end
 
   def self.in_category(id)
     where(:category_id => id)

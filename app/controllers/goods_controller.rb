@@ -37,6 +37,7 @@ class GoodsController < ApplicationController
 
     if @good.save
       respond_with @good, root: "goods"
+      @good.add_points
     else
       if @good.errors
         message = @good.errors.full_messages

@@ -65,6 +65,10 @@ class User < ActiveRecord::Base
 
     return score
   end
+
+  def points
+    Point.points_for_user(self.id)
+  end
 end
 
 # need to drop email, logged_in, etc from

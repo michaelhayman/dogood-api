@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131011132802) do
+ActiveRecord::Schema.define(version: 20131012045735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,20 @@ ActiveRecord::Schema.define(version: 20131011132802) do
   add_index "mentions", ["mentionable_id", "mentionable_type"], name: "fk_mentionables", using: :btree
   add_index "mentions", ["mentioner_id", "mentioner_type"], name: "fk_mentions", using: :btree
 
+  create_table "points", force: true do |t|
+    t.string   "pointable_type",     null: false
+    t.integer  "pointable_id",       null: false
+    t.string   "pointable_sub_type", null: false
+    t.integer  "to_user_id",         null: false
+    t.integer  "from_user_id"
+    t.integer  "points",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "points", ["from_user_id"], name: "index_points_on_from_user_id", using: :btree
+  add_index "points", ["to_user_id"], name: "index_points_on_to_user_id", using: :btree
+
   create_table "regoods", force: true do |t|
     t.integer  "user_id"
     t.integer  "good_id"
@@ -170,7 +184,7 @@ ActiveRecord::Schema.define(version: 20131011132802) do
     t.integer  "follows_count",                    default: 0
     t.string   "full_name"
     t.string   "phone"
-    t.integer  "points",                           default: 0
+    t.integer  "points_cache",                     default: 0
     t.string   "location"
     t.string   "biography"
     t.integer  "facebook_id",            limit: 8
