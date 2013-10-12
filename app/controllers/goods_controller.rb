@@ -35,10 +35,15 @@ class GoodsController < ApplicationController
       return
     end
 
-    if @good.save!
+    if @good.save
       respond_with @good, root: "goods"
     else
-      render_errors("Couldn't save the good.")
+      if @good.errors
+        message = @good.errors.full_messages
+      else
+        message = "Couldn't save the good."
+      end
+      render_errors(message)
     end
   end
 
