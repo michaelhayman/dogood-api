@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
     Point.score_for_user(self.id)
   end
 
+  def rank
+    Point.rank_for_user(self.id)
+  end
+
   def points
     Point.points_for_user(self.id)
   end

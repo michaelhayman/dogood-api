@@ -11,6 +11,15 @@ class Point < ActiveRecord::Base
     "Unlike"
   ]
 
+  RANKS = HashWithIndifferentAccess.new({
+    0 => "-",
+    100 => "E",
+    1000 => "D",
+    3000 => "C",
+    5000 => "B",
+    10000 => "A"
+  })
+
   belongs_to :pointable,
     :polymorphic => true
 
@@ -134,6 +143,16 @@ class Point < ActiveRecord::Base
     end
 
     return score
+  end
+
+  def self.rank_for_user(user_id)
+    score = self.score_for_user(user_id)
+
+    RANKS.each { |key, value|
+      if score <= key
+        return value
+      end
+    }
   end
 
   def self.points_for(pointable_type, pointable_id)
