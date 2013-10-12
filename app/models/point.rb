@@ -113,6 +113,29 @@ class Point < ActiveRecord::Base
     Point.where(:to_user_id => user_id).sum(:points)
   end
 
+  def self.score_for_user(user_id)
+    @points = Point.where(:to_user_id => user_id)
+
+    weight = 1.0
+    score = 0.0
+    @points.each do |p|
+      if p.created_at > 7.days.ago
+        weight = 1
+      elsif p.created_at > 30.days.ago
+        weight = 0.8
+      elsif p.created_at > 60.days.ago
+        weight = 0.6
+      elsif p.created_at > 90.days.ago
+        weight = 0.3
+      else
+        weight = 0.1
+      end
+      score += (p.points * weight)
+    end
+
+    return score
+  end
+
   def self.points_for(pointable_type, pointable_id)
     Point.where(
       :pointable_id => pointable_id,
