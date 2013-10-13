@@ -26,6 +26,12 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
+  resources :tags do
+    collection do
+      get :search
+    end
+  end
+
   resources :reports
 
   resources :categories, :only => [ :index ]
@@ -36,7 +42,8 @@ DoGoodApp::Application.routes.draw do
     collection do
       get :posted_or_followed_by
       get :liked_by
-      get :tagged
+      get :tagged_by_name
+      get :tagged_by_id
     end
   end
 

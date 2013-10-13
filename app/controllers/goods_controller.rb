@@ -15,11 +15,19 @@ class GoodsController < ApplicationController
     end
   end
 
-  def tagged
-    @hashtag = SimpleHashtag::Hashtag.find_by_name(params[:hashtag])
-    @hashtagged_elements = @hashtag.hashtagged_ids_for_type("Good") if @hashtag
+  def tagged_by_name
+    hashtag = SimpleHashtag::Hashtag.find_by_name(params[:hashtag])
+    hashtagged_elements = hashtag.hashtagged_ids_for_type("Good") if hashtag
 
-    @goods = Good.where(:id => @hashtagged_elements)
+    @goods = Good.where(:id => hashtagged_elements).stream(current_user)
+    respond_with @goods
+  end
+
+  def tagged_by_id
+    hashtag = SimpleHashtag::Hashtag.find(params[:id])
+    hashtagged_elements = hashtag.hashtagged_ids_for_type("Good") if hashtag
+
+    @goods = Good.where(:id => hashtagged_elements).stream(current_user)
     respond_with @goods
   end
 
