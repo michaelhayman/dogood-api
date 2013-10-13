@@ -1,6 +1,9 @@
 class Good < ActiveRecord::Base
   include DoGood::Reportable
 
+  include SimpleHashtag::Hashtaggable
+  hashtaggable_attribute :caption
+
   GOOD_POINTS = 10
 
   mount_uploader :evidence, EvidenceUploader
