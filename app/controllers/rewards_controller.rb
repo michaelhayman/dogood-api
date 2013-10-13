@@ -49,7 +49,8 @@ class RewardsController < ApplicationController
     # insert logic to wait a bit before claiming another reward
 
     if @claimed_reward.save
-      current_user.increment!(:points, - @claimed_reward.reward.cost)
+      @claimed_reward.withdraw_points
+      # current_user.increment!(:points, - @claimed_reward.reward.cost)
       respond_with @claimed_reward.reward, root: "rewards"
     else
       render_errors("Couldn't claim the reward.")

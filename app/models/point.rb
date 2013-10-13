@@ -1,15 +1,18 @@
 class Point < ActiveRecord::Base
-  ALLOWABLE_TYPES = [
-    "Good",
-    "User"
-  ]
+  ALLOWABLE_TYPES = %w{
+    Good
+    User
+    ClaimedReward
+  }
 
-  ALLOWABLE_SUB_TYPES = [
-    "Post",
-    "Report",
-    "Like",
-    "Unlike"
-  ]
+  ALLOWABLE_SUB_TYPES = %w{
+    Post
+    Report
+    Like
+    Unlike
+    Claim
+    Refund
+  }
 
   RANKS = HashWithIndifferentAccess.new({
     0 => "-",
@@ -162,8 +165,10 @@ class Point < ActiveRecord::Base
       sum(:points)
   end
 
-  def log(msg)
-    p "Point: #{self} #{msg}"
-  end
+  private
+
+    def log(msg)
+      p "Point: #{self} #{msg}"
+    end
 end
 
