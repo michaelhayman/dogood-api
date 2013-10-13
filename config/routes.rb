@@ -60,6 +60,7 @@ DoGoodApp::Application.routes.draw do
     collection do
       post :claim
       get :claimed
+      get :highlights
     end
   end
 

@@ -4,7 +4,11 @@ class RewardsController < ApplicationController
   def index
     # includes(:user => :sponsor)
     @rewards = Reward.available.includes(:user).load
+    respond_with @rewards
+  end
 
+  def highlights
+    @rewards = Reward.available.sufficient_points(current_user).includes(:user).load
     respond_with @rewards
   end
 
