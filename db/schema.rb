@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131012045735) do
+ActiveRecord::Schema.define(version: 20131013145400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,28 +87,6 @@ ActiveRecord::Schema.define(version: 20131012045735) do
   add_index "goods", ["category_id"], name: "index_goods_on_category_id", using: :btree
   add_index "goods", ["user_id"], name: "index_goods_on_user_id", using: :btree
 
-  create_table "likes", force: true do |t|
-    t.string   "liker_type"
-    t.integer  "liker_id"
-    t.string   "likeable_type"
-    t.integer  "likeable_id"
-    t.datetime "created_at"
-  end
-
-  add_index "likes", ["likeable_id", "likeable_type"], name: "fk_likeables", using: :btree
-  add_index "likes", ["liker_id", "liker_type"], name: "fk_likes", using: :btree
-
-  create_table "mentions", force: true do |t|
-    t.string   "mentioner_type"
-    t.integer  "mentioner_id"
-    t.string   "mentionable_type"
-    t.integer  "mentionable_id"
-    t.datetime "created_at"
-  end
-
-  add_index "mentions", ["mentionable_id", "mentionable_type"], name: "fk_mentionables", using: :btree
-  add_index "mentions", ["mentioner_id", "mentioner_type"], name: "fk_mentions", using: :btree
-
   create_table "points", force: true do |t|
     t.string   "pointable_type",     null: false
     t.integer  "pointable_id",       null: false
@@ -121,17 +99,8 @@ ActiveRecord::Schema.define(version: 20131012045735) do
   end
 
   add_index "points", ["from_user_id"], name: "index_points_on_from_user_id", using: :btree
+  add_index "points", ["pointable_id", "pointable_type"], name: "index_points_on_pointable_id_and_pointable_type", using: :btree
   add_index "points", ["to_user_id"], name: "index_points_on_to_user_id", using: :btree
-
-  create_table "regoods", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "good_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "regoods", ["good_id"], name: "index_regoods_on_good_id", using: :btree
-  add_index "regoods", ["user_id"], name: "index_regoods_on_user_id", using: :btree
 
   create_table "reports", force: true do |t|
     t.string   "reportable_type"
@@ -140,6 +109,8 @@ ActiveRecord::Schema.define(version: 20131012045735) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "reports", ["reportable_id", "reportable_type"], name: "index_reports_on_reportable_id_and_reportable_type", using: :btree
 
   create_table "rewards", force: true do |t|
     t.string   "title"
@@ -152,19 +123,10 @@ ActiveRecord::Schema.define(version: 20131012045735) do
     t.integer  "quantity_remaining", default: 0
     t.text     "full_description"
     t.string   "teaser"
+    t.text     "instructions"
   end
 
   add_index "rewards", ["user_id"], name: "index_rewards_on_user_id", using: :btree
-
-  create_table "user_likes", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "good_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "user_likes", ["good_id"], name: "index_user_likes_on_good_id", using: :btree
-  add_index "user_likes", ["user_id"], name: "index_user_likes_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                            default: "", null: false
@@ -192,7 +154,9 @@ ActiveRecord::Schema.define(version: 20131012045735) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["facebook_id"], name: "index_users_on_facebook_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   create_table "votes", force: true do |t|
