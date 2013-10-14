@@ -38,6 +38,8 @@ class Good < ActiveRecord::Base
   validate :user_id,
     :message => "Goods must be associated with a user."
 
+  scope :standard, -> { limit(10) }
+
   def add_points
     Point.record_points("Good", self.id, "Post", self.user_id, nil, GOOD_POINTS)
   end
@@ -69,7 +71,8 @@ class Good < ActiveRecord::Base
     @goods_posted_by_user = Good.by_user(@user)
     @goods_followed_by_user = @user.follows_by_type("Good".constantize).
       map(&:followable)
-    @goods_posted_by_user.merge(@goods_followed_by_user)
+    @goods = @goods_posted_by_user.to_a + @goods_followed_by_user
+    @goods.uniq
   end
 
   def self.just_created_by(user_id)

@@ -1,11 +1,22 @@
 class GoodsController < ApplicationController
   def index
+    offset = calc_offset(params[:page])
+
     if params[:category_id]
-      @goods = Good.in_category(params[:category_id]).stream(current_user)
+      @goods = Good.in_category(params[:category_id]).
+        offset(offset).
+        standard.
+        stream(current_user)
     elsif params[:good_id]
-      @goods = Good.specific(params[:good_id]).stream(current_user)
+      @goods = Good.specific(params[:good_id]).
+        offset(offset).
+        standard.
+        stream(current_user)
     else
-      @goods = Good.most_relevant.stream(current_user)
+      @goods = Good.most_relevant.
+        offset(offset).
+        standard.
+        stream(current_user)
     end
 
     if @goods.present?
@@ -16,6 +27,8 @@ class GoodsController < ApplicationController
   end
 
   def tagged
+    offset = calc_offset(params[:page])
+
     if params[:id] && params[:id] != "(null)"
       hashtag = SimpleHashtag::Hashtag.find(params[:id])
     elsif params[:name]
@@ -24,7 +37,9 @@ class GoodsController < ApplicationController
 
     hashtagged_elements = hashtag.hashtagged_ids_for_type("Good") if hashtag
 
-    @goods = Good.where(:id => hashtagged_elements).stream(current_user)
+    @goods = Good.where(:id => hashtagged_elements).
+      offset(offset).
+      stream(current_user)
     respond_with @goods
   end
 
@@ -65,5 +80,11 @@ class GoodsController < ApplicationController
     params.require(:good).permit(:caption, :evidence, :user_id, :category_id, :lat, :lng, :location_name, :location_image, :done)
   end
   private :resource_params
+
+  private
+    def calc_offset(page = 1)
+      per_page = 10
+      return (page.to_i - 1) * per_page
+    end
 end
 
