@@ -65,7 +65,7 @@ class GoodsController < ApplicationController
   end
 
   def resource_params
-    params.require(:good).permit(:caption, :evidence, :user_id, :category_id, :lat, :lng, :location_name, :location_image)
+    params.require(:good).permit(:caption, :evidence, :user_id, :category_id, :lat, :lng, :location_name, :location_image, :done)
   end
   private :resource_params
 end

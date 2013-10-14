@@ -144,7 +144,8 @@ class DefaultsSerializer < ActiveModel::Serializer
     :location_name,
     :location_image,
     :evidence,
-    :user
+    :user,
+    :done
 
   has_many :comments, polymorphic: true
   has_one :category
