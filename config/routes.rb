@@ -42,8 +42,7 @@ DoGoodApp::Application.routes.draw do
     collection do
       get :posted_or_followed_by
       get :liked_by
-      get :tagged_by_name
-      get :tagged_by_id
+      get :tagged
     end
   end
 
