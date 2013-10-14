@@ -144,11 +144,11 @@ class DefaultsSerializer < ActiveModel::Serializer
     :location_name,
     :location_image,
     :evidence,
-    :user,
     :done
 
   has_many :comments, polymorphic: true
   has_one :category
+  has_one :user, serializer: UserSerializer
 
   def comments
     object.comments.summary
