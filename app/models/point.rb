@@ -74,7 +74,7 @@ class Point < ActiveRecord::Base
         point.log("Couldn't destroy that point.")
       end
     else
-      log("Couldn't find that point.")
+      Point.new.log("Couldn't find that point.")
     end
   end
 
@@ -165,10 +165,8 @@ class Point < ActiveRecord::Base
       sum(:points)
   end
 
-  private
-
-    def log(msg)
-      p "Point: #{self} #{msg}"
-    end
+  def log(msg)
+    p "Point: #{self} #{msg}"
+  end
 end
 
