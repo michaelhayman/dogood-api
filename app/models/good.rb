@@ -37,8 +37,6 @@ class Good < ActiveRecord::Base
     message: "Please enter a shorter caption."
   validate :user_id,
     :message => "Goods must be associated with a user."
-  validates_presence_of :evidence,
-    :message => "C'mon, upload a photo."
 
   def add_points
     Point.record_points("Good", self.id, "Post", self.user_id, nil, GOOD_POINTS)
