@@ -58,11 +58,11 @@ DoGoodApp::Application.configure do
   config.cache_store = :dalli_store
 
   client = Dalli::Client.new
-  config.action_dispatch.rack_cache = {
-    :metastore    => client,
-    :entitystore  => client,
-    :allow_reload => false
-  }
+  # config.action_dispatch.rack_cache = {
+  #   :metastore    => client,
+  #   :entitystore  => client,
+  #   :allow_reload => false
+  # }
 
   config.static_cache_control = "public, max-age=2592000"
 
