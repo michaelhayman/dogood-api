@@ -69,10 +69,10 @@ class Good < ActiveRecord::Base
     @user = User.by_id(user_id)
 
     @goods_posted_by_user = Good.by_user(@user)
-    @goods_followed_by_user = @user.follows_by_type("Good".constantize).
+    @goods_followed_by_user = @user.follows_scoped.
+      where(:followable_type => 'Good').
       map(&:followable)
-    @goods = @goods_posted_by_user.to_a + @goods_followed_by_user
-    @goods.uniq
+    @goods_posted_by_user.merge(@goods_followed_by_user)
   end
 
   def self.just_created_by(user_id)
@@ -81,14 +81,13 @@ class Good < ActiveRecord::Base
   end
 
   def self.stream(current_user)
-    # .not_blocked
-    # @goods = Good.includes(:user).
-    # @goods = Good.#includes(:user, :comments => :user).
-    @goods = Good.includes(:user, :category, :comments => :user).
+    includes(:user, :category, :comments => :user).
       order("goods.created_at desc").
       load
+  end
 
-    @good_ids = @goods.map(&:id)
+  def self.map_stream(goods, current_user)
+    @good_ids = goods.map(&:id)
 
     @current_user_likes = current_user.
       votes.
@@ -108,13 +107,12 @@ class Good < ActiveRecord::Base
             :followable_id => @good_ids).
       map(&:followable_id)
 
-    @goods.each do |g|
+    goods.each do |g|
       g.current_user_liked = @current_user_likes.include?(g.id)
       g.current_user_commented = @current_user_comments.include?(g.id)
       g.current_user_regooded = @current_user_regoods.include?(g.id)
     end
   end
-
 end
 
 class GoodSerializer < ActiveModel::Serializer
