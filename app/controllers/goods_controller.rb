@@ -6,21 +6,21 @@ class GoodsController < ApplicationController
       @goods = Good.in_category(params[:category_id]).
         offset(offset).
         standard.
-        stream(current_user)
+        extra_info(current_user)
     elsif params[:good_id]
       @goods = Good.specific(params[:good_id]).
         offset(offset).
         standard.
-        stream(current_user)
+        extra_info(current_user)
     else
       @goods = Good.most_relevant.
         offset(offset).
         standard.
-        stream(current_user)
+        extra_info(current_user)
     end
 
     if @goods.present?
-      @goods = Good.map_stream(@goods, current_user)
+      @goods = Good.meta_stream(@goods, current_user)
       respond_with @goods
     else
       render_errors("Couldn't find any good.")
@@ -40,23 +40,23 @@ class GoodsController < ApplicationController
 
     @goods = Good.where(:id => hashtagged_elements).
       offset(offset).
-      stream(current_user)
-    @goods = Good.map_stream(@goods, current_user)
+      extra_info(current_user)
+    @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end
 
   def liked_by
     @goods = Good.liked_by_user(params[:user_id])
-    @goods = Good.map_stream(@goods, current_user)
+    @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end
 
   def posted_or_followed_by
-    @goods = Good.stream(current_user).
+    @goods = Good.extra_info(current_user).
       standard.
       posted_or_followed_by(params[:user_id]).
        uniq
-    @goods = Good.map_stream(@goods, current_user)
+    @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end
 

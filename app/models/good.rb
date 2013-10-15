@@ -80,13 +80,13 @@ class Good < ActiveRecord::Base
     where("user_id = ? AND created_at > ?", user_id, 60.seconds.ago)
   end
 
-  def self.stream(current_user)
+  def self.extra_info(current_user)
     includes(:user, :category, :comments => :user).
       order("goods.created_at desc").
       load
   end
 
-  def self.map_stream(goods, current_user)
+  def self.meta_stream(goods, current_user)
     @good_ids = goods.map(&:id)
 
     @current_user_likes = current_user.
