@@ -9,12 +9,6 @@ class Good < ActiveRecord::Base
   mount_uploader :evidence, EvidenceUploader
 
   acts_as_commentable
-  has_many :summarized_comments, -> {
-      limit(5)
-    },
-    :class_name => "Comment",
-    :as => :commentable,
-    :dependent => :destroy
 
   acts_as_followable
 
@@ -66,13 +60,14 @@ class Good < ActiveRecord::Base
   end
 
   def self.posted_or_followed_by(user_id)
-    @user = User.by_id(user_id)
+    @user = User.find_by_id(user_id)
 
     @goods_posted_by_user = Good.by_user(@user)
     @goods_followed_by_user = @user.follows_scoped.
       where(:followable_type => 'Good').
       map(&:followable)
-    @goods_posted_by_user.merge(@goods_followed_by_user)
+    @goods_posted_by_user + @goods_followed_by_user
+    # @goods_posted_by_user.merge(@goods_followed_by_user)
   end
 
   def self.just_created_by(user_id)
@@ -82,8 +77,7 @@ class Good < ActiveRecord::Base
 
   def self.extra_info(current_user)
     includes(:user, :category, :comments => :user).
-      order("goods.created_at desc").
-      load
+      order("goods.created_at desc")
   end
 
   def self.meta_stream(goods, current_user)
@@ -132,8 +126,7 @@ class GoodSerializer < ActiveModel::Serializer
 end
 
 class DefaultsSerializer < ActiveModel::Serializer
-  # cached
-  # delegate :cache_key, to: :object
+  cached
 
   attributes :id,
     :caption,
@@ -149,10 +142,10 @@ class DefaultsSerializer < ActiveModel::Serializer
 
   has_many :comments, polymorphic: true
   has_one :category
-  has_one :user, serializer: UserSerializer
+  has_one :user, serializer: BasicUserSerializer
 
   def comments
-    object.comments.summary
+    object.comments.last(5)
   end
 
   def evidence
@@ -166,10 +159,14 @@ class DefaultsSerializer < ActiveModel::Serializer
   def regoods_count
     object.follows_count
   end
+
+  def cache_key
+    [object, current_user]
+  end
 end
 
 class CurrentUserGoodSerializer < ActiveModel::Serializer
-  # cached
+  cached
 
   attributes :current_user_liked,
     :current_user_commented,
