@@ -11,7 +11,7 @@ gem 'fb_graph'
 # Social
 gem 'acts_as_commentable'
 gem 'acts_as_votable', '~> 0.6.0'
-gem 'acts_as_follower'
+gem 'acts_as_follower', '~> 0.2.0'
 gem 'simple_hashtag', :git => "git@github.com:/michaelhayman/simple_hashtag.git"
 
 # Database

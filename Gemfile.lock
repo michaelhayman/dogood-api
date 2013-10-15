@@ -35,7 +35,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     acts_as_commentable (4.0.0)
-    acts_as_follower (0.1.1)
+    acts_as_follower (0.2.0)
     acts_as_votable (0.6.0)
       rails (>= 3.2.11)
     arel (4.0.0)
@@ -161,7 +161,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   acts_as_commentable
-  acts_as_follower
+  acts_as_follower (~> 0.2.0)
   acts_as_votable (~> 0.6.0)
   carrierwave
   dalli
