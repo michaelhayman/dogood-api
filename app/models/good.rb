@@ -126,7 +126,7 @@ class GoodSerializer < ActiveModel::Serializer
 end
 
 class DefaultsSerializer < ActiveModel::Serializer
-  cached
+  # cached
 
   attributes :id,
     :caption,
