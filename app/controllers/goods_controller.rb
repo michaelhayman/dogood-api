@@ -19,12 +19,8 @@ class GoodsController < ApplicationController
         extra_info(current_user)
     end
 
-    if @goods.present?
-      @goods = Good.meta_stream(@goods, current_user)
-      respond_with @goods
-    else
-      render_errors("Couldn't find any good.")
-    end
+    @goods = Good.meta_stream(@goods, current_user)
+    respond_with @goods
   end
 
   def tagged
