@@ -44,9 +44,14 @@ module DoGoodApp
     # config.middleware.delete "ActionDispatch::RequestId"
     # config.middleware.delete "ActionDispatch::RemoteIp"
     # config.middleware.delete "ActionDispatch::Reloader"
+    #
 
     # We need a secret token for session, cookies, etc.
     config.secret_token = "20382038salkjfoiusdfuanklajsdfouoausjdfjlaksjdlfjajsjdfkjslakjdfjjfklajsdfj"
+
+    config.action_dispatch.default_headers = {
+        'X-Frame-Options' => 'ALLOWALL'
+    }
 
   end
 end
