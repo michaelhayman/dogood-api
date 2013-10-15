@@ -3,7 +3,7 @@ class Category < ActiveRecord::Base
 end
 
 class CategorySerializer < ActiveModel::Serializer
-  cached
+  # cached
 
   attributes :id,
     :name

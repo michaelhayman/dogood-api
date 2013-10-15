@@ -166,7 +166,7 @@ class DefaultsSerializer < ActiveModel::Serializer
 end
 
 class CurrentUserGoodSerializer < ActiveModel::Serializer
-  cached
+  # cached
 
   attributes :current_user_liked,
     :current_user_commented,
