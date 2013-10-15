@@ -5,8 +5,8 @@ gem 'rails', '4.0.0'
 
 # Authentication
 gem 'devise', '~> 3.0.2'
-gem 'twitter'
-gem 'fb_graph'
+# gem 'twitter'
+# gem 'fb_graph'
 
 # Social
 gem 'acts_as_commentable'
@@ -19,9 +19,7 @@ gem 'simple_hashtag',
 gem 'pg'
 
 # Images
-gem 'rmagick'
-
-
+# gem 'rmagick'
 
 # JSON
 gem 'active_model_serializers'
