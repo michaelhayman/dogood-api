@@ -41,19 +41,11 @@ class UsersController < ApplicationController
   def search
     user = User.arel_table
     if (params[:search] != "(null)")
-      @users = User.where(user[:full_name].matches("%#{params[:search]}%"))
+      @users = User.where(user[:full_name].matches("%#{params[:search]}%")).limit(20)
     else
       @users = User.all
     end
     respond_with @users, root: "user"
-  end
-
-  def capping
-    # naively,
-    # regular goods capped at 300 points
-    # 100 granted immediately
-    # can only post one per five minutes
-    # add 1 point for each like
   end
 
   def score
@@ -67,12 +59,12 @@ class UsersController < ApplicationController
   end
 
   def search_by_emails
-    @users = User.where(:email => params[:emails])
+    @users = User.where(:email => params[:emails]).limit(20)
     respond_with @users, root: "user"
   end
 
   def search_by_twitter_ids
-    @twitter_users = User.where(:twitter_id => params[:twitter_ids])
+    @twitter_users = User.where(:twitter_id => params[:twitter_ids]).limit(50)
     # @already_following = Follow.
     #   following("User", current_user.id).map(&:twitter_id)
     # @twitter_users.each
@@ -82,7 +74,7 @@ class UsersController < ApplicationController
 
   def search_by_facebook_ids
     if (params[:facebook_ids] != nil)
-      @facebook_users = User.where(:facebook_id => params[:facebook_ids])
+      @facebook_users = User.where(:facebook_id => params[:facebook_ids]).limit(50)
     else
       @facebook_users = nil
     end
@@ -112,7 +104,7 @@ class UsersController < ApplicationController
     @instance = params[:type].
       constantize.
       find(params[:id])
-    @likers = @instance.votes.map(&:voter)
+    @likers = @instance.votes.limit(20).map(&:voter)
     respond_with @likers, root: "user"
   end
 
@@ -120,7 +112,9 @@ class UsersController < ApplicationController
     @instance = params[:type].
       constantize.
       find(params[:id])
-    @followers = @instance.followers
+    @followers = @instance.followers_scoped.
+      limit(20).
+      map(&:follower)
     respond_with @followers, root: "user"
   end
 
@@ -128,7 +122,9 @@ class UsersController < ApplicationController
     @instance = params[:type].
       constantize.
       find(params[:id])
-    @following = @instance.follows_by_type(params[:type]).map(&:followable)
+    @following = @instance.follows_by_type(params[:type]).
+      limit(20).
+      map(&:followable)
     respond_with @following, root: "user"
   end
 
