@@ -42,7 +42,13 @@ class GoodsController < ApplicationController
   end
 
   def liked_by
-    @goods = Good.liked_by_user(params[:user_id])
+    offset = calc_offset(params[:page])
+
+    @goods = Good.
+      offset(offset).
+      standard.
+      liked_by_user(params[:user_id])
+
     @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end
