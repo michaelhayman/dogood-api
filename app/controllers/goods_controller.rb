@@ -48,10 +48,13 @@ class GoodsController < ApplicationController
   end
 
   def posted_or_followed_by
+    offset = calc_offset(params[:page])
+
     @goods = Good.extra_info(current_user).
+      offset(offset).
       standard.
-      posted_or_followed_by(params[:user_id]).
-       uniq
+      posted_or_followed_by(params[:user_id])
+
     @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end

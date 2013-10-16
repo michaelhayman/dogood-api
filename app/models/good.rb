@@ -60,14 +60,10 @@ class Good < ActiveRecord::Base
   end
 
   def self.posted_or_followed_by(user_id)
-    @user = User.find_by_id(user_id)
+    goods = Good.arel_table
+    follows = Follow.arel_table
 
-    @goods_posted_by_user = Good.by_user(@user)
-    @goods_followed_by_user = @user.follows_scoped.
-      where(:followable_type => 'Good').
-      map(&:followable)
-    @goods_posted_by_user + @goods_followed_by_user
-    # @goods_posted_by_user.merge(@goods_followed_by_user)
+    includes(:followings).where(goods[:user_id].eq(user_id).or(follows[:follower_id].eq(user_id))).references(:followings)
   end
 
   def self.just_created_by(user_id)
