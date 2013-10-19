@@ -141,7 +141,7 @@ class DefaultsSerializer < ActiveModel::Serializer
   has_one :user, serializer: BasicUserSerializer
 
   def comments
-    object.comments.last(5)
+    object.comments.first(5)
   end
 
   def evidence
