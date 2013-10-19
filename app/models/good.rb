@@ -72,7 +72,7 @@ class Good < ActiveRecord::Base
   end
 
   def self.extra_info(current_user)
-    includes(:user, :category, :comments => :user).
+    includes(:user, :category, :comments => [ :user, :entities ]).
       order("goods.created_at desc")
   end
 

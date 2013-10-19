@@ -8,6 +8,12 @@ class Comment < ActiveRecord::Base
     :polymorphic => true,
     :counter_cache => :comments_count
 
+  belongs_to :user
+
+  belongs_to :good
+
+  has_many :entities, :as => :entityable
+
   default_scope -> { order('created_at DESC') }
 
   # remove limit here
@@ -18,11 +24,10 @@ class Comment < ActiveRecord::Base
   # want user to vote on the quality of comments.
   #acts_as_voteable
 
-  # NOTE: Comments belong to a user
-  belongs_to :user
-
   validates_presence_of :comment,
     :message => "Enter a comment."
+
+  accepts_nested_attributes_for :entities
 
   def self.for_good(good_id)
     where(:commentable_type => "Good", :commentable_id => good_id)
@@ -31,7 +36,10 @@ end
 
 class CommentSerializer < ActiveModel::Serializer
   attributes :comment,
-    :user_id
+    :user_id,
+    :created_at
+
+  has_many :entities, :as => :entityable
 
   has_one :user, serializer: BasicUserSerializer
 end
