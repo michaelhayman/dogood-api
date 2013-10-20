@@ -15,7 +15,12 @@ class CommentsController < ApplicationController
       render :json => @comment, root: "comments"
       # respond_with @comment, root: "comments"
     else
-      render_errors("Couldn't save the comment.")
+      if @comment.errors
+        message = @comment.errors.full_messages
+      else
+        message = "Couldn't save the comment."
+      end
+      render_errors(message)
     end
   end
 

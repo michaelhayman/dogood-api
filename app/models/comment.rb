@@ -27,6 +27,11 @@ class Comment < ActiveRecord::Base
   validates_presence_of :comment,
     :message => "Enter a comment."
 
+  validates_length_of :comment,
+    :minimum => 5,
+    :maximum => 120,
+    :allow_blank => false
+
   accepts_nested_attributes_for :entities
 
   def self.for_good(good_id)
