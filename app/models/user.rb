@@ -5,8 +5,7 @@ class User < ActiveRecord::Base
     :registerable,
     :recoverable,
     :rememberable,
-    :validatable,
-    :authentication_keys => [:username]
+    :validatable
 
   mount_uploader :avatar, AvatarUploader
 
@@ -24,19 +23,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :reports
 
-  attr_accessor :logged_in #, :username
-
-  validates :username,
-    :uniqueness => {
-      :case_sensitive => false
-    }
-  validates_presence_of :username
-  validates :username, length: { in: 4..20 }
-
-  def self.find_for_database_authentication(user)
-    self.where("lower(username) = ?", user[:username].downcase).first ||
-    self.where("lower(email) = ?", user[:username].downcase).first
-  end
+  attr_accessor :logged_in
 
   def self.by_id(user_id)
     where(:id => user_id).first
@@ -61,7 +48,6 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id,
     :logged_in,
     :email,
-    :username,
     :avatar,
     :full_name,
     # N+1
@@ -80,10 +66,10 @@ end
 class CurrentUserSerializer < ActiveModel::Serializer
   attributes :id,
     :email,
+    :full_name,
     :location,
     :biography,
     :full_name,
-    :username,
     :points,
     :avatar,
     :phone,
@@ -98,8 +84,8 @@ end
 
 class BasicUserSerializer < ActiveModel::Serializer
   attributes :id,
-    :username,
-    :avatar
+    :avatar,
+    :full_name
 
   def avatar
     object.avatar.url

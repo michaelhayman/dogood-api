@@ -16,12 +16,12 @@ class SessionsController < Devise::SessionsController
 
     def ensure_params_exist
       return unless params[:user].blank?
-      render_errors("Missing username or email address.", :unauthorized)
+      render_errors("Missing email address and password.", :unauthorized)
     end
 
     def invalid_login_attempt
       purge_current_user
-      render_errors("Invalid username, email or password.", :unauthorized)
+      render_errors("Invalid email or password.", :unauthorized)
     end
 
   private
