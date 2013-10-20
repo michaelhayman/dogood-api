@@ -42,8 +42,6 @@ class User < ActiveRecord::Base
   end
 end
 
-# need to drop email, logged_in, etc from
-# this base serializer.
 class UserSerializer < ActiveModel::Serializer
   attributes :id,
     :logged_in,
@@ -75,7 +73,6 @@ class CurrentUserSerializer < ActiveModel::Serializer
     :phone,
     :twitter_id,
     :facebook_id
-  # connected, etc...
 
   def avatar
     object.avatar.url
