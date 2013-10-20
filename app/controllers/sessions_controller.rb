@@ -5,7 +5,7 @@ class SessionsController < Devise::SessionsController
 
   def create
     warden.custom_failure!
-    user = User.find_for_database_authentication(params[:user])
+    user = User.find_by_email(params[:user][:email])
     return invalid_login_attempt unless valid_login_attempt?(user)
 
     sign_in(:user, user)
