@@ -24,13 +24,11 @@ class Good < ActiveRecord::Base
   belongs_to :user
   has_many :user_likes
 
-  validate :caption,
-    :message => "Enter a name."
-  validate :caption,
-    length: { maximum: 120 },
-    message: "Please enter a shorter caption."
-  validate :user_id,
-    :message => "Goods must be associated with a user."
+  validates :caption,
+    presence: { message: "Enter a name." },
+    length: { maximum: 120, message: "Please enter a shorter caption." }
+  validates :user_id,
+    presence: { message: "Goods must be associated with a user." }
 
   scope :standard, -> { limit(10) }
 
