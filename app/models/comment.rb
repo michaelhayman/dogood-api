@@ -27,6 +27,9 @@ class Comment < ActiveRecord::Base
   validates_presence_of :comment,
     :message => "Enter a comment."
 
+  validates_presence_of :user_id,
+    :message => "No user record found."
+
   validates_length_of :comment,
     :minimum => 5,
     :maximum => 120,
