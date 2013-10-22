@@ -47,8 +47,7 @@ test:
   encoding: unicode
   database: DoGood-app_test
   pool: 5
-  username: DoGood-app
-  password:
+  username: mhayman
 
 production:
   <<: *development
