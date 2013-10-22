@@ -58,10 +58,13 @@ class Good < ActiveRecord::Base
   end
 
   def self.posted_or_followed_by(user_id)
-    goods = Good.arel_table
-    follows = Follow.arel_table
+    goods_table = Good.arel_table
+    follows_table = Follow.arel_table
 
-    includes(:followings).where(goods[:user_id].eq(user_id).or(follows[:follower_id].eq(user_id))).references(:followings)
+    includes(:followings).
+      where(goods_table[:user_id].eq(user_id).
+      or(follows_table[:follower_id].eq(user_id))).
+      references(:followings)
   end
 
   def self.just_created_by(user_id)
