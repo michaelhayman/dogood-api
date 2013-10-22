@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe Reward do
-  pending "test order"
-  pending "test claimed rewards"
-
   context "has validations" do
     it "should be valid" do
       FactoryGirl.build(:reward).should be_valid
@@ -62,7 +59,7 @@ describe Reward do
     reward1 = FactoryGirl.create(:reward)
     reward2 = FactoryGirl.create(:reward)
     rewards = [ reward2, reward1 ]
-    Reward.recent.all.should == rewards
+    Reward.recent.load.should == rewards
   end
 
   it "should not show rewards out of order" do
@@ -70,7 +67,7 @@ describe Reward do
     reward1 = FactoryGirl.create(:reward)
     reward2 = FactoryGirl.create(:reward)
     rewards = [ reward1, reward2 ]
-    Reward.recent.all.should_not == rewards
+    Reward.recent.load.should_not == rewards
   end
 end
 

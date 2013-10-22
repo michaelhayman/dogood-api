@@ -1,5 +1,3 @@
-# require 'faker'
-
 FactoryGirl.define do
 
   factory :good do
@@ -46,6 +44,45 @@ FactoryGirl.define do
   factory :claimed_reward do
     reward
     user
+  end
+
+  factory :follow do
+    followable_id  1
+    followable_type  "Good"
+    follower_id  1
+    follower_type "User"
+    blocked false
+  end
+
+  factory :entity do
+    link "dogood://users/2"
+    link_id 2
+    link_type "user"
+    title "Coyote"
+    entityable_id 112
+    entityable_type "Comment"
+    range ["0", "7"]
+  end
+
+  factory :report do
+    reportable_type "good"
+    reportable_id 41
+    user_id 1
+  end
+
+  factory :comment do
+    comment "Comment"
+    commentable_id 1
+    commentable_type "Good"
+    user_id 1
+
+    trait :too_short do
+      comment "Look"
+    end
+
+    trait :too_long do
+      comment "Look at all the fun things I can type I can type so fast you won't even know I'm here do you think this is going on too long I'm pretty sure it is. This is even longer just to be sure that it's not valid."
+    end
   end
 
 end
