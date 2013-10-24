@@ -13,6 +13,8 @@ class ApplicationController < ActionController::Base
       resource = User.find_by_email(email)
       if resource && resource.valid_password?(password)
         sign_in :user, resource
+      else
+        render_errors("Invalid password.", :unauthorized)
       end
     end
   end
