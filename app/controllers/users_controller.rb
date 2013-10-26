@@ -30,6 +30,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_password
+    user = current_user
+
+    if user.update_password(password_params)
+      render :json => {
+        :user => current_user
+      }
+    else
+      render_errors(user.errors.full_messages)
+    end
+  end
+
   def social
     if current_user.update_attributes(social_params)
       render :json => current_user
@@ -151,5 +163,10 @@ class UsersController < ApplicationController
     params.require(:user).permit(:twitter_id, :facebook_id)
   end
   private :profile_params
+
+  def password_params
+    params.require(:user).permit(:current_password, :password, :password_confirmation)
+  end
+  private :password_params
 end
 

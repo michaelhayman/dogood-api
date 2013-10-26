@@ -13,6 +13,7 @@ DoGoodApp::Application.routes.draw do
       get :following
       get :points
       put :update_profile
+      put :update_password
       delete :remove_avatar
       get :search
       get :search_by_emails
