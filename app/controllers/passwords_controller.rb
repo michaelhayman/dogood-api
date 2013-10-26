@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class PasswordsController < Devise::PasswordsController
-  respond_to :json
+  # respond_to :json
 
   def create
     self.resource = resource_class.send_reset_password_instructions(resource_params)
@@ -18,39 +18,18 @@ class PasswordsController < Devise::PasswordsController
   end
 
   def update
-    respond_to do |format|
-      format.html {
-        super
-      }
-      format.json {
-        self.resource = current_user
-        # ensure user doesn't leave their new password blank
-        params[:user][:password] = params[:user][:current_password] if params[:user][:password].blank? && current_user.valid_password?(params[:user][:current_password])
+    self.resource = resource_class.reset_password_by_token(resource_params)
 
-        if current_user.valid_password?(params[:user][:current_password])
-          if (current_user.update_with_password(params[:user]))
-            render :json => {
-                :user => {
-                  :message => "Your password was updated."
-              }
-            }, :status => :ok
-            return
-          else
-            message = "Update password failed."
-          end
-        else
-          message = "Incorrect current password."
-        end
-
-        if current_user.errors.any?
-          messages = current_user.errors.full_messages
-        else
-          messages = [ message ]
-        end
-
-        render_errors(messages)
-      }
+    if resource.errors.empty?
+      render :password_update_successful
+    else
+      render :edit
     end
   end
+
+  def user_params
+    params.require(:user).permit(:current_password, :password, :password_confirmation, :reset_password_token)
+  end
+  private :resource_params
 end
 
