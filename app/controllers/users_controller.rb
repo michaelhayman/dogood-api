@@ -154,6 +154,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def validate_name
+    user = User.new(profile_params)
+
+    if user.valid_name?
+      render :json => {
+        :user => user, serializer: CurrentUserSerializer
+      }
+    else
+      render_errors(user.errors[:full_name])
+    end
+  end
+
   def profile_params
     params.require(:user).permit(:full_name, :biography, :location, :phone, :avatar)
   end

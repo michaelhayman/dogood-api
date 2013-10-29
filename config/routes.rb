@@ -14,6 +14,7 @@ DoGoodApp::Application.routes.draw do
       get :points
       put :update_profile
       put :update_password
+      post :validate_name
       delete :remove_avatar
       get :search
       get :search_by_emails

@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   def exceptions_met?
     exceptions = false
     if params[:controller] == "users"
-      if params[:action] == "status"
+      if params[:action] == "status" || params[:action] == "validate_name"
         exceptions = true
       end
     elsif
