@@ -1,5 +1,11 @@
 class Category < ActiveRecord::Base
   has_many :goods
+
+  before_save :add_constant
+
+  def add_constant
+    self.name_constant = self.name.parameterize
+  end
 end
 
 class CategorySerializer < ActiveModel::Serializer
