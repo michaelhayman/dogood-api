@@ -30,6 +30,7 @@ DoGoodApp::Application.routes.draw do
   resources :tags do
     collection do
       get :search
+      get :popular
     end
   end
 
@@ -44,6 +45,8 @@ DoGoodApp::Application.routes.draw do
       get :posted_or_followed_by
       get :liked_by
       get :tagged
+      get :popular
+      get :nearby
     end
   end
 

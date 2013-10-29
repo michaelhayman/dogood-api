@@ -14,5 +14,10 @@ class TagsController < ApplicationController
     end
     respond_with @hashtags, each_serializer: TagSerializer
   end
+
+  def popular
+    @hashtags = SimpleHashtag::Hashtagging.select(:hashtag_id, :name, :created_at).joins(:hashtag).distinct.order('created_at desc').limit(10)
+    respond_with @hashtags, each_serializer: TagSerializer
+  end
 end
 

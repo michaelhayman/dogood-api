@@ -41,6 +41,16 @@ class GoodsController < ApplicationController
     respond_with @goods
   end
 
+  # filter the last 2 days then sort by likes & re-goods
+  def popular
+    index
+  end
+
+  # find the good around you to do
+  def nearby
+    index
+  end
+
   def liked_by
     offset = calc_offset(params[:page])
 
