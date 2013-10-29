@@ -29,7 +29,16 @@ class ApplicationController < ActionController::Base
   end
 
   def exceptions_met?
-    (params[:controller] == "users" && params[:action] == "status") ||
-    devise_controller?
+    exceptions = false
+    if params[:controller] == "users"
+      if params[:action] == "status"
+        exceptions = true
+      end
+    elsif
+      if devise_controller?
+        exceptions = true
+      end
+    end
+    exceptions
   end
 end
