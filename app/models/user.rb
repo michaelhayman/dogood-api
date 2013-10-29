@@ -23,6 +23,13 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :reports
 
+  validates :full_name,
+    presence: { message: "Enter a name." },
+    length: { maximum: 35, message: "Please enter a shorter name." },
+    format: { with: /^([^\d\W]|[-])*$/, multiline: true, message: "Please enter a valid name." }
+  validates :password,
+    presence: { message: "Enter a password." }
+
   attr_accessor :logged_in
 
   def self.by_id(user_id)
