@@ -85,6 +85,7 @@ class UserSerializer < ActiveModel::Serializer
     :email,
     :avatar,
     :full_name,
+    :location,
     # N+1
     :current_user_following
 
