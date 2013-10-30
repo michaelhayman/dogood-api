@@ -30,7 +30,11 @@ class Good < ActiveRecord::Base
   validates :user_id,
     presence: { message: "Goods must be associated with a user." }
 
-  scope :standard, -> { limit(10) }
+  scope :standard, -> { limit(20) }
+
+  scope :newest_first, -> {
+    order("goods.created_at desc")
+  }
 
   def add_points
     Point.record_points("Good", self.id, "Post", self.user_id, nil, GOOD_POINTS)
@@ -73,8 +77,7 @@ class Good < ActiveRecord::Base
   end
 
   def self.extra_info(current_user)
-    includes(:user, :category, :comments => [ :user, :entities ]).
-      order("goods.created_at desc")
+    includes(:user, :category, :comments => [ :user, :entities ])
   end
 
   def self.meta_stream(goods, current_user)

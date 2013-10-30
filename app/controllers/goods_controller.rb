@@ -3,17 +3,17 @@ class GoodsController < ApplicationController
     if params[:category_id]
       @goods = Good.in_category(params[:category_id]).
         page(params[:page]).
-        standard.
+        newest_first.
         extra_info(current_user)
     elsif params[:good_id]
       @goods = Good.specific(params[:good_id]).
         page(params[:page]).
-        standard.
+        newest_first.
         extra_info(current_user)
     else
       @goods = Good.most_relevant.
         page(params[:page]).
-        standard.
+        newest_first.
         extra_info(current_user)
     end
 
@@ -32,7 +32,8 @@ class GoodsController < ApplicationController
 
     @goods = Good.where(:id => hashtagged_elements).
       page(params[:page])
-      extra_info(current_user)
+      extra_info(current_user).
+      newest_first
     @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end
@@ -50,7 +51,7 @@ class GoodsController < ApplicationController
   def liked_by
     @goods = Good.
       page(params[:page]).
-      standard.
+      newest_first.
       liked_by_user(params[:user_id])
 
     @goods = Good.meta_stream(@goods, current_user)
@@ -60,7 +61,7 @@ class GoodsController < ApplicationController
   def posted_or_followed_by
     @goods = Good.extra_info(current_user).
       page(params[:page]).
-      standard.
+      newest_first.
       posted_or_followed_by(params[:user_id])
 
     @goods = Good.meta_stream(@goods, current_user)
