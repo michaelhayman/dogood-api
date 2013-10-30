@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
     if stale? :etag => @categories,
               :last_modified => @categories.maximum(:updated_at),
               :public => true
-      respond_with @categories
+      respond_with @categories, each_serializer: CategorySerializer
     end
   end
 end

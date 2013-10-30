@@ -6,18 +6,19 @@ class Category < ActiveRecord::Base
   def add_constant
     self.name_constant = self.name.parameterize
   end
+
+  def image_url
+    "http://#{CarrierWave::Uploader::Base.fog_directory}.s3.amazonaws.com/categories/#{self.name_constant}.png"
+  end
 end
 
 class CategorySerializer < ActiveModel::Serializer
-  # cached
+  cached
 
   attributes :id,
-    :name
-
-  def image_url
-    # "/assets/
-    # object.teaser.url
-  end
+    :name,
+    :name_constant,
+    :image_url
 
   def cache_key
     object
