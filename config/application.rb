@@ -15,6 +15,8 @@ module DoGoodApp
       config.autoload_paths << "#{Rails.root}/#{dir}"
     end
 
+    config.autoload_paths << File.join(Rails.root, "app", "classes")
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
