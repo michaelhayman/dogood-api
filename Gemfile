@@ -24,6 +24,9 @@ gem 'pg'
 # JSON
 gem 'active_model_serializers'
 
+# Pagination
+gem 'kaminari'
+
 # Testing
 # gem "bullet", :group => "development"
 
