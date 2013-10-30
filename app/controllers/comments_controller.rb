@@ -2,9 +2,10 @@ class CommentsController < ApplicationController
   def index
     @comments = Comment.
       for_good(params[:good_id]).
-      includes(:user, :entities).
-      unlimited
-    respond_with @comments
+      page(params[:page]).
+      includes(:user, :entities)
+    respond_with @comments,
+      serializer: CommentSerializer
   end
 
   def create

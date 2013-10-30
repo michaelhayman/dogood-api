@@ -1,20 +1,18 @@
 class GoodsController < ApplicationController
   def index
-    offset = calc_offset(params[:page])
-
     if params[:category_id]
       @goods = Good.in_category(params[:category_id]).
-        offset(offset).
+        page(params[:page]).
         standard.
         extra_info(current_user)
     elsif params[:good_id]
       @goods = Good.specific(params[:good_id]).
-        offset(offset).
+        page(params[:page]).
         standard.
         extra_info(current_user)
     else
       @goods = Good.most_relevant.
-        offset(offset).
+        page(params[:page]).
         standard.
         extra_info(current_user)
     end
@@ -24,8 +22,6 @@ class GoodsController < ApplicationController
   end
 
   def tagged
-    offset = calc_offset(params[:page])
-
     if params[:id] && params[:id] != "(null)"
       hashtag = SimpleHashtag::Hashtag.find(params[:id])
     elsif params[:name]
@@ -35,7 +31,7 @@ class GoodsController < ApplicationController
     hashtagged_elements = hashtag.hashtagged_ids_for_type("Good") if hashtag
 
     @goods = Good.where(:id => hashtagged_elements).
-      offset(offset).
+      page(params[:page])
       extra_info(current_user)
     @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
@@ -52,10 +48,8 @@ class GoodsController < ApplicationController
   end
 
   def liked_by
-    offset = calc_offset(params[:page])
-
     @goods = Good.
-      offset(offset).
+      page(params[:page]).
       standard.
       liked_by_user(params[:user_id])
 
@@ -64,10 +58,8 @@ class GoodsController < ApplicationController
   end
 
   def posted_or_followed_by
-    offset = calc_offset(params[:page])
-
     @goods = Good.extra_info(current_user).
-      offset(offset).
+      page(params[:page]).
       standard.
       posted_or_followed_by(params[:user_id])
 
@@ -103,10 +95,5 @@ class GoodsController < ApplicationController
   end
   private :resource_params
 
-  private
-    def calc_offset(page = 1)
-      per_page = 10
-      return (page.to_i - 1) * per_page
-    end
 end
 
