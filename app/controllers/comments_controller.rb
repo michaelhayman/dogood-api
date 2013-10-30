@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
       page(params[:page]).
       includes(:user, :entities)
     respond_with @comments,
-      serializer: CommentSerializer
+      each_serializer: CommentSerializer
   end
 
   def create
