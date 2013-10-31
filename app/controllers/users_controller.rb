@@ -23,7 +23,9 @@ class UsersController < ApplicationController
 
   def update_profile
     if current_user.update_attributes(profile_params)
-      render :json => current_user, root: "user", serializer: CurrentUserSerializer
+      render :json => current_user,
+        root: "user",
+        serializer: CurrentUserSerializer
       # render :json => current_user
     else
       render_errors("Unable to update your details.")
