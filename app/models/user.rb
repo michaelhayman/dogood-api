@@ -37,11 +37,6 @@ class User < ActiveRecord::Base
       message: "Please enter a valid name."
     }
 
-  validates :password,
-    presence: {
-      message: "Enter a password."
-    }
-
   attr_accessor :logged_in
 
   def self.by_id(user_id)
