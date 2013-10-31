@@ -31,7 +31,7 @@ class GoodsController < ApplicationController
     hashtagged_elements = hashtag.hashtagged_ids_for_type("Good") if hashtag
 
     @goods = Good.where(:id => hashtagged_elements).
-      page(params[:page])
+      page(params[:page]).
       extra_info(current_user).
       newest_first
     @goods = Good.meta_stream(@goods, current_user)
