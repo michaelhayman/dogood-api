@@ -48,6 +48,7 @@ group :production do
   # Caching
   gem 'rack-cache'
   gem 'dalli'
+  gem 'memcachier'
   gem 'kgio'
 end
 

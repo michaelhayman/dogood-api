@@ -88,6 +88,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    memcachier (0.0.2)
     mime-types (1.23)
     minitest (4.7.5)
     multi_json (1.7.8)
@@ -177,6 +178,7 @@ DEPENDENCIES
   geokit-rails
   kaminari
   kgio
+  memcachier
   newrelic_rpm
   pg
   rack-cache
