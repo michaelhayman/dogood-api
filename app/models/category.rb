@@ -3,6 +3,10 @@ class Category < ActiveRecord::Base
 
   before_save :add_constant
 
+  scope :alphabetical, -> {
+    order('name asc')
+  }
+
   def add_constant
     self.name_constant = self.name.parameterize
   end
