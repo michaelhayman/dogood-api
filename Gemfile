@@ -27,6 +27,9 @@ gem 'active_model_serializers'
 # Pagination
 gem 'kaminari'
 
+# Geo
+gem 'geokit-rails'
+
 # Testing
 # gem "bullet", :group => "development"
 
