@@ -38,9 +38,12 @@ class GoodsController < ApplicationController
     respond_with @goods
   end
 
-  # filter the last 2 days then sort by likes & re-goods
   def popular
-    @goods = Good.popular.page(params[:page]).extra_info(current_user)
+    @goods = Good.
+      popular.
+      page(params[:page]).
+      extra_info(current_user)
+
     @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end
