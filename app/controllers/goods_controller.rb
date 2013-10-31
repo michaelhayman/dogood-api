@@ -45,9 +45,14 @@ class GoodsController < ApplicationController
     respond_with @goods
   end
 
-  # find the good around you to do
   def nearby
-    index
+    @goods = Good.
+      nearby(params[:lat], params[:lng]).
+      page(params[:page]).
+      extra_info(current_user)
+
+    @goods = Good.meta_stream(@goods, current_user)
+    respond_with @goods
   end
 
   def liked_by

@@ -14,6 +14,8 @@ class Good < ActiveRecord::Base
 
   acts_as_votable
 
+  acts_as_mappable
+
   reportable!
 
   attr_accessor :current_user_liked,
@@ -40,6 +42,10 @@ class Good < ActiveRecord::Base
     where('created_at > ?', 2.weeks.ago)
   }
 
+  scope :with_location, -> {
+    where('lat <> ? and lng <> ?', 0, 0)
+  }
+
   scope :newest_first, -> {
     order("goods.created_at desc")
   }
@@ -62,6 +68,13 @@ class Good < ActiveRecord::Base
 
   def self.specific(id)
     where("id = ?", id)
+  end
+
+  def self.nearby(lat, lng)
+    with_location.within(
+      30,
+      :units => :kms,
+      :origin => [ lat , lng])
   end
 
   def self.liked_by_user(user_id)
