@@ -34,6 +34,8 @@ class ApplicationController < ActionController::Base
       if params[:action] == "status" || params[:action] == "validate_name"
         exceptions = true
       end
+    elsif params[:controller] == "home"
+      exceptions = true
     elsif
       if devise_controller?
         exceptions = true
