@@ -1,9 +1,27 @@
 <html>
   <head>
-  <title></title>
+    <title>Do Good!</title>
+    <style>
+      body {
+        background-color: #05A872;
+        color: white;
+        font-family: "HelveticaNeue";
+      }
+      a {
+        color: white;
+      }
+      .dg-central-column {
+        width: 400px;
+        text-align: center;
+        margin:0 auto;
+      }
+    </style>
   </head>
-  <body style="background-color: #05A872; color: white; font-family: HelveticaNeue">
-    <%= yield %>
+  <body>
+
+    <div class="dg-central-column">
+      <%= yield %>
+    </div>
   </body>
 </html>
 

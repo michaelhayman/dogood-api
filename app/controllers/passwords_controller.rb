@@ -2,6 +2,7 @@
 
 class PasswordsController < Devise::PasswordsController
   # respond_to :json
+  layout 'home'
 
   def create
     self.resource = resource_class.send_reset_password_instructions(resource_params)
