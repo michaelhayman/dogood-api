@@ -76,5 +76,5 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
-  root to: 'home#index', :defaults => { :format => :html }
+  root to: 'goods#index', :defaults => { :format => :html }
 end
