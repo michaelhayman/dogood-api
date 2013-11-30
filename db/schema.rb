@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131030220024) do
+ActiveRecord::Schema.define(version: 20131130124657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20131030220024) do
     t.string   "location_image"
     t.string   "location_name"
     t.boolean  "done",               default: true
+    t.integer  "nominee_user_id"
   end
 
   add_index "goods", ["cached_votes_down"], name: "index_goods_on_cached_votes_down", using: :btree
@@ -98,6 +99,15 @@ ActiveRecord::Schema.define(version: 20131030220024) do
   add_index "goods", ["cached_votes_up"], name: "index_goods_on_cached_votes_up", using: :btree
   add_index "goods", ["category_id"], name: "index_goods_on_category_id", using: :btree
   add_index "goods", ["user_id"], name: "index_goods_on_user_id", using: :btree
+
+  create_table "nominees", force: true do |t|
+    t.string "name",        null: false
+    t.string "email"
+    t.string "phone"
+    t.string "user_id"
+    t.string "twitter_id"
+    t.string "facebook_id"
+  end
 
   create_table "points", force: true do |t|
     t.string   "pointable_type",     null: false
