@@ -73,7 +73,9 @@ class UsersController < ApplicationController
   end
 
   def search_by_emails
-    params[:emails].delete(current_user.email)
+    if params[:emails]
+      params[:emails].delete(current_user.email)
+    end
 
     @users = User.where(:email => params[:emails]).limit(20)
     respond_with @users, root: "user"
