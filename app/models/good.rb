@@ -26,6 +26,8 @@ class Good < ActiveRecord::Base
   belongs_to :user
   has_many :user_likes
 
+  has_one :nominee
+
   validates :caption,
     presence: { message: "Enter a name." },
     length: { maximum: 120, message: "Please enter a shorter caption." }
