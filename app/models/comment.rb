@@ -10,7 +10,7 @@ class Comment < ActiveRecord::Base
 
   belongs_to :user
 
-  belongs_to :good
+  belongs_to :good, counter_cache: true
 
   has_many :entities, :as => :entityable
 
