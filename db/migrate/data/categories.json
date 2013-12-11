@@ -2,5 +2,35 @@
   name: 'Health',
   name_constant: 'health',
   colour: 'e24131'
+},
+{ 
+  name: 'Environment',
+  name_constant: 'environment',
+  colour: '62ac30'
+},
+{ 
+  name: 'Education',
+  name_constant: 'education',
+  colour: ''
+},
+{ 
+  name: 'Human Rights',
+  name_constant: 'human_rights',
+  colour: ''
+},
+{ 
+  name: 'Food',
+  name_constant: 'food',
+  colour: ''
+},
+{ 
+  name: 'Disaster Relief',
+  name_constant: 'disaster_relief',
+  colour: ''
+},
+{ 
+  name: 'Community',
+  name_constant: 'community',
+  colour: ''
 }
 
