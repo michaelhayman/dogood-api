@@ -137,6 +137,7 @@ class UsersController < ApplicationController
   end
 
   def following
+    # @instance = instance_from_type_and_id(params[:type], params[:id])
     @instance = params[:type].
       constantize.
       find(params[:id])

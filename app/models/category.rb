@@ -22,6 +22,7 @@ class CategorySerializer < ActiveModel::Serializer
   attributes :id,
     :name,
     :name_constant,
+    :colour,
     :image_url
 
   def cache_key
