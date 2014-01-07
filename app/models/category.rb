@@ -12,7 +12,7 @@ class Category < ActiveRecord::Base
   end
 
   def image_url
-    "http://#{CarrierWave::Uploader::Base.fog_directory}.s3.amazonaws.com/categories/#{self.name_constant}.png"
+    "http://#{CarrierWave::Uploader::Base.fog_directory}.s3.amazonaws.com/categories/icon_menu_#{self.name_constant}.png"
   end
 end
 
