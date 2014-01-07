@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :null_session
   # force_ssl
 
-  before_filter :check_auth, unless: :exceptions_met?
   respond_to :json
 
   def check_auth
