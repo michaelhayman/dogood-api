@@ -90,7 +90,11 @@ class UserSerializer < ActiveModel::Serializer
 
   # N+1
   def current_user_following
-    current_user.following?(object)
+    if  current_user
+      current_user.following?(object)
+    else
+      nil
+    end
   end
 end
 
