@@ -1,23 +1,28 @@
 class GoodsController < ApplicationController
+  before_filter :check_auth, only: :create, unless: :exceptions_met?
   def index
-    if params[:category_id]
-      @goods = Good.in_category(params[:category_id]).
-        page(params[:page]).
-        newest_first.
-        extra_info(current_user)
-    elsif params[:good_id]
-      @goods = Good.specific(params[:good_id]).
-        page(params[:page]).
-        newest_first.
-        extra_info(current_user)
+    if current_user
+      if params[:category_id]
+        @goods = Good.in_category(params[:category_id]).
+          page(params[:page]).
+          newest_first.
+          extra_info(current_user)
+      elsif params[:good_id]
+        @goods = Good.specific(params[:good_id]).
+          page(params[:page]).
+          newest_first.
+          extra_info(current_user)
+      else
+        @goods = Good.most_relevant.
+          page(params[:page]).
+          newest_first.
+          extra_info(current_user)
+      end
+      @goods = Good.meta_stream(@goods, current_user)
     else
-      @goods = Good.most_relevant.
-        page(params[:page]).
-        newest_first.
-        extra_info(current_user)
+      @goods = nil
     end
 
-    @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end
 
