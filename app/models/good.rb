@@ -103,30 +103,32 @@ class Good < ActiveRecord::Base
   end
 
   def self.meta_stream(goods, current_user)
-    @good_ids = goods.map(&:id)
+    if goods
+      @good_ids = goods.map(&:id)
 
-    @current_user_likes = current_user.
-      votes.
-      where(:votable_type => "Good",
-            :votable_id => @good_ids).
-      map(&:votable_id)
+      @current_user_likes = current_user.
+        votes.
+        where(:votable_type => "Good",
+              :votable_id => @good_ids).
+        map(&:votable_id)
 
-    @current_user_comments = current_user.
-      comments.unlimited.
-      where(:commentable_type => "Good",
-            :commentable_id => @good_ids).
-      map(&:commentable_id)
+      @current_user_comments = current_user.
+        comments.unlimited.
+        where(:commentable_type => "Good",
+              :commentable_id => @good_ids).
+        map(&:commentable_id)
 
-    @current_user_regoods = current_user.
-      follows.
-      where(:followable_type => "Good",
-            :followable_id => @good_ids).
-      map(&:followable_id)
+      @current_user_regoods = current_user.
+        follows.
+        where(:followable_type => "Good",
+              :followable_id => @good_ids).
+        map(&:followable_id)
 
-    goods.each do |g|
-      g.current_user_liked = @current_user_likes.include?(g.id)
-      g.current_user_commented = @current_user_comments.include?(g.id)
-      g.current_user_regooded = @current_user_regoods.include?(g.id)
+      goods.each do |g|
+        g.current_user_liked = @current_user_likes.include?(g.id)
+        g.current_user_commented = @current_user_comments.include?(g.id)
+        g.current_user_regooded = @current_user_regoods.include?(g.id)
+      end
     end
   end
 end
