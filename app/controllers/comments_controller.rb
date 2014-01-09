@@ -1,4 +1,6 @@
 class CommentsController < ApplicationController
+  before_filter :check_auth, only: [ :create ]
+
   def index
     @comments = Comment.
       for_good(params[:good_id]).
