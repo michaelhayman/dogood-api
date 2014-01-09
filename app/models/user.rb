@@ -135,7 +135,9 @@ class ExtraUserAttributesSerializer < ActiveModel::Serializer
     :posted_or_followed_goods_count
 
   def current_user_following
-    current_user.following?(object)
+    if current_user
+      current_user.following?(object)
+    end
   end
 
   def followers_count

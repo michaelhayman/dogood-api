@@ -103,7 +103,7 @@ class Good < ActiveRecord::Base
   end
 
   def self.meta_stream(goods, current_user)
-    if goods
+    if goods && current_user
       @good_ids = goods.map(&:id)
 
       @current_user_likes = current_user.
@@ -129,6 +129,8 @@ class Good < ActiveRecord::Base
         g.current_user_commented = @current_user_comments.include?(g.id)
         g.current_user_regooded = @current_user_regoods.include?(g.id)
       end
+    elsif goods
+      return goods
     end
   end
 end

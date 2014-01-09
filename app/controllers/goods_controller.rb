@@ -20,7 +20,7 @@ class GoodsController < ApplicationController
       end
       @goods = Good.meta_stream(@goods, current_user)
     else
-      @goods = nil
+      @goods = Good.all
     end
 
     respond_with @goods
@@ -79,7 +79,9 @@ class GoodsController < ApplicationController
       newest_first.
       posted_or_followed_by(params[:user_id])
 
-    @goods = Good.meta_stream(@goods, current_user)
+    if current_user
+      @goods = Good.meta_stream(@goods, current_user)
+    end
     respond_with @goods
   end
 
