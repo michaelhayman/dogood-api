@@ -10,12 +10,9 @@ class ApplicationController < ActionController::Base
   def check_auth
     authenticate_or_request_with_http_basic do |email, password|
       resource = User.find_by_email(email)
-      logger.debug "Getting where"
       if resource && resource.valid_password?(password)
-        logger.debug "Getting there"
         sign_in :user, resource
       else
-        logger.debug "Getting here"
         respond_to do |format|
           format.json {
             render_errors("Invalid password.", :unauthorized)
@@ -24,6 +21,17 @@ class ApplicationController < ActionController::Base
             redirect_to home_path
           }
         end
+      end
+    end
+  end
+
+  def check_auth_silently
+    authenticate_or_request_with_http_basic do |email, password|
+      resource = User.find_by_email(email)
+      if resource && resource.valid_password?(password)
+        sign_in :user, resource
+      else
+        return
       end
     end
   end

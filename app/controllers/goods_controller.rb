@@ -1,5 +1,7 @@
 class GoodsController < ApplicationController
   before_filter :check_auth, only: :create
+  before_filter :check_auth_silently, only: [ :index ]
+
   def index
     if current_user
       if params[:category_id]
