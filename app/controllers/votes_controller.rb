@@ -2,6 +2,7 @@ class VotesController < ApplicationController
   VOTE_POINTS = 10
 
   before_filter :polymorphic_association, :only => [:create, :remove]
+  before_filter :check_auth, only: [ :create, :remove ]
 
   def create
     if polymorphic_association.liked_by current_user

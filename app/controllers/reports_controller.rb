@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  before_filter :check_auth, only: [ :create ]
+
   def create
     @report = Report.new(resource_params)
     @report.user_id = current_user.id

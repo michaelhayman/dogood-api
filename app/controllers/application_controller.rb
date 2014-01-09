@@ -40,21 +40,4 @@ class ApplicationController < ActionController::Base
   def instance_from_type_and_id(type, id)
     type.constantize.find(id)
   end
-
-  # find a better way of checking these, case?
-  def exceptions_met?
-    exceptions = false
-    if params[:controller] == "users"
-      if params[:action] == "status" || params[:action] == "validate_name"
-        exceptions = true
-      end
-    elsif params[:controller] == "home"
-      exceptions = true
-    elsif
-      if devise_controller?
-        exceptions = true
-      end
-    end
-    exceptions
-  end
 end

@@ -4,6 +4,7 @@
 
 class FollowsController < ApplicationController
   before_filter :polymorphic_association, :only => [:create, :remove]
+  before_filter :check_auth, only: [ :create, :remove ]
 
   def create
     if current_user.follow polymorphic_association
