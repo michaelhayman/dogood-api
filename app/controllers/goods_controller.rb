@@ -82,10 +82,11 @@ class GoodsController < ApplicationController
   end
 
   def posted_or_followed_by
-    @goods = Good.extra_info.
+    @goods = Good.
       page(params[:page]).
       newest_first.
-      posted_or_followed_by(params[:user_id])
+      posted_or_followed_by(params[:user_id]).
+      extra_info
 
     if current_user
       @goods = Good.meta_stream(@goods, current_user)
