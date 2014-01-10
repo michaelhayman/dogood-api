@@ -25,6 +25,7 @@ class Good < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
   has_many :user_likes
+  has_many :entities, :as => :entityable
 
   has_one :nominee
 
@@ -33,6 +34,8 @@ class Good < ActiveRecord::Base
     length: { maximum: 120, message: "Please enter a shorter caption." }
   validates :user_id,
     presence: { message: "Goods must be associated with a user." }
+
+  accepts_nested_attributes_for :entities
 
   scope :standard, -> { limit(20) }
 
@@ -99,7 +102,7 @@ class Good < ActiveRecord::Base
   end
 
   def self.extra_info
-    includes(:user, :category, :comments => [ :user, :entities ])
+    includes(:user, :category, :entities, :comments => [ :user, :entities ])
   end
 
   def self.meta_stream(goods, current_user)
@@ -169,6 +172,7 @@ class DefaultsSerializer < ActiveModel::Serializer
   has_many :comments, polymorphic: true
   has_one :category
   has_one :user, serializer: BasicUserSerializer
+  has_many :entities, :as => :entityable
 
   def comments
     object.comments.first(5)
