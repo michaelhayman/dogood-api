@@ -91,7 +91,7 @@ class Good < ActiveRecord::Base
   end
 
   def self.nominations(user_id)
-    where("nominees.user_id = '?'", user_id).
+    where("nominees.user_id = ?", user_id).
       joins(:nominee)
   end
 
