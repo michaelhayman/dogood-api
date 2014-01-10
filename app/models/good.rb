@@ -98,7 +98,7 @@ class Good < ActiveRecord::Base
     where("user_id = ? AND created_at > ?", user_id, 60.seconds.ago)
   end
 
-  def self.extra_info(current_user)
+  def self.extra_info
     includes(:user, :category, :comments => [ :user, :entities ])
   end
 

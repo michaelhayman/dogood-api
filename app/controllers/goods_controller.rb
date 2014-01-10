@@ -1,29 +1,34 @@
 class GoodsController < ApplicationController
   before_filter :check_auth, only: :create
-  before_filter :check_auth_silently, only: [ :index ]
+  before_filter :check_auth_silently,
+    only: [
+      :index,
+      :tagged,
+      :popular,
+      :nearby,
+      :liked_by,
+      :posted_or_followed_by
+    ]
 
   def index
-    if current_user
-      if params[:category_id]
-        @goods = Good.in_category(params[:category_id]).
-          page(params[:page]).
-          newest_first.
-          extra_info(current_user)
-      elsif params[:good_id]
-        @goods = Good.specific(params[:good_id]).
-          page(params[:page]).
-          newest_first.
-          extra_info(current_user)
-      else
-        @goods = Good.most_relevant.
-          page(params[:page]).
-          newest_first.
-          extra_info(current_user)
-      end
-      @goods = Good.meta_stream(@goods, current_user)
+    if params[:category_id]
+      @goods = Good.in_category(params[:category_id]).
+        page(params[:page]).
+        newest_first.
+        extra_info
+    elsif params[:good_id]
+      @goods = Good.specific(params[:good_id]).
+        page(params[:page]).
+        newest_first.
+        extra_info
     else
-      @goods = Good.all
+      @goods = Good.most_relevant.
+        page(params[:page]).
+        newest_first.
+        extra_info
     end
+
+    @goods = Good.meta_stream(@goods, current_user)
 
     respond_with @goods
   end
@@ -39,8 +44,9 @@ class GoodsController < ApplicationController
 
     @goods = Good.where(:id => hashtagged_elements).
       page(params[:page]).
-      extra_info(current_user).
+      extra_info.
       newest_first
+
     @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
   end
@@ -49,7 +55,7 @@ class GoodsController < ApplicationController
     @goods = Good.
       popular.
       page(params[:page]).
-      extra_info(current_user)
+      extra_info
 
     @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
@@ -59,7 +65,7 @@ class GoodsController < ApplicationController
     @goods = Good.
       nearby(params[:lat], params[:lng]).
       page(params[:page]).
-      extra_info(current_user)
+      extra_info
 
     @goods = Good.meta_stream(@goods, current_user)
     respond_with @goods
@@ -76,7 +82,7 @@ class GoodsController < ApplicationController
   end
 
   def posted_or_followed_by
-    @goods = Good.extra_info(current_user).
+    @goods = Good.extra_info.
       page(params[:page]).
       newest_first.
       posted_or_followed_by(params[:user_id])
