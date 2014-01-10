@@ -14,9 +14,6 @@ class Entity < ActiveRecord::Base
   validates :title,
     presence: { message: "Entities must have a title." }
 
-  validates :entityable_id,
-    presence: { message: "Entities must be based on a model id." }
-
   validates :entityable_type,
     presence: { message: "Entities must be based on a model type." }
 
