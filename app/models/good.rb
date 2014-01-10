@@ -90,6 +90,11 @@ class Good < ActiveRecord::Base
     @user.get_voted Good
   end
 
+  def self.nominations(user_id)
+    where("nominees.user_id = '?'", user_id).
+      joins(:nominee)
+  end
+
   def self.posted_or_followed_by(user_id)
     goods_table = Good.arel_table
     follows_table = Follow.arel_table

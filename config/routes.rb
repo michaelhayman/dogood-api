@@ -44,6 +44,7 @@ DoGoodApp::Application.routes.draw do
   resources :goods, :only => [ :index, :show, :create ] do
     collection do
       get :posted_or_followed_by
+      get :nominations
       get :liked_by
       get :tagged
       get :popular

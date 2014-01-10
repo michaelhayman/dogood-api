@@ -94,6 +94,19 @@ class GoodsController < ApplicationController
     respond_with @goods
   end
 
+  def nominations
+    @goods = Good.
+      page(params[:page]).
+      newest_first.
+      nominations(params[:user_id]).
+      extra_info
+
+    if current_user
+      @goods = Good.meta_stream(@goods, current_user)
+    end
+    respond_with @goods
+  end
+
   def create
     @good = Good.new(resource_params)
     @good.user_id = current_user.id
