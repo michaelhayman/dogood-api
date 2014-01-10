@@ -1,5 +1,10 @@
 class Nominee < ActiveRecord::Base
   mount_uploader :avatar, NomineeAvatarUploader
 
-  belongs_to :good
+  has_one :good
+
+  validates :full_name,
+    presence: { message: "Enter nominee's name." },
+    length: { maximum: 40, message: "Please enter a shorter name." }
 end
+
