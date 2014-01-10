@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include ActionView::Helpers::DateHelper
   # alias :followers, :regooders
   before_filter :check_auth, only: [ :update_password, :update_profile ]
-  before_filter :check_auth_silently, only: [ :show ]
+  before_filter :check_auth_silently, only: [ :show, :social, :search ]
 
   def index
     authenticate_user!
