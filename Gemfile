@@ -84,6 +84,7 @@ group :test do
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'rr'
+  gem 'faker'
   gem 'timecop'
 end
 
