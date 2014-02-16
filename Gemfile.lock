@@ -1,4 +1,12 @@
 GIT
+  remote: git://git.i.internal/ruby/rails-extensions.git
+  revision: 586a43c6c314b311362b21a3c970be0d852ff7f0
+  branch: rails-4
+  specs:
+    zoocasa-rails-extensions (0.0.1.dev)
+      rails (>= 3.2)
+
+GIT
   remote: git://github.com/michaelhayman/simple_hashtag.git
   revision: 2134a6e9a90ce94e8828cf4c1eedea40bc98ed10
   specs:
@@ -316,3 +324,4 @@ DEPENDENCIES
   timecop
   unicorn (~> 4.6.3)
   zeus
+  zoocasa-rails-extensions!
