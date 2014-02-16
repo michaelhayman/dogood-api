@@ -63,6 +63,10 @@ group :development do
   # deployment
 end
 
+group :development, :test do
+  gem 'simplecov'
+end
+
 # Heroku
 group :production do
   gem 'unicorn', '~> 4.6.3'

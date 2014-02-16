@@ -223,6 +223,11 @@ GEM
     ruby_parser (3.4.1)
       sexp_processor (~> 4.1)
     sexp_processor (4.4.1)
+    simplecov (0.8.2)
+      docile (~> 1.1.0)
+      multi_json
+      simplecov-html (~> 0.8.0)
+    simplecov-html (0.8.0)
     slop (3.4.7)
     spin (0.7.1)
     sprockets (2.10.0)
@@ -302,6 +307,7 @@ DEPENDENCIES
   ruby-prof
   ruby_parser
   simple_hashtag!
+  simplecov
   term-ansicolor
   timecop
   unicorn (~> 4.6.3)
