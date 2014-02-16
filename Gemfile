@@ -5,6 +5,7 @@ ruby "2.1.0"
 gem 'railties', '4.0.1'
 gem 'rails', '4.0.1'
 gem 'zoocasa-rails-extensions', :git => 'git://git.i.internal/ruby/rails-extensions.git', :branch => 'rails-4'
+gem 'zoocasa-core-extensions', :git => 'git://git.i.internal/ruby/core-extensions.git'
 
 # Authentication
 gem 'devise', '~> 3.2.0'

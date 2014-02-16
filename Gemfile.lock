@@ -1,4 +1,11 @@
 GIT
+  remote: git://git.i.internal/ruby/core-extensions.git
+  revision: 7d2aa40743c654b4f95117a6f8235f58bd20dc7e
+  specs:
+    zoocasa-core-extensions (0.0.1.dev)
+      activesupport (>= 2.3)
+
+GIT
   remote: git://git.i.internal/ruby/rails-extensions.git
   revision: 586a43c6c314b311362b21a3c970be0d852ff7f0
   branch: rails-4
@@ -324,4 +331,5 @@ DEPENDENCIES
   timecop
   unicorn (~> 4.6.3)
   zeus
+  zoocasa-core-extensions!
   zoocasa-rails-extensions!
