@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -36,7 +37,9 @@ CREATE TABLE categories (
     id integer NOT NULL,
     name character varying(255),
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    name_constant text,
+    colour character varying(255)
 );
 
 
@@ -208,7 +211,7 @@ CREATE TABLE goods (
     user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    comments_count integer,
+    comments_count integer DEFAULT 0 NOT NULL,
     cached_votes_total integer DEFAULT 0,
     cached_votes_score integer DEFAULT 0,
     cached_votes_up integer DEFAULT 0,
@@ -220,7 +223,8 @@ CREATE TABLE goods (
     lng double precision,
     location_image character varying(255),
     location_name character varying(255),
-    done boolean DEFAULT true
+    done boolean DEFAULT true,
+    nominee_id integer
 );
 
 
@@ -241,6 +245,41 @@ CREATE SEQUENCE goods_id_seq
 --
 
 ALTER SEQUENCE goods_id_seq OWNED BY goods.id;
+
+
+--
+-- Name: nominees; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE nominees (
+    id integer NOT NULL,
+    full_name character varying(255) NOT NULL,
+    email character varying(255),
+    phone character varying(255),
+    user_id character varying(255),
+    twitter_id character varying(255),
+    facebook_id character varying(255),
+    avatar character varying(255)
+);
+
+
+--
+-- Name: nominees_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE nominees_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: nominees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE nominees_id_seq OWNED BY nominees.id;
 
 
 --
@@ -553,6 +592,13 @@ ALTER TABLE ONLY goods ALTER COLUMN id SET DEFAULT nextval('goods_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY nominees ALTER COLUMN id SET DEFAULT nextval('nominees_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY points ALTER COLUMN id SET DEFAULT nextval('points_id_seq'::regclass);
 
 
@@ -644,6 +690,14 @@ ALTER TABLE ONLY follows
 
 ALTER TABLE ONLY goods
     ADD CONSTRAINT goods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nominees_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY nominees
+    ADD CONSTRAINT nominees_pkey PRIMARY KEY (id);
 
 
 --
@@ -988,3 +1042,19 @@ INSERT INTO schema_migrations (version) VALUES ('20131014164933');
 INSERT INTO schema_migrations (version) VALUES ('20131017231147');
 
 INSERT INTO schema_migrations (version) VALUES ('20131020203855');
+
+INSERT INTO schema_migrations (version) VALUES ('20131029205903');
+
+INSERT INTO schema_migrations (version) VALUES ('20131030220024');
+
+INSERT INTO schema_migrations (version) VALUES ('20131123150614');
+
+INSERT INTO schema_migrations (version) VALUES ('20131130124657');
+
+INSERT INTO schema_migrations (version) VALUES ('20131210104019');
+
+INSERT INTO schema_migrations (version) VALUES ('20140107101154');
+
+INSERT INTO schema_migrations (version) VALUES ('20140110041742');
+
+INSERT INTO schema_migrations (version) VALUES ('20140110050718');
