@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CategoriesControllerTest < ActionController::TestCase
+class CategoriesControllerTest < DoGood::ActionControllerTestCase
   tests CategoriesController
 
   test "should get index" do
@@ -9,5 +9,4 @@ class CategoriesControllerTest < ActionController::TestCase
     }
     assert_response :success
   end
-
 end

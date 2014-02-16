@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GoodTest < ActiveSupport::TestCase
+class GoodTest < DoGood::TestCase
   include DoGood::ContextHelper
 
   context "has validations" do
