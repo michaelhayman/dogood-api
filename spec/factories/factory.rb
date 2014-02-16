@@ -1,9 +1,10 @@
 FactoryGirl.define do
-
   factory :good do
     caption "Look at the good that I did!"
     user_id 5
     category
+    # nominee FactoryGirl.create(:nominee)
+    nominee
     evidence "http://www.images.amazon.com/dev/null"
 
     trait :no_user do
@@ -13,6 +14,13 @@ FactoryGirl.define do
     trait :long_caption do
       caption "Look at all the fun things I can type I can type so fast you won't even know I'm here do you think this is going on too long I'm pretty sure it is. This is even longer just to be sure that it's not valid."
     end
+  end
+
+  factory :nominee do
+    full_name "Michael Hayman"
+    email Faker::Internet.email
+    # good FactoryGirl.build(:good)
+    # user FactoryGirl.build(:user)
   end
 
   factory :category do
