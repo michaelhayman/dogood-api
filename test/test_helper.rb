@@ -49,5 +49,3 @@ end
 
 MiniTest::Reporters.use!(DoGoodTestRunner.new)
 
-
-
