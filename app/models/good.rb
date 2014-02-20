@@ -86,8 +86,10 @@ class Good < ActiveRecord::Base
   end
 
   def self.liked_by_user(user_id)
-    @user = User.by_id(user_id)
-    @user.get_voted Good
+    if user_id
+      @user = User.find(user_id)
+      @user.get_voted Good
+    end
   end
 
   def self.nominations(user_id)
