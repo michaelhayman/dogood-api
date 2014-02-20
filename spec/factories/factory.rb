@@ -6,9 +6,16 @@ FactoryGirl.define do
     # nominee FactoryGirl.create(:nominee)
     nominee
     evidence "http://www.images.amazon.com/dev/null"
+    lat 43.652527
+    lng -79.381961
 
     trait :no_user do
       user_id ""
+    end
+
+    trait :sydney do
+      lat -33.867387
+      lng 151.207629
     end
 
     trait :long_caption do
