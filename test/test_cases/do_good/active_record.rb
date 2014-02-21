@@ -2,7 +2,7 @@
 
 require 'test_cases/do_good/active_record/extensions'
 
-class DoGood::ActiveRecordTestCase < ActiveRecord::TestCase
+class DoGood::ActiveRecordTestCase < ActiveSupport::TestCase
   include DoGood::TestHelper
   include DoGood::ARBCHelper
   include DoGood::AssertsHelper
