@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class GoodsControllerTest < DoGood::ActionControllerTestCase
+  include Devise::TestHelpers
+
   tests GoodsController
 
   context "index" do
