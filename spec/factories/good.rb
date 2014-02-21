@@ -12,8 +12,29 @@ FactoryGirl.define do
       user nil
     end
 
+    trait :lame do
+      caption "Big oil"
+      follows_count 0
+      comments_count 0
+    end
+
+    trait :average do
+      follows_count 25
+      comments_count 25
+    end
+
+    trait :popular do
+      caption "Freed a nation"
+      follows_count 50
+      comments_count 50
+    end
+
     trait :bob do
       user { FactoryGirl.create(:user, :bob) }
+    end
+
+    trait :tagged do
+      caption "Look at the #awesome that I did!"
     end
 
     trait :sydney do
