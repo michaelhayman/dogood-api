@@ -17,5 +17,8 @@
 /vendor
 .DS_Store
 
+# test coverage files
+coverage
+
 public/uploads/
 .env
