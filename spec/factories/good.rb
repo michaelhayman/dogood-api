@@ -29,6 +29,10 @@ FactoryGirl.define do
       comments_count 50
     end
 
+    trait :health do
+      category { FactoryGirl.create(:category, :health) }
+    end
+
     trait :bob do
       user { FactoryGirl.create(:user, :bob) }
     end
