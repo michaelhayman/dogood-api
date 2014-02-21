@@ -2,8 +2,11 @@ FactoryGirl.define do
   factory :comment do
     comment "Comment"
     commentable_id 1
-    commentable_type "Good"
     user_id 1
+
+    trait :for_good do
+      commentable_type "Good"
+    end
 
     trait :too_short do
       comment "Look"
