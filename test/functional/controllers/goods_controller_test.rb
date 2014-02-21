@@ -11,7 +11,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       assert_response :success
     end
 
-    test "should return a list of listings matching the given ids" do
+    test "should return goods matching the given ids" do
       @good = FactoryGirl.create(:good)
 
       get :index, {
