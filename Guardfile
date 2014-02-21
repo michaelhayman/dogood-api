@@ -23,7 +23,7 @@ rails_test_set = proc {
   }
 
   watch(%r{^app/controllers/(.+)\.rb$}) { |m|
-    "test/functional/#{m[1]}_test.rb"
+    "test/functional/controllers/#{m[1]}_test.rb"
   }
 
   watch(%r{^app/decorators/(.+)\.rb$}) { |m|
