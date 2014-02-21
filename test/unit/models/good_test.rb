@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class GoodTest < DoGood::TestCase
-  include DoGood::ContextHelper
-
   context "scopes" do
     test "should return the standard goods" do
       21.times do
