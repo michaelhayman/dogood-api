@@ -8,6 +8,7 @@ Bundler.require(:default, Rails.env)
 
 module DoGoodApp
   class Application < Rails::Application
+   require "#{Rails.root}/config/additional_requires"
 
     %w{
       lib
