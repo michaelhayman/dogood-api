@@ -15,6 +15,7 @@ gem 'draper', '~> 1.0'
 
 # Globals
 gem 'ice_nine'
+gem 'will_paginate', '~> 3.0'
 
 # Social
 gem 'acts_as_commentable', '~> 4.0.0'

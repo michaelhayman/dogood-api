@@ -277,6 +277,7 @@ GEM
       raindrops (~> 0.7)
     warden (1.2.3)
       rack (>= 1.0)
+    will_paginate (3.0.5)
     zeus (0.13.3)
       method_source (>= 0.6.7)
 
@@ -332,6 +333,7 @@ DEPENDENCIES
   term-ansicolor
   timecop
   unicorn (~> 4.6.3)
+  will_paginate (~> 3.0)
   zeus
   zoocasa-core-extensions!
   zoocasa-rails-extensions!
