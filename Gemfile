@@ -13,6 +13,9 @@ gem 'devise', '~> 3.2.0'
 # Model Decoration
 gem 'draper', '~> 1.0'
 
+# Globals
+gem 'ice_nine'
+
 # Social
 gem 'acts_as_commentable', '~> 4.0.0'
 gem 'acts_as_votable', '~> 0.6.0'
