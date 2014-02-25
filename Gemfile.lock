@@ -164,9 +164,6 @@ GEM
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
     json (1.8.1)
-    kaminari (0.14.1)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
     kgio (2.8.1)
     listen (2.5.0)
       celluloid (>= 0.15.2)
@@ -311,7 +308,6 @@ DEPENDENCIES
   hirb
   ice_nine
   jbuilder (~> 2.0)
-  kaminari (~> 0.14.1)
   kgio (~> 2.6)
   memcachier (~> 0.0.2)
   memoist (= 0.9.1)

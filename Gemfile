@@ -15,7 +15,6 @@ gem 'draper', '~> 1.0'
 
 # Globals
 gem 'ice_nine'
-gem 'will_paginate', '~> 3.0'
 
 # Social
 gem 'acts_as_commentable', '~> 4.0.0'
@@ -35,7 +34,7 @@ gem 'active_model_serializers'
 gem 'jbuilder', '~> 2.0'
 
 # Pagination
-gem 'kaminari', '~> 0.14.1'
+gem 'will_paginate', '~> 3.0'
 
 # Geo
 gem 'geokit-rails', '~> 2.0.0'
