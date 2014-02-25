@@ -27,6 +27,13 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
   end
 
   context "search_by_emails" do
+    test "route" do
+      assert_routing '/users/search_by_emails', {
+        controller: "users",
+        action: "search_by_emails"
+      }
+    end
+
     test "request should be successful when correct params are passed" do
       @bob = FactoryGirl.create(:user, :bob)
       @tony = FactoryGirl.create(:user, :tony)
