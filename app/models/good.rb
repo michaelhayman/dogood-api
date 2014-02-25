@@ -1,10 +1,9 @@
+
 class Good < ActiveRecord::Base
   include DoGood::Reportable
 
   include SimpleHashtag::Hashtaggable
   hashtaggable_attribute :caption
-
-  GOOD_POINTS = 10
 
   mount_uploader :evidence, EvidenceUploader
 
@@ -15,6 +14,7 @@ class Good < ActiveRecord::Base
   acts_as_votable
 
   acts_as_mappable
+
 
   reportable!
 
@@ -58,8 +58,11 @@ class Good < ActiveRecord::Base
     order("goods.created_at desc")
   }
 
-  def add_points
-    Point.record_points("Good", self.id, "Post", self.user_id, nil, GOOD_POINTS)
+  # after_create add_points
+
+  GOOD_POINTS = 10
+  def add_points(record)
+    Point.record_points("Good", record.id, "Post", record.user_id, nil, GOOD_POINTS)
   end
 
   def self.in_category(id)
