@@ -108,26 +108,46 @@ class GoodsController < ApplicationController
   end
 
   def create
-    @good = Good.new(resource_params)
-    @good.user_id = current_user.id
-    @good.evidence = params[:good][:evidence]
+    begin
+      raise DoGood::Api::Unauthorized.new if !logged_in?
+      raise DoGood::Api::TooManyQueries.new if Good.just_created_by(dg_user)
 
-    if Good.just_created_by(current_user).count > 0
-      render_errors("Please wait longer before doing more good.")
+      @good = Good.new(resource_params)
+      @good.user_id = current_user.id
+      @good.evidence = resource_params[:evidence]
+
+      if !@good.save
+        if @good.errors
+          message = @good.errors.full_messages
+        else
+          message = "Couldn't save the good."
+        end
+        raise DoGood::Api::RecordNotSaved.new(message)
+      end
+
+    rescue DoGood::Api::TooManyQueries => error
+      @status_code = D_STATUS[:unauthorized]
+      render_error(error)
+      return
+    rescue DoGood::Api::Unauthorized => error
+      @status_code = D_STATUS[:unauthorized]
+      render_error(error)
+      return
+    rescue DoGood::Api::ParametersInvalid => error
+      @status_code = D_STATUS[:bad_request]
+      render_error(error)
+      return
+    rescue ActionController::ParameterMissing => error
+      @status_code = D_STATUS[:bad_request]
+      render_error(DoGood::Api::ParametersInvalid.new)
+      return
+    rescue DoGood::Api::RecordNotSaved => error
+      @status_code = D_STATUS[:error]
+      render_error(error)
       return
     end
 
-    if @good.save
-      respond_with @good, root: "goods"
-      @good.add_points
-    else
-      if @good.errors
-        message = @good.errors.full_messages
-      else
-        message = "Couldn't save the good."
-      end
-      render_errors(message)
-    end
+    render :json => dapi_callback_wrapper_new_style(:status => :ok)
   end
 
   def resource_params
