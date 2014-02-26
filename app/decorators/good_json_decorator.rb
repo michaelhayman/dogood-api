@@ -21,14 +21,46 @@ class GoodJSONDecorator < Draper::Decorator
   end
   memoize :current_user_commented
 
+  def comments
+    object.comments.first(5)
+  end
+
+  def evidence
+    object.evidence.url
+  end
+
+  def likes_count
+    object.cached_votes_up
+  end
+  memoize :likes_count
+
+  def regoods_count
+    object.follows_count
+  end
+  memoize :regoods_count
+
   def to_builder(options = {})
-    builder.(object,
+    builder.(self,
       :id,
-      :caption
+      :caption,
+      :likes_count,
+      :comments_count,
+      :regoods_count,
+      :lat,
+      :lng,
+      :location_name,
+      :location_image,
+      :evidence,
+      :done,
+      :created_at,
+      :entities,
+      :current_user_commented,
+      :current_user_liked,
+      :current_user_regooded
     )
-    builder.current_user_commented current_user_commented
-    builder.current_user_liked current_user_liked
-    builder.current_user_regooded current_user_regooded
+    builder.nominee self.nominee, :user_id, :full_name
+    builder.user self.user, :id, :full_name
+    builder.comments self.comments, :id, :comment, :user, :entities
 
     yield builder if block_given?
 
