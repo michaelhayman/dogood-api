@@ -38,13 +38,7 @@ class GoodsController < ApplicationController
   end
 
   def show
-    @goods = Good.specific(params[:id]).
-      page(params[:page]).
-      newest_first.
-      extra_info
-    @goods = Good.meta_stream(@goods, current_user)
-
-    respond_with @goods
+    @goods = Good.find(params[:id])
   end
 
   def tagged

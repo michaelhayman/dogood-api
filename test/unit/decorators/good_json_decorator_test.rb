@@ -5,7 +5,9 @@ class GoodJSONDecoratorTest < DoGood::TestCase
     {
       "id" => @good.object.id,
       "caption" => @good.object.caption,
-      "current_user_commented" => true
+      "current_user_commented" => true,
+      "current_user_regooded" => false,
+      "current_user_liked" => true
     }
   end
 
@@ -17,6 +19,8 @@ class GoodJSONDecoratorTest < DoGood::TestCase
     @good = FactoryGirl.create(:good)
     @good = GoodJSONDecorator.decorate(@good)
     stub(@good).current_user_commented { true }
+    stub(@good).current_user_liked { true }
+    stub(@good).current_user_regooded { false }
   end
 
   context "to_builder" do

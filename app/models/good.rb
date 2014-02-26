@@ -117,38 +117,6 @@ class Good < ActiveRecord::Base
   def self.extra_info
     includes(:user, :nominee, :category, :entities, :comments => [ :user, :entities ])
   end
-
-  def self.meta_stream(goods, current_user)
-    if goods && current_user
-      @good_ids = goods.map(&:id)
-
-      @current_user_likes = current_user.
-        votes.
-        where(:votable_type => "Good",
-              :votable_id => @good_ids).
-        map(&:votable_id)
-
-      @current_user_comments = current_user.
-        comments.unlimited.
-        where(:commentable_type => "Good",
-              :commentable_id => @good_ids).
-        map(&:commentable_id)
-
-      @current_user_regoods = current_user.
-        follows.
-        where(:followable_type => "Good",
-              :followable_id => @good_ids).
-        map(&:followable_id)
-
-      goods.each do |g|
-        g.current_user_liked = @current_user_likes.include?(g.id)
-        g.current_user_commented = @current_user_comments.include?(g.id)
-        g.current_user_regooded = @current_user_regoods.include?(g.id)
-      end
-    elsif goods
-      return goods
-    end
-  end
 end
 
 class GoodSerializer < ActiveModel::Serializer
