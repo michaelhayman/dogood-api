@@ -8,12 +8,14 @@ FactoryGirl.define do
       full_name "Bob"
       email { Faker::Internet.email }
       password "snaily53"
+      twitter_id "evan"
     end
 
     trait :tony do
       full_name "Tony"
       email { Faker::Internet.email }
       password "georgeyporge"
+      twitter_id "jack"
     end
   end
 end
