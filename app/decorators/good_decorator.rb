@@ -5,10 +5,5 @@ class GoodDecorator < Draper::Decorator
 
   decorates Good
   delegate_all
-
-  def current_user_commented
-    helpers.dg_user.good_commented?(object)
-  end
-  memoize :current_user_commented
 end
 

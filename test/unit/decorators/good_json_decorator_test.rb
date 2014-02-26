@@ -4,7 +4,8 @@ class GoodJSONDecoratorTest < DoGood::TestCase
   def expected_hash
     {
       "id" => @good.object.id,
-      "caption" => @good.object.caption
+      "caption" => @good.object.caption,
+      "current_user_commented" => true
     }
   end
 
@@ -13,7 +14,9 @@ class GoodJSONDecoratorTest < DoGood::TestCase
 
     Timecop.freeze(Time.local(2013))
 
-    @good = GoodJSONDecorator.decorate(FactoryGirl.create(:good))
+    @good = FactoryGirl.create(:good)
+    @good = GoodJSONDecorator.decorate(@good)
+    stub(@good).current_user_commented { true }
   end
 
   context "to_builder" do
