@@ -35,9 +35,6 @@ module Dapi::CallbackHelper
         :controller => controller_name,
         :action => action_name,
         :status => :ok,
-        :key_format => {
-          :camelize => :lower
-        },
         :ignore_nil => true
       }.merge(args.extract_options!)
 
@@ -54,7 +51,6 @@ module Dapi::CallbackHelper
           json.status status
 
           json.response do |json|
-            json.key_format! options[:key_format]
             json.ignore_nil! if options[:ignore_nil]
             json.status status
 
