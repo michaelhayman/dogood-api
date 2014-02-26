@@ -1,9 +1,105 @@
 class UsersController < ApiController
   include ActionView::Helpers::DateHelper
+  before_filter :setup_pagination, :only => [
+    :search_by_emails,
+    :search,
+    :search_by_twitter_ids,
+    :search_by_facebook_ids,
+    :likers,
+    :followers,
+    :following
+  ]
 
   def show
     @user = User.find(params[:id])
     render_success('show')
+  end
+
+  def search
+    user = User.arel_table
+    if (params[:search] != "(null)")
+      @users = User.where(user[:full_name].matches("%#{params[:search]}%")).limit(20)
+    else
+      @users = User.all
+    end
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
+  end
+
+  def search_by_emails
+    if params[:emails]
+      if current_user
+        params[:emails].delete(current_user.email)
+      end
+    end
+
+    @users = User.where(:email => params[:emails]).limit(20)
+
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
+  end
+
+  def search_by_twitter_ids
+    @users = User.where(:twitter_id => params[:twitter_ids]).limit(50)
+    # @already_following = Follow.
+    #   following("User", current_user.id).map(&:twitter_id)
+    # @twitter_users.each
+
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
+  end
+
+  def search_by_facebook_ids
+    if (params[:facebook_ids] != nil)
+      @users = User.where(:facebook_id => params[:facebook_ids]).limit(50)
+    else
+      @users = nil
+    end
+
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
+  end
+
+  def likers
+    @instance = params[:type].
+      constantize.
+      find(params[:id])
+    @users = @instance.votes.limit(20).map(&:voter)
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
+  end
+
+  def followers
+    @instance = params[:type].
+      constantize.
+      find(params[:id])
+    @users = @instance.followers_scoped.
+      limit(20).
+      map(&:follower)
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
+  end
+
+  def following
+    # @instance = instance_from_type_and_id(params[:type], params[:id])
+    @instance = params[:type].
+      constantize.
+      find(params[:id])
+    @users = @instance.follows_by_type(params[:type]).
+      limit(20).
+      map(&:followable)
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
+  end
+
+  def score
+    if params[:id]
+      user = User.find(params[:id])
+    else
+      user = current_user
+    end
+
+    render :json => user.score
   end
 
   def update_profile
@@ -37,61 +133,6 @@ class UsersController < ApiController
     end
   end
 
-  def search
-    setup_pagination
-    user = User.arel_table
-    if (params[:search] != "(null)")
-      @users = User.where(user[:full_name].matches("%#{params[:search]}%")).limit(20)
-    else
-      @users = User.all
-    end
-    @users = @users.paginate(@pagination_options)
-    render_success('index')
-  end
-
-  def score
-    if params[:id]
-      user = User.find(params[:id])
-    else
-      user = current_user
-    end
-
-    render :json => user.score
-  end
-
-  def search_by_emails
-    setup_pagination
-    if params[:emails]
-      if current_user
-        params[:emails].delete(current_user.email)
-      end
-    end
-
-    @users = User.where(:email => params[:emails]).limit(20)
-
-    @users = @users.paginate(@pagination_options)
-    render_success('index')
-  end
-
-  def search_by_twitter_ids
-    @twitter_users = User.where(:twitter_id => params[:twitter_ids]).limit(50)
-    # @already_following = Follow.
-    #   following("User", current_user.id).map(&:twitter_id)
-    # @twitter_users.each
-
-    respond_with @twitter_users, root: "user"
-  end
-
-  def search_by_facebook_ids
-    if (params[:facebook_ids] != nil)
-      @facebook_users = User.where(:facebook_id => params[:facebook_ids]).limit(50)
-    else
-      @facebook_users = nil
-    end
-
-    respond_with @facebook_users, root: "user"
-  end
-
   def remove_avatar
     current_user.remove_avatar!
 
@@ -108,35 +149,6 @@ class UsersController < ApiController
         :points => current_user.points
       }
     }
-  end
-
-  def likers
-    @instance = params[:type].
-      constantize.
-      find(params[:id])
-    @likers = @instance.votes.limit(20).map(&:voter)
-    respond_with @likers, root: "user"
-  end
-
-  def followers
-    @instance = params[:type].
-      constantize.
-      find(params[:id])
-    @followers = @instance.followers_scoped.
-      limit(20).
-      map(&:follower)
-    respond_with @followers, root: "user"
-  end
-
-  def following
-    # @instance = instance_from_type_and_id(params[:type], params[:id])
-    @instance = params[:type].
-      constantize.
-      find(params[:id])
-    @following = @instance.follows_by_type(params[:type]).
-      limit(20).
-      map(&:followable)
-    respond_with @following, root: "user"
   end
 
   # html methods
