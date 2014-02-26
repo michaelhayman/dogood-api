@@ -34,7 +34,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         id: @good_2.id
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal @good_2.id, json.traverse(:DAPI, :response, :goods, :id)
     end
 
@@ -47,7 +47,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         category_id: @good.category_id
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal 2, Good.all.count
       assert_equal 1, json.traverse(:DAPI, :response, :goods).count
     end
@@ -80,7 +80,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         id: SimpleHashtag::Hashtag.find_by_name('awesome')
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal @good.id, json.traverse(:DAPI, :response, :goods, 0, :id)
     end
 
@@ -94,7 +94,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         name: hashtag
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal @good.id, json.traverse(:DAPI, :response, :goods, 0, :id)
     end
   end
@@ -116,7 +116,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         format: :json
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal 3, Good.all.count
       assert_equal @popular_good.id, json.traverse(:DAPI, :response, :goods, 0, :id)
       assert_equal @average_good.id, json.traverse(:DAPI, :response, :goods, 1, :id)
@@ -142,7 +142,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         lng: good.lng
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal 2, Good.all.count
       assert_equal 1, json.traverse(:DAPI, :response, :goods).count
     end
@@ -168,7 +168,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         user_id: @user.id,
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal 2, Good.all.count
       assert_equal 1, json.traverse(:DAPI, :response, :goods).count
     end
@@ -195,7 +195,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         user_id: @user.id
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal 3, Good.all.count
       assert_equal 2, json.traverse(:DAPI, :response, :goods).count
     end
@@ -223,7 +223,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         user_id: @user.id.to_s
       }
 
-      json = HashWithIndifferentAccess.new(JSON.load(response.body))
+      json = jsonify(response)
       assert_equal 2, Good.all.count
       assert_equal 1, json.traverse(:DAPI, :response, :goods).count
     end
