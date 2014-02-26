@@ -3,7 +3,7 @@ class UsersController < ApiController
 
   def show
     @user = User.find(params[:id])
-    respond_with @user, root: "user", serializer: FullUserSerializer
+    render_success('show')
   end
 
   def update_profile
