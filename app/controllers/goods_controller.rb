@@ -26,9 +26,9 @@ class GoodsController < ApplicationController
 
   def index
     if params[:category_id]
-      @goods = Good.in_category(params[:category_id])
+      @goods = Good.in_category(params[:category_id]).extra_info
     else
-      @goods = Good.most_relevant
+      @goods = Good.most_relevant.extra_info
     end
 
     @goods = @goods.paginate(@pagination_options)
