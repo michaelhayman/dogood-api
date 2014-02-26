@@ -38,13 +38,15 @@ class UsersController < ApiController
   end
 
   def search
+    setup_pagination
     user = User.arel_table
     if (params[:search] != "(null)")
       @users = User.where(user[:full_name].matches("%#{params[:search]}%")).limit(20)
     else
       @users = User.all
     end
-    respond_with @users, root: "user"
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
   end
 
   def score
@@ -58,6 +60,7 @@ class UsersController < ApiController
   end
 
   def search_by_emails
+    setup_pagination
     if params[:emails]
       if current_user
         params[:emails].delete(current_user.email)
@@ -65,7 +68,9 @@ class UsersController < ApiController
     end
 
     @users = User.where(:email => params[:emails]).limit(20)
-    respond_with @users, root: "user"
+
+    @users = @users.paginate(@pagination_options)
+    render_success('index')
   end
 
   def search_by_twitter_ids
