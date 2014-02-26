@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   include_private Dapi::Constants
 
   respond_to :json
+  before_filter :set_default_response_format
 
   def check_auth
     authenticate_or_request_with_http_basic do |email, password|
@@ -50,5 +51,10 @@ class ApplicationController < ActionController::Base
 
   def instance_from_type_and_id(type, id)
     type.constantize.find(id)
+  end
+
+private
+  def set_default_response_format
+    request.format = :json
   end
 end
