@@ -3,6 +3,11 @@ class Category < ActiveRecord::Base
 
   before_save :add_constant
 
+  validates :name,
+    presence: {
+      message: "Enter a name."
+    }
+
   scope :alphabetical, -> {
     order('name asc')
   }
