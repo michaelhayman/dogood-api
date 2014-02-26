@@ -11,7 +11,6 @@ DoGoodApp::Application.routes.draw do
       get :likers
       get :followers
       get :following
-      get :points
       put :update_profile
       put :update_password
       post :validate_name
@@ -23,6 +22,7 @@ DoGoodApp::Application.routes.draw do
       post :social
     end
     member do
+      get :points
       get :status
       get :score
     end
