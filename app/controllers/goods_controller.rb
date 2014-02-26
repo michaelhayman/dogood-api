@@ -1,33 +1,47 @@
 class GoodsController < ApplicationController
-  before_filter :check_auth, only: :create
-  before_filter :check_auth_silently,
-    only: [
-      :index,
-      :tagged,
-      :popular,
-      :nearby,
-      :liked_by,
-      :posted_or_followed_by
-    ]
+  include Api::Helpers::RenderHelper
+
+  require 'do_good/api/error'
+
+  before_filter :setup_pagination, :only => [
+    :index,
+    :tagged,
+    :popular,
+    :nearby,
+    :liked_by,
+    :posted_or_followed_by,
+    :nominations
+  ]
+
+  DEFAULT_PAGINATION_OPTIONS = {
+    :per_page => 25
+  }.freeze
+
+  def setup_pagination
+    @pagination_options = DEFAULT_PAGINATION_OPTIONS.merge({
+      :per_page => params[:per_page],
+      :page => [ params[:page].to_i, 1 ].max
+    })
+  end
 
   def index
+
     if params[:category_id]
-      @goods = Good.in_category(params[:category_id]).
-        page(params[:page]).
-        newest_first.
-        extra_info
+      @goods = Good.in_category(params[:category_id])
     elsif params[:good_id]
-      @goods = Good.specific(params[:good_id]).
-        page(params[:page]).
-        newest_first.
-        extra_info
+      @goods = Good.specific(params[:good_id])
     else
-      @goods = Good.most_relevant.
-        page(params[:page]).
-        newest_first.
-        extra_info
+      @goods = Good.most_relevant
     end
 
+    @goods = @goods.paginate(@pagination_options)
+  end
+
+  def show
+    @goods = Good.specific(params[:id]).
+      page(params[:page]).
+      newest_first.
+      extra_info
     @goods = Good.meta_stream(@goods, current_user)
 
     respond_with @goods
@@ -43,68 +57,58 @@ class GoodsController < ApplicationController
     hashtagged_elements = hashtag.hashtagged_ids_for_type("Good") if hashtag
 
     @goods = Good.where(:id => hashtagged_elements).
-      page(params[:page]).
       extra_info.
       newest_first
 
-    @goods = Good.meta_stream(@goods, current_user)
-    respond_with @goods
+    @goods = @goods.paginate(@pagination_options)
+    render_success('index')
   end
 
   def popular
     @goods = Good.
       popular.
-      page(params[:page]).
       extra_info
 
-    @goods = Good.meta_stream(@goods, current_user)
-    respond_with @goods
+    @goods = @goods.paginate(@pagination_options)
+    render_success('index')
   end
 
   def nearby
     @goods = Good.
       nearby(params[:lat], params[:lng]).
-      page(params[:page]).
       extra_info
 
-    @goods = Good.meta_stream(@goods, current_user)
-    respond_with @goods
+    @goods = @goods.paginate(@pagination_options)
+    render_success('index')
   end
 
   def liked_by
     @goods = Good.
-      page(params[:page]).
       newest_first.
       liked_by_user(params[:user_id])
 
-    @goods = Good.meta_stream(@goods, current_user)
-    respond_with @goods
+    @goods = @goods.paginate(@pagination_options)
+    render_success('index')
   end
 
   def posted_or_followed_by
     @goods = Good.
-      page(params[:page]).
       newest_first.
       posted_or_followed_by(params[:user_id]).
       extra_info
 
-    if current_user
-      @goods = Good.meta_stream(@goods, current_user)
-    end
-    respond_with @goods
+    @goods = @goods.paginate(@pagination_options)
+    render_success('index')
   end
 
   def nominations
     @goods = Good.
-      page(params[:page]).
       newest_first.
       nominations(params[:user_id]).
       extra_info
 
-    if current_user
-      @goods = Good.meta_stream(@goods, current_user)
-    end
-    respond_with @goods
+    @goods = @goods.paginate(@pagination_options)
+    render_success('index')
   end
 
   def create
