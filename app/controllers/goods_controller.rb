@@ -25,11 +25,8 @@ class GoodsController < ApplicationController
   end
 
   def index
-
     if params[:category_id]
       @goods = Good.in_category(params[:category_id])
-    elsif params[:good_id]
-      @goods = Good.specific(params[:good_id])
     else
       @goods = Good.most_relevant
     end
@@ -38,7 +35,7 @@ class GoodsController < ApplicationController
   end
 
   def show
-    @goods = Good.find(params[:id])
+    @good = Good.find(params[:id])
   end
 
   def tagged

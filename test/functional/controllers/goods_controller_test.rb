@@ -27,13 +27,15 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
     test "should return goods matching the given ids" do
       @good = FactoryGirl.create(:good)
+      @good_2 = FactoryGirl.create(:good)
 
-      get :index, {
-        format: :json
+      get :show, {
+        format: :json,
+        id: @good_2.id
       }
 
       json = HashWithIndifferentAccess.new(JSON.load(response.body))
-      assert_equal @good.id, json.traverse(:DAPI, :response, :goods, 0, :id)
+      assert_equal @good_2.id, json.traverse(:DAPI, :response, :goods, :id)
     end
 
     test "should return goods matching the given category id" do
