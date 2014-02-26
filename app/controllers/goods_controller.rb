@@ -1,8 +1,4 @@
-class GoodsController < ApplicationController
-  include Api::Helpers::RenderHelper
-
-  require 'do_good/api/error'
-
+class GoodsController < ApiController
   before_filter :setup_pagination, :only => [
     :index,
     :tagged,
@@ -12,17 +8,6 @@ class GoodsController < ApplicationController
     :posted_or_followed_by,
     :nominations
   ]
-
-  DEFAULT_PAGINATION_OPTIONS = {
-    :per_page => 25
-  }.freeze
-
-  def setup_pagination
-    @pagination_options = DEFAULT_PAGINATION_OPTIONS.merge({
-      :per_page => params[:per_page],
-      :page => [ params[:page].to_i, 1 ].max
-    })
-  end
 
   def index
     if params[:category_id]
