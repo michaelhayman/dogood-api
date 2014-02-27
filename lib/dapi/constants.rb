@@ -13,6 +13,7 @@ module Dapi::Constants
     :gateway_timeout      => 'GATEWAY_TIMEOUT',
     :invalid_request      => 'INVALID_REQUEST',
     :no_user              => 'NO_USER',
+    :not_found            => 404,
     :ok                   => 'OK',
     :over_query_limit     => 500,
     :request_denied       => 'REQUEST_DENIED',

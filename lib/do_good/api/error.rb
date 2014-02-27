@@ -1,5 +1,7 @@
 module DoGood
   module Api
+    D_STATUS = Dapi::Constants::STATUS_CODES
+
     class Error < RuntimeError
       attr_reader :dg_message, :http_error, :dg_error
 
@@ -15,7 +17,7 @@ module DoGood
     class RecordNotFound < Error
       def initialize
         @dg_message = "Record not found."
-        @http_error = 404
+        @http_error = D_STATUS[:not_found]
         @dg_error = 100
       end
     end
@@ -23,7 +25,7 @@ module DoGood
     class ParametersInvalid < Error
       def initialize
         @dg_message = "Parameters are missing or are incorrectly formatted."
-        @http_error = 404
+        @http_error = D_STATUS[:bad_object]
         @dg_error = 100
       end
     end
@@ -31,7 +33,7 @@ module DoGood
     class Unauthorized < Error
       def initialize
         @dg_message = "Invalid email or password."
-        @http_error = 401
+        @http_error = D_STATUS[:unauthorized]
         @dg_error = 105
       end
     end
@@ -39,7 +41,7 @@ module DoGood
     class RecordNotSaved < Error
       def initialize(message)
         @dg_message = message
-        @http_error = 500
+        @http_error = D_STATUS[:bad_object]
         @dg_error = 106
       end
     end
@@ -47,7 +49,7 @@ module DoGood
     class TooManyQueries < Error
       def initialize
         @dg_message = "Too many queries man."
-        @http_error = 500
+        @http_error = D_STATUS[:over_query_limit]
         @dg_error = 106
       end
     end
