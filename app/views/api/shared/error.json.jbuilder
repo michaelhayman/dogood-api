@@ -1,6 +1,6 @@
 
 dapi_callback_wrapper_new_style(json, {
-  :status_code => @status_code,
+  :status_code => error.http_error,
   :response_status => @response_status
 }) do
   json.errors do

@@ -106,23 +106,18 @@ class GoodsController < ApiController
       end
 
     rescue DoGood::Api::TooManyQueries => error
-      @status_code = D_STATUS[:unauthorized]
       render_error(error)
       return
     rescue DoGood::Api::Unauthorized => error
-      @status_code = D_STATUS[:unauthorized]
       render_error(error)
       return
     rescue DoGood::Api::ParametersInvalid => error
-      @status_code = D_STATUS[:bad_request]
       render_error(error)
       return
     rescue ActionController::ParameterMissing => error
-      @status_code = D_STATUS[:bad_request]
       render_error(DoGood::Api::ParametersInvalid.new)
       return
     rescue DoGood::Api::RecordNotSaved => error
-      @status_code = D_STATUS[:error]
       render_error(error)
       return
     end
