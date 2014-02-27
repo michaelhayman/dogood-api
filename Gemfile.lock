@@ -65,7 +65,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     acts_as_commentable (4.0.1)
-    acts_as_follower (0.2.0)
+    acts_as_follower (0.2.1)
     acts_as_votable (0.6.0)
       rails (>= 3.2.11)
     ansi (1.4.3)
@@ -288,7 +288,7 @@ DEPENDENCIES
   activerecord-postgresql-extensions!
   activerecord-spatial (~> 0.2.0)
   acts_as_commentable (~> 4.0.0)
-  acts_as_follower (~> 0.2.0)
+  acts_as_follower (~> 0.2.1)
   acts_as_votable (~> 0.6.0)
   awesome_print
   better_errors
