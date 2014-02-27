@@ -99,33 +99,65 @@ class UsersController < ApiController
   end
 
   def update_profile
-    if current_user.update_attributes(profile_params)
-      render :json => current_user,
-        root: "user",
-        serializer: CurrentUserSerializer
-      # render :json => current_user
-    else
-      render_errors("Unable to update your details.")
+    begin
+      raise DoGood::Api::Unauthorized.new if !logged_in?
+
+      if current_user.update!(profile_params)
+        @user = current_user
+        render_success('show')
+      else
+        message = "Unable to update your details."
+        raise DoGood::Api::RecordNotSaved.new(message)
+      end
+
+    rescue DoGood::Api::Unauthorized => error
+      render_error(error)
+      return
+    rescue DoGood::Api::RecordNotSaved => error
+      render_error(error)
+      return
     end
   end
 
   def update_password
-    user = current_user
+    begin
+      raise DoGood::Api::Unauthorized.new if !logged_in?
 
-    if user.update_password(password_params)
-      render :json => {
-        :user => current_user
-      }
-    else
-      render_errors(user.errors.full_messages)
+      if current_user.update_password(password_params)
+        @user = current_user
+        render_success('show')
+      else
+        message = "Unable to update your password."
+        raise DoGood::Api::RecordNotSaved.new(message)
+      end
+
+    rescue DoGood::Api::Unauthorized => error
+      render_error(error)
+      return
+    rescue DoGood::Api::RecordNotSaved => error
+      render_error(error)
+      return
     end
   end
 
   def social
-    if current_user.update_attributes(social_params)
-      render :json => current_user
-    else
-      render_errors("Couldn't save the social ID.")
+    begin
+      raise DoGood::Api::Unauthorized.new if !logged_in?
+
+      if current_user.update_attributes(social_params)
+        @user = current_user
+        render_success('show')
+      else
+        message = "Couldn't save the social ID."
+        raise DoGood::Api::RecordNotSaved.new(message)
+      end
+
+    rescue DoGood::Api::Unauthorized => error
+      render_error(error)
+      return
+    rescue DoGood::Api::RecordNotSaved => error
+      render_error(error)
+      return
     end
   end
 
