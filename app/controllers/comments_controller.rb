@@ -1,5 +1,5 @@
-class CommentsController < ApplicationController
-  before_filter :check_auth, only: [ :create ]
+class CommentsController < ApiController
+  # before_filter :check_auth, only: [ :create ]
 
   def index
     @comments = Comment.
