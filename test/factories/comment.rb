@@ -3,6 +3,7 @@ FactoryGirl.define do
     comment "Comment"
     commentable_id 1
     user_id 1
+    commentable_type "Good"
 
     trait :for_good do
       commentable_type "Good"
