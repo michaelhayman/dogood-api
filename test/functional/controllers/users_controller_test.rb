@@ -152,6 +152,23 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         action: "likers"
       }
     end
+
+    test "request should be successful when correct params are passed" do
+      @bob = FactoryGirl.create(:user, :bob)
+      @good = FactoryGirl.create(:good)
+      @good.liked_by @bob
+
+      get :likers, {
+        format: :json,
+        type: "Good",
+        id: @good.id
+      }
+      json = jsonify(response)
+
+      assert_response :success
+
+      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
+    end
   end
 
   context "followers" do
@@ -161,6 +178,40 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         action: "followers"
       }
     end
+
+    test "query goods" do
+      @bob = FactoryGirl.create(:user, :bob)
+      @good = FactoryGirl.create(:good)
+      @bob.follow @good
+
+      get :followers, {
+        format: :json,
+        type: "Good",
+        id: @good.id
+      }
+      json = jsonify(response)
+
+      assert_response :success
+
+      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
+    end
+
+    test "users" do
+      @bob = FactoryGirl.create(:user, :bob)
+      @tony = FactoryGirl.create(:user, :tony)
+      @bob.follow @tony
+
+      get :followers, {
+        format: :json,
+        type: "User",
+        id: @tony.id
+      }
+      json = jsonify(response)
+
+      assert_response :success
+
+      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
+    end
   end
 
   context "following" do
@@ -169,6 +220,23 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         controller: "users",
         action: "following"
       }
+    end
+
+    test "query" do
+      @bob = FactoryGirl.create(:user, :bob)
+      @tony = FactoryGirl.create(:user, :tony)
+      @bob.follow @tony
+
+      get :following, {
+        format: :json,
+        type: "User",
+        id: @bob.id
+      }
+      json = jsonify(response)
+
+      assert_response :success
+
+      assert_equal @tony.email, json.traverse(:DAPI, :response, :users, 0, :email)
     end
   end
 
