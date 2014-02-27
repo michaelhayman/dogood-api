@@ -71,9 +71,7 @@ class UsersController < ApiController
   end
 
   def followers
-    @instance = params[:type].
-      constantize.
-      find(params[:id])
+    @instance = instance_from_type_and_id(params[:type], params[:id])
     @users = @instance.followers_scoped.
       limit(20).
       map(&:follower)
@@ -82,10 +80,7 @@ class UsersController < ApiController
   end
 
   def following
-    # @instance = instance_from_type_and_id(params[:type], params[:id])
-    @instance = params[:type].
-      constantize.
-      find(params[:id])
+    @instance = instance_from_type_and_id(params[:type], params[:id])
     @users = @instance.follows_by_type(params[:type]).
       limit(20).
       map(&:followable)
