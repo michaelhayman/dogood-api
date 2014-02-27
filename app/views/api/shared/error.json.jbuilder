@@ -8,6 +8,7 @@ dapi_callback_wrapper_new_style(json, {
     json.dg_status error.dg_error
     json.error_class error.class.to_s
     json.description error.dg_message
+    json.messages Array.wrap(error.dg_message)
   end
 end
 
