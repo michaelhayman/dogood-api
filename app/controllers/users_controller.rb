@@ -65,7 +65,7 @@ class UsersController < ApiController
     @instance = params[:type].
       constantize.
       find(params[:id])
-    @users = @instance.votes.limit(20).map(&:voter)
+    @users = @instance.votes.up.by_type(User).voters
     @users = @users.paginate(@pagination_options)
     render_success('index')
   end
