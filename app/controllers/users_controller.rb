@@ -172,11 +172,14 @@ class UsersController < ApiController
   end
 
   def points
-    render :json => {
-      :user => {
-        :points => current_user.points
+    if current_user
+      render :json => dapi_callback_wrapper_new_style(:status => :ok) { |json|
+        json.points current_user.points
       }
-    }
+    else
+      render_error(DoGood::Api::Unauthorized.new)
+    end
+
   end
 
   # html methods
