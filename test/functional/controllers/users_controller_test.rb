@@ -250,6 +250,53 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         action: "update_profile",
       })
     end
+
+    test "unauthorized if not logged in" do
+      post :update_profile, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :unauthorized
+    end
+
+    test "query" do
+      @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+
+      put :update_profile, {
+        format: :json,
+        user: {
+          full_name: @bob.full_name,
+          biography: @bob.biography,
+          location: @bob.location,
+          phone: @bob.phone,
+          avatar: @bob.avatar
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :success
+
+      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, :email)
+    end
+
+    xtest "query fails with nonsense parameters" do
+      @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+
+      put :update_profile, {
+        format: :json,
+        user: {
+          password: @bob.full_name
+        }
+      }
+      json = jsonify(response)
+
+      p json
+      assert_response :error
+
+      assert_equal ["Unable to update your details."], json.traverse(:DAPI, :response, :errors, :messages)
+    end
   end
 
   context "update_password" do
@@ -262,6 +309,51 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         action: "update_password",
       })
     end
+
+    test "unauthorized if not logged in" do
+      post :update_password, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :unauthorized
+    end
+
+    test "query succeeds" do
+      @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+      new_password = "iliketony"
+
+      put :update_password, {
+        format: :json,
+        user: {
+          current_password: @bob.password,
+          password: new_password,
+          password_confirmation: new_password
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :success
+
+      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, :email)
+    end
+
+    test "query fails with nonsense parameters" do
+      @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+
+      put :update_password, {
+        format: :json,
+        user: {
+          full_name: @bob.full_name
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :error
+
+      assert_equal ["Unable to update your password."], json.traverse(:DAPI, :response, :errors, :messages)
+    end
   end
 
   context "social" do
@@ -273,6 +365,36 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         controller: "users",
         action: "social",
       })
+    end
+
+    test "unauthorized if not logged in" do
+      post :social, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :unauthorized
+    end
+
+    test "query succeeds" do
+      @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+      twitter_id = "iliketony"
+      facebook_id = "NOIDONT"
+
+      post :social, {
+        format: :json,
+        user: {
+          twitter_id: twitter_id,
+          facebook_id: facebook_id
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :success
+
+      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, :email)
+      assert_equal User.find(@bob.id).twitter_id, twitter_id
+      assert_equal User.find(@bob.id).facebook_id, facebook_id
     end
   end
 
@@ -311,6 +433,31 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         action: "points",
         id: "1"
       })
+    end
+
+    test "query succeeds" do
+      @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+
+      get :points, {
+        format: :json,
+        id: @bob.id
+      }
+      json = jsonify(response)
+
+      assert_response :success
+
+      assert_equal @bob.points, json.traverse(:DAPI, :response, :points)
+    end
+
+    test "query fails without a current user" do
+      get :points, {
+        format: :json,
+        id: "1"
+      }
+      json = jsonify(response)
+
+      assert_response 401
     end
   end
 
