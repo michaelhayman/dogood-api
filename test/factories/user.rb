@@ -9,6 +9,7 @@ FactoryGirl.define do
       email { Faker::Internet.email }
       password "snaily53"
       twitter_id "evan"
+      facebook_id "marcus"
     end
 
     trait :tony do
@@ -16,6 +17,7 @@ FactoryGirl.define do
       email { Faker::Internet.email }
       password "georgeyporge"
       twitter_id "jack"
+      facebook_id "matt"
     end
   end
 end

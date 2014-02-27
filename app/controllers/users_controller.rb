@@ -1,5 +1,6 @@
 class UsersController < ApiController
   include ActionView::Helpers::DateHelper
+
   before_filter :setup_pagination, :only => [
     :search_by_emails,
     :search,

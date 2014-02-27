@@ -130,11 +130,11 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       @bob = FactoryGirl.create(:user, :bob)
       @tony = FactoryGirl.create(:user, :tony)
 
-      twitters = [ @bob.twitter_id, @tony.twitter_id ]
+      facebooks = [ @bob.facebook_id, @tony.facebook_id ]
 
-      get :search_by_twitter_ids, {
+      get :search_by_facebook_ids, {
         format: :json,
-        twitter_ids: twitters
+        facebook_ids: facebooks
       }
       json = jsonify(response)
 
