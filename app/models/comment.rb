@@ -42,12 +42,3 @@ class Comment < ActiveRecord::Base
   end
 end
 
-class CommentSerializer < ActiveModel::Serializer
-  attributes :comment,
-    :user_id,
-    :created_at
-
-  has_many :entities, :as => :entityable
-
-  has_one :user, serializer: BasicUserSerializer
-end

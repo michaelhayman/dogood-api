@@ -24,7 +24,19 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
       assert_response :success
 
-      assert_equal @comment.comment, json.traverse(:comments, 0, :comment)
+      assert_equal @comment.comment, json.traverse(:DAPI, :response, :comments, 0, :comment)
+    end
+  end
+
+  context "create" do
+    test "route" do
+      assert_routing({
+        path: '/comments',
+        method: :post
+      }, {
+        controller: "comments",
+        action: "create"
+      })
     end
 
     test "request should create a basic comment" do
@@ -46,7 +58,7 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
       assert_response :success
 
-      assert_equal @comment.comment, json.traverse(:comments, :comment)
+      assert_equal @comment.comment, json.traverse(:DAPI, :response, :comments, :comment)
     end
 
     xtest "request should create a comment with entities" do
@@ -64,19 +76,21 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
     xtest "request should fail properly if not authenticated" do
     end
 
-    xtest "request should fail if validations fail" do
-    end
-  end
+    test "request should fail if validations fail" do
+      @user = FactoryGirl.create(:user)
+      sign_in @user
 
-  context "create" do
-    test "route" do
-      assert_routing({
-        path: '/comments',
-        method: :post
-      }, {
-        controller: "comments",
-        action: "create"
-      })
+      @comment = FactoryGirl.create(:comment, :user => @user)
+
+      post :create, {
+        format: :json,
+        comment: {
+          comment: "",
+        }
+      }
+
+      json = jsonify(response)
+      assert_response :error
     end
   end
 end

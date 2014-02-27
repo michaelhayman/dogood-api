@@ -1,29 +1,33 @@
 class CommentsController < ApiController
-  # before_filter :check_auth, only: [ :create ]
-
   def index
+    setup_pagination
+
     @comments = Comment.
       for_good(params[:good_id]).
-      page(params[:page]).
-      includes(:user, :entities)
-    respond_with @comments,
-      each_serializer: CommentSerializer
+      includes(:user, :entities).
+      paginate(@pagination_options)
   end
 
   def create
-    @comment = Comment.new(resource_params)
-    @comment.user_id = current_user.id
+    begin
+      raise DoGood::Api::Unauthorized.new if !logged_in?
+      @comment = Comment.new(resource_params)
+      @comment.user_id = current_user.id
 
-    if @comment.save
-      render :json => @comment, root: "comments"
-      # respond_with @comment, root: "comments"
-    else
-      if @comment.errors
-        message = @comment.errors.full_messages
+      if @comment.save
+        render_success("show")
       else
-        message = "Couldn't save the comment."
+        if @comment.errors
+          message = @comment.errors.full_messages
+        else
+          message = "Couldn't save the comment."
+        end
+        raise DoGood::Api::RecordNotSaved.new(message)
       end
-      render_errors(message)
+
+    rescue DoGood::Api::RecordNotSaved => error
+      render_error(error)
+      return
     end
   end
 
