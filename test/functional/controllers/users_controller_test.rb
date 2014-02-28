@@ -72,9 +72,32 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       }
     end
 
-    test "request should be successful when correct params are passed" do
+    test "unauthorized if not logged in" do
+      post :search_by_emails, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :unauthorized
+    end
+
+    test "invalid if no emails param" do
+      @user = FactoryGirl.create(:user)
+
+      sign_in @user
+
+      get :search_by_emails, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :error
+    end
+
+    test "request should be successful when the correct params are passed" do
+      @user = FactoryGirl.create(:user)
       @bob = FactoryGirl.create(:user, :bob)
       @tony = FactoryGirl.create(:user, :tony)
+
+      sign_in @user
 
       emails = [ @bob.email, @tony.email ]
 
@@ -97,6 +120,14 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         controller: "users",
         action: "search_by_twitter_ids"
       }
+    end
+
+    test "invalid if no twitter_ids param" do
+      get :search_by_twitter_ids, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :error
     end
 
     test "request should be successful when correct params are passed" do
@@ -124,6 +155,14 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         controller: "users",
         action: "search_by_facebook_ids"
       }
+    end
+
+    test "invalid if no facebook_ids param" do
+      get :search_by_facebook_ids, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :error
     end
 
     test "request should be successful when correct params are passed" do
@@ -280,19 +319,18 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       assert_equal @bob.email, json.traverse(:DAPI, :response, :users, :email)
     end
 
-    xtest "query fails with nonsense parameters" do
+    test "query fails with nonsense parameters" do
       @bob = FactoryGirl.create(:user, :bob)
       sign_in @bob
 
       put :update_profile, {
         format: :json,
         user: {
-          password: @bob.full_name
+          full_name: "@#Q@#dofuDJLKJVBBVV√√"
         }
       }
       json = jsonify(response)
 
-      p json
       assert_response :error
 
       assert_equal ["Unable to update your details."], json.traverse(:DAPI, :response, :errors, :messages)
@@ -408,6 +446,39 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         action: "remove_avatar",
       })
     end
+
+    test "unauthorized if not logged in" do
+      delete :remove_avatar, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :unauthorized
+    end
+
+    test "query succeeds" do
+      @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+
+      delete :remove_avatar, {
+        format: :json
+      }
+      assert_response :success
+    end
+
+    test "query fails" do
+      @bob = FactoryGirl.create(:user, :bob)
+
+      @bob.full_name = ""
+      @bob.save(:validate => false)
+
+      sign_in @bob
+
+      delete :remove_avatar, {
+        format: :json
+      }
+
+      assert_response :error
+    end
   end
 
   context "score" do
@@ -420,6 +491,19 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         action: "score",
         id: "1"
       })
+    end
+
+    test "score for another user" do
+      @bob = FactoryGirl.create(:user, :bob)
+
+      get :score, {
+        format: :json,
+        id: @bob.id
+      }
+      json = jsonify(response)
+
+      assert_response :success
+      assert_equal @bob.score, json.traverse(:DAPI, :response, :score)
     end
   end
 
@@ -483,6 +567,36 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         controller: "users",
         action: "validate_name"
       })
+    end
+
+    test "with a valid name" do
+      @bob = FactoryGirl.create(:user)
+      post :validate_name, {
+        format: :json,
+        user: {
+          full_name: @bob.full_name,
+          biography: @bob.biography,
+          location: @bob.location,
+          phone: @bob.phone,
+          avatar: @bob.avatar
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :success
+    end
+
+    test "with an invalid name" do
+      @bob = FactoryGirl.create(:user)
+      post :validate_name, {
+        format: :json,
+        user: {
+          full_name: "@23lkj23ASDF###"
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :error
     end
   end
 end

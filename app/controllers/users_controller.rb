@@ -20,45 +20,57 @@ class UsersController < ApiController
     user = User.arel_table
     if (params[:search] != "(null)")
       @users = User.where(user[:full_name].matches("%#{params[:search]}%")).limit(20)
-    else
-      @users = User.all
     end
     @users = @users.paginate(@pagination_options)
     render_success('index')
   end
 
   def search_by_emails
-    if params[:emails]
-      if current_user
+    begin
+      raise DoGood::Api::Unauthorized.new if !logged_in?
+      raise DoGood::Api::ParametersInvalid.new if !params[:emails].present?
+
+      if current_user.email.present?
         params[:emails].delete(current_user.email)
       end
+
+      @users = User.where(:email => params[:emails]).limit(20)
+      @users = @users.paginate(@pagination_options)
+
+      render_success('index')
+    rescue DoGood::Api::Unauthorized => error
+      render_error(error)
+      return
+    rescue DoGood::Api::ParametersInvalid => error
+      render_error(error)
+      return
     end
-
-    @users = User.where(:email => params[:emails]).limit(20)
-
-    @users = @users.paginate(@pagination_options)
-    render_success('index')
   end
 
   def search_by_twitter_ids
-    @users = User.where(:twitter_id => params[:twitter_ids]).limit(50)
-    # @already_following = Follow.
-    #   following("User", current_user.id).map(&:twitter_id)
-    # @twitter_users.each
+    begin
+      raise DoGood::Api::ParametersInvalid.new if !params[:twitter_ids].present?
 
-    @users = @users.paginate(@pagination_options)
-    render_success('index')
+      @users = User.where(:twitter_id => params[:twitter_ids]).limit(50)
+
+      @users = @users.paginate(@pagination_options)
+      render_success('index')
+    rescue DoGood::Api::ParametersInvalid => error
+      render_error(error)
+      return
+    end
   end
 
   def search_by_facebook_ids
-    if (params[:facebook_ids] != nil)
+    begin
+      raise DoGood::Api::ParametersInvalid.new if !params[:facebook_ids].present?
       @users = User.where(:facebook_id => params[:facebook_ids]).limit(50)
-    else
-      @users = nil
+      @users = @users.paginate(@pagination_options)
+      render_success('index')
+    rescue DoGood::Api::ParametersInvalid => error
+      render_error(error)
+      return
     end
-
-    @users = @users.paginate(@pagination_options)
-    render_success('index')
   end
 
   def likers
@@ -89,20 +101,19 @@ class UsersController < ApiController
   end
 
   def score
-    if params[:id]
-      user = User.find(params[:id])
-    else
-      user = current_user
-    end
+    @user = User.find(params[:id])
 
-    render :json => user.score
+    render :json =>
+      dapi_callback_wrapper_new_style(:status => :unprocessable_entity) { |json|
+        json.score @user.score
+      }, :status => :ok
   end
 
   def update_profile
     begin
       raise DoGood::Api::Unauthorized.new if !logged_in?
 
-      if current_user.update!(profile_params)
+      if current_user.update(profile_params)
         @user = current_user
         render_success('show')
       else
@@ -162,13 +173,26 @@ class UsersController < ApiController
   end
 
   def remove_avatar
-    current_user.remove_avatar!
+    begin
+      raise DoGood::Api::Unauthorized.new if !logged_in?
 
-    if current_user.save
-      render :json => current_user
+      current_user.remove_avatar!
+
+      if current_user.save
+        @user = current_user
+        render_success('show')
+      else
+        message = "Unable to delete your photo."
+        raise DoGood::Api::RecordNotSaved.new(message)
+      end
+
+    rescue DoGood::Api::Unauthorized => error
+      render_error(error)
+      return
+    rescue DoGood::Api::RecordNotSaved => error
+      render_error(error)
       return
     end
-    render_errors("Unable to delete your photo.")
   end
 
   def points
@@ -204,7 +228,8 @@ class UsersController < ApiController
         :user => user, serializer: CurrentUserSerializer
       }
     else
-      render_errors(user.errors[:full_name])
+      error = user.errors[:full_name]
+      render_error(DoGood::Api::ParametersInvalid.new(error))
     end
   end
 
