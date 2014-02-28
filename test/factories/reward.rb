@@ -5,6 +5,9 @@ FactoryGirl.define do
     subtitle "To Vegas"
     quantity 50
     quantity_remaining 10
+    trait :unavailable do
+      quantity_remaining 0
+    end
   end
 end
 
