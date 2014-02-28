@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UserJSONDecoratorTest < DoGood::TestCase
+class UserDecoratorTest < DoGood::TestCase
   def expected_hash
     user = @user.object
     {
@@ -14,7 +14,7 @@ class UserJSONDecoratorTest < DoGood::TestCase
     super
 
     @user = FactoryGirl.create(:user)
-    @user = UserJSONDecorator.decorate(@user)
+    @user = UserDecorator.decorate(@user)
   end
 
   context "to_builder" do

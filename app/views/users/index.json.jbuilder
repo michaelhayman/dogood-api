@@ -14,7 +14,7 @@ dapi_callback_wrapper_new_style(json, {
   json.total_results @users.count
 
   json.users do
-    json.array!(UserJSONDecorator.decorate_collection(@users, :context => {
+    json.array!(UserDecorator.decorate_collection(@users, :context => {
       :json => json
     })) do |user|
       user.to_builder
