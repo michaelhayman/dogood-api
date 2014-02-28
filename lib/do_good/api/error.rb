@@ -23,8 +23,8 @@ module DoGood
     end
 
     class ParametersInvalid < Error
-      def initialize
-        @dg_message = "Parameters are missing or are incorrectly formatted."
+      def initialize(message = nil)
+        @dg_message = message || "Parameters are missing or are incorrectly formatted."
         @http_error = D_STATUS[:bad_object]
         @dg_error = 100
       end
