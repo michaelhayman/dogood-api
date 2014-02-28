@@ -14,7 +14,7 @@ dapi_callback_wrapper_new_style(json, {
   json.total_results @comments.count
 
   json.comments do
-    json.array!(CommentJSONDecorator.decorate_collection(@comments, :context => {
+    json.array!(CommentDecorator.decorate_collection(@comments, :context => {
       :json => json
     })) do |comment|
       comment.to_builder

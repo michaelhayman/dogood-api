@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CommentJSONDecoratorTest < DoGood::TestCase
+class CommentDecoratorTest < DoGood::TestCase
   def expected_hash
     comment = @comment.object
     {
@@ -12,7 +12,7 @@ class CommentJSONDecoratorTest < DoGood::TestCase
     super
 
     @comment = FactoryGirl.create(:comment)
-    @comment = CommentJSONDecorator.decorate(@comment)
+    @comment = CommentDecorator.decorate(@comment)
   end
 
   context "to_builder" do

@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class CommentJSONDecorator < Draper::Decorator
+class CommentDecorator < Draper::Decorator
   include Api::Helpers::DecoratorHelper
   include Api::Helpers::JsonDecoratorHelper
 
