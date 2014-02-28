@@ -14,7 +14,7 @@ dapi_callback_wrapper_new_style(json, {
   json.total_results @goods.count
 
   json.goods do
-    json.array!(GoodJSONDecorator.decorate_collection(@goods, :context => {
+    json.array!(GoodDecorator.decorate_collection(@goods, :context => {
       :json => json,
       :host => request.host_with_port
     })) do |good|

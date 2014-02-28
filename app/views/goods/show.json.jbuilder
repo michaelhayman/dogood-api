@@ -5,7 +5,7 @@ dapi_callback_wrapper_new_style(json, {
 }) do
 
   json.goods do
-    GoodJSONDecorator.decorate(@good, :context => {
+    GoodDecorator.decorate(@good, :context => {
       :json => json
     }).to_builder
   end
