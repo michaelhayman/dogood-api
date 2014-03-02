@@ -2,26 +2,30 @@
 
 class SessionsController < Devise::SessionsController
   respond_to :json
+  include Api::Helpers::RenderHelper
+  require 'do_good/api/error'
 
   def create
     warden.custom_failure!
+    ensure_params_exist if !params[:user].present?
     user = User.find_by_email(params[:user][:email])
     return invalid_login_attempt unless valid_login_attempt?(user)
 
     sign_in(:user, user)
-    render :json => user, serializer: CurrentUserSerializer, root: "user"
+    @user = UserDecorator.decorate(user)
+    render_success('users/show')
   end
 
   protected
 
     def ensure_params_exist
       return unless params[:user].blank?
-      render_errors("Missing email address and password.", :unauthorized)
+      raise DoGood::Api::Unprocessable.new("Missing email address and password.")
     end
 
     def invalid_login_attempt
       purge_current_user
-      render_errors("Invalid email or password.", :unauthorized)
+      raise DoGood::Api::Unprocessable.new("Missing email address and password.")
     end
 
   private
