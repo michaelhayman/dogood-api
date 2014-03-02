@@ -63,7 +63,7 @@ DoGoodApp::Application.routes.draw do
 
   resources :follows, :only => [ :create ] do
     collection do
-      post :remove
+      delete :remove
     end
   end
 
