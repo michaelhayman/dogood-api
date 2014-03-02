@@ -1,5 +1,8 @@
 class RegistrationsController < Devise::RegistrationsController
   respond_to :json
+  include Api::Helpers::RenderHelper
+  require 'do_good/api/error'
+
   before_filter :check_auth, :only => [ :update ]
 
   def create
@@ -8,8 +11,8 @@ class RegistrationsController < Devise::RegistrationsController
 
     if user.save
       sign_in(:user, user)
-      render :json => user, serializer: CurrentUserSerializer, root: "user"
-
+      @user = UserDecorator.decorate(user)
+      render_success('users/show')
       return
     else
       if user.errors.any?
@@ -17,12 +20,12 @@ class RegistrationsController < Devise::RegistrationsController
       else
         messages = [ "There were errors.  Please try again." ]
       end
-      render_errors(messages.first)
+      raise DoGood::Api::Unprocessable.new(messages.first)
     end
   end
 
   def resource_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :full_name, :phone)
+    params.require(:user).permit(:email, :password, :password_confirmation, :full_name, :phone, :avatar)
   end
   private :resource_params
 
