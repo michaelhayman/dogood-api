@@ -57,7 +57,7 @@ DoGoodApp::Application.routes.draw do
   # sadly can't use crud here since we don't have an ID
   resources :votes, :only => [ :create ] do
     collection do
-      post :remove
+      delete :remove
     end
   end
 
