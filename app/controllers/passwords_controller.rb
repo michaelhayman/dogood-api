@@ -1,20 +1,19 @@
-# encoding: UTF-8
-
 class PasswordsController < Devise::PasswordsController
-  # respond_to :json
-  layout 'home'
+  respond_to :json
+  include Api::Helpers::RenderHelper
+  require 'do_good/api/error'
 
   def create
     self.resource = resource_class.send_reset_password_instructions(resource_params)
 
     if successfully_sent?(resource)
-      render :json => {
-        :user => {
-            :message => "A message has been sent to reset your password.  Please check your inbox."
-        }
-      }, :status => :ok
+      render :json => dapi_callback_wrapper_new_style(status: :ok) { |json|
+        json.users do
+          json.message "A message has been sent to reset your password.  Please check your inbox."
+        end
+      }
     else
-      render_errors("Invalid email address.")
+      raise DoGood::Api::Unprocessable.new("Invalid email address.")
     end
   end
 
