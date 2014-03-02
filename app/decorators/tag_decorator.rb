@@ -4,7 +4,7 @@ class TagDecorator < Draper::Decorator
   include Api::Helpers::DecoratorHelper
   include Api::Helpers::JsonDecoratorHelper
 
-  decorates SimpleHashtag::Hashtag
+  decorates Tag
 
   def to_builder(options = {})
     builder.(self,

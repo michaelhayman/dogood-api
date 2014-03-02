@@ -3,26 +3,26 @@ class TagsController < ApiController
     :index, :search, :popular
   ]
   def index
-    @tags = SimpleHashtag::Hashtag.all.limit(20)
+    @tags = Tag.all.limit(20)
     @tags = @tags.paginate(@pagination_options)
     render_success
   end
 
   def search
-    hashtag = SimpleHashtag::Hashtag.arel_table
-    if params[:q] != "(null)"
-      @tags = SimpleHashtag::Hashtag.
+    hashtag = Tag.arel_table
+    if params[:q] != "(null)" && params[:q] != nil
+      @tags = Tag.
         where(hashtag[:name].matches("%#{params[:q]}%")).
         limit(10)
     else
-      @tags = SimpleHashtag::Hashtag.all
+      @tags = Tag.limit(10)
     end
     @tags = @tags.paginate(@pagination_options)
     render_success('index')
   end
 
   def popular
-    @tags = SimpleHashtag::Hashtagging.select(:hashtag_id, :name, :created_at).joins(:hashtag).distinct.order('created_at desc').limit(10)
+    @tags = Tag.popular
     @tags = @tags.paginate(@pagination_options)
     render_success('index')
   end
