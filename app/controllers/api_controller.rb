@@ -1,7 +1,6 @@
 class ApiController < ApplicationController
   include Api::Helpers::RenderHelper
 
-  require 'do_good/api/error'
   require 'will_paginate/array'
 
   DEFAULT_PAGINATION_OPTIONS = {

@@ -1,7 +1,6 @@
 class PasswordsController < Devise::PasswordsController
   respond_to :json
   include Api::Helpers::RenderHelper
-  require 'do_good/api/error'
 
   def create
     self.resource = resource_class.send_reset_password_instructions(resource_params)

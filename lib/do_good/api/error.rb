@@ -1,13 +1,11 @@
 module DoGood
   module Api
-    D_STATUS = Dapi::Constants::STATUS_CODES
-
     class Error < RuntimeError
       attr_reader :dg_message, :http_error, :dg_error
 
       def initialize
         @dg_message = "A problem has occured with your request."
-        @http_error = 400
+        @http_error = :bad_request
         @dg_error = 101
       end
     end
@@ -17,7 +15,7 @@ module DoGood
     class RecordNotFound < Error
       def initialize
         @dg_message = "Record not found."
-        @http_error = D_STATUS[:not_found]
+        @http_error = :internal_server_error
         @dg_error = 100
       end
     end
@@ -25,7 +23,7 @@ module DoGood
     class ParametersInvalid < Error
       def initialize(message = nil)
         @dg_message = message || "Parameters are missing or are incorrectly formatted."
-        @http_error = D_STATUS[:bad_object]
+        @http_error = :internal_server_error
         @dg_error = 100
       end
     end
@@ -33,7 +31,7 @@ module DoGood
     class Unauthorized < Error
       def initialize
         @dg_message = "Invalid email or password."
-        @http_error = D_STATUS[:unauthorized]
+        @http_error = :unauthorized
         @dg_error = 105
       end
     end
@@ -41,15 +39,23 @@ module DoGood
     class RecordNotSaved < Error
       def initialize(message)
         @dg_message = message
-        @http_error = D_STATUS[:bad_object]
+        @http_error = :internal_server_error
         @dg_error = 106
       end
     end
 
     class TooManyQueries < Error
       def initialize
-        @dg_message = "Too many queries man."
-        @http_error = D_STATUS[:over_query_limit]
+        @dg_message = "Over query limit."
+        @http_error = :too_many_requests
+        @dg_error = 106
+      end
+    end
+
+    class Unprocessable < Error
+      def initialize(message = nil)
+        @dg_message = message || "Unprocessable"
+        @http_error = :unprocessable_entity
         @dg_error = 106
       end
     end

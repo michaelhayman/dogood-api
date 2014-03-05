@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :null_session
   # force_ssl
   include CurrentUserHelper
-  include Dapi::CallbackHelper
-  include_private Dapi::Constants
 
   respond_to :json
   before_filter :set_default_response_format

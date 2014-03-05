@@ -1,7 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   respond_to :json
   include Api::Helpers::RenderHelper
-  require 'do_good/api/error'
 
   before_filter :check_auth, :only => [ :update ]
 
