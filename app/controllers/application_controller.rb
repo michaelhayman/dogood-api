@@ -39,4 +39,8 @@ class ApplicationController < ActionController::Base
     def set_default_response_format
       request.format = :json
     end
+
+    def check_auth
+      raise DoGood::Api::Unauthorized.new if !logged_in?
+    end
 end
