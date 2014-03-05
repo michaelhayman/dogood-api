@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module Api::Helpers::RenderHelper
   private
     def render_success(*args)
@@ -8,17 +6,13 @@ module Api::Helpers::RenderHelper
       end
     end
 
-    def render_error(error, options = {})
-      path = "/api/shared/error"
+    def render_paginated_index(entries)
+      entries = entries.paginate(@pagination_options).decorate
+      render json: entries, meta: entries.meta
+    end
 
-      render(
-        path,
-        :layout => false,
-        :status => error.http_error,
-        :locals => {
-          :error => error
-        }
-      )
+    def render_error(error, options = {})
+      render json: error, :status => error.http_error
     end
 end
 
