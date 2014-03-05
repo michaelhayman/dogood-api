@@ -31,7 +31,6 @@ gem 'activerecord-spatial', '~> 0.2.0'
 
 # JSON
 gem 'active_model_serializers'
-gem 'jbuilder', '~> 2.0'
 
 # Pagination
 gem 'will_paginate', '~> 3.0'
