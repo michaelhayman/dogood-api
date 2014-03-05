@@ -34,6 +34,10 @@ rails_test_set = proc {
     "test/unit/helpers/#{m[1]}_test.rb"
   }
 
+  watch(%r{^app/serializers/(.+)\.rb$}) { |m|
+    "test/unit/serializers/#{m[1]}_test.rb"
+  }
+
   watch(%r{^app/mailers/(.+)\.rb$}) { |m|
     "test/unit/mailers/#{m[1]}_test.rb"
   }
