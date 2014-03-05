@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   # force_ssl
   include CurrentUserHelper
 
+  serialization_scope :dg_user
+
   respond_to :json
   before_filter :set_default_response_format
 
