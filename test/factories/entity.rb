@@ -6,7 +6,10 @@ FactoryGirl.define do
     title "Coyote"
     entityable_id 112
     entityable_type "Comment"
-    range ["0", "7"]
+    range "temporary_workaround"
+    after(:create) do |instance|
+      instance.range = ["0", "7"]
+    end
   end
 end
 

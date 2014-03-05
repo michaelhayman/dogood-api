@@ -21,17 +21,3 @@ class Entity < ActiveRecord::Base
     presence: { message: "Enter a range." }
 end
 
-class EntitySerializer < ActiveModel::Serializer
-  attributes :id,
-    :link,
-    :link_type,
-    :link_id,
-    :title,
-    :range,
-    :entityable_type,
-    :entityable_id
-
-  def link
-    "dogood://users/#{object.link_id}"
-  end
-end
