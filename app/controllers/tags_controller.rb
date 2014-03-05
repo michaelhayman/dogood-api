@@ -4,8 +4,7 @@ class TagsController < ApiController
   ]
   def index
     @tags = Tag.all.limit(20)
-    @tags = @tags.paginate(@pagination_options)
-    render_success
+    render_paginated_index(@tags)
   end
 
   def search
@@ -17,14 +16,12 @@ class TagsController < ApiController
     else
       @tags = Tag.limit(10)
     end
-    @tags = @tags.paginate(@pagination_options)
-    render_success('index')
+    render_paginated_index(@tags)
   end
 
   def popular
     @tags = Tag.popular
-    @tags = @tags.paginate(@pagination_options)
-    render_success('index')
+    render_paginated_index(@tags)
   end
 end
 

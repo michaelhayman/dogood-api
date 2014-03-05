@@ -24,7 +24,7 @@ class TagsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
 
       assert_response :success
-      assert_equal @tag.id, json.traverse(:DAPI, :response, :tags, 0, :id)
+      assert_equal @tag.id, json.traverse(:tags, 0, :id)
     end
   end
 
@@ -50,7 +50,7 @@ class TagsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
 
       assert_response :success
-      assert_equal Tag.count, json.traverse(:DAPI, :response, :total_results)
+      assert_equal Tag.count, json.traverse(:meta, :pagination, :total_entries)
     end
 
     test "request should be successful with parameters" do
@@ -61,7 +61,7 @@ class TagsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
 
       assert_response :success
-      assert_equal @tag.id, json.traverse(:DAPI, :response, :tags, 0, :id)
+      assert_equal @tag.id, json.traverse(:tags, 0, :id)
     end
   end
 
@@ -85,7 +85,7 @@ class TagsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
 
       assert_response :success
-      assert_equal 10, json.traverse(:DAPI, :response, :total_results)
+      assert_equal 10, json.traverse(:meta, :pagination, :total_entries)
     end
   end
 end
