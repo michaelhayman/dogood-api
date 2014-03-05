@@ -12,7 +12,11 @@ module Api::Helpers::RenderHelper
     end
 
     def render_error(error, options = {})
-      render json: error, :status => error.http_error
+      render json: {
+        errors: {
+          messages: Array.wrap(error.message)
+        }
+      }, :status => error.http_error
     end
 end
 

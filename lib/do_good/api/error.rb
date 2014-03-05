@@ -1,10 +1,10 @@
 module DoGood
   module Api
     class Error < RuntimeError
-      attr_reader :dg_message, :http_error, :dg_error
+      attr_reader :message, :http_error, :dg_error
 
       def initialize
-        @dg_message = "A problem has occured with your request."
+        @message = "A problem has occured with your request."
         @http_error = :bad_request
         @dg_error = 101
       end
@@ -14,31 +14,31 @@ module DoGood
 
     class RecordNotFound < Error
       def initialize
-        @dg_message = "Record not found."
-        @http_error = :internal_server_error
+        @message = "Record not found."
+        @http_error = :not_found
         @dg_error = 100
       end
     end
 
     class ParametersInvalid < Error
-      def initialize(message = nil)
-        @dg_message = message || "Parameters are missing or are incorrectly formatted."
-        @http_error = :internal_server_error
+      def initialize(msg = nil)
+        @message = msg || "Parameters are missing or are incorrectly formatted."
+        @http_error = :unprocessable_entity
         @dg_error = 100
       end
     end
 
     class Unauthorized < Error
       def initialize
-        @dg_message = "Invalid email or password."
+        @message = "Invalid email or password."
         @http_error = :unauthorized
         @dg_error = 105
       end
     end
 
     class RecordNotSaved < Error
-      def initialize(message)
-        @dg_message = message
+      def initialize(msg = nil)
+        @message = msg
         @http_error = :internal_server_error
         @dg_error = 106
       end
@@ -46,15 +46,16 @@ module DoGood
 
     class TooManyQueries < Error
       def initialize
-        @dg_message = "Over query limit."
+        @message = "Over query limit."
         @http_error = :too_many_requests
         @dg_error = 106
       end
     end
 
+    # fold into params invalid
     class Unprocessable < Error
-      def initialize(message = nil)
-        @dg_message = message || "Unprocessable"
+      def initialize(msg = nil)
+        @message = msg || "Unprocessable"
         @http_error = :unprocessable_entity
         @dg_error = 106
       end
