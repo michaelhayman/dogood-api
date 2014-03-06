@@ -1,0 +1,189 @@
+================
+Do Good API todo
+================
+
+Notes/Ideas:
+============
+- Do your best to write tests for every model, controller, route
+- Perfect goods & users first
+- Remove all unused code and parts for clarity once API is complete again
+- Try to get 100% passing tests as a habit
+- Check in everything ready to go now
+- decouple: don't use after_create.
+- Implement teardown method to get rid of instance variables in tests?
+
+# add_column :goods, :followers, :integer, :default => 0
+# increment_counter :goods, :followers
+# decrement_counter :goods, :followers
+
+config/environments/development.rb
+- config.reload_classes_only_on_change = false
+
+- Think about whether messages key should be in a separate object and mapping
+
+To do:
+======
+
+- COMMIT & clear out unused stuff.
+
+- Refactor & test passwords & users#update_password.  Get working externally too.
+
+- Move rewards#claim logic to model after testing
+
+- Controller tests to 95% +
+
+- Remove all comments from files like environment.rb, uploaders, etc.
+  Be pro.  !git grep "\# "
+
+- Implement site settings
+
+- Move all serializer methods to decorators
+
+- Need to collapse avatar to url
+
+- Move after_create good.add_points to lib
+  - or use observers?
+  - after voting too
+
+- Change voteable to votable to fit with plugin...
+
+Done:
+=====
+
+2012/2/6
+- Test passwords controller
+  - Fix user message key
+    - Only include it when requested
+- Test uploaders - not necessary
+- follows_controller tests
+- Somehow fucked up again? stash and try tests then narrow it down
+- 237 tests passing.
+- Fixing tests.
+- 6 failures 9 errors down to 5 failures.
+- Drop error handling from goods and other places as it's moved to
+  application rescue_froms
+
+2012/2/5
+- 57 tests failing.
+- Delete all to_builder methods
+- Need to figure out callbacks
+  - load error file at initialization, delete all other references thereafter
+- Need to figure out why I can't reference serializers by name unless they're
+  in the model files
+  - Fixed AMS include problem: have to name the file same as class
+- Fixed many tests
+- Comment & tag serializers
+- Simplify error handling
+
+2014/2/4
+- Made a nice helper for pagination
+- Fixed many tests
+- There's something odd about my development environment causing problems
+  - every time i write to goods_controller it crashes the site.
+  - but under 'test' it doesn't do that.
+  - maybe it has to do with caching?
+- Annoyed now because comment is being nested all of a sudden
+  - but more annoyed that i dont have version history to bisect it
+  - work more granularly
+  - start checking in known good changes now
+  - figured out that it's because i took out the decorator comment
+
+
+  so is strangers with candy
+  - forget it for now it's distracting you
+  - Comments are gross on iOS
+
+2014/2/3
+- Psyched about AMS. Goods should be:
+  - tested
+  - finalized JSON output
+    - paginated
+    - full nested nested objects
+  - jbuilder files removed
+- Make todo default on iOS (involves changing welcome, etc...)
+- Getting frustrated at not being able to nest decorator objects
+- Convert all serialization code into decorators & drop them
+    - Restrict API to return less info about users (good.comments.users too deep
+      for jbuilder)
+      - to solve this use listing#show example
+        - decorate collection & convert to_builder
+- Test nested nested objects: i.e. entities.  then I should be clear to
+  continue using jbuilder.
+- Callback helper issue not fixed
+
+2014/2/2
+- Update route to show action on iOS to supply param id instead of good_id
+- Circular CallbackHelper bug
+  - solved by
+Controller tests
+  - reports_controller_test.rb
+  - passwords_controller_test.rb
+  - votes_controller_test.rb
+  - registrations_controller_test.rb
+- fix validate_name
+- sessions_controller_test.rb
+- Find tips on moving controller code to model, raise bubbling
+- add 'unprocessable' test
+
+2014/2/1
+- tags & tag controller
+
+2014/2/28
+- Test drove out tags controller popular, which wasn't working
+  as expected
+- Added rewards controller tests
+- Test tags controller
+  - popular doesn't seem to work at all - rework it
+
+2014/2/27
+- Make show action work
+- Check iOS error messages (auth popup not working)
+- Make error json pop up dialog on iOS
+- Entities aren't working no they are
+
+2014/2/26
+- Update iOS keyPaths
+- Add rest of keys to good output
+- Boot up iOS app!
+- Add basic HTTP auth to iOS app
+- Do same with likes & re-goods & test
+- Convert model specs to tests
+
+- Continue testing at each step
+- Replace good meta_stream with decoration
+- Got basic auth working
+- Get good_commented etc working
+  - Get decorator to work!
+
+2014/1/25
+- Decide on kaminari or will_paginate
+
+2014/1/24
+- Lazy load user's comment_ids, shared_ids, liked_ids only once per request
+- All tests passing except add_points!
+- Hammer away on making the create action of good controller
+- Figure out why constants aren't being included
+
+2014/1/23
+- Sick
+
+2014/1/22
+- Port zapi constants, rescue blocks to goods controller
+- Make create action pass for authenticated user
+- Use new guest user types
+
+2014/1/21
+- Create a guest user type
+- Load user's comment_ids, saved_ids, liked_ids once per request if requested
+- Write current user tests
+- Wrote routes tests
+- Wrote more good tests
+- Split notes files apart
+- Watched guard files
+
+2014/1/20
+- Sign up for github & upload private repos
+- Basic test user model
+- Add two tests to good
+- Figure out why user factory is not working as expected
+
