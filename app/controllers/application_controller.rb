@@ -15,16 +15,12 @@ class ApplicationController < ActionController::Base
     type.constantize.find(id)
   end
 
-  rescue_from DoGood::Api::Unprocessable do |exception|
+  rescue_from DoGood::Api::Unauthorized do |exception|
     render_error(exception)
   end
 
   rescue_from ActionController::ParameterMissing do |exception|
-    render_error(DoGood::Api::Unprocessable.new(exception.message))
-  end
-
-  rescue_from DoGood::Api::Unauthorized do |exception|
-    render_error(exception)
+    render_error(DoGood::Api::ParametersInvalid.new(exception.message))
   end
 
   rescue_from DoGood::Api::ParametersInvalid do |exception|
