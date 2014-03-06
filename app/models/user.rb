@@ -38,6 +38,7 @@ class User < ActiveRecord::Base
     }
 
   attr_accessor :logged_in
+  attr_accessor :message
 
   def self.by_id(user_id)
     where(:id => user_id).first
