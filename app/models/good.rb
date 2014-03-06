@@ -1,4 +1,3 @@
-
 class Good < ActiveRecord::Base
   include DoGood::Reportable
 
