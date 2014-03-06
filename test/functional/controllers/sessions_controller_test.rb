@@ -28,7 +28,7 @@ class SessionsControllerTest < DoGood::ActionControllerTestCase
         format: :json,
       }
 
-      assert_response 422
+      assert_response :unprocessable_entity
     end
 
     test "should be unsuccessful without valid email and password" do
@@ -40,7 +40,7 @@ class SessionsControllerTest < DoGood::ActionControllerTestCase
         }
       }
 
-      assert_response 422
+      assert_response :unprocessable_entity
     end
   end
 end
