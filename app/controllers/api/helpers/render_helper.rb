@@ -11,6 +11,10 @@ module Api::Helpers::RenderHelper
       render json: entries, meta: entries.meta
     end
 
+    def render_ok
+      render json: nil, status: :ok
+    end
+
     def render_error(error, options = {})
       render json: {
         errors: {
