@@ -28,7 +28,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
       assert_response :success
 
-      assert_equal @user.full_name, json.traverse(:DAPI, :response, :users, :full_name)
+      assert_equal @user.full_name, json.traverse(:users, :full_name)
     end
   end
 
@@ -60,7 +60,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
+      assert_equal @bob.full_name, json.traverse(:users, 0, :full_name)
     end
   end
 
@@ -89,7 +89,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         format: :json
       }
       json = jsonify(response)
-      assert_response :error
+      assert_response :unprocessable_entity
     end
 
     test "request should be successful when the correct params are passed" do
@@ -109,8 +109,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       json = HashWithIndifferentAccess.new(JSON.load(response.body))
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
-      assert_equal @tony.email, json.traverse(:DAPI, :response, :users, 1, :email)
+      assert_equal 2, json.traverse(:users).count
     end
   end
 
@@ -127,7 +126,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         format: :json
       }
       json = jsonify(response)
-      assert_response :error
+      assert_response :unprocessable_entity
     end
 
     test "request should be successful when correct params are passed" do
@@ -144,8 +143,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       json = HashWithIndifferentAccess.new(JSON.load(response.body))
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
-      assert_equal @tony.email, json.traverse(:DAPI, :response, :users, 1, :email)
+      assert_equal 2, json.traverse(:users).count
     end
   end
 
@@ -162,7 +160,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         format: :json
       }
       json = jsonify(response)
-      assert_response :error
+      assert_response :unprocessable_entity
     end
 
     test "request should be successful when correct params are passed" do
@@ -179,8 +177,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
-      assert_equal @tony.email, json.traverse(:DAPI, :response, :users, 1, :email)
+      assert_equal 2, json.traverse(:users).count
     end
   end
 
@@ -206,7 +203,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
+      assert_equal @bob.full_name, json.traverse(:users, 0, :full_name)
     end
   end
 
@@ -232,10 +229,10 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
+      assert_equal @bob.full_name, json.traverse(:users, 0, :full_name)
     end
 
-    test "users" do
+    test "query users" do
       @bob = FactoryGirl.create(:user, :bob)
       @tony = FactoryGirl.create(:user, :tony)
       @bob.follow @tony
@@ -249,7 +246,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, 0, :email)
+      assert_equal @bob.full_name, json.traverse(:users, 0, :full_name)
     end
   end
 
@@ -275,7 +272,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @tony.email, json.traverse(:DAPI, :response, :users, 0, :email)
+      assert_equal @tony.full_name, json.traverse(:users, 0, :full_name)
     end
   end
 
@@ -316,7 +313,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, :email)
+      assert_equal @bob.full_name, json.traverse(:users, :full_name)
     end
 
     test "query fails with nonsense parameters" do
@@ -333,7 +330,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :error
 
-      assert_equal ["Unable to update your details."], json.traverse(:DAPI, :response, :errors, :messages)
+      assert_equal ["Unable to update your details."], json.traverse(:errors, :messages)
     end
   end
 
@@ -373,7 +370,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, :email)
+      assert_equal @bob.full_name, json.traverse(:users, :full_name)
     end
 
     test "query fails with nonsense parameters" do
@@ -390,7 +387,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :error
 
-      assert_equal ["Unable to update your password."], json.traverse(:DAPI, :response, :errors, :messages)
+      assert_equal ["Unable to update your password."], json.traverse(:errors, :messages)
     end
   end
 
@@ -430,7 +427,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @bob.email, json.traverse(:DAPI, :response, :users, :email)
+      assert_equal @bob.full_name, json.traverse(:users, :full_name)
       assert_equal User.find(@bob.id).twitter_id, twitter_id
       assert_equal User.find(@bob.id).facebook_id, facebook_id
     end
@@ -503,7 +500,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
 
       assert_response :success
-      assert_equal @bob.score, json.traverse(:DAPI, :response, :score)
+      assert_equal @bob.score, json.traverse(:score)
     end
   end
 
@@ -531,7 +528,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
 
-      assert_equal @bob.points, json.traverse(:DAPI, :response, :points)
+      assert_equal @bob.points, json.traverse(:points)
     end
 
     test "query fails without a current user" do
@@ -541,7 +538,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
 
-      assert_response 401
+      assert_response :unauthorized
     end
   end
 
@@ -596,7 +593,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
 
-      assert_response :error
+      assert_response :unprocessable_entity
     end
   end
 end
