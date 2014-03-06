@@ -17,7 +17,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       }
     end
 
-    test "request should be successful even with challenging parameters" do
+    test "difficult to handle parameters" do
       get :index, {
         format: :json,
         page: ""
@@ -25,21 +25,25 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       assert_response :success
     end
 
-    test "should return goods matching the given ids" do
+    test "the index json" do
       @good = FactoryGirl.create(:good)
       @good_2 = FactoryGirl.create(:good)
+      @comment_on_2 = FactoryGirl.create(:comment, :commentable_id => @good_2.id)
+      @entity = FactoryGirl.create(:entity, :entityable_id => @comment_on_2.id)
 
-      get :show, {
-        format: :json,
-        id: @good_2.id
+      get :index, {
+        format: :json
       }
-
       json = jsonify(response)
-      assert_equal @good_2.id, json.traverse(:DAPI, :response, :goods, :id)
+
+      assert_equal Good.count, json.traverse(:goods).count
     end
 
-    test "should return goods matching the given category id" do
+    test "the goods matching a given category id" do
+      @user = FactoryGirl.create(:user)
       @good = FactoryGirl.create(:good)
+      @good.liked_by @user
+      sign_in @user
       @health_good = FactoryGirl.create(:good, :health)
 
       get :index, {
@@ -49,7 +53,8 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       json = jsonify(response)
       assert_equal 2, Good.all.count
-      assert_equal 1, json.traverse(:DAPI, :response, :goods).count
+
+      assert_equal 1, json.traverse(:goods).count
     end
   end
 
@@ -61,6 +66,21 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         id: "1"
       }
     end
+
+    test "should return goods matching the given ids" do
+      @good = FactoryGirl.create(:good)
+      @good_2 = FactoryGirl.create(:good)
+      @comment_on_2 = FactoryGirl.create(:comment, :commentable_id => @good_2.id)
+
+      get :show, {
+        format: :json,
+        id: @good_2.id
+      }
+      json = jsonify(response)
+
+      assert_equal @good_2.id, json.traverse(:goods, :id)
+    end
+
   end
 
   context "tagged" do
@@ -81,7 +101,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       }
 
       json = jsonify(response)
-      assert_equal @good.id, json.traverse(:DAPI, :response, :goods, 0, :id)
+      assert_equal @good.id, json.traverse(:goods, 0, :id)
     end
 
     test "should return goods matching the given tag name" do
@@ -95,7 +115,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       }
 
       json = jsonify(response)
-      assert_equal @good.id, json.traverse(:DAPI, :response, :goods, 0, :id)
+      assert_equal @good.id, json.traverse(:goods, 0, :id)
     end
   end
 
@@ -118,9 +138,9 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       json = jsonify(response)
       assert_equal 3, Good.all.count
-      assert_equal @popular_good.id, json.traverse(:DAPI, :response, :goods, 0, :id)
-      assert_equal @average_good.id, json.traverse(:DAPI, :response, :goods, 1, :id)
-      assert_equal @unpopular_good.id, json.traverse(:DAPI, :response, :goods, 2, :id)
+      assert_equal @popular_good.id, json.traverse(:goods, 0, :id)
+      assert_equal @average_good.id, json.traverse(:goods, 1, :id)
+      assert_equal @unpopular_good.id, json.traverse(:goods, 2, :id)
     end
   end
 
@@ -144,7 +164,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       json = jsonify(response)
       assert_equal 2, Good.all.count
-      assert_equal 1, json.traverse(:DAPI, :response, :goods).count
+      assert_equal 1, json.traverse(:goods).count
     end
   end
 
@@ -170,7 +190,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       json = jsonify(response)
       assert_equal 2, Good.all.count
-      assert_equal 1, json.traverse(:DAPI, :response, :goods).count
+      assert_equal 1, json.traverse(:goods).count
     end
   end
 
@@ -197,7 +217,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       json = jsonify(response)
       assert_equal 3, Good.all.count
-      assert_equal 2, json.traverse(:DAPI, :response, :goods).count
+      assert_equal 2, json.traverse(:goods).count
     end
   end
 
@@ -225,7 +245,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       json = jsonify(response)
       assert_equal 2, Good.all.count
-      assert_equal 1, json.traverse(:DAPI, :response, :goods).count
+      assert_equal 1, json.traverse(:goods).count
     end
   end
 
@@ -259,50 +279,54 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
           }
         }
       }
-      assert_response Dapi::Constants::STATUS_CODES[:unauthorized]
+      assert_response :unauthorized
     end
 
-    test "should not allow no parameters to be passed" do
-      sign_in @user
-      post :create, {
-        format: :json,
-      }
-      assert_response Dapi::Constants::STATUS_CODES[:bad_object]
-    end
-
-    test "should not allow two goods to be posted too quickly" do
-      sign_in @user
-
-      3.times do
+    context "for an authenticated user" do
+      test "should not allow no parameters to be passed" do
+        stub(Good).just_created_by { false }
+        sign_in @user
         post :create, {
           format: :json,
         }
+        json = jsonify(response)
+        assert_response :unprocessable_entity
       end
-      assert_response Dapi::Constants::STATUS_CODES[:over_query_limit]
-    end
 
-    test "should be successful for an authenticated user & fully-populated good" do
-      stub(Good).just_created_by { false }
-      sign_in @user
+      test "should not allow two goods to be posted too quickly" do
+        sign_in @user
 
-      @good = FactoryGirl.build(:good, :user => @user)
+        3.times do
+          post :create, {
+            format: :json,
+          }
+        end
+        assert_response :too_many_requests
+      end
 
-      post :create, {
-        format: :json,
-        good: {
-          caption: @good.caption,
-          user_id: @good.user.id,
-          nominee_attributes: {
-            full_name: @good.nominee.full_name
+      test "should be successful for a fully-populated good" do
+        stub(Good).just_created_by { false }
+        sign_in @user
+
+        @good = FactoryGirl.build(:good, :user => @user)
+
+        post :create, {
+          format: :json,
+          good: {
+            caption: @good.caption,
+            user_id: @good.user.id,
+            nominee_attributes: {
+              full_name: @good.nominee.full_name
+            }
           }
         }
-      }
 
-      assert_response :success
-      assert_equal 1, Good.all.count
+        assert_response :success
+        assert_equal 1, Good.all.count
 
-      @created_good = Good.first
-      assert_equal @created_good.caption, @good.caption
+        @created_good = Good.first
+        assert_equal @created_good.caption, @good.caption
+      end
     end
   end
 end

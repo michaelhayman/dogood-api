@@ -16,11 +16,12 @@ class GoodsController < ApiController
       @goods = Good.most_relevant.extra_info
     end
 
-    @goods = @goods.paginate(@pagination_options)
+    render_paginated_index(@goods)
   end
 
   def show
     @good = Good.find(params[:id])
+    render json: @good.decorate, root: "goods"
   end
 
   def tagged
@@ -36,8 +37,7 @@ class GoodsController < ApiController
       extra_info.
       newest_first
 
-    @goods = @goods.paginate(@pagination_options)
-    render_success('index')
+    render_paginated_index(@goods)
   end
 
   def popular
@@ -45,8 +45,7 @@ class GoodsController < ApiController
       popular.
       extra_info
 
-    @goods = @goods.paginate(@pagination_options)
-    render_success('index')
+    render_paginated_index(@goods)
   end
 
   def nearby
@@ -54,8 +53,7 @@ class GoodsController < ApiController
       nearby(params[:lat], params[:lng]).
       extra_info
 
-    @goods = @goods.paginate(@pagination_options)
-    render_success('index')
+    render_paginated_index(@goods)
   end
 
   def liked_by
@@ -63,8 +61,7 @@ class GoodsController < ApiController
       newest_first.
       liked_by_user(params[:user_id])
 
-    @goods = @goods.paginate(@pagination_options)
-    render_success('index')
+    render_paginated_index(@goods)
   end
 
   def posted_or_followed_by
@@ -73,9 +70,9 @@ class GoodsController < ApiController
       posted_or_followed_by(params[:user_id]).
       extra_info
 
-    @goods = @goods.paginate(@pagination_options)
-    render_success('index')
+    render_paginated_index(@goods)
   end
+
 
   def nominations
     @goods = Good.
@@ -83,46 +80,27 @@ class GoodsController < ApiController
       nominations(params[:user_id]).
       extra_info
 
-    @goods = @goods.paginate(@pagination_options)
-    render_success('index')
+    render_paginated_index(@goods)
   end
 
   def create
-    begin
-      raise DoGood::Api::Unauthorized.new if !logged_in?
-      raise DoGood::Api::TooManyQueries.new if Good.just_created_by(dg_user)
+    check_auth
+    raise DoGood::Api::TooManyQueries.new if Good.just_created_by(dg_user)
+    raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:good].present?
 
-      @good = Good.new(resource_params)
-      @good.user_id = current_user.id
-      @good.evidence = resource_params[:evidence]
+    @good = Good.new(resource_params)
+    @good.user_id = current_user.id
+    @good.evidence = resource_params[:evidence]
 
-      if !@good.save
-        if @good.errors
-          message = @good.errors.full_messages
-        else
-          message = "Couldn't save the good."
-        end
-        raise DoGood::Api::RecordNotSaved.new(message)
+    if !@good.save
+      if @good.errors
+        message = @good.errors.full_messages
+      else
+        message = "Couldn't save the good."
       end
-
-    rescue DoGood::Api::TooManyQueries => error
-      render_error(error)
-      return
-    rescue DoGood::Api::Unauthorized => error
-      render_error(error)
-      return
-    rescue DoGood::Api::ParametersInvalid => error
-      render_error(error)
-      return
-    rescue ActionController::ParameterMissing => error
-      render_error(DoGood::Api::ParametersInvalid.new)
-      return
-    rescue DoGood::Api::RecordNotSaved => error
-      render_error(error)
-      return
+      raise DoGood::Api::RecordNotSaved.new(message)
     end
-
-    render :json => dapi_callback_wrapper_new_style(:status => :ok)
+    render json: @good.decorate, root: "goods"
   end
 
   def resource_params
