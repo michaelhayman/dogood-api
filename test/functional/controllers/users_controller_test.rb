@@ -5,9 +5,6 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
   tests UsersController
 
-  context "index" do
-  end
-
   context "show" do
     test "route" do
       assert_routing '/users/1', {
@@ -17,7 +14,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       }
     end
 
-    test "request should be successful when correct param ID is passed" do
+    test "request should be successful when given correct param ID" do
       @user = FactoryGirl.create(:user, :bob)
 
       get :show, {
@@ -92,7 +89,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       assert_response :unprocessable_entity
     end
 
-    test "request should be successful when the correct params are passed" do
+    test "request should be successful given the correct params" do
       @user = FactoryGirl.create(:user)
       @bob = FactoryGirl.create(:user, :bob)
       @tony = FactoryGirl.create(:user, :tony)
@@ -129,7 +126,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       assert_response :unprocessable_entity
     end
 
-    test "request should be successful when correct params are passed" do
+    test "request should be successful when given correct params" do
       @bob = FactoryGirl.create(:user, :bob)
       @tony = FactoryGirl.create(:user, :tony)
 
@@ -163,7 +160,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       assert_response :unprocessable_entity
     end
 
-    test "request should be successful when correct params are passed" do
+    test "request should be successful when given correct params" do
       @bob = FactoryGirl.create(:user, :bob)
       @tony = FactoryGirl.create(:user, :tony)
 
@@ -189,7 +186,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       }
     end
 
-    test "request should be successful when correct params are passed" do
+    test "request should be successful when given correct params" do
       @bob = FactoryGirl.create(:user, :bob)
       @good = FactoryGirl.create(:good)
       @good.liked_by @bob

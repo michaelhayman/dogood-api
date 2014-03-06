@@ -47,7 +47,7 @@ module CurrentUserHelperTests
     end
 
     context "dg_user" do
-      test "should be a decorated null (guest) user object if the user is not signed in" do
+      test "should be a decorated null (guest) user object" do
         assert_equal dg_user.object.class, NullUser
       end
     end
