@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
     render_error(exception)
   end
 
+  rescue_from ActiveRecord::RecordInvalid do |exception|
+    render_error(DoGood::Api::ParametersInvalid.new(exception.message))
+  end
+
   rescue_from ActionController::ParameterMissing do |exception|
     render_error(DoGood::Api::ParametersInvalid.new(exception.message))
   end

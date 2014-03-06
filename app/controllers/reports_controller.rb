@@ -1,10 +1,6 @@
 class ReportsController < ApiController
   before_filter :check_auth, only: [ :create ]
 
-  rescue_from ActiveRecord::RecordInvalid do |exception|
-    render_error(DoGood::Api::ParametersInvalid.new(exception.message))
-  end
-
   def create
     @report = Report.new(resource_params)
     @report.user_id = current_user.id
