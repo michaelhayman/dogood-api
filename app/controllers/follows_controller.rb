@@ -1,25 +1,21 @@
-# add_column :goods, :followers, :integer, :default => 0
-# increment_counter :goods, :followers
-# decrement_counter :goods, :followers
-
-class FollowsController < ApplicationController
-  before_filter :polymorphic_association, :only => [:create, :remove]
+class FollowsController < ApiController
   before_filter :check_auth, only: [ :create, :remove ]
 
   def create
-    if current_user.follow polymorphic_association
-      render_ok(resource_params[:followable_id])
-      # polymorphic_associationk0
+    raise DoGood::Api::RecordNotSaved.new("Already following that.") if current_user.following?(polymorphic_association)
+
+    if current_user.follow(polymorphic_association)
+      render_ok
     else
-      render_errors("Follow registered.")
+      raise DoGood::Api::RecordNotSaved.new("Follow not registered.")
     end
   end
 
   def remove
     if current_user.stop_following polymorphic_association
-      render_ok(resource_params[:followable_id])
+      render_ok
     else
-      render_errors("Follow not registered.")
+      raise DoGood::Api::RecordNotSaved.new("Unfollow not registered.")
     end
   end
 
@@ -34,14 +30,6 @@ class FollowsController < ApplicationController
         constantize.
         where(:id => resource_params[:followable_id]).
         first
-    end
-
-    def render_ok(id)
-      render :json => {
-        :follows => {
-          :followable_id => id
-        }
-      }, :status => :ok
     end
 end
 
