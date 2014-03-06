@@ -11,6 +11,7 @@ module DoGoodApp
    require "#{Rails.root}/config/additional_requires"
    # require "#{Rails.root}/config/site_settings"
 
+   require "#{Rails.root}/lib/do_good/api/error"
     %w{
       lib
     }.each do |dir|
