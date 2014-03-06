@@ -18,7 +18,10 @@ module DoGoodApp
       config.autoload_paths << "#{Rails.root}/#{dir}"
     end
 
-    config.autoload_paths << File.join(Rails.root, "app", "classes")
+    # config.autoload_paths << File.join(Rails.root, "app", "classes")
+    # p File.join(Rails.root, "app", "serializers")
+    # config.autoload_paths << File.join(Rails.root, "app", "serializers")
+    # config.autoload_paths << "#{Rails.root}/app/serializers"
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
