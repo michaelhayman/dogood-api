@@ -8,6 +8,7 @@ SimpleCov.command_name('Unit Tests')
 SimpleCov.start 'rails' do
   add_filter '/test/'
   add_filter '/.bundle/'
+  add_filter '/app/uploaders/'
 
   add_group 'Decorators', 'app/decorators'
   add_group 'Form Models', 'app/form_models'
