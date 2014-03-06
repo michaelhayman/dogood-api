@@ -1,12 +1,11 @@
 module DoGood
   module Api
     class Error < RuntimeError
-      attr_reader :message, :http_error, :dg_error
+      attr_reader :message, :http_error
 
       def initialize
         @message = "A problem has occured with your request."
         @http_error = :bad_request
-        @dg_error = 101
       end
     end
 
@@ -16,7 +15,6 @@ module DoGood
       def initialize
         @message = "Record not found."
         @http_error = :not_found
-        @dg_error = 100
       end
     end
 
@@ -24,7 +22,6 @@ module DoGood
       def initialize(msg = nil)
         @message = msg || "Parameters are missing or are incorrectly formatted."
         @http_error = :unprocessable_entity
-        @dg_error = 100
       end
     end
 
@@ -32,7 +29,6 @@ module DoGood
       def initialize
         @message = "Invalid email or password."
         @http_error = :unauthorized
-        @dg_error = 105
       end
     end
 
@@ -40,7 +36,6 @@ module DoGood
       def initialize(msg = nil)
         @message = msg
         @http_error = :internal_server_error
-        @dg_error = 106
       end
     end
 
@@ -48,7 +43,6 @@ module DoGood
       def initialize
         @message = "Over query limit."
         @http_error = :too_many_requests
-        @dg_error = 106
       end
     end
 
@@ -57,7 +51,6 @@ module DoGood
       def initialize(msg = nil)
         @message = msg || "Unprocessable"
         @http_error = :unprocessable_entity
-        @dg_error = 106
       end
     end
   end
