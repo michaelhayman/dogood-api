@@ -23,7 +23,7 @@ class RegistrationsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
 
       assert_response :success
-      assert_equal @user.email, json.traverse(:DAPI, :response, :users, :email)
+      assert_equal @user.full_name, json.traverse(:users, :full_name)
       assert_equal User.count, 1
     end
 
@@ -32,7 +32,7 @@ class RegistrationsControllerTest < DoGood::ActionControllerTestCase
         format: :json,
       }
 
-      assert_response 422
+      assert_response :unprocessable_entity
     end
 
     context "validity" do
@@ -46,7 +46,7 @@ class RegistrationsControllerTest < DoGood::ActionControllerTestCase
           }
         }
 
-        assert_response 422
+        assert_response :unprocessable_entity
       end
 
       test "needs valid email" do
@@ -59,7 +59,7 @@ class RegistrationsControllerTest < DoGood::ActionControllerTestCase
           }
         }
 
-        assert_response 422
+        assert_response :unprocessable_entity
       end
 
       test "needs valid password" do
@@ -72,7 +72,7 @@ class RegistrationsControllerTest < DoGood::ActionControllerTestCase
           }
         }
 
-        assert_response 422
+        assert_response :unprocessable_entity
       end
 
       test "should also accept a profile image, full name & phone" do

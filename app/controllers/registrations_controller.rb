@@ -5,21 +5,19 @@ class RegistrationsController < Devise::RegistrationsController
   before_filter :check_auth, :only => [ :update ]
 
   def create
-    user = User.new(resource_params)
-    user.avatar = params[:user][:avatar]
+    @user = User.new(resource_params)
+    @user.avatar = params[:user][:avatar]
 
-    if user.save
-      sign_in(:user, user)
-      @user = UserDecorator.decorate(user)
-      render_success('users/show')
-      return
+    if @user.save
+      sign_in(:user, @user)
+      render json: @user.decorate, root: "users"
     else
-      if user.errors.any?
-        messages = user.errors.full_messages
+      if @user.errors.any?
+        messages = @user.errors.full_messages
       else
         messages = [ "There were errors.  Please try again." ]
       end
-      raise DoGood::Api::Unprocessable.new(messages.first)
+      raise DoGood::Api::ParametersInvalid.new(messages.first)
     end
   end
 
