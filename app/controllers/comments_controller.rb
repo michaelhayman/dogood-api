@@ -1,21 +1,22 @@
 class CommentsController < ApiController
-  def index
-    setup_pagination
+  before_filter :setup_pagination, :only => [ :index ]
+  before_filter :check_auth, :only => [ :create ]
 
+  def index
     @comments = Comment.
       for_good(params[:good_id]).
-      includes(:user, :entities).
-      paginate(@pagination_options)
+      includes(:user, :entities)
+
+    render_paginated_index(@comments)
   end
 
   def create
     begin
-      raise DoGood::Api::Unauthorized.new if !logged_in?
       @comment = Comment.new(resource_params)
       @comment.user_id = current_user.id
 
       if @comment.save
-        render_success("show")
+        render json: @comment, root: "comments"
       else
         if @comment.errors
           message = @comment.errors.full_messages

@@ -24,7 +24,7 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
       assert_response :success
 
-      assert_equal @comment.comment, json.traverse(:DAPI, :response, :comments, 0, :comment)
+      assert_equal @comment.comment, json.traverse(:comments, 0, :comment)
     end
   end
 
@@ -58,7 +58,7 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
       assert_response :success
 
-      assert_equal @comment.comment, json.traverse(:DAPI, :response, :comments, :comment)
+      assert_equal @comment.comment, json.traverse(:comments, :comment)
     end
 
     xtest "request should create a comment with entities" do
