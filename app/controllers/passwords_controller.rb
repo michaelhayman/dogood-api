@@ -6,13 +6,11 @@ class PasswordsController < Devise::PasswordsController
     self.resource = resource_class.send_reset_password_instructions(resource_params)
 
     if successfully_sent?(resource)
-      render :json => dapi_callback_wrapper_new_style(status: :ok) { |json|
-        json.users do
-          json.message "A message has been sent to reset your password.  Please check your inbox."
-        end
-      }
+      @user = self.resource
+      @user.message = "A message has been sent to reset your password.  Please check your inbox."
+      render json: @user, root: "users"
     else
-      raise DoGood::Api::Unprocessable.new("Invalid email address.")
+      raise DoGood::Api::ParametersInvalid.new("Invalid email address.")
     end
   end
 
@@ -23,7 +21,8 @@ class PasswordsController < Devise::PasswordsController
       render :password_update_successful
     else
       render :edit
-    end
+      raise DoGood::Api::ParametersInvalid.new("Invalid email address.")
+     end
   end
 
   def user_params

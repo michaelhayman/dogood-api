@@ -20,7 +20,7 @@ class PasswordsControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
 
-      assert_response 422
+      assert_response :unprocessable_entity
     end
 
     test "should be successful for an existing email address" do
@@ -35,6 +35,9 @@ class PasswordsControllerTest < DoGood::ActionControllerTestCase
 
       assert_response :success
     end
+  end
+
+  context "update" do
   end
 end
 
