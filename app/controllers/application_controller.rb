@@ -35,6 +35,10 @@ class ApplicationController < ActionController::Base
     render_error(exception)
   end
 
+  rescue_from DoGood::Api::TooManyQueries do |exception|
+    render_error(exception)
+  end
+
   private
     def set_default_response_format
       request.format = :json
