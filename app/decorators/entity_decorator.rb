@@ -1,6 +1,4 @@
-class EntityDecorator < Draper::Decorator
-  include Api::Helpers::DecoratorHelper
-
+class EntityDecorator < BaseDecorator
   decorates Entity
 
   def link

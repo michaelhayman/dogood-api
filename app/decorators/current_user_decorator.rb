@@ -1,6 +1,4 @@
-# encoding: UTF-8
-
-class CurrentUserDecorator < Draper::Decorator
+class CurrentUserDecorator < BaseDecorator
   extend Memoist
 
   delegate_all
