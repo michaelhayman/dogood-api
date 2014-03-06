@@ -1,21 +1,10 @@
-# encoding: UTF-8
-
-class UserDecorator < Draper::Decorator
+class UserDecorator < BaseDecorator
   include Api::Helpers::DecoratorHelper
-  include Api::Helpers::JsonDecoratorHelper
 
   decorates User
 
-  def to_builder(options = {})
-    builder.(self,
-      :id,
-      :full_name,
-      :email
-    )
-
-    yield builder if block_given?
-
-    builder
+  def avatar_url
+    "hey"
   end
 end
 
