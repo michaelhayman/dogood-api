@@ -31,7 +31,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
           voteable_type: "Good"
         }
       }
-      assert_response Dapi::Constants::STATUS_CODES[:unauthorized]
+      assert_response :unauthorized
     end
 
     test "should not allow no parameters to be passed" do
@@ -39,10 +39,10 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
       post :create, {
         format: :json
       }
-      assert_response Dapi::Constants::STATUS_CODES[:bad_object]
+      assert_response :unprocessable_entity
     end
 
-    test "should be successful for an authenticated user & fully-populated vote" do
+    test "should be authenticated user & fully-populated vote" do
       sign_in @user
 
       assert 0, @good.votes
