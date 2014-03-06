@@ -1,23 +1,12 @@
-# encoding: UTF-8
-
-class CommentDecorator < Draper::Decorator
+class CommentDecorator < BaseDecorator
   include Api::Helpers::DecoratorHelper
-  include Api::Helpers::JsonDecoratorHelper
 
   decorates Comment
 
+  decorates_association :entities
+
   def comment
     object.comment
-  end
-
-  def to_builder(options = {})
-    builder.(self,
-      :comment
-    )
-
-    yield builder if block_given?
-
-    builder
   end
 end
 
