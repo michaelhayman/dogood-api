@@ -6,36 +6,34 @@ class RewardsController < ApiController
     :highlights,
     :claimed
   ]
+  before_filter :check_auth, :only => [
+    :claimed,
+    :create,
+    :highlights
+  ]
 
   def index
     # includes(:user => :sponsor)
-    @rewards = Reward.available.includes(:user).load
-    @rewards = @rewards.paginate(@pagination_options)
+    @rewards = Reward.available.includes(:user)
+    render_paginated_index(@rewards)
   end
 
   def highlights
     begin
       raise DoGood::Api::Unauthorized.new if !logged_in?
-      @rewards = Reward.available.sufficient_points(current_user).includes(:user).load
-      @rewards = @rewards.paginate(@pagination_options)
-      render_success('index')
-    rescue DoGood::Api::Unauthorized => error
-      render_error(error)
-      return
+      @rewards = Reward.available.
+        sufficient_points(current_user).
+        includes(:user)
+      render_paginated_index(@rewards)
     end
   end
 
   def claimed
     begin
-      raise DoGood::Api::Unauthorized.new if !logged_in?
       @rewards = current_user.
         rewards.
         order('claimed_rewards.created_at DESC')
-      @rewards = @rewards.paginate(@pagination_options)
-      render_success('index')
-    rescue DoGood::Api::Unauthorized => error
-      render_error(error)
-      return
+      render_paginated_index(@rewards)
     end
   end
 
@@ -56,7 +54,6 @@ class RewardsController < ApiController
 
   def claim
     begin
-      raise DoGood::Api::Unauthorized.new if !logged_in?
       # insert logic to wait a bit before claiming another reward
 
       @claimed_reward = ClaimedReward.new(
@@ -75,7 +72,8 @@ class RewardsController < ApiController
 
       @reward = Reward.available.find_by_id(resource_params[:id])
       if !@reward
-        render_error(DoGood::Api::RecordNotSaved.new("Reward no longer available."))
+        @error = DoGood::Api::RecordNotSaved.new("Reward no longer available.")
+        render_error(@error)
         return
       end
 
@@ -86,9 +84,6 @@ class RewardsController < ApiController
       else
         render_error(DoGood::Api::RecordNotSaved.new("Couldn't claim reward."))
       end
-    rescue DoGood::Api::Unauthorized => error
-      render_error(error)
-      return
     rescue ActionController::ParameterMissing => error
       render_error(DoGood::Api::ParametersInvalid.new)
       return

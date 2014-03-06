@@ -25,20 +25,3 @@ class Reward < ActiveRecord::Base
   end
 end
 
-class RewardSerializer < ActiveModel::Serializer
-  attributes :id,
-    :title,
-    :subtitle,
-    :teaser,
-    :full_description,
-    :user_id,
-    :cost,
-    :quantity,
-    :quantity_remaining
-
-  has_one :user
-
-  def teaser
-    object.teaser.url
-  end
-end

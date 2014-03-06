@@ -30,8 +30,8 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
       }
 
       json = jsonify(response)
-      assert_equal @reward.id, json.traverse(:DAPI, :response, :rewards, 0, :id)
-      assert_equal @reward_2.id, json.traverse(:DAPI, :response, :rewards,1, :id)
+      assert_equal @reward.id, json.traverse(:rewards, 0, :id)
+      assert_equal @reward_2.id, json.traverse(:rewards, 1, :id)
     end
   end
 
@@ -79,7 +79,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
       }
 
       json = jsonify(response)
-      assert_equal @reward.id, json.traverse(:DAPI, :response, :rewards, 0, :id)
+      assert_equal @reward.id, json.traverse(:rewards, 0, :id)
     end
   end
 
@@ -110,7 +110,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
       }
 
       json = jsonify(response)
-      assert_equal @reward_2.reward_id, json.traverse(:DAPI, :response, :rewards, 0, :id)
+      assert_equal @reward_2.reward_id, json.traverse(:rewards, 0, :id)
     end
   end
 
@@ -160,7 +160,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
           format: :json
         }
 
-        assert_response :error
+        assert_response :unprocessable_entity
       end
 
       test "should be in error with insufficient points" do
@@ -197,8 +197,9 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
           }
         }
         json = jsonify(response)
+        p json
         assert_response :error
-        assert_equal "Reward no longer available.", json.traverse(:DAPI, :response, :errors, :messages, 0)
+        assert_equal "Reward no longer available.", json.traverse(:errors, :messages, 0)
       end
 
       test "should claim with sufficient points & a chosen reward" do

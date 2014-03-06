@@ -4,6 +4,7 @@ FactoryGirl.define do
     title "Air Canada Flight"
     subtitle "To Vegas"
     quantity 50
+    user
     quantity_remaining 10
     trait :unavailable do
       quantity_remaining 0
