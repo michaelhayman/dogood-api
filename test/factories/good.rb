@@ -19,6 +19,7 @@ FactoryGirl.define do
     end
 
     trait :average do
+      caption "Took out the trash"
       follows_count 25
       comments_count 25
     end
