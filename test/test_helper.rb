@@ -11,6 +11,7 @@ SimpleCov.start 'rails' do
   add_filter '/app/uploaders/'
 
   add_group 'Decorators', 'app/decorators'
+  add_group 'Serializers', 'app/serializers'
   add_group 'Form Models', 'app/form_models'
   add_group 'Workers', 'app/workers'
 end
