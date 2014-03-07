@@ -51,14 +51,51 @@ class CurrentUserDecorator < BaseDecorator
   end
   memoize :good_commented?
 
+  def followed_good_ids
+    object.
+      follows.
+      where(:followable_type => "Good").
+      map(&:followable_id)
+  end
+  memoize :followed_good_ids
+
+  def good_followed?(good_or_good_id)
+    if object.present?
+      id = get_id(good_or_good_id)
+
+      !!self.followed_good_ids.include?(id)
+    end
+  end
+  memoize :good_followed?
+
+  def followed_user_ids
+    object.
+      follows.
+      where(:followable_type => "User").
+      map(&:followable_id)
+  end
+  memoize :followed_user_ids
+
+  def user_followed?(user_or_user_id)
+    if object.present?
+      id = get_id(user_or_user_id)
+
+      !!self.followed_user_ids.include?(id)
+    end
+  end
+  memoize :user_followed?
+
   private
-    def get_id(good_or_good_id)
-      id = case good_or_good_id
+    def get_id(id_or_model)
+      id = case id_or_model
+        when User
+          id_or_model.id
         when Good
-          good_or_good_id.id
+          id_or_model.id
         else
-          good_or_good_id
+          id_or_model
       end
+      id
     end
 end
 
