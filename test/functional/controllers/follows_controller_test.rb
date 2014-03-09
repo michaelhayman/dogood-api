@@ -74,22 +74,24 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "remove" do
+  context "destroy" do
     test "route" do
       assert_routing( {
-        path: '/follows/remove',
+        path: '/follows/1',
         method: :delete
       }, {
         controller: "follows",
-        action: "remove"
+        action: "destroy",
+        id: "1"
       })
     end
 
     test "prevent access if unauthenticated" do
       sign_out @user
 
-      post :remove, {
+      delete :destroy, {
         format: :json,
+        id: @good.id,
         vote: {
           voteable_id: @good.id,
           voteable_type: "Good"
@@ -100,7 +102,8 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
 
     context "authenticated" do
       test "do not allow empty parameters" do
-        post :remove, {
+        delete :destroy, {
+          id: @good.id,
           format: :json
         }
         assert_response :unprocessable_entity
@@ -111,8 +114,9 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
 
         assert 1, @good.followers
 
-        post :remove, {
+        delete :destroy, {
           format: :json,
+          id: @good.id,
           follow: {
             followable_id: @good.id,
             followable_type: "Good"
@@ -124,8 +128,9 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       end
 
       test "unfollowing something not already followed should fail" do
-        post :remove, {
+        delete :destroy, {
           format: :json,
+          id: @good.id,
           follow: {
             followable_id: @good.id,
             followable_type: "Good"
@@ -136,10 +141,6 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
         assert 0, @good.followers
       end
     end
-  end
-
-  def teardown
-    sign_out @user
   end
 end
 

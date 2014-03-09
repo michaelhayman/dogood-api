@@ -1,5 +1,5 @@
 class FollowsController < ApiController
-  before_filter :check_auth, only: [ :create, :remove ]
+  before_filter :check_auth
 
   def create
     raise DoGood::Api::RecordNotSaved.new("Already following that.") if current_user.following?(polymorphic_association)
@@ -11,7 +11,7 @@ class FollowsController < ApiController
     end
   end
 
-  def remove
+  def destroy
     if current_user.stop_following polymorphic_association
       render_ok
     else
@@ -20,7 +20,7 @@ class FollowsController < ApiController
   end
 
   def resource_params
-    params.require(:follow).permit(:followable_id, :followable_type, :user_id)
+    params.require(:follow).permit(:followable_id, :followable_type)
   end
   private :resource_params
 
