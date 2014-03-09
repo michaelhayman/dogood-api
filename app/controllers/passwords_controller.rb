@@ -8,7 +8,7 @@ class PasswordsController < Devise::PasswordsController
     if successfully_sent?(resource)
       @user = self.resource
       @user.message = "A message has been sent to reset your password.  Please check your inbox."
-      render json: @user, root: "users"
+      render json: @user, root: "users", serializer: Users::CurrentUserSerializer
     else
       raise DoGood::Api::ParametersInvalid.new("Invalid email address.")
     end

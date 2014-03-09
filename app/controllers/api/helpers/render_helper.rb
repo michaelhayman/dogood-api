@@ -1,14 +1,12 @@
 module Api::Helpers::RenderHelper
   private
-    def render_success(*args)
-      respond_to do |format|
-        format.json { render *args }
-      end
-    end
-
-    def render_paginated_index(entries)
+    def render_paginated_index(entries, serializer = nil)
       entries = entries.paginate(@pagination_options).decorate
-      render json: entries, meta: entries.meta
+      if serializer.present? && serializer.is_a?(Class) && serializer.superclass.name == "ActiveModel::Serializer"
+        render json: entries, meta: entries.meta, each_serializer: serializer
+      else
+        render json: entries, meta: entries.meta
+      end
     end
 
     def render_ok

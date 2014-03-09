@@ -10,7 +10,7 @@ class SessionsController < Devise::SessionsController
 
     sign_in(:user, user)
     @user = UserDecorator.decorate(user)
-    render json: @user, root: "users"
+    render json: @user, root: "users", serializer: Users::CurrentUserSerializer
   end
 
   protected

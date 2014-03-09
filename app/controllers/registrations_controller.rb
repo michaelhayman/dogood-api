@@ -10,7 +10,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     if @user.save
       sign_in(:user, @user)
-      render json: @user.decorate, root: "users"
+      render json: @user, root: "users", serializer: Users::CurrentUserSerializer
     else
       if @user.errors.any?
         messages = @user.errors.full_messages

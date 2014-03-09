@@ -13,7 +13,7 @@ class UsersController < ApiController
 
   def show
     @user = User.find(params[:id])
-    render json: @user.decorate, root: "users"
+    render json: @user.decorate, root: "users", serializer: Users::ProfileSerializer
   end
 
   def search
@@ -23,136 +23,108 @@ class UsersController < ApiController
         where(user[:full_name].
         matches("%#{params[:search]}%")).
         limit(20)
+      render_paginated_index(@users, Users::SearchSerializer)
     end
-    @users = @users.paginate(@pagination_options)
-    render json: @users
   end
 
   def search_by_emails
-    begin
-      check_auth
-      raise DoGood::Api::ParametersInvalid.new if !params[:emails].present?
+    check_auth
+    raise DoGood::Api::ParametersInvalid.new if !params[:emails].present?
 
-      if current_user.email.present?
-        params[:emails].delete(current_user.email)
-      end
-
-      @users = User.where(:email => params[:emails]).limit(20)
-      @users = @users.paginate(@pagination_options)
-
-      render json: @users
+    if current_user.email.present?
+      params[:emails].delete(current_user.email)
     end
+
+    @users = User.where(:email => params[:emails]).limit(20)
+    render_paginated_index(@users, Users::SearchSerializer)
   end
 
   def search_by_twitter_ids
-    begin
-      raise DoGood::Api::ParametersInvalid.new if !params[:twitter_ids].present?
+    raise DoGood::Api::ParametersInvalid.new if !params[:twitter_ids].present?
 
-      @users = User.where(:twitter_id => params[:twitter_ids]).limit(50)
-
-      @users = @users.paginate(@pagination_options)
-      render json: @users
-    end
+    @users = User.where(:twitter_id => params[:twitter_ids]).limit(50)
+    render_paginated_index(@users, Users::SearchSerializer)
   end
 
   def search_by_facebook_ids
-    begin
-      raise DoGood::Api::ParametersInvalid.new if !params[:facebook_ids].present?
-      @users = User.where(:facebook_id => params[:facebook_ids]).limit(50)
-      @users = @users.paginate(@pagination_options)
-      render json: @users
-    end
+    raise DoGood::Api::ParametersInvalid.new if !params[:facebook_ids].present?
+    @users = User.where(:facebook_id => params[:facebook_ids]).limit(50)
+    render_paginated_index(@users, Users::SearchSerializer)
   end
 
   def likers
     @instance = params[:type].
       constantize.
       find(params[:id])
-    @users = @instance.votes.up.by_type(User).voters
-    @users = @users.paginate(@pagination_options)
-    render json: @users
+    @user_ids = @instance.votes.up.by_type(User).voters.map(&:id)
+    @users = User.where(id: @user_ids)
+    render_paginated_index(@users, Users::SearchSerializer)
   end
 
   def followers
     @instance = instance_from_type_and_id(params[:type], params[:id])
-    @users = @instance.followers_scoped.
-      limit(20).
-      map(&:follower)
-    @users = @users.paginate(@pagination_options)
-    render json: @users
+    @users = @instance.user_followers
+    render_paginated_index(@users, Users::SearchSerializer)
   end
 
   def following
     @instance = instance_from_type_and_id(params[:type], params[:id])
-    @users = @instance.follows_by_type(params[:type]).
-      limit(20).
-      map(&:followable)
-    @users = @users.paginate(@pagination_options)
-    render json: @users
+    @users = @instance.following_users
+    render_paginated_index(@users, Users::SearchSerializer)
   end
 
   def score
-    @user = User.find(params[:id])
+    @users = User.find(params[:id])
 
-    render json: @user.score
+    render json: @users.score
   end
 
   def update_profile
-    begin
-      check_auth
+    check_auth
 
-      if current_user.update(profile_params)
-        @user = current_user
-        render json: @user, root: "users"
-      else
-        message = "Unable to update your details."
-        raise DoGood::Api::RecordNotSaved.new(message)
-      end
+    if current_user.update(profile_params)
+      @user = current_user
+      render json: @user.decorate, root: "users"
+    else
+      message = "Unable to update your details."
+      raise DoGood::Api::RecordNotSaved.new(message)
     end
   end
 
   def update_password
-    begin
-      check_auth
-      if current_user.update_password(password_params)
-        @user = current_user
-        render json: @user, root: "users"
-      else
-        message = "Unable to update your password."
-        raise DoGood::Api::RecordNotSaved.new(message)
-      end
+    check_auth
+    if current_user.update_password(password_params)
+      @user = current_user
+      render json: @user.decorate, root: "users"
+    else
+      message = "Unable to update your password."
+      raise DoGood::Api::RecordNotSaved.new(message)
     end
   end
 
   def social
-    begin
-      check_auth
+    check_auth
 
-      if current_user.update_attributes(social_params)
-        @user = current_user
-        render json: @user, root: "users"
-      else
-        message = "Couldn't save the social ID."
-        raise DoGood::Api::RecordNotSaved.new(message)
-      end
-
+    if current_user.update_attributes(social_params)
+      @user = current_user
+      render json: @user.decorate, root: "users"
+    else
+      message = "Couldn't save the social ID."
+      raise DoGood::Api::RecordNotSaved.new(message)
     end
   end
 
   def remove_avatar
-    begin
-      check_auth
+    check_auth
 
-      current_user.remove_avatar!
+    current_user.remove_avatar!
 
-      if current_user.save
-        @user = current_user
-        render json: @user, root: "users"
-      else
-        message = "Unable to delete your photo."
-        raise DoGood::Api::RecordNotSaved.new(message)
-      end
-
+    if current_user.save
+      @user = current_user
+      render json: @user.decorate, root: "users"
+    else
+      message = "Unable to delete your photo."
+      raise DoGood::Api::RecordNotSaved.new(message)
     end
   end
 
@@ -162,7 +134,6 @@ class UsersController < ApiController
     else
       render_error(DoGood::Api::Unauthorized.new)
     end
-
   end
 
   # html methods
@@ -183,7 +154,7 @@ class UsersController < ApiController
     @user = User.new(profile_params)
 
     if @user.valid_name?
-      render json: @user, root: "users"
+      render json: @user.decorate, root: "users"
     else
       error = @user.errors[:full_name]
       render_error(DoGood::Api::ParametersInvalid.new(error))

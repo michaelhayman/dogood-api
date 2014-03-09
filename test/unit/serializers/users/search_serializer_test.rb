@@ -1,20 +1,14 @@
 require 'test_helper'
 
-class UserSerializerTest < DoGood::TestCase
+class Users::SearchSerializerTest < DoGood::TestCase
   def expected_hash
     {
       users: {
         id: @user.id,
+        full_name: @user.full_name,
         avatar_url: @user.avatar_url,
-        full_name: @user.full_name
-      }
-    }
-  end
-
-  def expected_hash_with_message
-    {
-      users: {
-        message: @user.message
+        location: @user.location,
+        current_user_following: @user.current_user_following
       }
     }
   end
@@ -22,8 +16,9 @@ class UserSerializerTest < DoGood::TestCase
   def setup
     super
     @user = FactoryGirl.create(:user).decorate
+    stub(@user).current_user_following { true }
 
-    @serializer = UserSerializer.new @user, root: "users"
+    @serializer = Users::SearchSerializer.new @user, root: "users"
   end
 
   test "json for api" do
