@@ -34,69 +34,87 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
       assert_response :unauthorized
     end
 
-    test "should not allow no parameters to be passed" do
-      sign_in @user
-      post :create, {
-        format: :json
-      }
-      assert_response :unprocessable_entity
-    end
-
-    test "should be authenticated user & fully-populated vote" do
-      sign_in @user
-
-      assert 0, @good.votes
-
-      post :create, {
-        format: :json,
-        vote: {
-          voteable_id: @good.id,
-          voteable_type: "Good"
+    context "for authenticated users" do
+      test "passing no parameters should fail" do
+        sign_in @user
+        post :create, {
+          format: :json
         }
-      }
-      assert_response :success
-      assert 1, @good.votes
-    end
+        assert_response :unprocessable_entity
+      end
 
-    test "users can only vote once, and fail silently otherwise" do
-      @good = FactoryGirl.create(:good)
-      sign_in @user
+      test "should be authenticated user & fully-populated vote" do
+        sign_in @user
 
-      assert 0, @good.votes
+        assert 0, @good.votes.count
 
-      @good.liked_by @user
-
-      assert 1, @good.votes
-
-      post :create, {
-        format: :json,
-        vote: {
-          voteable_id: @good.id,
-          voteable_type: "Good"
+        post :create, {
+          format: :json,
+          vote: {
+            voteable_id: @good.id,
+            voteable_type: "Good"
+          }
         }
-      }
-      json = jsonify(response)
+        assert_response :success
+        assert 1, @good.votes
+      end
 
-      assert_response :success
-      assert 1, @good.votes
-    end
+      test "users can only vote once, and fail silently otherwise" do
+        @good = FactoryGirl.create(:good)
+        sign_in @user
 
-    test "vote should not succeed on a user's own good" do
-      @good = FactoryGirl.create(:good, :user => @user)
-      sign_in @user
+        assert 0, @good.votes.count
 
-      assert 0, @good.votes
+        @good.liked_by @user
 
-      post :create, {
-        format: :json,
-        vote: {
-          voteable_id: @good.id,
-          voteable_type: "Good"
+        assert 1, @good.votes.count
+
+        post :create, {
+          format: :json,
+          vote: {
+            voteable_id: @good.id,
+            voteable_type: "Good"
+          }
         }
-      }
+        json = jsonify(response)
 
-      assert_response :error
-      assert 0, @good.votes
+        assert_response :success
+        assert 1, @good.votes.count
+      end
+
+      test "vote should not succeed on a user's own good" do
+        @good = FactoryGirl.create(:good, :user => @user)
+        sign_in @user
+
+        assert 0, @good.votes.count
+
+        post :create, {
+          format: :json,
+          vote: {
+            voteable_id: @good.id,
+            voteable_type: "Good"
+          }
+        }
+
+        assert_response :error
+        assert 0, @good.votes
+      end
+
+      test "a re-vote should silently fail to increment votes" do
+        sign_in @user
+
+        assert 0, @good.votes.count
+
+        post :create, {
+          format: :json,
+          vote: {
+            voteable_id: @good.id,
+            voteable_type: "Good"
+          }
+        }
+
+        assert 0, @good.votes.count
+      end
     end
   end
 
@@ -110,12 +128,52 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
 
     test "route" do
       assert_routing( {
-        path: '/votes/remove',
+        path: '/votes/1',
         method: :delete
       }, {
         controller: "votes",
-        action: "remove"
+        id: "1",
+        action: "destroy"
       })
+    end
+
+    context "for an authenticated user" do
+      test "succeeds with valid parameters" do
+        sign_in @user
+
+        assert 0, @good.votes.count
+        @good.liked_by @user
+
+        delete :destroy, {
+          format: :json,
+          id: @good.id,
+          vote: {
+            voteable_id: @good.id,
+            voteable_type: "Good"
+          }
+        }
+        assert_response :success
+        assert 0, @good.votes.count
+      end
+
+      test "fails without valid parameters" do
+        sign_in @user
+
+        @good.liked_by @user
+        assert 1, @good.votes.count
+        stub(@good).unliked_by { false }
+
+        delete :destroy, {
+          format: :json,
+          id: @good.id,
+          vote: {
+            voteable_id: @good.id,
+            voteable_type: "Good"
+          }
+        }
+        assert_response :success
+        assert 0, @good.votes.count
+      end
     end
   end
 end

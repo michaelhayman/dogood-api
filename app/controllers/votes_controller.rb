@@ -4,20 +4,18 @@ class VotesController < ApiController
   before_filter :check_auth
 
   def create
-    begin
-      raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:vote].present?
-      raise DoGood::Api::RecordNotSaved.new("You can't vote on your own record.") if own_record?
+    raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:vote].present?
+    raise DoGood::Api::RecordNotSaved.new("You can't vote on your own record.") if own_record?
 
-      if polymorphic_association.liked_by current_user
-        render_ok
-        Point.record_points(resource_params[:voteable_type], resource_params[:voteable_id], "Like", polymorphic_association.user_id, current_user.id, VOTE_POINTS)
-      else
-        raise DoGood::Api::RecordNotSaved.new("Like not registered.")
-      end
+    if polymorphic_association.liked_by current_user
+      render_ok
+      Point.record_points(resource_params[:voteable_type], resource_params[:voteable_id], "Like", polymorphic_association.user_id, current_user.id, VOTE_POINTS)
+    else
+      raise DoGood::Api::RecordNotSaved.new("Like not registered.")
     end
   end
 
-  def remove
+  def destroy
     if polymorphic_association.unliked_by :voter => current_user
       render_ok
       Point.remove_points(resource_params[:voteable_type], resource_params[:voteable_id], "Like", polymorphic_association.user_id, current_user.id, VOTE_POINTS)
@@ -42,6 +40,5 @@ class VotesController < ApiController
     def own_record?
       polymorphic_association.user == current_user
     end
-
 end
 
