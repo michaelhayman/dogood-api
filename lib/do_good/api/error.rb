@@ -3,8 +3,8 @@ module DoGood
     class Error < RuntimeError
       attr_reader :message, :http_error
 
-      def initialize
-        @message = "A problem has occured with your request."
+      def initialize(msg = nil)
+        @message = msg || "A problem has occured with your request."
         @http_error = :bad_request
       end
     end
@@ -43,14 +43,6 @@ module DoGood
       def initialize
         @message = "Over query limit."
         @http_error = :too_many_requests
-      end
-    end
-
-    # fold into params invalid
-    class Unprocessable < Error
-      def initialize(msg = nil)
-        @message = msg || "Unprocessable"
-        @http_error = :unprocessable_entity
       end
     end
   end
