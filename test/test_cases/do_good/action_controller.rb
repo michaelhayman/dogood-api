@@ -14,4 +14,10 @@ class DoGood::ActionControllerTestCase < ActionController::TestCase
     Rails.cache.clear
     Timecop.return
   end
+  private
+    def stub_save_method(class_name)
+      any_instance_of(class_name) do |klass|
+          stub(klass).save { false }
+      end
+    end
 end
