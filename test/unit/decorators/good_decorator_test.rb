@@ -6,7 +6,9 @@ class GoodDecoratorTest < DoGood::TestCase
 
     @good = FactoryGirl.create(:good)
     @good = GoodDecorator.decorate(@good)
-    # stub(@good.helpers).good_liked? { true }
+    @user = FactoryGirl.create(:user)
+    stub(@good.helpers).dg_user { @user.object }
+    stub(@good.helpers).good_liked? { true }
 
     # these shouldn't be stubbed, since now
     # they don't test anything
