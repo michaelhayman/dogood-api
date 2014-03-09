@@ -5,7 +5,6 @@ class VotesController < ApiController
 
   def create
     raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:vote].present?
-    raise DoGood::Api::RecordNotSaved.new("You can't vote on your own record.") if own_record?
 
     if polymorphic_association.liked_by current_user
       render_ok
@@ -35,10 +34,6 @@ class VotesController < ApiController
         constantize.
         where(:id => resource_params[:votable_id]).
         first
-    end
-
-    def own_record?
-      polymorphic_association.user == current_user
     end
 end
 

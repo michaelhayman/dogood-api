@@ -82,7 +82,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         assert 1, @good.votes.count
       end
 
-      test "vote should not succeed on a user's own good" do
+      test "vote should succeed on a user's own good" do
         @good = FactoryGirl.create(:good, :user => @user)
         sign_in @user
 
@@ -96,8 +96,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
           }
         }
 
-        assert_response :error
-        assert 0, @good.votes
+        assert 1, @good.votes
       end
 
       test "a re-vote should silently fail to increment votes" do
