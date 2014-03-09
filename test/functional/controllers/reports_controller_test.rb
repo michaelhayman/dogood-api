@@ -8,6 +8,7 @@ class ReportsControllerTest < DoGood::ActionControllerTestCase
       super
 
       @user = FactoryGirl.create(:user, :bob)
+      @good = FactoryGirl.create(:good)
     end
 
     test "should fail for an unauthorized user" do
@@ -24,7 +25,6 @@ class ReportsControllerTest < DoGood::ActionControllerTestCase
 
     test "should succeed with proper parameters" do
       sign_in @user
-      @good = FactoryGirl.create(:good)
 
       post :create, {
         format: :json,
@@ -40,7 +40,6 @@ class ReportsControllerTest < DoGood::ActionControllerTestCase
 
     test "should fail for a report that fails validations" do
       sign_in @user
-      @good = FactoryGirl.create(:good)
 
       post :create, {
         format: :json,
@@ -52,6 +51,44 @@ class ReportsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
 
       assert_response :unprocessable_entity
+    end
+
+    test "should fail for a report that is posted twice" do
+      sign_in @user
+
+      post :create, {
+        format: :json,
+        report: {
+          reportable_type: "Good",
+          reportable_id: @good.id
+        }
+      }
+      assert_response :success
+
+      post :create, {
+        format: :json,
+        report: {
+          reportable_type: "Good",
+          reportable_id: @good.id
+        }
+      }
+
+      assert_response :unprocessable_entity
+    end
+
+    test "should fail for db error" do
+      sign_in @user
+
+      stub_save_method(Report)
+
+      post :create, {
+        format: :json,
+        report: {
+          reportable_type: "Good",
+          reportable_id: @good.id
+        }
+      }
+      assert_response :error
     end
   end
 end

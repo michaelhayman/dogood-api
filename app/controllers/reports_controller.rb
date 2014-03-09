@@ -1,14 +1,17 @@
 class ReportsController < ApiController
-  before_filter :check_auth, only: [ :create ]
-
   def create
+    check_auth
+    raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:report].present?
+
     @report = Report.new(resource_params)
     @report.user_id = current_user.id
 
-    if @report.save!
-      render json: @report, root: "reports"
+    raise DoGood::Api::ParametersInvalid.new(default_message) if @report.invalid?
+
+    if @report.save
+      render_ok
     else
-      render_errors(DoGood::Api::RecordNotSaved.new("Couldn't save the report. #{@report.errors.full_messages.first}"))
+      raise DoGood::Api::RecordNotSaved.new(default_message)
     end
   end
 
@@ -16,4 +19,9 @@ class ReportsController < ApiController
     params.require(:report).permit(:reportable_type, :reportable_id)
   end
   private :resource_params
+
+  private
+    def default_message(msg = "Couldn't file report.")
+      @report.errors.full_messages || msg
+    end
 end
