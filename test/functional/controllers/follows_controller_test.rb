@@ -68,6 +68,23 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
           }
         }
         json = jsonify(response)
+        assert_response :unprocessable_entity
+        assert 0, @good.followers
+      end
+
+      test "database error" do
+      any_instance_of(User) do |klass|
+          stub(klass).follow { false }
+      end
+
+        post :create, {
+          format: :json,
+          follow: {
+            followable_id: @good.id,
+            followable_type: "Good"
+          }
+        }
+        json = jsonify(response)
         assert_response :internal_server_error
         assert 0, @good.followers
       end

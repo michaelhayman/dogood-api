@@ -2,7 +2,7 @@ class FollowsController < ApiController
   before_filter :check_auth
 
   def create
-    raise DoGood::Api::RecordNotSaved.new("Already following that.") if current_user.following?(polymorphic_association)
+    raise DoGood::Api::ParametersInvalid.new("Already following that.") if current_user.following?(polymorphic_association)
 
     if current_user.follow(polymorphic_association)
       render_ok
