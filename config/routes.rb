@@ -5,7 +5,7 @@ DoGoodApp::Application.routes.draw do
       :passwords => 'passwords'
   }
 
-  resources :users do
+  resources :users, :only => [ :show ] do
     collection do
       get :regooders
       get :likers
@@ -35,7 +35,7 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
-  resources :reports
+  resources :reports, :only => [ :create ]
 
   resources :categories, :only => [ :index ]
 
@@ -54,16 +54,11 @@ DoGoodApp::Application.routes.draw do
 
   resources :comments, :only => [ :index, :create ]
 
-  # sadly can't use crud here since we don't have an ID
   resources :votes, :only => [ :create, :destroy ]
 
-  resources :follows, :only => [ :create ] do
-    collection do
-      delete :remove
-    end
-  end
+  resources :follows, :only => [ :create, :destroy ]
 
-  resources :rewards do
+  resources :rewards, :only => [ :index, :create ] do
     member do
     end
     collection do
