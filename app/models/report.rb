@@ -6,7 +6,8 @@ class Report < ActiveRecord::Base
     :scope => [
       :reportable_id,
       :reportable_type
-    ]
+    ],
+    :message => "may only file one report."
 
   validates_presence_of :user_id,
     :reportable_id,
