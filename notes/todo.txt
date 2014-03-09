@@ -30,22 +30,34 @@ config/environments/development.rb
     # connection = Fog::Storage.new(:provider => 'AWS')
     # connection.directories.create(:key => 'my_bucket')
 
+  - dont want to be throwing 500s for invalid entries.  restkit's error
+    handling only address the 400 range.
+
+- Use new invalid? check before going to record not saved
 
 To do:
 ======
 
-- Fix votes, follows, reports
+- Extend report's error mock by including helper method higher up and adding more tests
+  for create methods.
 
-- I want votes to be likes
-- All of the DGVote modelling seems unnecessary now, eliminate to
-  simplify codebase
+- Make 100% of API tests pass ASAP
+
+- Examine votes, follows, reports for bugs, clean up, etc.
 
 - look into why follows aren't being cached (user decorator uses em)
 
-- render_errors?  errors not appearing properly in iOS app in some
-  places
+- get everything checked into iOS repository then rename back to single DoGood
+  workspace.
 
-- Prevent reporting your own post
+  - Rename regoods to followers
+
+  - 'goods' to posts
+  - 'goods' to votes
+
+  105 votes
+  51 followers
+
 
 - Tap settings - it loads settings page with spinner then loads
   your current user settings.  if it fails it pops back.
@@ -75,8 +87,17 @@ Done:
 =====
 
 2014/3/9
+- Figure out how to simulate db save error portions of code
+- render_errors?  errors not appearing properly in iOS app in some
+- Prevent reporting your own post
+  places
+- Refactored follows into a block-based reusable component
+- Fixed follows and likes
+- Figured out how to pass errors correctly in right range
 - Fixed remove vote and figured out CRUD
 - Fix render_ok method
+- All of the DGVote modelling seems unnecessary now, eliminate to
+  simplify codebase
 
 2014/3/8
 - User serializer work, followings, etc.
