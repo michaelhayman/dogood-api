@@ -18,11 +18,7 @@ class CommentsController < ApiController
       if @comment.save
         render json: @comment, root: "comments"
       else
-        if @comment.errors
-          message = @comment.errors.full_messages
-        else
-          message = "Couldn't save the comment."
-        end
+        message = @comment.errors.full_messages.first || "Couldn't save comment."
         raise DoGood::Api::RecordNotSaved.new(message)
       end
 
@@ -33,7 +29,20 @@ class CommentsController < ApiController
   end
 
   def resource_params
-    params.require(:comment).permit(:commentable_id, :commentable_type, :comment, :user_id, :entities_attributes => [ :entityable_id, :entityable_type, :link, :link_id, :link_type, :title, :range => [] ])
+    params.require(:comment).permit(
+      :commentable_id,
+      :commentable_type,
+      :comment,
+      :user_id,
+      :entities_attributes => [
+        :entityable_id,
+        :entityable_type,
+        :link,
+        :link_id,
+        :link_type,
+        :title,
+        :range => []
+    ])
   end
   private :resource_params
 end
