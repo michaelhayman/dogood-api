@@ -21,36 +21,72 @@ config/environments/development.rb
 
 - Think about whether messages key should be in a separate object and mapping
 
+- COMMIT & clear out unused stuff. REMOVE stuff from view so it's done.
+
+- Test test test and commit before adding features
+
+    # Fog.mock!
+    # Fog.credentials_path = Rails.root.join('config/fog_credentials.yml')
+    # connection = Fog::Storage.new(:provider => 'AWS')
+    # connection.directories.create(:key => 'my_bucket')
+
+
 To do:
 ======
 
-- COMMIT & clear out unused stuff.
+- Fix votes, follows, reports
 
-- Refactor & test passwords & users#update_password.  Get working externally too.
+- I want votes to be likes
+- All of the DGVote modelling seems unnecessary now, eliminate to
+  simplify codebase
 
-- Move rewards#claim logic to model after testing
+- look into why follows aren't being cached (user decorator uses em)
 
-- Controller tests to 95% +
+- render_errors?  errors not appearing properly in iOS app in some
+  places
+
+- Prevent reporting your own post
+
+- Tap settings - it loads settings page with spinner then loads
+  your current user settings.  if it fails it pops back.
+
+- Make a non-rails ember app to take care of resetting password
+
+- Push controller tests to 95%+ coverage
+
+- Rename goods to posts...
+
+- Move rewards#claim logic to model
 
 - Remove all comments from files like environment.rb, uploaders, etc.
   Be pro.  !git grep "\# "
 
 - Implement site settings
 
-- Move all serializer methods to decorators
-
-- Need to collapse avatar to url
+- Need to collapse avatar to url & test
 
 - Move after_create good.add_points to lib
   - or use observers?
   - after voting too
 
-- Change voteable to votable to fit with plugin...
+- Change voteable to votable to fit with plugin
 
 Done:
 =====
 
-2012/2/6
+2014/3/9
+- Fixed remove vote and figured out CRUD
+- Fix render_ok method
+
+2014/3/8
+- User serializer work, followings, etc.
+- Test new user decorator methods
+
+2014/3/7
+- Working on follows
+- Move methods out of user serializer and into decorator and test
+
+2014/3/6
 - Test passwords controller
   - Fix user message key
     - Only include it when requested
@@ -63,7 +99,7 @@ Done:
 - Drop error handling from goods and other places as it's moved to
   application rescue_froms
 
-2012/2/5
+2014/3/5
 - 57 tests failing.
 - Delete all to_builder methods
 - Need to figure out callbacks
@@ -75,7 +111,7 @@ Done:
 - Comment & tag serializers
 - Simplify error handling
 
-2014/2/4
+2014/3/4
 - Made a nice helper for pagination
 - Fixed many tests
 - There's something odd about my development environment causing problems
@@ -93,7 +129,7 @@ Done:
   - forget it for now it's distracting you
   - Comments are gross on iOS
 
-2014/2/3
+2014/3/3
 - Psyched about AMS. Goods should be:
   - tested
   - finalized JSON output
@@ -111,7 +147,7 @@ Done:
   continue using jbuilder.
 - Callback helper issue not fixed
 
-2014/2/2
+2014/3/2
 - Update route to show action on iOS to supply param id instead of good_id
 - Circular CallbackHelper bug
   - solved by
@@ -125,7 +161,7 @@ Controller tests
 - Find tips on moving controller code to model, raise bubbling
 - add 'unprocessable' test
 
-2014/2/1
+2014/3/1
 - tags & tag controller
 
 2014/2/28
