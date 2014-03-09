@@ -114,6 +114,22 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
 
         assert 0, @good.votes.count
       end
+
+      test "fails when database fails" do
+        any_instance_of(Good) do |klass|
+            stub(klass).liked_by { false }
+        end
+
+        post :create, {
+          format: :json,
+          vote: {
+            votable_id: @good.id,
+            votable_type: "Good"
+          }
+        }
+        assert_response :bad_request
+        assert 0, @good.votes.count
+      end
     end
   end
 
@@ -156,8 +172,6 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
       end
 
       test "fails without valid parameters" do
-        sign_in @user
-
         @good.liked_by @user
         assert 1, @good.votes.count
         stub(@good).unliked_by { false }
@@ -171,6 +185,23 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
           }
         }
         assert_response :success
+        assert 0, @good.votes.count
+      end
+
+      test "fails when database fails" do
+        any_instance_of(Good) do |klass|
+            stub(klass).unliked_by { false }
+        end
+
+        delete :destroy, {
+          format: :json,
+          id: @good.id,
+          vote: {
+            votable_id: @good.id,
+            votable_type: "Good"
+          }
+        }
+        assert_response :bad_request
         assert 0, @good.votes.count
       end
     end

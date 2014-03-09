@@ -10,7 +10,7 @@ class VotesController < ApiController
       render_ok
       Point.record_points(resource_params[:votable_type], resource_params[:votable_id], "Like", polymorphic_association.user_id, current_user.id, VOTE_POINTS)
     else
-      raise DoGood::Api::RecordNotSaved.new("Like not registered.")
+      raise DoGood::Api::Error.new("Like not registered.")
     end
   end
 
@@ -19,7 +19,7 @@ class VotesController < ApiController
       render_ok
       Point.remove_points(resource_params[:votable_type], resource_params[:votable_id], "Like", polymorphic_association.user_id, current_user.id, VOTE_POINTS)
     else
-      render_error(DoGood::Api::RecordNotSaved.new("Unlike not registered."))
+      raise DoGood::Api::Error.new("Unlike not registered.")
     end
   end
 
