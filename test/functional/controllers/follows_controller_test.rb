@@ -36,7 +36,6 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
 
     context "authenticated" do
       test "do not allow empty parameters" do
-        sign_in @user
         post :create, {
           format: :json
         }
@@ -44,8 +43,6 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       end
 
       test "follow with valid parameters should succeed" do
-        sign_in @user
-
         assert 0, @good.followers
 
         post :create, {
@@ -56,14 +53,11 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
           }
         }
         json = jsonify(response)
-        p json
         assert_response :success
         assert 1, @good.followers
       end
 
       test "following something already followed should fail" do
-        sign_in @user
-
         @user.follow @good
 
         post :create, {
@@ -106,7 +100,6 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
 
     context "authenticated" do
       test "do not allow empty parameters" do
-        sign_in @user
         post :remove, {
           format: :json
         }
@@ -114,8 +107,6 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       end
 
       test "unfollow with valid parameters should succeed" do
-        sign_in @user
-
         @user.follow @good
 
         assert 1, @good.followers
@@ -133,8 +124,6 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       end
 
       test "unfollowing something not already followed should fail" do
-        sign_in @user
-
         post :remove, {
           format: :json,
           follow: {
