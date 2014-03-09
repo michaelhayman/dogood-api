@@ -55,11 +55,7 @@ DoGoodApp::Application.routes.draw do
   resources :comments, :only => [ :index, :create ]
 
   # sadly can't use crud here since we don't have an ID
-  resources :votes, :only => [ :create ] do
-    collection do
-      delete :remove
-    end
-  end
+  resources :votes, :only => [ :create, :destroy ]
 
   resources :follows, :only => [ :create ] do
     collection do
