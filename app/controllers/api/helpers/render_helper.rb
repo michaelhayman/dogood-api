@@ -10,7 +10,7 @@ module Api::Helpers::RenderHelper
     end
 
     def render_ok
-      render json: nil, status: :ok
+      render json: { }, status: :ok
     end
 
     def render_error(error, options = {})
