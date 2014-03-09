@@ -27,8 +27,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
       post :create, {
         format: :json,
         vote: {
-          voteable_id: @good.id,
-          voteable_type: "Good"
+          votable_id: @good.id,
+          votable_type: "Good"
         }
       }
       assert_response :unauthorized
@@ -51,8 +51,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         post :create, {
           format: :json,
           vote: {
-            voteable_id: @good.id,
-            voteable_type: "Good"
+            votable_id: @good.id,
+            votable_type: "Good"
           }
         }
         assert_response :success
@@ -72,8 +72,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         post :create, {
           format: :json,
           vote: {
-            voteable_id: @good.id,
-            voteable_type: "Good"
+            votable_id: @good.id,
+            votable_type: "Good"
           }
         }
         json = jsonify(response)
@@ -91,8 +91,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         post :create, {
           format: :json,
           vote: {
-            voteable_id: @good.id,
-            voteable_type: "Good"
+            votable_id: @good.id,
+            votable_type: "Good"
           }
         }
 
@@ -108,8 +108,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         post :create, {
           format: :json,
           vote: {
-            voteable_id: @good.id,
-            voteable_type: "Good"
+            votable_id: @good.id,
+            votable_type: "Good"
           }
         }
 
@@ -148,8 +148,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
           format: :json,
           id: @good.id,
           vote: {
-            voteable_id: @good.id,
-            voteable_type: "Good"
+            votable_id: @good.id,
+            votable_type: "Good"
           }
         }
         assert_response :success
@@ -167,8 +167,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
           format: :json,
           id: @good.id,
           vote: {
-            voteable_id: @good.id,
-            voteable_type: "Good"
+            votable_id: @good.id,
+            votable_type: "Good"
           }
         }
         assert_response :success
