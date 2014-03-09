@@ -327,6 +327,26 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         @created_good = Good.first
         assert_equal @created_good.caption, @good.caption
       end
+
+      test "should fail for db error" do
+        sign_in @user
+
+        @good = FactoryGirl.build(:good)
+        stub(Good).just_created_by { false }
+        stub_save_method(Good)
+
+        post :create, {
+          format: :json,
+          good: {
+            caption: @good.caption,
+            user_id: @good.user.id,
+            nominee_attributes: {
+              full_name: @good.nominee.full_name
+            }
+          }
+        }
+        assert_response :error
+      end
     end
   end
 end

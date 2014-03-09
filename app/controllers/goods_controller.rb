@@ -92,15 +92,12 @@ class GoodsController < ApiController
     @good.user_id = current_user.id
     @good.evidence = resource_params[:evidence]
 
-    if !@good.save
-      if @good.errors
-        message = @good.errors.full_messages
-      else
-        message = "Couldn't save the good."
-      end
+    if @good.save
+      render json: @good.decorate, root: "goods"
+    else
+      message = @good.errors.full_messages.first || "Couldn't save good."
       raise DoGood::Api::RecordNotSaved.new(message)
     end
-    render json: @good.decorate, root: "goods"
   end
 
   def resource_params
