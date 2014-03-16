@@ -61,5 +61,11 @@ module DoGoodApp
         'X-Frame-Options' => 'ALLOWALL'
     }
 
+    config.middleware.use Rack::Cors do
+      allow do
+        origins 'localhost'
+        resource '*', :headers => :any, :methods => [:get, :post, :put, :options]
+      end
+    end
   end
 end
