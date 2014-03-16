@@ -12,12 +12,8 @@ class RegistrationsController < Devise::RegistrationsController
       sign_in(:user, @user)
       render json: @user, root: "users", serializer: Users::CurrentUserSerializer
     else
-      if @user.errors.any?
-        messages = @user.errors.full_messages
-      else
-        messages = [ "There were errors.  Please try again." ]
-      end
-      raise DoGood::Api::ParametersInvalid.new(messages.first)
+      message = @user.errors.full_messages.first || "There were errors.  Please try again."
+      raise DoGood::Api::ParametersInvalid.new(message)
     end
   end
 
