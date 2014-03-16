@@ -2,14 +2,22 @@ require 'test_helper'
 
 class PasswordsControllerTest < DoGood::ActionControllerTestCase
   tests PasswordsController
+  def setup
+    super
+
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    @user = FactoryGirl.create(:user, :bob)
+  end
 
   context "create" do
-    def setup
-      super
-
-      @request.env["devise.mapping"] = Devise.mappings[:user]
-      @user = FactoryGirl.create(:user, :bob)
+    test "route" do
+      assert_routing '/users/1', {
+        controller: "users",
+        action: "show",
+        id: "1"
+      }
     end
+
 
     test "should allow access with the right parameters" do
       post :create, {
@@ -19,14 +27,6 @@ class PasswordsControllerTest < DoGood::ActionControllerTestCase
         }
       }
       assert_response :success
-    end
-
-    test "route" do
-      assert_routing '/users/1', {
-        controller: "users",
-        action: "show",
-        id: "1"
-      }
     end
 
     test "should fail for a non-existing email address" do
@@ -56,6 +56,44 @@ class PasswordsControllerTest < DoGood::ActionControllerTestCase
   end
 
   context "update" do
+    test "route" do
+      assert_routing({
+        path: '/users/password',
+        method: :put
+      }, {
+        controller: "passwords",
+        action: "update"
+      })
+    end
+
+    test "should be successful for a valid reset password token" do
+      raw = @user.send_reset_password_instructions
+      password = "w4lly!!##"
+
+      put :update, {
+        format: :json,
+        user: {
+          reset_password_token: raw,
+          password: password,
+          password_confirmation: password
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :success
+    end
+
+    test "should be unsuccessful for a invalid reset password token" do
+      put :update, {
+        format: :json,
+        user: {
+          email: @user.email
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :unprocessable_entity
+    end
   end
 end
 

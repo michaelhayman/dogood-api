@@ -15,19 +15,22 @@ class PasswordsController < Devise::PasswordsController
   end
 
   def update
-    self.resource = resource_class.reset_password_by_token(resource_params)
+    self.resource = resource_class.reset_password_by_token(reset_params)
 
     if resource.errors.empty?
-      render :password_update_successful
+      resource.unlock_access! if unlockable?(resource)
+      flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
+      sign_in(resource_name, resource)
+      render json: { message: flash_message }
     else
-      render :edit
-      raise DoGood::Api::ParametersInvalid.new("Invalid email address.")
-     end
+      msg = resource.errors.full_messages.first || "Invalid token.  Try resetting your password again."
+      raise DoGood::Api::ParametersInvalid.new(msg)
+    end
   end
 
-  def user_params
-    params.require(:user).permit(:current_password, :password, :password_confirmation, :reset_password_token)
+  def reset_params
+    params.require(:user).permit(:password, :password_confirmation, :reset_password_token)
   end
-  private :resource_params
+  private :reset_params
 end
 
