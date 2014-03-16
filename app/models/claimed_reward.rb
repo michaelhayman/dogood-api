@@ -15,4 +15,12 @@ class ClaimedReward < ActiveRecord::Base
 
   def refund_points
   end
+
+  def within_budget?(budget)
+    if self.reward && self.reward.cost
+      budget > self.reward.cost
+    else
+      false
+    end
+  end
 end
