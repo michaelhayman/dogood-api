@@ -10,7 +10,8 @@ class UserDecorator < BaseDecorator
   end
 
   def followers_count
-    object.follows_count
+    # object.follows_count
+    object.followers.count
   end
 
   def following_count
