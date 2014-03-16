@@ -428,6 +428,27 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       assert_equal User.find(@bob.id).twitter_id, twitter_id
       assert_equal User.find(@bob.id).facebook_id, facebook_id
     end
+
+    test "should fail on db error" do
+      any_instance_of(User) do |klass|
+          stub(klass).update_attributes { false }
+      end
+      @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+      twitter_id = "iliketony"
+      facebook_id = "NOIDONT"
+
+      post :social, {
+        format: :json,
+        user: {
+          twitter_id: twitter_id,
+          facebook_id: facebook_id
+        }
+      }
+      json = jsonify(response)
+
+      assert_response :error
+    end
   end
 
   context "remove_avatar" do

@@ -12,6 +12,7 @@ class SessionsControllerTest < DoGood::ActionControllerTestCase
     end
 
     test "should be successful for the proper authorization" do
+      sign_in @user
       post :create, {
         format: :json,
         user: {
@@ -21,6 +22,19 @@ class SessionsControllerTest < DoGood::ActionControllerTestCase
       }
 
       assert_response :success
+    end
+
+    test "session invalidation when signing in on top" do
+      sign_in @user
+      post :create, {
+        format: :json,
+        user: {
+          email: @user.email,
+          password: "asdf"
+        }
+      }
+
+      assert_response :unprocessable_entity
     end
 
     test "should be unsuccessful without params" do
