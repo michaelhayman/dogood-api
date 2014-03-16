@@ -58,9 +58,7 @@ DoGoodApp::Application.routes.draw do
 
   resources :follows, :only => [ :create, :destroy ]
 
-  resources :rewards, :only => [ :index, :create ] do
-    member do
-    end
+  resources :rewards, :only => [ :index, :create, :destroy ] do
     collection do
       post :claim
       get :claimed

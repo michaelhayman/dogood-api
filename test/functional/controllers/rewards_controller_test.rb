@@ -124,9 +124,65 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
         action: "create",
       })
     end
+
+    test "should be unauthorized if not logged in" do
+      get :claimed, {
+        format: :json
+      }
+      json = jsonify(response)
+      assert_response :unauthorized
+    end
+
+    context "authorized users" do
+      test "should succeed for valid params" do
+        @user = FactoryGirl.create(:user)
+        sign_in @user
+
+        @reward = FactoryGirl.build(:reward)
+
+        post :create, {
+          format: :json,
+          reward: {
+            id: @reward.id,
+            title: @reward.title,
+            subtitle: @reward.subtitle
+          }
+        }
+
+        assert_response :success
+      end
+
+      test "should fail for db error" do
+        @user = FactoryGirl.create(:user)
+        sign_in @user
+
+        @reward = FactoryGirl.build(:reward)
+        stub_save_method(Reward)
+
+        post :create, {
+          format: :json,
+          reward: {
+            id: @reward.id,
+            title: @reward.title
+          }
+        }
+
+        assert_response :error
+      end
+    end
   end
 
-  xcontext "destroy" do
+  context "destroy" do
+    test "route" do
+      assert_routing( {
+        path: '/rewards/1',
+        method: :delete
+      }, {
+        controller: "rewards",
+        action: "destroy",
+        id: "1"
+      })
+    end
   end
 
   context "claim" do
@@ -219,6 +275,25 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
 
         @created_reward = @user.rewards.first
         assert_equal @created_reward.title, @reward.title
+      end
+
+      test "should fail gracefully on db error" do
+        @user = FactoryGirl.create(:user)
+        sign_in @user
+
+        @reward = FactoryGirl.create(:reward)
+        add_points(@user)
+
+        stub_save_method(ClaimedReward)
+
+        post :claim, {
+          format: :json,
+          reward: {
+            id: @reward.id
+          }
+        }
+
+        assert_response :error
       end
     end
   end

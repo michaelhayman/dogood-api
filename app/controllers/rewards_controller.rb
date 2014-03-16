@@ -1,51 +1,46 @@
-# need to refresh the points
-
 class RewardsController < ApiController
   before_filter :setup_pagination, :only => [
+    :claimed,
     :index,
-    :highlights,
-    :claimed
+    :highlights
   ]
   before_filter :check_auth, :only => [
+    :claim,
     :claimed,
     :create,
     :highlights
   ]
 
   def index
-    # includes(:user => :sponsor)
     @rewards = Reward.available.includes(:user)
     render_paginated_index(@rewards)
   end
 
   def highlights
-    begin
-      raise DoGood::Api::Unauthorized.new if !logged_in?
-      @rewards = Reward.available.
-        sufficient_points(current_user).
-        includes(:user)
-      render_paginated_index(@rewards)
-    end
+    @rewards = Reward.available.
+      sufficient_points(current_user).
+      includes(:user)
+    render_paginated_index(@rewards)
   end
 
   def claimed
-    begin
-      @rewards = current_user.
-        rewards.
-        order('claimed_rewards.created_at DESC')
-      render_paginated_index(@rewards)
-    end
+    @rewards = current_user.
+      rewards.
+      order('claimed_rewards.created_at DESC')
+    render_paginated_index(@rewards)
   end
 
   def create
     @reward = Reward.new(
-      :title => resource_params[:name],
+      :title => resource_params[:title],
+      :subtitle => resource_params[:subtitle],
       :user_id => current_user.id)
 
     if @reward.save
-      respond_with @reward.reward
+      render json: @reward, root: "rewards"
     else
-      render_errors("Couldn't add the reward.")
+      msg = @reward.errors.full_messages.first || "Couldn't add the reward."
+      raise DoGood::Api::RecordNotSaved.new(msg)
     end
   end
 
@@ -53,7 +48,6 @@ class RewardsController < ApiController
   end
 
   def claim
-    check_auth
     raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:reward].present?
     raise DoGood::Api::TooManyQueries.new if Reward.just_created_by(dg_user)
 
@@ -70,15 +64,14 @@ class RewardsController < ApiController
 
     if @claimed_reward.save
       @claimed_reward.withdraw_points
-      # current_user.increment!(:points, - @claimed_reward.reward.cost)
-      respond_with @claimed_reward.reward, root: "rewards"
+      render json: @claimed_reward.reward, root: "rewards"
     else
       raise DoGood::Api::RecordNotSaved.new("Couldn't claim reward.")
     end
   end
 
   def resource_params
-    params.require(:reward).permit(:id, :title)
+    params.require(:reward).permit(:id, :title, :subtitle)
   end
   private :resource_params
 end
