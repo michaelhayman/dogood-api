@@ -53,4 +53,32 @@ class UserTest < DoGood::TestCase
       assert_equal 5000, user.points
     end
   end
+
+  context "update password" do
+    def setup
+      super
+      @user = FactoryGirl.create(:user, :bob)
+      @password = HashWithIndifferentAccess.new({
+        current_password: @user.password,
+        password: "oh_billy",
+        password_confirmation: "oh_billy"
+      })
+    end
+
+    test "no errors returned if the params are valid" do
+      @user.update_password(@password)
+
+      assert @user.errors.count == 0
+    end
+
+    test "errors with missing params" do
+      @bad_password = HashWithIndifferentAccess.new({
+        current_password: "",
+        password: "",
+        password_confirmation: ""
+      })
+      @user.update_password(@bad_password)
+      assert @user.errors.count > 0
+    end
+  end
 end

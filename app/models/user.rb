@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
   end
 
   def update_password(password)
-    if !password[:password].blank? ||password[:password_confirmation].blank?
+    if !password[:current_password].blank? && !password[:password].blank? && !password[:password_confirmation].blank?
       self.update_with_password(password)
     else
       self.errors.add(:base, "New password can't be blank.")
