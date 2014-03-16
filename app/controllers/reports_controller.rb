@@ -1,6 +1,7 @@
 class ReportsController < ApiController
+  before_filter :check_auth
+
   def create
-    check_auth
     raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:report].present?
 
     @report = Report.new(resource_params)
