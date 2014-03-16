@@ -53,40 +53,27 @@ class RewardsController < ApiController
   end
 
   def claim
-    begin
-      # insert logic to wait a bit before claiming another reward
+    check_auth
+    raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:reward].present?
+    raise DoGood::Api::TooManyQueries.new if Reward.just_created_by(dg_user)
 
-      @claimed_reward = ClaimedReward.new(
-        :reward_id => resource_params[:id],
-        :user_id => current_user.id)
+    @claimed_reward = ClaimedReward.new(
+      :reward_id => resource_params[:id],
+      :user_id => current_user.id)
 
-      if !@claimed_reward.reward
-        render_error(DoGood::Api::RecordNotSaved.new("Invalid reward.")) if !@claimed_reward.reward
-        return
-      end
+    raise DoGood::Api::RecordNotSaved.new("Invalid reward.") if !@claimed_reward.reward
+    raise DoGood::Api::RecordNotSaved.new("Insufficient points.") if !@claimed_reward.within_budget?(current_user.points)
 
-      if @claimed_reward.reward.cost > current_user.points
-        render_error(DoGood::Api::RecordNotSaved.new("Insufficient points."))
-        return
-      end
+    @reward = Reward.available.find_by_id(resource_params[:id])
 
-      @reward = Reward.available.find_by_id(resource_params[:id])
-      if !@reward
-        @error = DoGood::Api::RecordNotSaved.new("Reward no longer available.")
-        render_error(@error)
-        return
-      end
+    raise DoGood::Api::RecordNotSaved.new("Reward no longer available.") unless @reward
 
-      if @claimed_reward.save
-        @claimed_reward.withdraw_points
-        # current_user.increment!(:points, - @claimed_reward.reward.cost)
-        respond_with @claimed_reward.reward, root: "rewards"
-      else
-        render_error(DoGood::Api::RecordNotSaved.new("Couldn't claim reward."))
-      end
-    rescue ActionController::ParameterMissing => error
-      render_error(DoGood::Api::ParametersInvalid.new)
-      return
+    if @claimed_reward.save
+      @claimed_reward.withdraw_points
+      # current_user.increment!(:points, - @claimed_reward.reward.cost)
+      respond_with @claimed_reward.reward, root: "rewards"
+    else
+      raise DoGood::Api::RecordNotSaved.new("Couldn't claim reward.")
     end
   end
 

@@ -152,6 +152,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
       def setup
         super
         @user = FactoryGirl.create(:user)
+        stub(Reward).just_created_by { false }
         sign_in @user
       end
 
@@ -197,14 +198,12 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
           }
         }
         json = jsonify(response)
-        p json
+
         assert_response :error
         assert_equal "Reward no longer available.", json.traverse(:errors, :messages, 0)
       end
 
       test "should claim with sufficient points & a chosen reward" do
-        # stub(Good).just_created_by { false }
-
         @reward = FactoryGirl.create(:reward)
         add_points(@user)
 
