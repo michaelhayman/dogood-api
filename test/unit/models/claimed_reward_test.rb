@@ -24,12 +24,30 @@ class ClaimedRewardTest < DoGood::TestCase
     @user = FactoryGirl.create(:user)
     @claimed_reward = FactoryGirl.create(
       :claimed_reward,
-      :user_id => @user.id)
+      :user => @user)
   end
 
   context "has validations" do
     test "should withdraw points" do
       assert FactoryGirl.build(:claimed_reward).valid?
+    end
+  end
+
+  xtest "refund points"
+
+  context "create claim" do
+    test "no claim if no reward" do
+      @claimed_reward.reward.destroy
+      refute @claimed_reward.create_claim
+    end
+
+    test "no claim if no budget" do
+      refute @claimed_reward.create_claim
+    end
+
+    test "claim otherwise" do
+      @user.add_points(10000, category: 'Bonus')
+      assert @claimed_reward.create_claim
     end
   end
 

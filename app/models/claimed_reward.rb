@@ -1,6 +1,7 @@
 class ClaimedReward < ActiveRecord::Base
   belongs_to :user
   belongs_to :reward
+
   scope :recent, -> { order('created_at DESC') }
 
   validates_presence_of :user,
@@ -14,6 +15,19 @@ class ClaimedReward < ActiveRecord::Base
 
   def withdraw_points
     user.subtract_points(self.reward.cost)
+  end
+
+  def create_claim
+    errors.add(:base, "Reward no longer available.") unless self.reward && self.reward.is_available?
+    errors.add(:base, "Insufficient points.") if !self.within_budget?(self.user.points)
+
+    if errors.empty?
+      self.withdraw_points
+      self.save
+      return true
+    else
+      return false
+    end
   end
 
   def refund_points

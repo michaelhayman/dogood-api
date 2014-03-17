@@ -55,18 +55,11 @@ class RewardsController < ApiController
       :reward_id => resource_params[:id],
       :user_id => current_user.id)
 
-    raise DoGood::Api::RecordNotSaved.new("Invalid reward.") if !@claimed_reward.reward
-    raise DoGood::Api::RecordNotSaved.new("Insufficient points.") if !@claimed_reward.within_budget?(current_user.points)
-
-    @reward = Reward.available.find_by_id(resource_params[:id])
-
-    raise DoGood::Api::RecordNotSaved.new("Reward no longer available.") unless @reward
-
-    if @claimed_reward.save
-      @claimed_reward.withdraw_points
+    if @claimed_reward.create_claim
       render json: @claimed_reward.reward, root: "rewards"
     else
-      raise DoGood::Api::RecordNotSaved.new("Couldn't claim reward.")
+      msg = @claimed_reward.errors.full_messages || "Couldn't claim reward."
+      raise DoGood::Api::RecordNotSaved.new(msg)
     end
   end
 

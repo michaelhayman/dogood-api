@@ -284,7 +284,9 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
         @reward = FactoryGirl.create(:reward)
         add_points(@user)
 
-        stub_save_method(ClaimedReward)
+        any_instance_of(ClaimedReward) do |klass|
+          stub(klass).create_claim { false }
+        end
 
         post :claim, {
           format: :json,
