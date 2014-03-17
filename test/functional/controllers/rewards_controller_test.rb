@@ -298,9 +298,9 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-private
+  private
     def add_points(user)
-      Point.record_points("Good", 1, "Post", user.id, from_user_id = nil, 10000)
+      user.add_points(10000, category: 'Bonus')
     end
 end
 

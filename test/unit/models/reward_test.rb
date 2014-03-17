@@ -35,7 +35,7 @@ class RewardTest < DoGood::TestCase
 
   test "should show rewards if the user has sufficient points" do
     user = FactoryGirl.create(:user)
-    point = FactoryGirl.create(:point, :to_user_id => user.id)
+    user.add_points(10000, category: 'Bonus')
     reward = FactoryGirl.create(:reward)
     assert_equal 1, Reward.sufficient_points(user).count
   end
