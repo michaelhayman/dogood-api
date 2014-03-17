@@ -36,4 +36,3 @@ class VotesController < ApiController
         first
     end
 end
-
