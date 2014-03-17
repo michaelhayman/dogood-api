@@ -20,12 +20,8 @@ class ClaimedRewardTest < DoGood::TestCase
 
   context "point management" do
     test "should withdraw points" do
-      point = FactoryGirl.create(
-        :point,
-        :to_user_id => @user.id)
-
+      @user.add_points(10000, category: 'Bonus')
       points = @user.points
-
       @claimed_reward.withdraw_points
 
       assert_equal @user.points, points - @claimed_reward.reward.cost
