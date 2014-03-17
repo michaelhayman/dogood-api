@@ -1,8 +1,23 @@
 require 'test_helper'
 
 class ClaimedRewardTest < DoGood::TestCase
-  xtest "validations"
-  xtest "test claimed rewards"
+  context "has validations" do
+    def setup
+      super
+    end
+
+    test "should be valid by default" do
+      assert FactoryGirl.build(:claimed_reward).valid?
+    end
+
+    test "has a user" do
+      refute FactoryGirl.build(:claimed_reward, :no_user).valid?
+    end
+
+    test "has a reward" do
+      refute FactoryGirl.build(:claimed_reward, :no_reward).valid?
+    end
+  end
 
   def setup
     super

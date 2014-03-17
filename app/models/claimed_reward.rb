@@ -3,6 +3,15 @@ class ClaimedReward < ActiveRecord::Base
   belongs_to :reward
   scope :recent, -> { order('created_at DESC') }
 
+  validates_presence_of :user,
+    presence: {
+      message: "Enter a user."
+    }
+  validates_presence_of :reward,
+    presence: {
+      message: "Enter a reward."
+    }
+
   def withdraw_points
     user.subtract_points(self.reward.cost)
   end
