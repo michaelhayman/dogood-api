@@ -42,6 +42,8 @@ class User < ActiveRecord::Base
   attr_accessor :logged_in
   attr_accessor :message
 
+  RANKS = %w{ E D C B A }.deep_freeze
+
   def self.by_id(user_id)
     where(:id => user_id).first
   end
@@ -55,12 +57,8 @@ class User < ActiveRecord::Base
     return false
   end
 
-  def score
-    Point.score_for_user(self.id)
-  end
-
   def rank
-    Point.rank_for_user(self.id)
+    RANKS[self.level]
   end
 
   def update_password(password)

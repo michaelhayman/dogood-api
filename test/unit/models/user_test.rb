@@ -1,10 +1,14 @@
 require 'test_helper'
 
 class UserTest < DoGood::TestCase
+  def setup
+    super
+    @user = FactoryGirl.create(:user)
+  end
+
   context "validations" do
     test "has a valid name" do
-      user = FactoryGirl.create(:user)
-      assert user.valid?, "Should be valid"
+      assert @user.valid?, "Should be valid"
     end
   end
 
@@ -14,7 +18,7 @@ class UserTest < DoGood::TestCase
     end
 
     test "should have an email address" do
-      assert FactoryGirl.build(:user)
+      assert FactoryGirl.build(:user).valid?
       refute FactoryGirl.build(:user, email: "").valid?
     end
 
@@ -25,39 +29,25 @@ class UserTest < DoGood::TestCase
   end
 
   test "should return a specific user" do
-    user1 = FactoryGirl.create(:user)
     user2 = FactoryGirl.create(:user, :email => Faker::Internet.email)
-    assert_equal user1, User.by_id(user1.id)
+    assert_equal @user, User.by_id(@user.id)
   end
 
   context "points" do
-    # not implemented
-    xtest "test should return a user's score" do
-    end
-
-    test "should return a user's rank" do
-      user = FactoryGirl.create(:user)
-      point = FactoryGirl.create(
-        :point,
-        :to_user_id => user.id)
-
-      assert_equal "B", user.rank
+    test "test should return a user's rank" do
+      assert_equal "E", @user.rank
     end
 
     test "it should return a user's points" do
-      user = FactoryGirl.create(:user)
-      point = FactoryGirl.create(
-        :point,
-        :to_user_id => user.id)
-
-      assert_equal 5000, user.points
+      points = 5000
+      @user.add_points(points, category: 'Bonus')
+      assert_equal points, @user.points
     end
   end
 
   context "update password" do
     def setup
       super
-      @user = FactoryGirl.create(:user, :bob)
       @password = HashWithIndifferentAccess.new({
         current_password: @user.password,
         password: "oh_billy",
