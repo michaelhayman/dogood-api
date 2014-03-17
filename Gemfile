@@ -23,6 +23,7 @@ gem 'acts_as_votable', '~> 0.6.0'
 gem 'acts_as_follower', '~> 0.2.1'
 gem 'simple_hashtag',
   :github => 'michaelhayman/simple_hashtag'
+gem 'merit'
 
 # Database
 gem 'activerecord-postgresql-extensions', :github => 'zoocasa/activerecord-postgresql-extensions', :branch => 'rails-4'
