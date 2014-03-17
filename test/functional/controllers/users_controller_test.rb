@@ -496,29 +496,29 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "score" do
+  context "rank" do
     test "route" do
       assert_routing( {
-        path: "/users/1/score",
+        path: "/users/1/rank",
         method: :get
       }, {
         controller: "users",
-        action: "score",
+        action: "rank",
         id: "1"
       })
     end
 
-    test "score for another user" do
+    test "rank for another user" do
       @bob = FactoryGirl.create(:user, :bob)
 
-      get :score, {
+      get :rank, {
         format: :json,
         id: @bob.id
       }
       json = jsonify(response)
 
       assert_response :success
-      assert_equal @bob.score, json.traverse(:score)
+      assert_equal @bob.rank, json.traverse(:rank)
     end
   end
 

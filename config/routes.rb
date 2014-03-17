@@ -24,7 +24,7 @@ DoGoodApp::Application.routes.draw do
     member do
       get :points
       get :status
-      get :score
+      get :rank
     end
   end
 

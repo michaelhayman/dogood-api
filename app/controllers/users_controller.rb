@@ -73,10 +73,10 @@ class UsersController < ApiController
     render_paginated_index(@users, Users::SearchSerializer)
   end
 
-  def score
+  def rank
     @users = User.find(params[:id])
 
-    render json: @users.score
+    render json: { rank: @users.rank }
   end
 
   def update_profile
