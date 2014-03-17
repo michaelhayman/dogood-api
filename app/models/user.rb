@@ -63,10 +63,6 @@ class User < ActiveRecord::Base
     Point.rank_for_user(self.id)
   end
 
-  def points
-    Point.points_for_user(self.id)
-  end
-
   def update_password(password)
     if !password[:current_password].blank? && !password[:password].blank? && !password[:password_confirmation].blank?
       self.update_with_password(password)
