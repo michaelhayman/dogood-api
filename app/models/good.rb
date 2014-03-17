@@ -57,13 +57,6 @@ class Good < ActiveRecord::Base
     order("goods.created_at desc")
   }
 
-  # after_create add_points
-
-  GOOD_POINTS = 10
-  def add_points(record)
-    Point.record_points("Good", record.id, "Post", record.user_id, nil, GOOD_POINTS)
-  end
-
   def self.in_category(id)
     where(:category_id => id)
   end
