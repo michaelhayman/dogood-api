@@ -8,7 +8,7 @@ class VotesController < ApiController
 
     if polymorphic_association.liked_by current_user
       render_ok
-      Point.record_points(resource_params[:votable_type], resource_params[:votable_id], "Like", polymorphic_association.user_id, current_user.id, VOTE_POINTS)
+      current_user.add_points(VOTE_POINTS, category: "Good vote")
     else
       raise DoGood::Api::Error.new("Like not registered.")
     end
@@ -17,7 +17,7 @@ class VotesController < ApiController
   def destroy
     if polymorphic_association.unliked_by :voter => current_user
       render_ok
-      Point.remove_points(resource_params[:votable_type], resource_params[:votable_id], "Like", polymorphic_association.user_id, current_user.id, VOTE_POINTS)
+      current_user.subtract_points(VOTE_POINTS, category: "Good vote")
     else
       raise DoGood::Api::Error.new("Unlike not registered.")
     end
