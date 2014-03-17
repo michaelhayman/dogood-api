@@ -25,6 +25,8 @@ module Merit
       score 5, :on => [
         'goods#create'
       ]
+      proc = lambda { |reward| reward.withdraw_points }
+      score proc, on: 'claimed_reward#create_claim'
     end
   end
 end
