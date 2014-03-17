@@ -43,20 +43,17 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         assert_response :unprocessable_entity
       end
 
-      test "should be authenticated user & fully-populated vote" do
+      test "should work for authenticated user & fully-populated vote" do
         sign_in @user
 
+        assert 0, @user.points
         assert 0, @good.votes.count
 
-        post :create, {
-          format: :json,
-          vote: {
-            votable_id: @good.id,
-            votable_type: "Good"
-          }
-        }
+        add_valid_vote(@good)
+
         assert_response :success
         assert 1, @good.votes
+        assert 10, @user.points
       end
 
       test "users can only vote once, and fail silently otherwise" do
@@ -69,13 +66,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
 
         assert 1, @good.votes.count
 
-        post :create, {
-          format: :json,
-          vote: {
-            votable_id: @good.id,
-            votable_type: "Good"
-          }
-        }
+        add_valid_vote(@good)
+
         json = jsonify(response)
 
         assert_response :success
@@ -88,13 +80,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
 
         assert 0, @good.votes.count
 
-        post :create, {
-          format: :json,
-          vote: {
-            votable_id: @good.id,
-            votable_type: "Good"
-          }
-        }
+        add_valid_vote(@good)
 
         assert 1, @good.votes
       end
@@ -104,13 +90,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
 
         assert 0, @good.votes.count
 
-        post :create, {
-          format: :json,
-          vote: {
-            votable_id: @good.id,
-            votable_type: "Good"
-          }
-        }
+        add_valid_vote(@good)
 
         assert 0, @good.votes.count
       end
@@ -120,13 +100,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
             stub(klass).liked_by { false }
         end
 
-        post :create, {
-          format: :json,
-          vote: {
-            votable_id: @good.id,
-            votable_type: "Good"
-          }
-        }
+        add_valid_vote(@good)
+
         assert_response :bad_request
         assert 0, @good.votes.count
       end
@@ -157,18 +132,14 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         sign_in @user
 
         assert 0, @good.votes.count
+        assert 0, @user.points
         @good.liked_by @user
 
-        delete :destroy, {
-          format: :json,
-          id: @good.id,
-          vote: {
-            votable_id: @good.id,
-            votable_type: "Good"
-          }
-        }
+        remove_valid_vote(@good)
+
         assert_response :success
         assert 0, @good.votes.count
+        assert -10, @user.points
       end
 
       test "fails without valid parameters" do
@@ -176,14 +147,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         assert 1, @good.votes.count
         stub(@good).unliked_by { false }
 
-        delete :destroy, {
-          format: :json,
-          id: @good.id,
-          vote: {
-            votable_id: @good.id,
-            votable_type: "Good"
-          }
-        }
+        remove_valid_vote(@good)
+
         assert_response :success
         assert 0, @good.votes.count
       end
@@ -193,18 +158,34 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
             stub(klass).unliked_by { false }
         end
 
-        delete :destroy, {
-          format: :json,
-          id: @good.id,
-          vote: {
-            votable_id: @good.id,
-            votable_type: "Good"
-          }
-        }
+        remove_valid_vote(@good)
+
         assert_response :bad_request
         assert 0, @good.votes.count
       end
     end
   end
+
+  private
+    def add_valid_vote(object)
+      post :create, {
+        format: :json,
+        vote: {
+          votable_id: object.id,
+          votable_type: "Good"
+        }
+      }
+    end
+
+    def remove_valid_vote(object)
+      delete :destroy, {
+        format: :json,
+        id: object.id,
+        vote: {
+          votable_id: object.id,
+          votable_type: "Good"
+        }
+      }
+    end
 end
 

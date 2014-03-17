@@ -1,13 +1,10 @@
 class VotesController < ApiController
-  VOTE_POINTS = 10
-
   before_filter :check_auth
 
   def create
     raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:vote].present?
 
     if polymorphic_association.liked_by current_user
-      current_user.add_points(VOTE_POINTS, category: "Good vote")
       render_ok
     else
       raise DoGood::Api::Error.new("Like not registered.")
@@ -16,7 +13,6 @@ class VotesController < ApiController
 
   def destroy
     if polymorphic_association.unliked_by :voter => current_user
-      current_user.subtract_points(VOTE_POINTS, category: "Good unvote")
       render_ok
     else
       raise DoGood::Api::Error.new("Unlike not registered.")
