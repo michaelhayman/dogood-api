@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_merit
+
   include DoGood::Reportable
 
   devise :database_authenticatable,
