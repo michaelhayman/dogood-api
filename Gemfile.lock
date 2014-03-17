@@ -311,7 +311,7 @@ DEPENDENCIES
   kgio (~> 2.6)
   memcachier (~> 0.0.2)
   memoist (= 0.9.1)
-  merit
+  merit (~> 2.0.0)
   minitest
   minitest-reporters
   newrelic_rpm (~> 3.6.6.147)
