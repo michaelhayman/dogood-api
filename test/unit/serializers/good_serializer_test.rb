@@ -74,8 +74,20 @@ class GoodSerializerTest < DoGood::TestCase
     @serializer = GoodSerializer.new @good, root: "goods"
   end
 
-  test "json for api" do
+  test "outputs standard json for api" do
     assert_equal expected_hash.to_json, @serializer.to_json
+  end
+
+  test "defaults cache key" do
+    @serializer = DefaultsSerializer.new @good, root: "goods"
+    stub(@serializer).current_user { nil }
+    assert_equal @serializer.cache_key, [ @good, nil ]
+  end
+
+  test "current user good cache key" do
+    @serializer = CurrentUserGoodSerializer.new @good, root: "goods"
+    stub(@serializer).current_user { nil }
+    assert_equal @serializer.cache_key, [ @good, nil ]
   end
 end
 
