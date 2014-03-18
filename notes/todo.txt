@@ -35,58 +35,73 @@ config/environments/development.rb
 
 - Use new invalid? check before going to record not saved
 
+- Rename goods to posts...
+
 To do:
 ======
 
-- Extend report's error mock by including helper method higher up and adding more tests
-  for create methods.
+- Look into why follows aren't being cached (user decorator uses em)
 
-- Make 100% of API tests pass ASAP
-
-- Examine votes, follows, reports for bugs, clean up, etc.
-
-- look into why follows aren't being cached (user decorator uses em)
-
-- get everything checked into iOS repository then rename back to single DoGood
-  workspace.
-
-  - Rename regoods to followers
-
-  - 'goods' to posts
-  - 'goods' to votes
-
-  105 votes
-  51 followers
-
-
-- Tap settings - it loads settings page with spinner then loads
-  your current user settings.  if it fails it pops back.
-
-- Make a non-rails ember app to take care of resetting password
-
-- Push controller tests to 95%+ coverage
-
-- Rename goods to posts...
-
-- Move rewards#claim logic to model
+- Add (future) date to a todo good & select between todo & done goods
 
 - Remove all comments from files like environment.rb, uploaders, etc.
   Be pro.  !git grep "\# "
 
 - Implement site settings
 
-- Need to collapse avatar to url & test
-
-- Move after_create good.add_points to lib
-  - or use observers?
-  - after voting too
-
-- Change voteable to votable to fit with plugin
-
 Done:
 =====
 
+2014/3/17
+- Make 100% of API tests pass ASAP
+
+- Get points working with Merit gem
+
+Points
+- Points assigned when
+- Gioco for points (https://github.com/joaomdmoura/gioco),
+  so don't test them too much yet
+  - Move after_create good.add_points to lib
+    - or use observers?
+    - after voting too
+
+  - Why aren't points showing up?
+
+2014/3/16
+- Look at untested rewards controller code - create not actually used.
+
+- Refactor rewards, move rewards#claim logic to model, test
+
+- Make users#update_password tests pass
+
+- Got email sending & tests passing
+
+Getting correct token now I think, but now CORS is failing lol.
+
+Getting quite misled - was working last night now I'm fudging for tests?
+(The devise URL wasn't working either though.)
+
+2014/3/15
+
+Passwords
+- ember app with change password form
+  a) get this to render properly:
+     http://www.dogoodapp.io/users/change_password?reset_password_key=asdf
+  - Learn templates & jsonp
+  - Provide a link to said app in email from passwords#create
+  - A cross-site allowance for api app
+  - Deploying to heroku with only html & JS
+- passwords#update API endpoint to update the actual password
+- Passing set of API tests
+- Passing set of JavaScript tests
+
 2014/3/9
+- Need to collapse avatar to url & test
+- Push controller tests to 95%+ coverage
+- Extend report's error mock by including helper method higher up and adding more tests
+  for create methods.
+- Examine votes, follows, reports for bugs, clean up, etc.
+- Change voteable to votable to fit with plugin
 - Figure out how to simulate db save error portions of code
 - render_errors?  errors not appearing properly in iOS app in some
 - Prevent reporting your own post
@@ -102,6 +117,9 @@ Done:
 2014/3/8
 - User serializer work, followings, etc.
 - Test new user decorator methods
+- Relaxing day
+- Still got 1 hour done late at night
+- Exhausted, get up at 4 & check things in
 
 2014/3/7
 - Working on follows
