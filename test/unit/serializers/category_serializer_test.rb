@@ -16,7 +16,7 @@ class CategorySerializerTest < DoGood::TestCase
   def setup
     super
     @user = FactoryGirl.create(:user)
-    @category = FactoryGirl.create(:category, :health)
+    @category = FactoryGirl.create(:category, :health).decorate
 
     @serializer = CategorySerializer.new @category, root: "categories"
   end
