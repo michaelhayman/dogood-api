@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
     if stale? :etag => @categories,
               :last_modified => @categories.maximum(:updated_at),
               :public => true
-      render json: @categories
+      render json: @categories.decorate
     end
   end
 end
