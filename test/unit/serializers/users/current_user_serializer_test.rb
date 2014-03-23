@@ -6,6 +6,7 @@ class Users::CurrentUserSerializerTest < DoGood::TestCase
       users: {
         id: @user.id,
         full_name: @user.full_name,
+        email: @user.email,
         location: @user.location,
         biography: @user.biography,
         points: @user.points,
