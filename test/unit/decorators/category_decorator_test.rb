@@ -9,7 +9,7 @@ class CategoryDecoratorTest < DoGood::TestCase
 
   context "colour" do
     test "prefixed by #" do
-      assert_equal @category.colour, "##{@category.object.colour}"
+      assert_equal @category.colour, "##{@category.object.colour.upcase}"
     end
   end
 end
