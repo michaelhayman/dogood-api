@@ -10,11 +10,7 @@ class GoodsController < ApiController
   ]
 
   def index
-    if params[:category_id]
-      @goods = Good.in_category(params[:category_id]).extra_info
-    else
-      @goods = Good.most_relevant.extra_info
-    end
+    @goods = apply_scopes(Good.extra_info)
 
     render_paginated_index(@goods)
   end
@@ -37,38 +33,40 @@ class GoodsController < ApiController
       extra_info.
       newest_first
 
+    @goods = apply_scopes(@goods)
+
     render_paginated_index(@goods)
   end
 
   def popular
-    @goods = Good.
+    @goods = apply_scopes(Good.
       popular.
-      extra_info
+      extra_info)
 
     render_paginated_index(@goods)
   end
 
   def nearby
-    @goods = Good.
+    @goods = apply_scopes(Good.
       nearby(params[:lat], params[:lng]).
-      extra_info
+      extra_info)
 
     render_paginated_index(@goods)
   end
 
   def liked_by
-    @goods = Good.
+    @goods = apply_scopes(Good.
       newest_first.
-      liked_by_user(params[:user_id])
+      liked_by_user(params[:user_id]))
 
     render_paginated_index(@goods)
   end
 
   def posted_or_followed_by
-    @goods = Good.
+    @goods = apply_scopes(Good.
       newest_first.
       posted_or_followed_by(params[:user_id]).
-      extra_info
+      extra_info)
 
     render_paginated_index(@goods)
   end
@@ -104,5 +102,17 @@ class GoodsController < ApiController
     params.require(:good).permit(:caption, :evidence, :user_id, :category_id, :lat, :lng, :location_name, :location_image, :done, :nominee_attributes => [ :full_name, :email, :phone, :user_id, :twitter_id, :facebook_id ], :entities_attributes => [ :entityable_id, :entityable_type, :link, :link_id, :link_type, :title, :range => [] ])
   end
   private :resource_params
+
+  private
+    def apply_scopes(target)
+      if params[:done].present?
+        target = target.done(params[:done])
+      end
+      if params[:category_id].present?
+        target = target.in_category(params[:category_id])
+      end
+
+      target
+    end
 end
 

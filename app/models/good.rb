@@ -41,6 +41,10 @@ class Good < ActiveRecord::Base
 
   scope :standard, -> { limit(20) }
 
+  scope :done, ->(bool) {
+    where(done: bool)
+  }
+
   scope :popular, -> {
     order('
       comments_count * 3 +

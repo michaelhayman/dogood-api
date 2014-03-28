@@ -40,6 +40,20 @@ class GoodTest < DoGood::TestCase
       assert_equal 1, Good.in_category(5).count
     end
 
+    context "done" do
+      test "should return only goods which aren't done" do
+        good1 = FactoryGirl.create(:good, done: true)
+        good2 = FactoryGirl.create(:good, done: false)
+        assert_equal 1, Good.done(true).count
+      end
+
+      test "should return only goods which are done" do
+        good1 = FactoryGirl.create(:good, done: true)
+        good2 = FactoryGirl.create(:good, done: false)
+        assert_equal 1, Good.done(false).count
+      end
+    end
+
     test "nearby should contain only " do
       good = FactoryGirl.create(:good)
       sydney_good = FactoryGirl.create(:good, :sydney)

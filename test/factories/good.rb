@@ -7,6 +7,7 @@ FactoryGirl.define do
     evidence "http://www.images.amazon.com/dev/null"
     lat 43.652527
     lng -79.381961
+    done false
 
     trait :no_user do
       user nil

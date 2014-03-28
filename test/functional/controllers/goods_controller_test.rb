@@ -56,6 +56,40 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       assert_equal 1, json.traverse(:goods).count
     end
+
+    test "the goods which are to do" do
+      @user = FactoryGirl.create(:user)
+      @good = FactoryGirl.create(:good)
+
+      @health_good = FactoryGirl.create(:good, :health, done: true)
+
+      get :index, {
+        format: :json,
+        done: true
+      }
+
+      json = jsonify(response)
+      assert_equal 2, Good.all.count
+
+      assert_equal 1, json.traverse(:goods).count
+    end
+
+    test "the goods which are done" do
+      @user = FactoryGirl.create(:user)
+      @good = FactoryGirl.create(:good)
+
+      @health_good = FactoryGirl.create(:good, :health, done: true)
+
+      get :index, {
+        format: :json,
+        done: true
+      }
+
+      json = jsonify(response)
+      assert_equal 2, Good.all.count
+
+      assert_equal 1, json.traverse(:goods).count
+    end
   end
 
   context "show" do
