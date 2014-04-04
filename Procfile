@@ -1,2 +1,2 @@
-# passenger start
+web: passenger start -p 3002
 
