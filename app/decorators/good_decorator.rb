@@ -4,6 +4,7 @@ class GoodDecorator < BaseDecorator
   decorates_association :entities
   decorates_association :user
   decorates_association :nominee
+  decorates_association :category
 
   def current_user_liked
     helpers.dg_user.good_liked?(object) || false
