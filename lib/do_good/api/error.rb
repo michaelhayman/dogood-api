@@ -41,7 +41,7 @@ module DoGood
 
     class TooManyQueries < Error
       def initialize
-        @message = "Over query limit."
+        @message = "Please wait longer before posting again."
         @http_error = :too_many_requests
       end
     end
