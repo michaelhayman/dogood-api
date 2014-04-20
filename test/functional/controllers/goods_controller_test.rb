@@ -266,7 +266,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     test "should return goods that a user was nominated for" do
       @user = FactoryGirl.create(:user)
 
-      nominated_good = FactoryGirl.create(:good)
+      nominated_good = FactoryGirl.create(:good, :done)
       nominated_good.nominee.user_id = @user
       nominated_good.nominee.save!
 
@@ -338,7 +338,32 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
         assert_response :too_many_requests
       end
 
-      test "should be successful for a fully-populated good" do
+      test "should be successful for a fully-populated done good" do
+        stub(Good).just_created_by { false }
+        sign_in @user
+
+        @good = FactoryGirl.build(:good, :user => @user)
+
+        post :create, {
+          format: :json,
+          good: {
+            caption: @good.caption,
+            done: true,
+            user_id: @good.user.id,
+            nominee_attributes: {
+              full_name: @good.nominee.full_name
+            }
+          }
+        }
+
+        assert_response :success
+        assert_equal 1, Good.all.count
+
+        @created_good = Good.first
+        assert_equal @created_good.caption, @good.caption
+      end
+
+      test "should be successful for a fully-populated todo good & it should ignore the nominee attributes" do
         stub(Good).just_created_by { false }
         sign_in @user
 
@@ -349,6 +374,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
           good: {
             caption: @good.caption,
             user_id: @good.user.id,
+            done: false,
             nominee_attributes: {
               full_name: @good.nominee.full_name
             }
@@ -374,9 +400,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
           good: {
             caption: @good.caption,
             user_id: @good.user.id,
-            nominee_attributes: {
-              full_name: @good.nominee.full_name
-            }
+            done: false
           }
         }
         assert_response :error
