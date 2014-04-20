@@ -14,6 +14,7 @@ class Good < ActiveRecord::Base
 
   acts_as_mappable
 
+  before_save :scrub_nominee
 
   reportable!
 
@@ -64,6 +65,12 @@ class Good < ActiveRecord::Base
   scope :newest_first, -> {
     order("goods.created_at desc")
   }
+
+  def scrub_nominee
+    if !self.done
+      self.nominee = nil
+    end
+  end
 
   def self.in_category(id)
     where(:category_id => id)
