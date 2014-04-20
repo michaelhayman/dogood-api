@@ -107,7 +107,8 @@ class Good < ActiveRecord::Base
   end
 
   def self.just_created_by(user_id)
-    where("user_id = ? AND created_at > ?", user_id, 60.seconds.ago)
+    good = self.where("user_id = ? AND created_at > ?", user_id, 60.seconds.ago)
+    good.present?
   end
 
   def self.extra_info
