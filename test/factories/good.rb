@@ -9,6 +9,10 @@ FactoryGirl.define do
     lng -79.381961
     done false
 
+    trait :done do
+      done true
+    end
+
     trait :no_user do
       user nil
     end
