@@ -38,11 +38,13 @@ class Good < ActiveRecord::Base
   validates :caption,
     presence: { message: "Enter a name." },
     length: { maximum: 120, message: "Please enter a shorter caption." }
+
   validates :user_id,
     presence: { message: "Goods must be associated with a user." }
 
-  accepts_nested_attributes_for :entities
-  accepts_nested_attributes_for :nominee
+  accepts_nested_attributes_for :entities, limit: 10
+
+  accepts_nested_attributes_for :nominee, limit: 1
 
   scope :standard, -> { limit(20) }
 
