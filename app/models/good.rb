@@ -29,7 +29,11 @@ class Good < ActiveRecord::Base
   belongs_to :nominee
 
   validates :nominee,
-    presence: { message: "is required." }
+    presence: {
+      message: "is required.",
+      if: Proc.new { |good| good.done === true }
+    }
+
   validates :caption,
     presence: { message: "Enter a name." },
     length: { maximum: 120, message: "Please enter a shorter caption." }
