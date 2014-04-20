@@ -94,7 +94,7 @@ class GoodsController < ApiController
       render json: @good.decorate, root: "goods"
     else
       message = @good.errors.full_messages.first || "Couldn't save good."
-      raise DoGood::Api::RecordNotSaved.new(message)
+      raise DoGood::Api::ParametersInvalid.new(message)
     end
   end
 
