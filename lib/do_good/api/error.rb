@@ -35,7 +35,7 @@ module DoGood
     class RecordNotSaved < Error
       def initialize(msg = nil)
         @message = msg
-        @http_error = :internal_server_error
+        @http_error = :not_acceptable
       end
     end
 
