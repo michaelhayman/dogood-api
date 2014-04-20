@@ -329,6 +329,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       test "should not allow two goods to be posted too quickly" do
         sign_in @user
+        stub(Good).just_created_by { true }
 
         3.times do
           post :create, {
