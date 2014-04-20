@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GoodTest < DoGood::TestCase
+class ReportTest < DoGood::TestCase
   context "has validations" do
     test "should be valid with all default values" do
       assert FactoryGirl.build(:report).valid?
