@@ -84,7 +84,7 @@ class GoodsController < ApiController
   def create
     check_auth
     raise DoGood::Api::TooManyQueries.new if Good.just_created_by(dg_user)
-    raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:good].present?
+    raise DoGood::Api::ParametersInvalid.new("No parameters.") unless params[:good].present?
 
     @good = Good.new(resource_params)
     @good.user_id = current_user.id
