@@ -88,7 +88,7 @@ class ReportsControllerTest < DoGood::ActionControllerTestCase
           reportable_id: @good.id
         }
       }
-      assert_response :error
+      assert_response :internal_server_error
     end
   end
 end

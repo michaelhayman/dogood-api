@@ -90,7 +90,7 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
       }
 
       json = jsonify(response)
-      assert_response :error
+      assert_response :internal_server_error
     end
   end
 end

@@ -325,7 +325,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
 
-      assert_response :error
+      assert_response :internal_server_error
 
       assert_equal ["Unable to update your details."], json.traverse(:errors, :messages)
     end
@@ -382,7 +382,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
 
-      assert_response :error
+      assert_response :internal_server_error
 
       assert_equal ["Unable to update your password."], json.traverse(:errors, :messages)
     end
@@ -447,7 +447,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
 
-      assert_response :error
+      assert_response :internal_server_error
     end
   end
 
@@ -492,7 +492,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
         format: :json
       }
 
-      assert_response :error
+      assert_response :internal_server_error
     end
   end
 

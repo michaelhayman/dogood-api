@@ -167,7 +167,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
           }
         }
 
-        assert_response :error
+        assert_response :internal_server_error
       end
     end
   end
@@ -230,7 +230,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
           }
         }
 
-        assert_response :error
+        assert_response :internal_server_error
       end
 
       test "should be in error with wrong reward identifier" do
@@ -240,7 +240,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
             id: 23082038
           }
         }
-        assert_response :error
+        assert_response :internal_server_error
       end
 
       test "should be in error with unavailable id" do
@@ -255,7 +255,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
         }
         json = jsonify(response)
 
-        assert_response :error
+        assert_response :internal_server_error
         assert_equal "Reward no longer available.", json.traverse(:errors, :messages, 0)
       end
 
@@ -295,7 +295,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
           }
         }
 
-        assert_response :error
+        assert_response :internal_server_error
       end
     end
   end
