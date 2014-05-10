@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class NullUser
-  include Zoocasa::CoreExtensions::Nullable
+  include Ruby::CoreExtensions::Nullable
 
   def first_name
     'Guest'

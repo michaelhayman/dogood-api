@@ -6,10 +6,12 @@ Bundler.require(:default, Rails.env)
 
 module DoGoodApp
   class Application < Rails::Application
-   require "#{Rails.root}/config/additional_requires"
-   # require "#{Rails.root}/config/site_settings"
+    require "#{Rails.root}/config/additional_requires"
 
-   require "#{Rails.root}/lib/do_good/api/error"
+    require "#{Rails.root}/lib/ruby-core-extensions.rb"
+
+    require "#{Rails.root}/lib/do_good/api/error"
+
     %w{
       lib
     }.each do |dir|
