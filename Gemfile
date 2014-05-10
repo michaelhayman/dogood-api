@@ -15,7 +15,7 @@ gem 'devise', '~> 3.2.0'
 gem 'draper', '~> 1.0'
 
 # Globals
-gem 'ice_nine'
+gem 'ice_nine', '~> 0.11.0'
 
 # Social
 gem 'acts_as_commentable', '~> 4.0.0'
@@ -32,7 +32,7 @@ gem 'pg', '~> 0.17.0'
 gem 'activerecord-spatial', '~> 0.2.0'
 
 # JSON
-gem 'active_model_serializers'
+gem 'active_model_serializers', '~> 0.8.1'
 
 # Pagination
 gem 'will_paginate', '~> 3.0'
@@ -69,7 +69,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'simplecov'
+  gem 'simplecov', '~> 0.8.2'
 end
 
 # Heroku
