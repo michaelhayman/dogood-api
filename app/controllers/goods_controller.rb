@@ -71,7 +71,6 @@ class GoodsController < ApiController
     render_paginated_index(@goods)
   end
 
-
   def nominations
     @goods = Good.
       newest_first.
