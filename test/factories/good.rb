@@ -17,6 +17,10 @@ FactoryGirl.define do
       user nil
     end
 
+    trait :no_nominee do
+      nominee nil
+    end
+
     trait :lame do
       caption "Big oil"
       follows_count 0

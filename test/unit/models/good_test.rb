@@ -98,6 +98,23 @@ class GoodTest < DoGood::TestCase
     assert_equal true, Good.just_created_by(11)
   end
 
+  context "invite" do
+    test "should send an invite if the good is done & has a nominee" do
+      @good = FactoryGirl.build(:good, :done)
+      assert @good.send_invite?
+    end
+
+    test "should not send an invite with no nominee" do
+      @good = FactoryGirl.build(:good, :done, :no_nominee)
+      refute @good.send_invite?
+    end
+
+    test "should not send an invite if good is done" do
+      @good = FactoryGirl.build(:good)
+      refute @good.send_invite?
+    end
+  end
+
  # pending "should return extra info" do
  # end
 

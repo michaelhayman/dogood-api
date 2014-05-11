@@ -91,6 +91,9 @@ class GoodsController < ApiController
 
     if @good.save
       render json: @good.decorate, root: "goods"
+      if @good.send_invite?
+        InviteMailer.invite_nominee(@good.nominee).deliver
+      end
     else
       message = @good.errors.full_messages.first || "Couldn't save good."
       raise DoGood::Api::RecordNotSaved.new(message)

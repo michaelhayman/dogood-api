@@ -74,6 +74,10 @@ class Good < ActiveRecord::Base
     end
   end
 
+  def send_invite?
+    self.done && self.nominee.present?
+  end
+
   def self.in_category(id)
     where(:category_id => id)
   end

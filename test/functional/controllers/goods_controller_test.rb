@@ -299,112 +299,117 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       })
     end
 
-    test "should not allow access if the user is not authenticated" do
-      sign_out @user
-      @good = FactoryGirl.build(:good)
+    context "should fail" do
+      test "should not allow access if the user is not authenticated" do
+        sign_out @user
+        @good = FactoryGirl.build(:good)
 
-      post :create, {
-        format: :json,
-        good: {
-          caption: @good.caption,
-          user_id: @good.user.id,
-          nominee_attributes: {
-            full_name: @good.nominee.full_name
-          }
-        }
-      }
-      assert_response :unauthorized
-    end
-
-    context "for an authenticated user" do
-      test "should not allow no parameters to be passed" do
-        stub(Good).just_created_by { false }
-        sign_in @user
         post :create, {
           format: :json,
+          good: {
+            caption: @good.caption,
+            user_id: @good.user.id,
+            nominee_attributes: {
+              full_name: @good.nominee.full_name
+            }
+          }
         }
-        json = jsonify(response)
-        assert_response :unprocessable_entity
+        assert_response :unauthorized
       end
 
-      test "should not allow two goods to be posted too quickly" do
-        sign_in @user
-        stub(Good).just_created_by { true }
-
-        3.times do
+      context "for an authenticated user" do
+        test "should not allow no parameters to be passed" do
+          stub(Good).just_created_by { false }
+          sign_in @user
           post :create, {
             format: :json,
           }
+          json = jsonify(response)
+          assert_response :unprocessable_entity
         end
-        assert_response :too_many_requests
-      end
 
-      test "should be successful for a fully-populated done good" do
-        stub(Good).just_created_by { false }
-        sign_in @user
+        test "should not allow two goods to be posted too quickly" do
+          sign_in @user
+          stub(Good).just_created_by { true }
 
-        @good = FactoryGirl.build(:good, :user => @user)
+          3.times do
+            post :create, {
+              format: :json,
+            }
+          end
+          assert_response :too_many_requests
+        end
 
-        post :create, {
-          format: :json,
-          good: {
-            caption: @good.caption,
-            done: true,
-            user_id: @good.user.id,
-            nominee_attributes: {
-              full_name: @good.nominee.full_name
+        test "should fail for db error" do
+          sign_in @user
+
+          @good = FactoryGirl.build(:good)
+          stub(Good).just_created_by { false }
+          stub_save_method(Good)
+
+          post :create, {
+            format: :json,
+            good: {
+              caption: @good.caption,
+              user_id: @good.user.id,
+              done: false
             }
           }
-        }
-
-        assert_response :success
-        assert_equal 1, Good.all.count
-
-        @created_good = Good.first
-        assert_equal @created_good.caption, @good.caption
+          assert_response :internal_server_error
+        end
       end
 
-      test "should be successful for a fully-populated todo good & it should ignore the nominee attributes" do
-        stub(Good).just_created_by { false }
-        sign_in @user
+      context "should be successful for a fully populated" do
+        test "done good" do
+          stub(Good).just_created_by { false }
+          stub(InviteMailer.invite_nominee(Nominee.new)).deliver { true }
+          sign_in @user
 
-        @good = FactoryGirl.build(:good, :user => @user)
+          @good = FactoryGirl.build(:good, :done, :user => @user)
 
-        post :create, {
-          format: :json,
-          good: {
-            caption: @good.caption,
-            user_id: @good.user.id,
-            done: false,
-            nominee_attributes: {
-              full_name: @good.nominee.full_name
+          post :create, {
+            format: :json,
+            good: {
+              caption: @good.caption,
+              done: true,
+              user_id: @good.user.id,
+              nominee_attributes: {
+                full_name: @good.nominee.full_name
+              }
             }
           }
-        }
 
-        assert_response :success
-        assert_equal 1, Good.all.count
+          assert_response :success
+          assert_equal 1, Good.all.count
 
-        @created_good = Good.first
-        assert_equal @created_good.caption, @good.caption
-      end
+          @created_good = Good.first
+          assert_equal @created_good.caption, @good.caption
+        end
 
-      test "should fail for db error" do
-        sign_in @user
+        test "todo good (& it should ignore the nominee attributes)" do
+          stub(Good).just_created_by { false }
+          sign_in @user
 
-        @good = FactoryGirl.build(:good)
-        stub(Good).just_created_by { false }
-        stub_save_method(Good)
+          @good = FactoryGirl.build(:good, :user => @user)
 
-        post :create, {
-          format: :json,
-          good: {
-            caption: @good.caption,
-            user_id: @good.user.id,
-            done: false
+          post :create, {
+            format: :json,
+            good: {
+              caption: @good.caption,
+              user_id: @good.user.id,
+              done: false,
+              nominee_attributes: {
+                full_name: @good.nominee.full_name
+              }
+            }
           }
-        }
-        assert_response :internal_server_error
+
+          assert_response :success
+          assert_equal 1, Good.all.count
+
+          @created_good = Good.first
+          assert_equal @created_good.caption, @good.caption
+        end
       end
     end
   end
