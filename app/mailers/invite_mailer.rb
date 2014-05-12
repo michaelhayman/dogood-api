@@ -1,6 +1,7 @@
 class InviteMailer < ActionMailer::Base
-  def invite_nominee(nominee)
+  def invite_nominee(nominee, nominator)
     @nominee = nominee
+    @nominator = nominee
     mail(:to => @nominee.email, :from => "invites@dogood.mobi", :subject => "You've been nominated at Do Good") do |format|
       format.html
       format.text

@@ -92,7 +92,7 @@ class GoodsController < ApiController
     if @good.save
       render json: @good.decorate, root: "goods"
       if @good.send_invite?
-        InviteMailer.invite_nominee(@good.nominee).deliver
+        InviteMailer.invite_nominee(@good.nominee, @good.user).deliver
       end
     else
       message = @good.errors.full_messages.first || "Couldn't save good."
