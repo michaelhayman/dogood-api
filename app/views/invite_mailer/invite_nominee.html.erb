@@ -1,4 +1,45 @@
-<p>Hi <%= @nominee.full_name %>!</p>
-
-<p>You've been invited to Do Good.</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <table align=center width=300 cellpadding=5px>
+      <tr>
+        <td bgcolor="#2BC823" style="border-collapse: collapse">
+          <img src="http://www.dogood.mobi/images/dg_app_icon_300x300.png" alt="Do Good" width="300" height="300">
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#2BC823" style="border-collapse: collapse">
+          <font color=white face=sans-serif size=5 ><center>You've been nominated!</center></font>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#2BC823" style="border-collapse: collapse">
+          <font color=white face=sans-serif size=2>
+            <center>
+              <%= @nominator.full_name %> has nominated you for doing a good deed!<br><br>
+            </center>
+            Download the app and:
+            <br>
+            <li>Nominate others for good deeds</li>
+            <li>Find good things to do</li><br>
+            <li>Get rewarded for doing good</li>
+            <center><a href="http://www.dogood.mobi/"><input type="button" value="Start using App" style="background-color:grey; color: white; border: 0px; padding-top: 4px; padding-right: 15px; padding-left: 15px; padding-bottom: 4px; font-size: 12px; font-family: sans-serif; border-radius: 5px; font-weight: 500;" onmouseover="color:black"></a></center><br>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-collapse: collapse">
+          <font face=sans-serif size=1>
+            <center>
+              <a href="*|UNSUB:http://www.dogood.mobi/|*">Opt out of messages like this</a>
+            </center>
+          </font>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
 
