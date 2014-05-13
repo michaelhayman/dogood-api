@@ -361,11 +361,15 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       context "should be successful for a fully populated" do
         test "done good" do
+          any_instance_of(Good) do |klass|
+              stub(klass).send_invite? { false }
+          end
+
           stub(Good).just_created_by { false }
-          stub(InviteMailer.invite_nominee(Nominee.new)).deliver { true }
-          sign_in @user
 
           @good = FactoryGirl.build(:good, :done, :user => @user)
+
+          sign_in @user
 
           post :create, {
             format: :json,
