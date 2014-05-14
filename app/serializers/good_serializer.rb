@@ -42,7 +42,7 @@ class DefaultsSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    [object, current_user]
+    [object, scope]
   end
 end
 
@@ -54,7 +54,7 @@ class CurrentUserGoodSerializer < ActiveModel::Serializer
     :current_user_regooded
 
   def cache_key
-    [object, current_user]
+    [object, scope]
   end
 end
 
