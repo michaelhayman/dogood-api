@@ -14,5 +14,11 @@ test:
   username: mhayman
 
 production:
-  <<: *development
+  adapter: postgresql
+  encoding: unicode
+  database: dogood_production
+  host: localhost
+  pool: 5
+  username: dogood
+  password: dogood
 

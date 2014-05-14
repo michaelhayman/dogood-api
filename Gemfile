@@ -70,9 +70,12 @@ group :development, :test do
   gem 'simplecov', '~> 0.8.2'
 end
 
+gem 'capistrano', '2.12'
+gem 'unicorn', '~> 4.6.3'
+
 # Heroku
 group :production do
-  gem 'unicorn', '~> 4.6.3'
+  # gem 'unicorn', '~> 4.6.3'
   gem 'rails_12factor', '~> 0.0.2'
 
   # Caching
