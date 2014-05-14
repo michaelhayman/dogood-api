@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.1.1"
+ruby "2.1.2"
 
 gem 'railties', '4.0.1'
 gem 'rails', '4.0.1'
