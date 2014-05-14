@@ -4,7 +4,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "no-reply@dogood.mobi"
+  config.mailer_sender = '"Do Good Password Reset" <no-reply@dogood.mobi>'
 
   config.secret_key = '4008243724143cc09539cd6be73de1d8f19d851b79e0b2b809aa829b804858681bdf919ddd528e31a46fb850b75e9ed5377b55c8c4031c7e2cbea89cc4995310'
 
