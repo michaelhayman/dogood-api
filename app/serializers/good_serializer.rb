@@ -15,7 +15,6 @@ class GoodSerializer < ActiveModel::Serializer
 end
 
 class DefaultsSerializer < ActiveModel::Serializer
-
   # cached
 
   attributes :id,
@@ -42,7 +41,7 @@ class DefaultsSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    [object, scope]
+    [object, object.comments.last.updated_at, scope]
   end
 end
 
