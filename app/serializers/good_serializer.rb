@@ -40,8 +40,16 @@ class DefaultsSerializer < ActiveModel::Serializer
     object.comments.last(5)
   end
 
+  def comment_key
+    if object.comments
+      object.comments.last.updated_at
+    else
+      "comment"
+    end
+  end
+
   def cache_key
-    [object, object.comments.last.updated_at, scope]
+    [object, comment_key, scope]
   end
 end
 
