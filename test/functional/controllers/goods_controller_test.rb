@@ -362,7 +362,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       context "should be successful for a fully populated" do
         test "done good" do
           any_instance_of(Good) do |klass|
-              stub(klass).send_invite? { false }
+            stub(klass).send_invite? { false }
           end
 
           stub(Good).just_created_by { false }
