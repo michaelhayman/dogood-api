@@ -1,0 +1,40 @@
+{
+  "records": [
+    {
+      "sprig_id": 3,
+      "name": "Care",
+      "name_constant": "care",
+      "colour": "#B33977"
+    },
+    {
+      "sprig_id": 4,
+      "name": "Disaster Relief",
+      "name_constant": "disaster-relief",
+      "colour": "#1B8EBA"
+    },
+    {
+      "sprig_id": 5,
+      "name": "Donation",
+      "name_constant": "donation",
+      "colour": "#2F376F"
+    },
+    {
+      "sprig_id": 6,
+      "name": "Education",
+      "name_constant": "education",
+      "colour": "#E5761D"
+    },
+    {
+      "sprig_id": 1,
+      "name": "Environment",
+      "name_constant": "environment",
+      "colour": "#C4C622"
+    },
+    {
+      "sprig_id": 2,
+      "name": "Health",
+      "name_constant": "health",
+      "colour": "#D52A25"
+    }
+  ]
+}

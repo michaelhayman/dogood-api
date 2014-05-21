@@ -12,6 +12,8 @@ gem 'devise', '~> 3.2.0'
 # Model Decoration
 gem 'draper', '~> 1.0'
 
+gem 'sprig', '~> 0.1'
+
 # Globals
 gem 'ice_nine', '~> 0.11.0'
 
