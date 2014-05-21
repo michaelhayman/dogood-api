@@ -49,6 +49,7 @@ class GoodsController < ApiController
   def nearby
     @goods = apply_scopes(Good.
       nearby(params[:lat], params[:lng]).
+      newest_first.
       extra_info)
 
     render_paginated_index(@goods)
