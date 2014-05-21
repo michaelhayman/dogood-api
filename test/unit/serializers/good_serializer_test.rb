@@ -81,7 +81,7 @@ class GoodSerializerTest < DoGood::TestCase
   test "defaults cache key" do
     @serializer = DefaultsSerializer.new @good, root: "goods"
     stub(@serializer).current_user { nil }
-    assert_equal @serializer.cache_key, [ @good, nil ]
+    assert_equal @serializer.cache_key, [ @good, @serializer.comment_key, nil ]
   end
 
   test "current user good cache key" do

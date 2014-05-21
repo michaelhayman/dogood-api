@@ -41,7 +41,7 @@ class DefaultsSerializer < ActiveModel::Serializer
   end
 
   def comment_key
-    if object.comments
+    if !object.comments.empty?
       object.comments.last.updated_at
     else
       "comment"
