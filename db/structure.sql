@@ -30,6 +30,38 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: badges_sashes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE badges_sashes (
+    id integer NOT NULL,
+    badge_id integer,
+    sash_id integer,
+    notified_user boolean DEFAULT false,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: badges_sashes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE badges_sashes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: badges_sashes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE badges_sashes_id_seq OWNED BY badges_sashes.id;
+
+
+--
 -- Name: categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -211,7 +243,7 @@ CREATE TABLE goods (
     user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    comments_count integer DEFAULT 0 NOT NULL,
+    comments_count integer DEFAULT 0,
     cached_votes_total integer DEFAULT 0,
     cached_votes_score integer DEFAULT 0,
     cached_votes_up integer DEFAULT 0,
@@ -248,6 +280,138 @@ ALTER SEQUENCE goods_id_seq OWNED BY goods.id;
 
 
 --
+-- Name: merit_actions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE merit_actions (
+    id integer NOT NULL,
+    user_id integer,
+    action_method character varying(255),
+    action_value integer,
+    had_errors boolean DEFAULT false,
+    target_model character varying(255),
+    target_id integer,
+    processed boolean DEFAULT false,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: merit_actions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE merit_actions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: merit_actions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE merit_actions_id_seq OWNED BY merit_actions.id;
+
+
+--
+-- Name: merit_activity_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE merit_activity_logs (
+    id integer NOT NULL,
+    action_id integer,
+    related_change_type character varying(255),
+    related_change_id integer,
+    description character varying(255),
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: merit_activity_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE merit_activity_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: merit_activity_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE merit_activity_logs_id_seq OWNED BY merit_activity_logs.id;
+
+
+--
+-- Name: merit_score_points; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE merit_score_points (
+    id integer NOT NULL,
+    score_id integer,
+    num_points integer DEFAULT 0,
+    log character varying(255),
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: merit_score_points_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE merit_score_points_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: merit_score_points_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE merit_score_points_id_seq OWNED BY merit_score_points.id;
+
+
+--
+-- Name: merit_scores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE merit_scores (
+    id integer NOT NULL,
+    sash_id integer,
+    category character varying(255) DEFAULT 'default'::character varying
+);
+
+
+--
+-- Name: merit_scores_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE merit_scores_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: merit_scores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE merit_scores_id_seq OWNED BY merit_scores.id;
+
+
+--
 -- Name: nominees; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -256,10 +420,10 @@ CREATE TABLE nominees (
     full_name character varying(255) NOT NULL,
     email character varying(255),
     phone character varying(255),
-    user_id character varying(255),
     twitter_id character varying(255),
     facebook_id character varying(255),
-    avatar character varying(255)
+    avatar character varying(255),
+    user_id integer DEFAULT 0
 );
 
 
@@ -391,6 +555,36 @@ ALTER SEQUENCE rewards_id_seq OWNED BY rewards.id;
 
 
 --
+-- Name: sashes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sashes (
+    id integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: sashes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sashes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sashes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sashes_id_seq OWNED BY sashes.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -486,8 +680,10 @@ CREATE TABLE users (
     points_cache integer DEFAULT 0,
     location character varying(255),
     biography character varying(255),
-    facebook_id bigint,
-    twitter_id bigint
+    facebook_id character varying(255),
+    twitter_id character varying(255),
+    sash_id integer,
+    level integer DEFAULT 0
 );
 
 
@@ -550,6 +746,13 @@ ALTER SEQUENCE votes_id_seq OWNED BY votes.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY badges_sashes ALTER COLUMN id SET DEFAULT nextval('badges_sashes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
 
 
@@ -592,6 +795,34 @@ ALTER TABLE ONLY goods ALTER COLUMN id SET DEFAULT nextval('goods_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY merit_actions ALTER COLUMN id SET DEFAULT nextval('merit_actions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY merit_activity_logs ALTER COLUMN id SET DEFAULT nextval('merit_activity_logs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY merit_score_points ALTER COLUMN id SET DEFAULT nextval('merit_score_points_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY merit_scores ALTER COLUMN id SET DEFAULT nextval('merit_scores_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY nominees ALTER COLUMN id SET DEFAULT nextval('nominees_id_seq'::regclass);
 
 
@@ -620,6 +851,13 @@ ALTER TABLE ONLY rewards ALTER COLUMN id SET DEFAULT nextval('rewards_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY sashes ALTER COLUMN id SET DEFAULT nextval('sashes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY simple_hashtag_hashtaggings ALTER COLUMN id SET DEFAULT nextval('simple_hashtag_hashtaggings_id_seq'::regclass);
 
 
@@ -642,6 +880,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 ALTER TABLE ONLY votes ALTER COLUMN id SET DEFAULT nextval('votes_id_seq'::regclass);
+
+
+--
+-- Name: badges_sashes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY badges_sashes
+    ADD CONSTRAINT badges_sashes_pkey PRIMARY KEY (id);
 
 
 --
@@ -693,6 +939,38 @@ ALTER TABLE ONLY goods
 
 
 --
+-- Name: merit_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY merit_actions
+    ADD CONSTRAINT merit_actions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: merit_activity_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY merit_activity_logs
+    ADD CONSTRAINT merit_activity_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: merit_score_points_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY merit_score_points
+    ADD CONSTRAINT merit_score_points_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: merit_scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY merit_scores
+    ADD CONSTRAINT merit_scores_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: nominees_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -722,6 +1000,14 @@ ALTER TABLE ONLY reports
 
 ALTER TABLE ONLY rewards
     ADD CONSTRAINT rewards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sashes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sashes
+    ADD CONSTRAINT sashes_pkey PRIMARY KEY (id);
 
 
 --
@@ -768,6 +1054,27 @@ CREATE INDEX fk_followables ON follows USING btree (followable_id, followable_ty
 --
 
 CREATE INDEX fk_follows ON follows USING btree (follower_id, follower_type);
+
+
+--
+-- Name: index_badges_sashes_on_badge_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_badges_sashes_on_badge_id ON badges_sashes USING btree (badge_id);
+
+
+--
+-- Name: index_badges_sashes_on_badge_id_and_sash_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_badges_sashes_on_badge_id_and_sash_id ON badges_sashes USING btree (badge_id, sash_id);
+
+
+--
+-- Name: index_badges_sashes_on_sash_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_badges_sashes_on_sash_id ON badges_sashes USING btree (sash_id);
 
 
 --
@@ -1058,3 +1365,21 @@ INSERT INTO schema_migrations (version) VALUES ('20140107101154');
 INSERT INTO schema_migrations (version) VALUES ('20140110041742');
 
 INSERT INTO schema_migrations (version) VALUES ('20140110050718');
+
+INSERT INTO schema_migrations (version) VALUES ('20140227094632');
+
+INSERT INTO schema_migrations (version) VALUES ('20140317000202');
+
+INSERT INTO schema_migrations (version) VALUES ('20140317000203');
+
+INSERT INTO schema_migrations (version) VALUES ('20140317000204');
+
+INSERT INTO schema_migrations (version) VALUES ('20140317000205');
+
+INSERT INTO schema_migrations (version) VALUES ('20140317000206');
+
+INSERT INTO schema_migrations (version) VALUES ('20140317104458');
+
+INSERT INTO schema_migrations (version) VALUES ('20140514034732');
+
+INSERT INTO schema_migrations (version) VALUES ('20140522201324');
