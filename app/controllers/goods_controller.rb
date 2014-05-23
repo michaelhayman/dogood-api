@@ -4,9 +4,11 @@ class GoodsController < ApiController
     :tagged,
     :popular,
     :nearby,
+    :nominations_for,
+    :followed_by,
     :liked_by,
-    :posted_or_followed_by,
-    :nominations
+    :nominations_by,
+    :help_wanted_by
   ]
 
   def index
@@ -55,6 +57,24 @@ class GoodsController < ApiController
     render_paginated_index(@goods)
   end
 
+  def nominations_for
+    @goods = Good.
+      newest_first.
+      nominations_for_user(params[:user_id]).
+      extra_info
+
+    render_paginated_index(@goods)
+  end
+
+  def followed_by
+    @goods = apply_scopes(Good.
+      newest_first.
+      followed_by_user(params[:user_id]).
+      extra_info)
+
+    render_paginated_index(@goods)
+  end
+
   def liked_by
     @goods = apply_scopes(Good.
       newest_first.
@@ -63,19 +83,19 @@ class GoodsController < ApiController
     render_paginated_index(@goods)
   end
 
-  def posted_or_followed_by
-    @goods = apply_scopes(Good.
+  def nominations_by
+    @goods = Good.
       newest_first.
-      posted_or_followed_by(params[:user_id]).
-      extra_info)
+      nominations_by_user(params[:user_id]).
+      extra_info
 
     render_paginated_index(@goods)
   end
 
-  def nominations
+  def help_wanted_by
     @goods = Good.
       newest_first.
-      nominations(params[:user_id]).
+      help_wanted_by_user(params[:user_id]).
       extra_info
 
     render_paginated_index(@goods)

@@ -13,7 +13,10 @@ class Users::ProfileSerializerTest < DoGood::TestCase
         following_count: @user.following_count,
         liked_goods_count: @user.liked_goods_count,
         points: @user.points,
-        posted_or_followed_goods_count: @user.posted_or_followed_goods_count
+        followed_goods_count: @user.followed_goods_count,
+        nominations_for_user_goods_count: @user.nominations_for_user_goods_count,
+        nominations_by_user_goods_count: @user.nominations_by_user_goods_count,
+        help_wanted_by_user_goods_count: @user.help_wanted_by_user_goods_count
       }
     }
   end

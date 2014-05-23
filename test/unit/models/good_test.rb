@@ -60,10 +60,18 @@ class GoodTest < DoGood::TestCase
       assert_equal 1, Good.nearby(good[:lat], good[:lng]).count
     end
 
-    test "should return goods by a specific user" do
+    test "should return goods nominated by a specific user" do
       good1 = FactoryGirl.create(:good, :user_id => 3)
       good2 = FactoryGirl.create(:good, :user_id => 5)
-      assert_equal 1, Good.by_user(5).count
+      good3 = FactoryGirl.create(:good, :done, :user_id => 5)
+      assert_equal 1, Good.nominations_by_user(5).count
+    end
+
+    test "should return help wanted goods by a specific user" do
+      good1 = FactoryGirl.create(:good, :user_id => 3)
+      good2 = FactoryGirl.create(:good, :user_id => 5)
+      good3 = FactoryGirl.create(:good, :done, :user_id => 5)
+      assert_equal 1, Good.help_wanted_by_user(5).count
     end
 
     test "should return only goods liked by a user" do
@@ -74,7 +82,19 @@ class GoodTest < DoGood::TestCase
       assert_equal 1, Good.liked_by_user(user.id).count
     end
 
-    test "should return goods posted or followed by a user" do
+    test "should return only goods followed by a user" do
+      user = FactoryGirl.create(:user)
+      good1 = FactoryGirl.create(:good)
+      user.follow(good1)
+      good2 = FactoryGirl.create(:good, :bob)
+      assert_equal 1, Good.followed_by_user(user.id).count
+    end
+
+    test "should return only goods for which a user is nominated" do
+      nominee = FactoryGirl.create(:nominee, :dg_user)
+      good1 = FactoryGirl.create(:good, :done, nominee: nominee)
+      good2 = FactoryGirl.create(:good, :done, :bob)
+      assert_equal 1, Good.nominations_for_user(nominee.user.id).count
     end
 
     test "should return a specific good" do

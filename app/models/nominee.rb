@@ -2,6 +2,7 @@ class Nominee < ActiveRecord::Base
   mount_uploader :avatar, NomineeAvatarUploader
 
   has_one :good
+  belongs_to :user
 
   validates :full_name,
     presence: { message: "Enter nominee's name." },

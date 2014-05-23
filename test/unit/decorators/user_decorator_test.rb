@@ -35,12 +35,29 @@ class UserDecoratorTest < DoGood::TestCase
     assert_equal 1, @user.liked_goods_count
   end
 
-  test "posted_or_followed_goods_count" do
+  test "followed_goods_count" do
     @good = FactoryGirl.create(:good)
     @user.follow @good
-    assert_equal 1, @user.posted_or_followed_goods_count
+    assert_equal 1, @user.followed_goods_count
     @user_good = FactoryGirl.create(:good, :user => @user)
-    assert_equal 2, @user.posted_or_followed_goods_count
+    assert_equal 1, @user.followed_goods_count
+  end
+
+  test "help_wanted_goods_count" do
+    @good = FactoryGirl.create(:good).decorate
+    assert_equal 1, @good.user.help_wanted_by_user_goods_count
+  end
+
+  test "nominations_for_goods_count" do
+    @user = FactoryGirl.create(:user).decorate
+    @nominee = FactoryGirl.create(:nominee, user: @user.object)
+    @good = FactoryGirl.create(:good, :done, nominee: @nominee)
+    assert_equal 1, @user.nominations_for_user_goods_count
+  end
+
+  test "nominations_by_goods_count" do
+    @good = FactoryGirl.create(:good, :done).decorate
+    assert_equal 1, @good.user.nominations_by_user_goods_count
   end
 
   def teardown

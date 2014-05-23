@@ -202,6 +202,61 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
+  context "nominations_for" do
+    test "route" do
+      assert_routing '/goods/nominations_for', {
+        controller: "goods",
+        action: "nominations_for"
+      }
+    end
+
+    test "should return goods that a user was nominated for" do
+      @user = FactoryGirl.create(:user)
+
+      nominated_good = FactoryGirl.create(:good, :done)
+      nominated_good.nominee.user_id = @user.id
+      nominated_good.nominee.save!
+
+      not_nominated_good = FactoryGirl.create(:good)
+
+      get :nominations_for, {
+        format: :json,
+        user_id: @user.id
+      }
+
+      json = jsonify(response)
+      assert_equal 2, Good.all.count
+      assert_equal 1, json.traverse(:goods).count
+    end
+  end
+
+  context "followed_by" do
+    test "route" do
+      assert_routing '/goods/followed_by', {
+        controller: "goods",
+        action: "followed_by"
+      }
+    end
+
+    test "should return goods that a user followed" do
+      @user = FactoryGirl.create(:user)
+      followed_good = FactoryGirl.create(:good)
+      posted_good = FactoryGirl.create(:good, :user => @user)
+      irrelevant_good = FactoryGirl.create(:good)
+
+      @user.follow(followed_good)
+
+      get :followed_by, {
+        format: :json,
+        user_id: @user.id
+      }
+
+      json = jsonify(response)
+      assert_equal 3, Good.all.count
+      assert_equal 1, json.traverse(:goods).count
+    end
+  end
+
   context "liked_by" do
     test "route" do
       assert_routing '/goods/liked_by', {
@@ -228,53 +283,46 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "posted_or_followed_by" do
+  context "nominations_by" do
     test "route" do
-      assert_routing '/goods/posted_or_followed_by', {
+      assert_routing '/goods/nominations_by', {
         controller: "goods",
-        action: "posted_or_followed_by"
+        action: "nominations_by"
       }
     end
 
-    test "should return goods that a user posted or followed" do
+    test "should return goods that a user nominated" do
       @user = FactoryGirl.create(:user)
-      followed_good = FactoryGirl.create(:good)
-      posted_good = FactoryGirl.create(:good, :user => @user)
+      posted_good = FactoryGirl.create(:good, :done, user: @user)
       irrelevant_good = FactoryGirl.create(:good)
 
-      @user.follow(followed_good)
-
-      get :posted_or_followed_by, {
+      get :nominations_by, {
         format: :json,
         user_id: @user.id
       }
 
       json = jsonify(response)
-      assert_equal 3, Good.all.count
-      assert_equal 2, json.traverse(:goods).count
+      assert_equal 2, Good.all.count
+      assert_equal 1, json.traverse(:goods).count
     end
   end
 
-  context "nominations" do
+  context "help_wanted_by" do
     test "route" do
-      assert_routing '/goods/nominations', {
+      assert_routing '/goods/help_wanted_by', {
         controller: "goods",
-        action: "nominations"
+        action: "help_wanted_by"
       }
     end
 
-    test "should return goods that a user was nominated for" do
+    test "should return goods for which a user asked for help" do
       @user = FactoryGirl.create(:user)
+      posted_good = FactoryGirl.create(:good, user: @user)
+      irrelevant_good = FactoryGirl.create(:good)
 
-      nominated_good = FactoryGirl.create(:good, :done)
-      nominated_good.nominee.user_id = @user
-      nominated_good.nominee.save!
-
-      not_nominated_good = FactoryGirl.create(:good)
-
-      get :nominations, {
+      get :help_wanted_by, {
         format: :json,
-        user_id: @user.id.to_s
+        user_id: @user.id
       }
 
       json = jsonify(response)

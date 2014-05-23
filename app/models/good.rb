@@ -101,6 +101,19 @@ class Good < ActiveRecord::Base
       :origin => [ lat , lng])
   end
 
+  def self.nominations_for_user(user_id)
+    where("nominees.user_id = ?", user_id).
+      joins(:nominee)
+  end
+
+  def self.followed_by_user(user_id)
+    follows_table = Follow.arel_table
+
+    includes(:followings).
+      where(follows_table[:follower_id].eq(user_id)).
+      references(:followings)
+  end
+
   def self.liked_by_user(user_id)
     if user_id
       @user = User.find(user_id)
@@ -108,19 +121,12 @@ class Good < ActiveRecord::Base
     end
   end
 
-  def self.nominations(user_id)
-    where("nominees.user_id = ?", user_id).
-      joins(:nominee)
+  def self.nominations_by_user(user_id)
+    where("done = ? AND user_id = ?", true, user_id)
   end
 
-  def self.posted_or_followed_by(user_id)
-    goods_table = Good.arel_table
-    follows_table = Follow.arel_table
-
-    includes(:followings).
-      where(goods_table[:user_id].eq(user_id).
-      or(follows_table[:follower_id].eq(user_id))).
-      references(:followings)
+  def self.help_wanted_by_user(user_id)
+    where("done = ? AND user_id = ?", false, user_id)
   end
 
   def self.just_created_by(user_id)

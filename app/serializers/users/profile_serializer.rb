@@ -8,6 +8,9 @@ class Users::ProfileSerializer < ActiveModel::Serializer
     :following_count,
     :liked_goods_count,
     :points,
-    :posted_or_followed_goods_count
+    :followed_goods_count,
+    :nominations_for_user_goods_count,
+    :nominations_by_user_goods_count,
+    :help_wanted_by_user_goods_count
 end
 
