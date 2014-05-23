@@ -39,8 +39,6 @@ DoGoodApp::Application.routes.draw do
 
   resources :categories, :only => [ :index ]
 
-  # get "category/index"
-
   resources :goods, :only => [ :index, :show, :create ] do
     collection do
       get :nominations_for

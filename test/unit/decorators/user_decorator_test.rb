@@ -19,7 +19,6 @@ class UserDecoratorTest < DoGood::TestCase
     assert_equal 1, @user.followers_count
   end
 
-  # since
   test "following_count" do
     @tony = FactoryGirl.create(:user, :tony)
     assert_equal 0, @user.following_count

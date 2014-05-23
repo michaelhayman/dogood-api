@@ -112,7 +112,6 @@ class GoodTest < DoGood::TestCase
     assert_equal 10, Good.most_relevant.count
   end
 
-
   test "should block posting for a user who just created a good" do
     FactoryGirl.create(:good, :user_id => 11)
     assert_equal true, Good.just_created_by(11)
