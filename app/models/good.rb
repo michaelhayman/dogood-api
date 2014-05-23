@@ -86,10 +86,6 @@ class Good < ActiveRecord::Base
     limit(10)
   end
 
-  def self.by_user(id)
-    where(:user_id => id)
-  end
-
   def self.specific(id)
     where("id = ?", id)
   end
