@@ -15,7 +15,7 @@ class GoodSerializer < ActiveModel::Serializer
 end
 
 class DefaultsSerializer < ActiveModel::Serializer
-  # cached
+  cached
 
   attributes :id,
     :caption,
@@ -54,14 +54,14 @@ class DefaultsSerializer < ActiveModel::Serializer
 end
 
 class CurrentUserGoodSerializer < ActiveModel::Serializer
-  # cached
+  cached
 
   attributes :current_user_liked,
     :current_user_commented,
     :current_user_regooded
 
   def cache_key
-    [object, scope]
+    [current_user_liked, current_user_commented, current_user_regooded, scope]
   end
 end
 
