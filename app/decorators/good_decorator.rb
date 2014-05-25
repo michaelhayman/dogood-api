@@ -35,9 +35,5 @@ class GoodDecorator < BaseDecorator
     object.followers_count
   end
   memoize :regoods_count
-
-  # def comments
-  #   object.comments.first(5)
-  # end
 end
 
