@@ -49,7 +49,7 @@ class GoodDecoratorTest < DoGood::TestCase
 
   context "regoods_count" do
     test "set correctly" do
-      assert_equal @good.regoods_count, @good.follows_count
+      assert_equal @good.regoods_count, @good.followers_count
     end
   end
 end

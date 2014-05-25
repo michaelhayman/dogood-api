@@ -23,19 +23,19 @@ FactoryGirl.define do
 
     trait :lame do
       caption "Big oil"
-      follows_count 0
+      followers_count 0
       comments_count 0
     end
 
     trait :average do
       caption "Took out the trash"
-      follows_count 25
+      followers_count 25
       comments_count 25
     end
 
     trait :popular do
       caption "Freed a nation"
-      follows_count 50
+      followers_count 50
       comments_count 50
     end
 

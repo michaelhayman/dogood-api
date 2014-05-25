@@ -32,7 +32,7 @@ class GoodDecorator < BaseDecorator
   memoize :likes_count
 
   def regoods_count
-    object.follows_count
+    object.followers_count
   end
   memoize :regoods_count
 

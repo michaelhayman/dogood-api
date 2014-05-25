@@ -6,12 +6,12 @@ class Follow < ActiveRecord::Base
   # NOTE: Follows belong to the "followable" interface,
   # and also to followers
   belongs_to :followable,
-    :polymorphic => true#,
-    # :counter_cache => :follows_count
+    :polymorphic => true,
+    :counter_cache => :followers_count
   # add another counter_cache column
   belongs_to :follower,
-    :polymorphic => true#,
-    # :counter_cache => :follows_count
+    :polymorphic => true,
+    :counter_cache => :following_count
 
   def block!
     self.update_attribute(:blocked, true)

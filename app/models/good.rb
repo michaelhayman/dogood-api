@@ -55,7 +55,7 @@ class Good < ActiveRecord::Base
   scope :popular, -> {
     order('
       comments_count * 3 +
-      follows_count * 1.5 +
+      followers_count * 1.5 +
       cached_votes_up desc').
     where('created_at > ?', 2.weeks.ago)
   }

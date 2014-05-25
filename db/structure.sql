@@ -249,14 +249,15 @@ CREATE TABLE goods (
     cached_votes_up integer DEFAULT 0,
     cached_votes_down integer DEFAULT 0,
     evidence character varying(255),
-    follows_count integer DEFAULT 0,
+    followers_count integer DEFAULT 0,
     points integer DEFAULT 0,
     lat double precision,
     lng double precision,
     location_image character varying(255),
     location_name character varying(255),
     done boolean DEFAULT true,
-    nominee_id integer
+    nominee_id integer,
+    following_count integer DEFAULT 0
 );
 
 
@@ -674,7 +675,7 @@ CREATE TABLE users (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     avatar character varying(255),
-    follows_count integer DEFAULT 0,
+    followers_count integer DEFAULT 0,
     full_name character varying(255),
     phone character varying(255),
     points_cache integer DEFAULT 0,
@@ -683,7 +684,8 @@ CREATE TABLE users (
     facebook_id character varying(255),
     twitter_id character varying(255),
     sash_id integer,
-    level integer DEFAULT 0
+    level integer DEFAULT 0,
+    following_count integer DEFAULT 0
 );
 
 
@@ -1383,3 +1385,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140317104458');
 INSERT INTO schema_migrations (version) VALUES ('20140514034732');
 
 INSERT INTO schema_migrations (version) VALUES ('20140522201324');
+
+INSERT INTO schema_migrations (version) VALUES ('20140525142941');
