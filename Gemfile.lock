@@ -148,7 +148,7 @@ GEM
       treetop (~> 1.4.8)
     memcachier (0.0.2)
     memoist (0.9.1)
-    merit (2.0.0)
+    merit (2.1.1)
       ambry (~> 0.3.0)
     method_source (0.8.2)
     mime-types (1.25.1)
@@ -287,7 +287,7 @@ DEPENDENCIES
   kgio (~> 2.6)
   memcachier (~> 0.0.2)
   memoist (= 0.9.1)
-  merit (~> 2.0.0)
+  merit (~> 2.1.1)
   minitest
   minitest-reporters
   newrelic_rpm (~> 3.6.6.147)
