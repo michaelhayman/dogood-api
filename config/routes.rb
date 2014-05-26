@@ -20,9 +20,9 @@ DoGoodApp::Application.routes.draw do
       get :search_by_twitter_ids
       get :search_by_facebook_ids
       post :social
+      get :points
     end
     member do
-      get :points
       get :status
       get :rank
     end

@@ -525,12 +525,11 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
   context "points" do
     test "route" do
       assert_routing( {
-        path: "/users/1/points",
+        path: "/users/points",
         method: :get
       }, {
         controller: "users",
-        action: "points",
-        id: "1"
+        action: "points"
       })
     end
 
@@ -539,14 +538,13 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       sign_in @bob
 
       get :points, {
-        format: :json,
-        id: @bob.id
+        format: :json
       }
       json = jsonify(response)
 
       assert_response :success
 
-      assert_equal @bob.points, json.traverse(:points)
+      assert_equal @bob.points, json.traverse(:users, :points)
     end
 
     test "query fails without a current user" do

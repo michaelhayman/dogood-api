@@ -130,7 +130,7 @@ class UsersController < ApiController
 
   def points
     if current_user
-      render json: dg_user.points
+      render json: dg_user.decorate, root: "users", serializer: Users::CurrentUserSerializer
     else
       render_error(DoGood::Api::Unauthorized.new)
     end
