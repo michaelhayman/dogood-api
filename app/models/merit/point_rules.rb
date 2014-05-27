@@ -13,12 +13,12 @@ module Merit
     include Merit::PointRulesMethods
 
     def initialize
-      score 1, :on => [
+      score 1, on: [
         'comments#create'
-      ]
-      score 1, :on => [
+      ], category: 'Comment created'
+      score 1, on: [
         'goods#create'
-      ]
+      ], category: 'Good created'
       proc = lambda { |reward| reward.withdraw_points }
       score proc, on: 'claimed_reward#create_claim'
     end
