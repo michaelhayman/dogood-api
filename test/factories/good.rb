@@ -11,6 +11,7 @@ FactoryGirl.define do
 
     trait :done do
       done true
+      nominee { FactoryGirl.create(:nominee, :dg_user) }
     end
 
     trait :no_user do

@@ -3,14 +3,15 @@ require 'test_helper'
 class VotesControllerTest < DoGood::ActionControllerTestCase
   tests VotesController
 
+  def setup
+    @user = FactoryGirl.create(:user)
+    sign_in @user
+
+    @good = FactoryGirl.create(:good)
+    @good_done = FactoryGirl.create(:good, :done)
+  end
+
   context "create" do
-    def setup
-      @user = FactoryGirl.create(:user)
-      sign_in @user
-
-      @good = FactoryGirl.create(:good)
-    end
-
     test "route" do
       assert_routing( {
         path: '/votes',
@@ -36,63 +37,54 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
 
     context "for authenticated users" do
       test "passing no parameters should fail" do
-        sign_in @user
         post :create, {
           format: :json
         }
         assert_response :unprocessable_entity
       end
 
-      test "should work for authenticated user & fully-populated vote" do
-        sign_in @user
+      context "should work for an authenticated user & fully populated vote" do
+        test "a 'help wanted' good" do
+          assert_equal 0, @good.cached_votes_up
 
-        assert 0, @user.points
-        assert 0, @good.votes.count
+          add_valid_vote(@good)
 
-        add_valid_vote(@good)
+          assert_response :success
+          assert_equal @good.id, voted_good(@good).id
+          assert_equal 1, voted_good(@good).cached_votes_up
+        end
 
-        assert_response :success
-        assert 1, @good.votes
-        assert 10, @user.points
-      end
+        test "a 'done' good" do
+          assert_equal 0, @good_done.nominee.user.points
+          assert_equal 0, @good_done.cached_votes_up
 
-      test "users can only vote once, and fail silently otherwise" do
-        @good = FactoryGirl.create(:good)
-        sign_in @user
+          add_valid_vote(@good_done)
 
-        assert 0, @good.votes.count
-
-        @good.liked_by @user
-
-        assert 1, @good.votes.count
-
-        add_valid_vote(@good)
-
-        json = jsonify(response)
-
-        assert_response :success
-        assert 1, @good.votes.count
+          assert_response :success
+          assert_equal 1, voted_good(@good_done).cached_votes_up
+          assert_equal 10, voted_good(@good_done).nominee.user.points
+          assert_equal 0, @user.points
+        end
       end
 
       test "vote should succeed on a user's own good" do
         @good = FactoryGirl.create(:good, :user => @user)
-        sign_in @user
 
-        assert 0, @good.votes.count
+        assert_equal 0, @good.cached_votes_up
 
         add_valid_vote(@good)
 
-        assert 1, @good.votes
+        assert_equal 1, voted_good(@good).cached_votes_up
       end
 
       test "a re-vote should silently fail to increment votes" do
-        sign_in @user
-
-        assert 0, @good.votes.count
+        assert_equal 0, @good.cached_votes_up
 
         add_valid_vote(@good)
+        add_valid_vote(@good)
+        assert_response :success
 
-        assert 0, @good.votes.count
+        assert_equal 1, voted_good(@good).cached_votes_up
       end
 
       test "fails when database fails" do
@@ -103,19 +95,12 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
         add_valid_vote(@good)
 
         assert_response :bad_request
-        assert 0, @good.votes.count
+        assert_equal 0, @good.votes_for.count
       end
     end
   end
 
   context "remove" do
-    def setup
-      @user = FactoryGirl.create(:user)
-      sign_in @user
-
-      @good = FactoryGirl.create(:good)
-    end
-
     test "route" do
       assert_routing( {
         path: '/votes/1',
@@ -128,40 +113,60 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
     end
 
     context "for an authenticated user" do
-      test "succeeds with valid parameters" do
-        sign_in @user
+      context "should work for an authenticated user & fully populated vote" do
+        test "a 'help wanted' good" do
+          assert_equal 0, @good.cached_votes_up
 
-        assert 0, @good.votes.count
-        assert 0, @user.points
-        @good.liked_by @user
+          @good.liked_by @user
+          assert_equal 1, @good.cached_votes_up
 
-        remove_valid_vote(@good)
+          remove_valid_vote(@good)
 
-        assert_response :success
-        assert 0, @good.votes.count
-        assert -10, @user.points
+          assert_response :success
+          assert_equal 0, voted_good(@good).cached_votes_up
+        end
+
+        test "a 'done' good" do
+          assert_equal 0, @good_done.nominee.user.points
+          assert_equal 0, @good_done.cached_votes_up
+
+          add_valid_vote(@good_done)
+
+          assert_equal 1, voted_good(@good_done).cached_votes_up
+          assert_equal 10, voted_good(@good_done).nominee.user.points
+
+          remove_valid_vote(@good_done)
+
+          assert_response :success
+          assert_equal 0, voted_good(@good_done).cached_votes_up
+          assert_equal 0, voted_good(@good_done).nominee.user.points
+          assert_equal 0, @user.points
+        end
       end
 
       test "fails without valid parameters" do
         @good.liked_by @user
-        assert 1, @good.votes.count
-        stub(@good).unliked_by { false }
+        assert_equal 1, @good.cached_votes_up
 
-        remove_valid_vote(@good)
-
-        assert_response :success
-        assert 0, @good.votes.count
-      end
-
-      test "fails when database fails" do
         any_instance_of(Good) do |klass|
-            stub(klass).unliked_by { false }
+          stub(klass).unliked_by { false }
         end
 
         remove_valid_vote(@good)
 
         assert_response :bad_request
-        assert 0, @good.votes.count
+        assert_equal 1, @good.cached_votes_up
+      end
+
+      test "fails when database fails" do
+        any_instance_of(Good) do |klass|
+          stub(klass).unliked_by { false }
+        end
+
+        remove_valid_vote(@good)
+
+        assert_response :bad_request
+        assert_equal 0, @good.cached_votes_up
       end
     end
   end
@@ -186,6 +191,10 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
           votable_type: "Good"
         }
       }
+    end
+
+    def voted_good(object)
+      Good.find(object.id)
     end
 end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140525142941) do
+ActiveRecord::Schema.define(version: 20140527002619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,27 +89,29 @@ ActiveRecord::Schema.define(version: 20140525142941) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "comments_count",     default: 0
-    t.integer  "cached_votes_total", default: 0
-    t.integer  "cached_votes_score", default: 0
-    t.integer  "cached_votes_up",    default: 0
-    t.integer  "cached_votes_down",  default: 0
+    t.integer  "comments_count",        default: 0
+    t.integer  "cached_votes_total",    default: 0
+    t.integer  "cached_votes_score",    default: 0
+    t.integer  "cached_votes_up",       default: 0
+    t.integer  "cached_votes_down",     default: 0
     t.string   "evidence"
-    t.integer  "followers_count",    default: 0
-    t.integer  "points",             default: 0
+    t.integer  "followers_count",       default: 0
+    t.integer  "points",                default: 0
     t.float    "lat"
     t.float    "lng"
     t.string   "location_image"
     t.string   "location_name"
-    t.boolean  "done",               default: true
+    t.boolean  "done",                  default: true
     t.integer  "nominee_id"
-    t.integer  "following_count",    default: 0
+    t.integer  "following_count",       default: 0
+    t.integer  "cached_weighted_score", default: 0
   end
 
   add_index "goods", ["cached_votes_down"], name: "index_goods_on_cached_votes_down", using: :btree
   add_index "goods", ["cached_votes_score"], name: "index_goods_on_cached_votes_score", using: :btree
   add_index "goods", ["cached_votes_total"], name: "index_goods_on_cached_votes_total", using: :btree
   add_index "goods", ["cached_votes_up"], name: "index_goods_on_cached_votes_up", using: :btree
+  add_index "goods", ["cached_weighted_score"], name: "index_goods_on_cached_weighted_score", using: :btree
   add_index "goods", ["category_id"], name: "index_goods_on_category_id", using: :btree
   add_index "goods", ["user_id"], name: "index_goods_on_user_id", using: :btree
 
@@ -257,6 +259,7 @@ ActiveRecord::Schema.define(version: 20140525142941) do
     t.string   "vote_scope"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "vote_weight"
   end
 
   add_index "votes", ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope", using: :btree

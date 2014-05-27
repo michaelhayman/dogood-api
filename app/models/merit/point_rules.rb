@@ -13,12 +13,6 @@ module Merit
     include Merit::PointRulesMethods
 
     def initialize
-      score 10, :on => [
-        'votes#create'
-      ]
-      score -10, :on => [
-        'votes#destroy'
-      ]
       score 20, :on => [
         'comments#create'
       ]

@@ -257,7 +257,8 @@ CREATE TABLE goods (
     location_name character varying(255),
     done boolean DEFAULT true,
     nominee_id integer,
-    following_count integer DEFAULT 0
+    following_count integer DEFAULT 0,
+    cached_weighted_score integer DEFAULT 0
 );
 
 
@@ -721,7 +722,8 @@ CREATE TABLE votes (
     vote_flag boolean,
     vote_scope character varying(255),
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    vote_weight integer
 );
 
 
@@ -1143,6 +1145,13 @@ CREATE INDEX index_goods_on_cached_votes_up ON goods USING btree (cached_votes_u
 
 
 --
+-- Name: index_goods_on_cached_weighted_score; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_goods_on_cached_weighted_score ON goods USING btree (cached_weighted_score);
+
+
+--
 -- Name: index_goods_on_category_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1387,3 +1396,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140514034732');
 INSERT INTO schema_migrations (version) VALUES ('20140522201324');
 
 INSERT INTO schema_migrations (version) VALUES ('20140525142941');
+
+INSERT INTO schema_migrations (version) VALUES ('20140527002619');

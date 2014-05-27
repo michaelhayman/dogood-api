@@ -56,7 +56,7 @@ class UsersController < ApiController
     @instance = params[:type].
       constantize.
       find(params[:id])
-    @user_ids = @instance.votes.up.by_type(User).voters.map(&:id)
+    @user_ids = @instance.votes_for.up.by_type(User).voters.map(&:id)
     @users = User.where(id: @user_ids)
     render_paginated_index(@users, Users::SearchSerializer)
   end
