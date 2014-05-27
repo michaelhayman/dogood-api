@@ -19,7 +19,8 @@ gem 'ice_nine', '~> 0.11.0'
 
 # Social
 gem 'acts_as_commentable', '~> 4.0.0'
-gem 'acts_as_votable', '~> 0.6.0'
+gem 'acts_as_votable', '~> 0.9.0'
+# gem 'acts_as_votable', '~> 0.6.0'
 gem 'acts_as_follower', '~> 0.2.1'
 gem 'simple_hashtag',
   :github => 'michaelhayman/simple_hashtag'
