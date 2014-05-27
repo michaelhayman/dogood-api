@@ -3,6 +3,8 @@ require 'test_helper'
 class RewardsControllerTest < DoGood::ActionControllerTestCase
   tests RewardsController
 
+  BASE_POINTS = 10000
+
   context "index" do
     test "route" do
       assert_routing '/rewards', {
@@ -275,6 +277,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
 
         @created_reward = @user.rewards.first
         assert_equal @created_reward.title, @reward.title
+        assert_equal @user.points, BASE_POINTS - @reward.cost
       end
 
       test "should fail gracefully on db error" do
@@ -302,7 +305,7 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
 
   private
     def add_points(user)
-      user.add_points(10000, category: 'Bonus')
+      user.add_points(BASE_POINTS, category: 'Bonus')
     end
 end
 
