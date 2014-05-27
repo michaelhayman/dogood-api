@@ -29,7 +29,8 @@ class Reward < ActiveRecord::Base
   end
 
   def self.just_created_by(user_id)
-    where("user_id = ? AND created_at > ?", user_id, 60.seconds.ago)
+    reward = where("user_id = ? AND created_at > ?", user_id, 60.seconds.ago)
+    reward.present?
   end
 end
 

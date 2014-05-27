@@ -72,6 +72,6 @@ class RewardTest < DoGood::TestCase
 
   test "should block posting for a user who just created a reward" do
     FactoryGirl.create(:reward, :user_id => 11)
-    assert_equal 1, Reward.just_created_by(11).count
+    assert Reward.just_created_by(11)
   end
 end
