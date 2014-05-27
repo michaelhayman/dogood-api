@@ -13,10 +13,10 @@ module Merit
     include Merit::PointRulesMethods
 
     def initialize
-      score 20, :on => [
+      score 1, :on => [
         'comments#create'
       ]
-      score 5, :on => [
+      score 1, :on => [
         'goods#create'
       ]
       proc = lambda { |reward| reward.withdraw_points }
