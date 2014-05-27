@@ -6,7 +6,8 @@ class RewardSerializer < ActiveModel::Serializer
     :full_description,
     :cost,
     :quantity,
-    :quantity_remaining
+    :quantity_remaining,
+    :instructions
 
   has_one :user
 end

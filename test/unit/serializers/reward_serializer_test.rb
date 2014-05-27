@@ -12,6 +12,7 @@ class RewardSerializerTest < DoGood::TestCase
         cost: @reward.cost,
         quantity: @reward.quantity,
         quantity_remaining: @reward.quantity_remaining,
+        instructions: @reward.instructions,
         user: {
           id: @reward.user.id,
           avatar_url: @reward.user.avatar_url,
