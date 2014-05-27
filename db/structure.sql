@@ -250,7 +250,6 @@ CREATE TABLE goods (
     cached_votes_down integer DEFAULT 0,
     evidence character varying(255),
     followers_count integer DEFAULT 0,
-    points integer DEFAULT 0,
     lat double precision,
     lng double precision,
     location_image character varying(255),
@@ -1398,3 +1397,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140522201324');
 INSERT INTO schema_migrations (version) VALUES ('20140525142941');
 
 INSERT INTO schema_migrations (version) VALUES ('20140527002619');
+
+INSERT INTO schema_migrations (version) VALUES ('20140527083208');
