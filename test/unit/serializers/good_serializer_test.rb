@@ -87,7 +87,7 @@ class GoodSerializerTest < DoGood::TestCase
   test "current user good cache key" do
     @serializer = CurrentUserGoodSerializer.new @good, root: "goods"
     stub(@serializer).current_user { nil }
-    assert_equal @serializer.cache_key, [ @good, nil ]
+    assert_equal @serializer.cache_key, [ @good.object, @good.current_user_liked, @good.current_user_commented, @good.current_user_regooded, nil ]
   end
 end
 

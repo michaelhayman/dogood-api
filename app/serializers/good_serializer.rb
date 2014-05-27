@@ -61,7 +61,7 @@ class CurrentUserGoodSerializer < ActiveModel::Serializer
     :current_user_regooded
 
   def cache_key
-    [current_user_liked, current_user_commented, current_user_regooded, scope]
+    [object, current_user_liked, current_user_commented, current_user_regooded, scope]
   end
 end
 
