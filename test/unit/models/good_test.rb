@@ -114,7 +114,7 @@ class GoodTest < DoGood::TestCase
 
   test "should block posting for a user who just created a good" do
     FactoryGirl.create(:good, :user_id => 11)
-    assert_equal true, Good.just_created_by(11)
+    assert Good.just_created_by(11)
   end
 
   context "invite" do
