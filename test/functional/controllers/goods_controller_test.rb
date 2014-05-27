@@ -436,6 +436,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
           @created_good = Good.first
           assert_equal @created_good.caption, @good.caption
+          assert_equal @created_good.user.points, 1
         end
 
         test "todo good (& it should ignore the nominee attributes)" do
