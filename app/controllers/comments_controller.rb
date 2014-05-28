@@ -1,6 +1,5 @@
 class CommentsController < ApiController
   before_filter :setup_pagination, :only => [ :index ]
-  before_filter :check_auth, :only => [ :create ]
 
   def index
     @comments = Comment.
@@ -11,20 +10,15 @@ class CommentsController < ApiController
   end
 
   def create
-    begin
-      @comment = Comment.new(resource_params)
-      @comment.user_id = current_user.id
+    check_auth
+    @comment = Comment.new(resource_params)
+    @comment.user_id = current_user.id
 
-      if @comment.save
-        render json: @comment, root: "comments"
-      else
-        message = @comment.errors.full_messages.first || "Couldn't save comment."
-        raise DoGood::Api::RecordNotSaved.new(message)
-      end
-
-    rescue DoGood::Api::RecordNotSaved => error
-      render_error(error)
-      return
+    if @comment.save
+      render json: @comment, root: "comments"
+    else
+      message = @comment.errors.full_messages.first || "Couldn't save comment."
+      raise DoGood::Api::RecordNotSaved.new(message)
     end
   end
 
