@@ -121,6 +121,20 @@ class GoodsController < ApiController
     end
   end
 
+  def destroy
+    check_auth
+    @good = Good.find(params[:id])
+
+    raise DoGood::Api::ParametersInvalid.new("That is not your post.") if @good.user_id != current_user.id
+
+    if @good.destroy
+      render_ok
+    else
+      message = @good.errors.full_messages.first || "Couldn't delete good."
+      raise DoGood::Api::RecordNotSaved.new(message)
+    end
+  end
+
   def resource_params
     params.require(:good).permit(:caption, :evidence, :user_id, :category_id, :lat, :lng, :location_name, :location_image, :done, :nominee_attributes => [ :full_name, :email, :phone, :user_id, :twitter_id, :facebook_id ], :entities_attributes => [ :entityable_id, :entityable_type, :link, :link_id, :link_type, :title, :range => [] ])
   end

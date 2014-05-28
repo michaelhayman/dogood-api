@@ -466,5 +466,69 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       end
     end
   end
+
+  context "destroy" do
+    def setup
+      @user = FactoryGirl.create(:user)
+      sign_in @user
+    end
+
+    test "route" do
+      assert_routing( {
+        path: '/goods/1',
+        method: :delete
+      }, {
+        controller: "goods",
+        id: '1',
+        action: "destroy",
+      })
+    end
+
+    test "should not allow access if the user is not authenticated" do
+      sign_out @user
+      @good = FactoryGirl.create(:good)
+
+      delete :destroy, {
+        format: :json,
+        id: @good.id
+      }
+      assert_response :unauthorized
+    end
+
+    test "should not allow a user to delete a good which isn't theirs" do
+      @bob = FactoryGirl.create(:user, :bob)
+      @good = FactoryGirl.create(:good, user: @bob)
+
+      delete :destroy, {
+        format: :json,
+        id: @good.id
+      }
+      assert_response :unprocessable_entity
+    end
+
+    test "should fail on a database error for an authenticated user" do
+      any_instance_of(Good) do |klass|
+        stub(klass).destroy { false }
+      end
+
+      @good = FactoryGirl.create(:good, user: @user)
+
+      delete :destroy, {
+        format: :json,
+        id: @good.id
+      }
+      assert_response :internal_server_error
+    end
+
+    test "should work for an authenticated user" do
+      @good = FactoryGirl.create(:good, user: @user)
+
+      delete :destroy, {
+        format: :json,
+        id: @good.id
+      }
+      assert_response :success
+    end
+  end
 end
 

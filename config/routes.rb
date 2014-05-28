@@ -39,7 +39,7 @@ DoGoodApp::Application.routes.draw do
 
   resources :categories, :only => [ :index ]
 
-  resources :goods, :only => [ :index, :show, :create ] do
+  resources :goods, :only => [ :index, :show, :create, :destroy ] do
     collection do
       get :nominations_for
       get :followed_by
