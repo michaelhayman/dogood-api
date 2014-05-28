@@ -35,7 +35,10 @@ class UserTest < DoGood::TestCase
 
   context "points" do
     test "test should return a user's rank" do
-      assert_equal "E", @user.rank
+      assert_equal "Beginner", @user.rank
+      @user.level = 1
+      @user.save
+      assert_equal "Volunteer", @user.rank
     end
 
     test "it should return a user's points" do

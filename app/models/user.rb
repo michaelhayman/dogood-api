@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   attr_accessor :logged_in
   attr_accessor :message
 
-  RANKS = %w{ E D C B A }.deep_freeze
+  RANKS = %w{ Beginner Volunteer C B A }.deep_freeze
 
   def self.by_id(user_id)
     where(:id => user_id).first
