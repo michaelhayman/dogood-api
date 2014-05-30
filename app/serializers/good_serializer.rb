@@ -15,7 +15,8 @@ class GoodSerializer < ActiveModel::Serializer
 end
 
 class DefaultsSerializer < ActiveModel::Serializer
-  cached
+  # cached
+  # delegate :cache_key, to: :object
 
   attributes :id,
     :caption,
@@ -40,28 +41,11 @@ class DefaultsSerializer < ActiveModel::Serializer
     object.comments.last(5)
   end
 
-  def comment_key
-    if !object.comments.empty?
-      object.comments.last.updated_at
-    else
-      "comment"
-    end
-  end
-
-  def cache_key
-    [object, comment_key, scope]
-  end
 end
 
 class CurrentUserGoodSerializer < ActiveModel::Serializer
-  cached
-
   attributes :current_user_voted,
     :current_user_commented,
-
-  def cache_key
-    [object, current_user_liked, current_user_commented, current_user_regooded, scope]
-  end
     :current_user_followed
 end
 

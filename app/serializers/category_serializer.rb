@@ -1,13 +1,10 @@
 class CategorySerializer < ActiveModel::Serializer
-  cached
+  # cached
+  # delegate :cache_key, to: :object
 
   attributes :id,
     :name,
     :name_constant,
     :colour,
     :image_url
-
-  def cache_key
-    object
-  end
 end

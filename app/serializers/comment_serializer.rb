@@ -1,4 +1,7 @@
 class CommentSerializer < ActiveModel::Serializer
+  # cached
+  # delegate :cache_key, to: :object
+
   attributes :comment,
     :created_at
 
