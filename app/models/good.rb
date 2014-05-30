@@ -24,7 +24,6 @@ class Good < ActiveRecord::Base
 
   belongs_to :category
   belongs_to :user
-  has_many :user_likes
   has_many :entities, :as => :entityable
 
   belongs_to :nominee
