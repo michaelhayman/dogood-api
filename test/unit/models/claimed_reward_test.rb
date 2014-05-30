@@ -24,7 +24,7 @@ class ClaimedRewardTest < DoGood::TestCase
     @user = FactoryGirl.create(:user)
     @claimed_reward = FactoryGirl.create(
       :claimed_reward,
-      :user => @user)
+      user: @user)
   end
 
   context "has validations" do

@@ -24,9 +24,9 @@ class Good < ActiveRecord::Base
 
   belongs_to :category
   belongs_to :user
-  has_many :entities, :as => :entityable
+  has_many :entities, as: :entityable, dependent: :destroy
 
-  belongs_to :nominee
+  belongs_to :nominee, dependent: :destroy
 
   validates :nominee,
     presence: {
@@ -78,7 +78,7 @@ class Good < ActiveRecord::Base
   end
 
   def self.in_category(id)
-    where(:category_id => id)
+    where(category_id: id)
   end
 
   def self.most_relevant
@@ -92,8 +92,8 @@ class Good < ActiveRecord::Base
   def self.nearby(lat, lng)
     with_location.within(
       30,
-      :units => :kms,
-      :origin => [ lat , lng])
+      units: :kms,
+      origin: [ lat , lng])
   end
 
   def self.nominations_for_user(user_id)
@@ -130,7 +130,7 @@ class Good < ActiveRecord::Base
   end
 
   def self.extra_info
-    includes(:user, :nominee, :category, :entities, :comments => [ :user, :entities ])
+    includes(:user, :nominee, :category, :entities, comments: [ :user, :entities ])
   end
 end
 

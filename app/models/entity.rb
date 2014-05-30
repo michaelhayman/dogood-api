@@ -1,6 +1,6 @@
 class Entity < ActiveRecord::Base
   belongs_to :entityable,
-    :polymorphic => true
+    polymorphic: true
 
   validates :link,
     presence: { message: "Entities must have a link." }

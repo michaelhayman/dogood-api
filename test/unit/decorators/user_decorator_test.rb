@@ -27,7 +27,7 @@ class UserDecoratorTest < DoGood::TestCase
   end
 
   test "vote_goods_count" do
-    @good = FactoryGirl.create(:good, :user => @user)
+    @good = FactoryGirl.create(:good, user: @user)
     @good_2 = FactoryGirl.create(:good)
     assert_equal 0, @user.voted_goods_count
     @good_2.liked_by @user
@@ -38,7 +38,7 @@ class UserDecoratorTest < DoGood::TestCase
     @good = FactoryGirl.create(:good)
     @user.follow @good
     assert_equal 1, @user.followed_goods_count
-    @user_good = FactoryGirl.create(:good, :user => @user)
+    @user_good = FactoryGirl.create(:good, user: @user)
     assert_equal 1, @user.followed_goods_count
   end
 

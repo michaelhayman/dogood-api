@@ -5,7 +5,7 @@ class CommentDecoratorTest < DoGood::TestCase
     super
 
     @comment = FactoryGirl.create(:comment)
-    @entity = FactoryGirl.create(:entity, :entityable_id => @comment.id)
+    @entity = FactoryGirl.create(:entity, entityable_id: @comment.id)
     @comment = CommentDecorator.decorate(@comment)
   end
 

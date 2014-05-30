@@ -28,7 +28,7 @@ class FollowsController < ApiController
     def polymorphic_association
       resource_params[:followable_type].
         constantize.
-        where(:id => resource_params[:followable_id]).
+        where(id: resource_params[:followable_id]).
         first
     end
 end

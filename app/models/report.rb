@@ -1,13 +1,13 @@
 class Report < ActiveRecord::Base
   belongs_to :reportable,
-    :polymorphic => true
+    polymorphic: true
 
   validates_uniqueness_of :user_id,
-    :scope => [
+    scope: [
       :reportable_id,
       :reportable_type
     ],
-    :message => "may only file one report."
+    message: "may only file one report."
 
   validates_presence_of :user_id,
     :reportable_id,

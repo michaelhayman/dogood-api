@@ -35,8 +35,8 @@ class GoodTest < DoGood::TestCase
 
   context "queries" do
     test "should return only goods belonging to a category" do
-      good1 = FactoryGirl.create(:good, :category_id => 3)
-      good2 = FactoryGirl.create(:good, :category_id => 5)
+      good1 = FactoryGirl.create(:good, category_id: 3)
+      good2 = FactoryGirl.create(:good, category_id: 5)
       assert_equal 1, Good.in_category(5).count
     end
 
@@ -61,16 +61,16 @@ class GoodTest < DoGood::TestCase
     end
 
     test "should return goods nominated by a specific user" do
-      good1 = FactoryGirl.create(:good, :user_id => 3)
-      good2 = FactoryGirl.create(:good, :user_id => 5)
-      good3 = FactoryGirl.create(:good, :done, :user_id => 5)
+      good1 = FactoryGirl.create(:good, user_id: 3)
+      good2 = FactoryGirl.create(:good, user_id: 5)
+      good3 = FactoryGirl.create(:good, :done, user_id: 5)
       assert_equal 1, Good.nominations_by_user(5).count
     end
 
     test "should return help wanted goods by a specific user" do
-      good1 = FactoryGirl.create(:good, :user_id => 3)
-      good2 = FactoryGirl.create(:good, :user_id => 5)
-      good3 = FactoryGirl.create(:good, :done, :user_id => 5)
+      good1 = FactoryGirl.create(:good, user_id: 3)
+      good2 = FactoryGirl.create(:good, user_id: 5)
+      good3 = FactoryGirl.create(:good, :done, user_id: 5)
       assert_equal 1, Good.help_wanted_by_user(5).count
     end
 
@@ -113,7 +113,7 @@ class GoodTest < DoGood::TestCase
   end
 
   test "should block posting for a user who just created a good" do
-    FactoryGirl.create(:good, :user_id => 11)
+    FactoryGirl.create(:good, user_id: 11)
     assert Good.just_created_by(11)
   end
 

@@ -12,7 +12,7 @@ class ::Array
   #   :text.
   def to_sql_array options = {}
     options = {
-      :type => :text
+      type: :text
     }.merge options
 
     'ARRAY[' + self.collect { |x|
@@ -65,7 +65,7 @@ class ::Array
   # and non-empty by calling #present?.
   def coalesce(options = {})
     options = {
-      :allow_blank => false
+      allow_blank: false
     }.merge(options)
 
     detector = if options[:allow_blank]

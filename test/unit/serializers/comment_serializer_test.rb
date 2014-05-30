@@ -19,7 +19,7 @@ class CommentSerializerTest < DoGood::TestCase
   def setup
     super
     @user = FactoryGirl.create(:user)
-    @comment = FactoryGirl.create(:comment, :user => @user).decorate
+    @comment = FactoryGirl.create(:comment, user: @user).decorate
 
     @serializer = CommentSerializer.new @comment, root: "comments"
   end

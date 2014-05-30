@@ -41,7 +41,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       },
       {},
       {
-        :search => 'Michael'
+        search: 'Michael'
       })
     end
 
@@ -484,7 +484,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       @bob = FactoryGirl.create(:user, :bob)
 
       @bob.full_name = ""
-      @bob.save(:validate => false)
+      @bob.save(validate: false)
 
       sign_in @bob
 

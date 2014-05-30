@@ -20,8 +20,8 @@ class User < ActiveRecord::Base
 
   has_many :goods
   has_many :claimed_rewards
-  has_many :rewards, :through => :claimed_rewards
-  has_many :owned_rewards, :class_name => "Reward", :source => :vendor
+  has_many :rewards, through: :claimed_rewards
+  has_many :owned_rewards, class_name: "Reward", source: :vendor
   has_many :comments
   has_many :reports
   has_one :nominee
@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   RANKS = %w{ Beginner Volunteer C B A }.deep_freeze
 
   def self.by_id(user_id)
-    where(:id => user_id).first
+    where(id: user_id).first
   end
 
   def valid_name?

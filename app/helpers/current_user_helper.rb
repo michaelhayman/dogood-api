@@ -3,7 +3,7 @@ module CurrentUserHelper
 
   def dg_user
     @dg_user ||= CurrentUserDecorator.decorate(current_user || NullUser.new(
-      :id => session[:session_id]
+      id: session[:session_id]
     ))
   end
 

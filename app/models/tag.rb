@@ -5,7 +5,7 @@ class Tag < SimpleHashtag::Hashtag
       limit(10).
       count
     @popular = @popular.collect {|ind| ind[0]}
-    Tag.where(:id => @popular)
+    Tag.where(id: @popular)
   end
 end
 

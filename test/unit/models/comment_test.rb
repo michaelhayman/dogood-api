@@ -8,7 +8,7 @@ class CommentTest < DoGood::TestCase
 
     test "should have a message" do
       assert FactoryGirl.build(:comment).valid?
-      refute FactoryGirl.build(:comment, :comment => "").valid?
+      refute FactoryGirl.build(:comment, comment: "").valid?
     end
 
     test "should not be too long" do
@@ -31,12 +31,12 @@ class CommentTest < DoGood::TestCase
 
         FactoryGirl.create(
           :comment,
-          :commentable_id => good.id,
-          :commentable_type => "Good")
+          commentable_id: good.id,
+          commentable_type: "Good")
         FactoryGirl.create(
           :comment,
-          :commentable_id => good.id,
-          :commentable_type => "Good")
+          commentable_id: good.id,
+          commentable_type: "Good")
 
         assert_equal 2, Comment.for_good(good.id).count
       end

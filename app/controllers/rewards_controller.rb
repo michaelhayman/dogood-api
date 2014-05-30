@@ -1,10 +1,10 @@
 class RewardsController < ApiController
-  before_filter :setup_pagination, :only => [
+  before_filter :setup_pagination, only: [
     :claimed,
     :index,
     :highlights
   ]
-  before_filter :check_auth, :only => [
+  before_filter :check_auth, only: [
     :claim,
     :claimed,
     :create,
@@ -32,9 +32,9 @@ class RewardsController < ApiController
 
   def create
     @reward = Reward.new(
-      :title => resource_params[:title],
-      :subtitle => resource_params[:subtitle],
-      :user_id => current_user.id)
+      title: resource_params[:title],
+      subtitle: resource_params[:subtitle],
+      user_id: current_user.id)
 
     if @reward.save
       render json: @reward, root: "rewards"
@@ -52,8 +52,8 @@ class RewardsController < ApiController
     raise DoGood::Api::TooManyQueries.new if Reward.just_created_by(dg_user)
 
     @claimed_reward = ClaimedReward.new(
-      :reward_id => resource_params[:id],
-      :user_id => current_user.id)
+      reward_id: resource_params[:id],
+      user_id: current_user.id)
 
     if @claimed_reward.create_claim
       render json: @claimed_reward.reward, root: "rewards"

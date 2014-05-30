@@ -1,5 +1,5 @@
 class TagsController < ApiController
-  before_filter :setup_pagination, :only => [
+  before_filter :setup_pagination, only: [
     :index, :search, :popular
   ]
   def index

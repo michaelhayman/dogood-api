@@ -28,8 +28,8 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     test "the index json" do
       @good = FactoryGirl.create(:good)
       @good_2 = FactoryGirl.create(:good)
-      @comment_on_2 = FactoryGirl.create(:comment, :commentable_id => @good_2.id)
-      @entity = FactoryGirl.create(:entity, :entityable_id => @comment_on_2.id)
+      @comment_on_2 = FactoryGirl.create(:comment, commentable_id: @good_2.id)
+      @entity = FactoryGirl.create(:entity, entityable_id: @comment_on_2.id)
 
       get :index, {
         format: :json
@@ -104,7 +104,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     test "should return goods matching the given ids" do
       @good = FactoryGirl.create(:good)
       @good_2 = FactoryGirl.create(:good)
-      @comment_on_2 = FactoryGirl.create(:comment, :commentable_id => @good_2.id)
+      @comment_on_2 = FactoryGirl.create(:comment, commentable_id: @good_2.id)
 
       get :show, {
         format: :json,
@@ -241,7 +241,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     test "should return goods that a user followed" do
       @user = FactoryGirl.create(:user)
       followed_good = FactoryGirl.create(:good)
-      posted_good = FactoryGirl.create(:good, :user => @user)
+      posted_good = FactoryGirl.create(:good, user: @user)
       irrelevant_good = FactoryGirl.create(:good)
 
       @user.follow(followed_good)
@@ -415,7 +415,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
           stub(Good).just_created_by { false }
 
-          @good = FactoryGirl.build(:good, :done, :user => @user)
+          @good = FactoryGirl.build(:good, :done, user: @user)
 
           sign_in @user
 
@@ -443,7 +443,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
           stub(Good).just_created_by { false }
           sign_in @user
 
-          @good = FactoryGirl.build(:good, :user => @user)
+          @good = FactoryGirl.build(:good, user: @user)
 
           post :create, {
             format: :json,

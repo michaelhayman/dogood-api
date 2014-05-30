@@ -18,7 +18,7 @@ module Api::Helpers::RenderHelper
         errors: {
           messages: Array.wrap(error.message)
         }
-      }, :status => error.http_error
+      }, status: error.http_error
     end
 end
 

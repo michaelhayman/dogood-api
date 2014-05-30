@@ -1,7 +1,7 @@
 class UsersController < ApiController
   include ActionView::Helpers::DateHelper
 
-  before_filter :setup_pagination, :only => [
+  before_filter :setup_pagination, only: [
     :search_by_emails,
     :search,
     :search_by_twitter_ids,
@@ -35,20 +35,20 @@ class UsersController < ApiController
       params[:emails].delete(current_user.email)
     end
 
-    @users = User.where(:email => params[:emails]).limit(20)
+    @users = User.where(email: params[:emails]).limit(20)
     render_paginated_index(@users, Users::SearchSerializer)
   end
 
   def search_by_twitter_ids
     raise DoGood::Api::ParametersInvalid.new if !params[:twitter_ids].present?
 
-    @users = User.where(:twitter_id => params[:twitter_ids]).limit(50)
+    @users = User.where(twitter_id: params[:twitter_ids]).limit(50)
     render_paginated_index(@users, Users::SearchSerializer)
   end
 
   def search_by_facebook_ids
     raise DoGood::Api::ParametersInvalid.new if !params[:facebook_ids].present?
-    @users = User.where(:facebook_id => params[:facebook_ids]).limit(50)
+    @users = User.where(facebook_id: params[:facebook_ids]).limit(50)
     render_paginated_index(@users, Users::SearchSerializer)
   end
 

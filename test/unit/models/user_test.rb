@@ -29,7 +29,7 @@ class UserTest < DoGood::TestCase
   end
 
   test "should return a specific user" do
-    user2 = FactoryGirl.create(:user, :email => Faker::Internet.email)
+    user2 = FactoryGirl.create(:user, email: Faker::Internet.email)
     assert_equal @user, User.by_id(@user.id)
   end
 

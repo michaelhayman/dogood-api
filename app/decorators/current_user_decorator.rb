@@ -6,7 +6,7 @@ class CurrentUserDecorator < BaseDecorator
   def voted_good_ids
     object.
       votes.
-      where(:votable_type => "Good").
+      where(votable_type: "Good").
       map(&:votable_id)
   end
   memoize :voted_good_ids
@@ -23,7 +23,7 @@ class CurrentUserDecorator < BaseDecorator
   def followed_good_ids
     object.
       follows.
-      where(:followable_type => "Good").
+      where(followable_type: "Good").
       map(&:followable_id)
   end
   memoize :followed_good_ids
@@ -54,7 +54,7 @@ class CurrentUserDecorator < BaseDecorator
   def followed_user_ids
     object.
       follows.
-      where(:followable_type => "User").
+      where(followable_type: "User").
       map(&:followable_id)
   end
   memoize :followed_user_ids

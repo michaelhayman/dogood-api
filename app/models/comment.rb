@@ -5,14 +5,14 @@ class Comment < ActiveRecord::Base
   hashtaggable_attribute :comment
 
   belongs_to :commentable,
-    :polymorphic => true,
-    :counter_cache => :cached_comments_count
+    polymorphic: true,
+    counter_cache: :cached_comments_count
 
   belongs_to :user
 
   belongs_to :good, counter_cache: true
 
-  has_many :entities, :as => :entityable
+  has_many :entities, as: :entityable
 
   default_scope -> { order('created_at DESC') }
 
@@ -25,20 +25,20 @@ class Comment < ActiveRecord::Base
   #acts_as_voteable
 
   validates_presence_of :comment,
-    :message => "Enter a comment."
+    message: "Enter a comment."
 
   validates_presence_of :user_id,
-    :message => "No user record found."
+    message: "No user record found."
 
   validates_length_of :comment,
-    :minimum => 5,
-    :maximum => 120,
-    :allow_blank => false
+    minimum: 5,
+    maximum: 120,
+    allow_blank: false
 
   accepts_nested_attributes_for :entities
 
   def self.for_good(good_id)
-    where(:commentable_type => "Good", :commentable_id => good_id)
+    where(commentable_type: "Good", commentable_id: good_id)
   end
 end
 

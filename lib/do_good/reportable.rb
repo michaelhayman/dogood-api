@@ -8,8 +8,8 @@ module DoGood::Reportable
     def reportable!
       self.class_eval do
         has_one :report,
-          :as => :reportable,
-          :dependent => :destroy
+          as: :reportable,
+          dependent: :destroy
       end
     end
   end

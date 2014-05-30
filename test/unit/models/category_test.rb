@@ -8,7 +8,7 @@ class CategoryTest < DoGood::TestCase
 
     test "should have a name" do
       assert FactoryGirl.build(:category).valid?
-      refute FactoryGirl.build(:category, :name => "").valid?
+      refute FactoryGirl.build(:category, name: "").valid?
     end
   end
 

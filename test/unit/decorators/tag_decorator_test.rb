@@ -4,8 +4,8 @@ class TagDecoratorTest < DoGood::TestCase
   def expected_hash
     tag = @tag.object
     {
-      "id" => tag.id,
-      "name" => tag.name
+      id: tag.id,
+      name: tag.name
     }
   end
 

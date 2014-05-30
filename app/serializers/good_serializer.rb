@@ -34,7 +34,7 @@ class DefaultsSerializer < ActiveModel::Serializer
   has_many :comments, polymorphic: true
   has_one :category
   has_one :user
-  has_many :entities, :as => :entityable
+  has_many :entities, as: :entityable
   has_one :nominee
 
   def comments

@@ -103,8 +103,8 @@ class RewardsControllerTest < DoGood::ActionControllerTestCase
 
     test "should return claimed rewards for the current user" do
       @user = FactoryGirl.create(:user)
-      @reward = FactoryGirl.create(:claimed_reward, :user => @user)
-      @reward_2 = FactoryGirl.create(:claimed_reward, :user => @user)
+      @reward = FactoryGirl.create(:claimed_reward, user: @user)
+      @reward_2 = FactoryGirl.create(:claimed_reward, user: @user)
       sign_in @user
 
       get :claimed, {

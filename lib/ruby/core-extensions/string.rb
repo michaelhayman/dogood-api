@@ -109,7 +109,7 @@ class ::String
 
   def to_tsquery(options = {})
     options = {
-      :type => :and
+      type: :and
     }.merge(options)
 
     search_function = case options[:type]
@@ -207,7 +207,7 @@ class ::String
   #   within the `:under` String itself, i.e. unindent the string one level.
   def indent(*args)
     options = {
-      :string => ' '
+      string: ' '
     }.merge(args.extract_options!)
 
     indentation = ''

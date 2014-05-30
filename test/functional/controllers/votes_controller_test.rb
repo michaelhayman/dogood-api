@@ -68,7 +68,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
       end
 
       test "vote should succeed on a user's own good" do
-        @good = FactoryGirl.create(:good, :user => @user)
+        @good = FactoryGirl.create(:good, user: @user)
 
         assert_equal 0, @good.cached_votes_up
 

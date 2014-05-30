@@ -1,5 +1,5 @@
 class CommentsController < ApiController
-  before_filter :setup_pagination, :only => [ :index ]
+  before_filter :setup_pagination, only: [ :index ]
 
   def index
     @comments = Comment.
@@ -28,14 +28,14 @@ class CommentsController < ApiController
       :commentable_type,
       :comment,
       :user_id,
-      :entities_attributes => [
+      entities_attributes: [
         :entityable_id,
         :entityable_type,
         :link,
         :link_id,
         :link_type,
         :title,
-        :range => []
+        range: []
     ])
   end
   private :resource_params

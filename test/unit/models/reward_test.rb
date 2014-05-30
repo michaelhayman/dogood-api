@@ -7,23 +7,23 @@ class RewardTest < DoGood::TestCase
     end
 
     test "should be not be valid without a cost" do
-      refute FactoryGirl.build(:reward, :cost => "").valid?
+      refute FactoryGirl.build(:reward, cost: "").valid?
     end
 
     test "should be not be valid without a title" do
-      refute FactoryGirl.build(:reward, :title => "").valid?
+      refute FactoryGirl.build(:reward, title: "").valid?
     end
 
     test "should be not be valid without a subtitle" do
-      refute FactoryGirl.build(:reward, :subtitle => "").valid?
+      refute FactoryGirl.build(:reward, subtitle: "").valid?
     end
 
     test "should be not be valid without a quantity" do
-      refute FactoryGirl.build(:reward, :quantity => "").valid?
+      refute FactoryGirl.build(:reward, quantity: "").valid?
     end
 
     test "should be not be valid without a quantity remaining" do
-      refute FactoryGirl.build(:reward, :quantity_remaining => "").valid?
+      refute FactoryGirl.build(:reward, quantity_remaining: "").valid?
     end
   end
 
@@ -43,7 +43,7 @@ class RewardTest < DoGood::TestCase
   context "quantity" do
     test "should only show rewards which have quantities remaining" do
       user = FactoryGirl.build(:user)
-      reward = FactoryGirl.create(:reward, :quantity_remaining => 0)
+      reward = FactoryGirl.create(:reward, quantity_remaining: 0)
       assert_equal 0, Reward.available.count
     end
 
@@ -71,7 +71,7 @@ class RewardTest < DoGood::TestCase
   end
 
   test "should block posting for a user who just created a reward" do
-    FactoryGirl.create(:reward, :user_id => 11)
+    FactoryGirl.create(:reward, user_id: 11)
     assert Reward.just_created_by(11)
   end
 end

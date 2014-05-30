@@ -3,7 +3,7 @@
 class ::Object
   def to_sql_array options = {}
     options = {
-      :type => :text
+      type: :text
     }.merge options
 
     if self.nil?

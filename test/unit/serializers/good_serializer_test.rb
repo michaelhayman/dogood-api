@@ -64,8 +64,8 @@ class GoodSerializerTest < DoGood::TestCase
   def setup
     super
     @good = FactoryGirl.create(:good, :done)
-    @entity = FactoryGirl.create(:entity, :entityable_id => @good.id, :entityable_type => "Good")
-    @comment = FactoryGirl.create(:comment, :commentable_id => @good.id, :user => @good.user)
+    @entity = FactoryGirl.create(:entity, entityable_id: @good.id, entityable_type: "Good")
+    @comment = FactoryGirl.create(:comment, commentable_id: @good.id, user: @good.user)
     @good = GoodDecorator.decorate(@good)
     stub(@good).current_user_commented { true }
     stub(@good).current_user_voted { true }

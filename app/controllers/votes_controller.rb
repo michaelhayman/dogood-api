@@ -37,7 +37,7 @@ class VotesController < ApiController
     def polymorphic_association
       resource_params[:votable_type].
         constantize.
-        where(:id => resource_params[:votable_id]).
+        where(id: resource_params[:votable_id]).
         first
     end
 

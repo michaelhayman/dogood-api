@@ -40,7 +40,7 @@ module DoGood::FooTestsHelper
     end
 
     def drop_foos_table
-      arbc.drop_table(:foos, :if_exists => true)
+      arbc.drop_table(:foos, if_exists: true)
     end
 
     def before_suite
