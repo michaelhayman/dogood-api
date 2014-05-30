@@ -13,12 +13,12 @@ class CurrentUserDecoratorTest < DoGood::TestCase
       @good = FactoryGirl.create(:good)
       @comment_1 = FactoryGirl.create(:comment, :for_good, user: @user.object, commentable_id: @good.id)
       @user.follow(@good)
-      @good.liked_by @user.object
+      @good.upvote_from @user.object
 
       @good_2 = FactoryGirl.create(:good)
       @comment_2 = FactoryGirl.create(:comment, :for_good, user: @user.object, commentable_id: @good_2.id)
       @user.follow(@good_2)
-      @good_2.liked_by @user.object
+      @good_2.upvote_from @user.object
 
       @good_3 = FactoryGirl.create(:good)
 
@@ -31,22 +31,22 @@ class CurrentUserDecoratorTest < DoGood::TestCase
       ]
     end
 
-    context "liked_good_ids" do
-      test "should contain only the liked IDs" do
-        assert_equal [ @good_2.id, @good.id ], @user.liked_good_ids
-        assert Good.all.count > @user.liked_good_ids.count
+    context "voted_good_ids" do
+      test "should contain only the voted IDs" do
+        assert_equal [ @good_2.id, @good.id ], @user.voted_good_ids
+        assert Good.all.count > @user.voted_good_ids.count
       end
     end
 
-    context "good_liked?" do
-      test "should be true for a liked good" do
-        assert(@user.good_liked?(@good), "should accept a good itself")
-        assert(@user.good_liked?(@good.id), "should accept a good id")
+    context "good_voted_on?" do
+      test "should be true for a voted on good" do
+        assert(@user.good_voted_on?(@good), "should accept a good itself")
+        assert(@user.good_voted_on?(@good.id), "should accept a good id")
       end
 
-      test "should be false for a good which isn't liked" do
-        refute(@user.good_liked?(@good_3), "should accept good itself")
-        refute(@user.good_liked?(@good_3.id), "should accept a good id")
+      test "should be false for a good which isn't voted on" do
+        refute(@user.good_voted_on?(@good_3), "should accept good itself")
+        refute(@user.good_voted_on?(@good_3.id), "should accept a good id")
       end
     end
 
@@ -63,28 +63,28 @@ class CurrentUserDecoratorTest < DoGood::TestCase
         assert(@user.good_commented?(@good.id), "should accept a good id")
       end
 
-      test "should be false for a good which isn't liked" do
+      test "should be false for a good which isn't voted on" do
         refute(@user.good_commented?(@good_3), "should accept good itself")
         refute(@user.good_commented?(@good_3.id), "should accept a good id")
       end
     end
 
-    context "regooded_good_ids" do
-      test "should contain only the regooded IDs" do
-        assert_equal [ @good_2.id, @good.id ], @user.regooded_good_ids
-        assert Good.all.count > @user.regooded_good_ids.count
+    context "followed_good_ids" do
+      test "should contain only the followed IDs" do
+        assert_equal [ @good_2.id, @good.id ], @user.followed_good_ids
+        assert Good.all.count > @user.followed_good_ids.count
       end
     end
 
-    context "good_regooded?" do
-      test "should be true for a regooded good" do
+    context "good_followed?" do
+      test "should be true for a followed good" do
         assert(@user.good_followed?(@good), "should accept a good itself")
-        assert(@user.good_regooded?(@good.id), "should accept a good id")
+        assert(@user.good_followed?(@good.id), "should accept a good id")
       end
 
-      test "should be false for a good which isn't liked" do
-        refute(@user.good_regooded?(@good_3), "should accept good itself")
-        refute(@user.good_regooded?(@good_3.id), "should accept a good id")
+      test "should be false for a good which isn't voted on" do
+        refute(@user.good_followed?(@good_3), "should accept good itself")
+        refute(@user.good_followed?(@good_3.id), "should accept a good id")
       end
     end
 

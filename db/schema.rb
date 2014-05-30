@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140527083208) do
+ActiveRecord::Schema.define(version: 20140530000942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,21 +89,21 @@ ActiveRecord::Schema.define(version: 20140527083208) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "comments_count",        default: 0
-    t.integer  "cached_votes_total",    default: 0
-    t.integer  "cached_votes_score",    default: 0
-    t.integer  "cached_votes_up",       default: 0
-    t.integer  "cached_votes_down",     default: 0
+    t.integer  "cached_comments_count",  default: 0
+    t.integer  "cached_votes_total",     default: 0
+    t.integer  "cached_votes_score",     default: 0
+    t.integer  "cached_votes_up",        default: 0
+    t.integer  "cached_votes_down",      default: 0
     t.string   "evidence"
-    t.integer  "followers_count",       default: 0
+    t.integer  "cached_followers_count", default: 0
     t.float    "lat"
     t.float    "lng"
     t.string   "location_image"
     t.string   "location_name"
-    t.boolean  "done",                  default: true
+    t.boolean  "done",                   default: true
     t.integer  "nominee_id"
-    t.integer  "following_count",       default: 0
-    t.integer  "cached_weighted_score", default: 0
+    t.integer  "cached_following_count", default: 0
+    t.integer  "cached_weighted_score",  default: 0
   end
 
   add_index "goods", ["cached_votes_down"], name: "index_goods_on_cached_votes_down", using: :btree
@@ -231,7 +231,7 @@ ActiveRecord::Schema.define(version: 20140527083208) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "avatar"
-    t.integer  "followers_count",        default: 0
+    t.integer  "cached_followers_count", default: 0
     t.string   "full_name"
     t.string   "phone"
     t.integer  "points_cache",           default: 0
@@ -241,7 +241,7 @@ ActiveRecord::Schema.define(version: 20140527083208) do
     t.string   "twitter_id"
     t.integer  "sash_id"
     t.integer  "level",                  default: 0
-    t.integer  "following_count",        default: 0
+    t.integer  "cached_following_count", default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

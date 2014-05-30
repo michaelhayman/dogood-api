@@ -7,8 +7,7 @@ DoGoodApp::Application.routes.draw do
 
   resources :users, :only => [ :show ] do
     collection do
-      get :regooders
-      get :likers
+      get :voters
       get :followers
       get :following
       put :update_profile
@@ -43,7 +42,7 @@ DoGoodApp::Application.routes.draw do
     collection do
       get :nominations_for
       get :followed_by
-      get :liked_by
+      get :voted_by
       get :nominations_by
       get :help_wanted_by
       get :tagged

@@ -178,11 +178,11 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "likers" do
+  context "voters" do
     test "route" do
-      assert_routing '/users/likers', {
+      assert_routing '/users/voters', {
         controller: "users",
-        action: "likers"
+        action: "voters"
       }
     end
 
@@ -191,7 +191,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
       @good = FactoryGirl.create(:good)
       @good.liked_by @bob
 
-      get :likers, {
+      get :voters, {
         format: :json,
         type: "Good",
         id: @good.id

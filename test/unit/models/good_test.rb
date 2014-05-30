@@ -79,7 +79,7 @@ class GoodTest < DoGood::TestCase
       good1 = FactoryGirl.create(:good)
       good1.liked_by user
       good2 = FactoryGirl.create(:good, :bob)
-      assert_equal 1, Good.liked_by_user(user.id).count
+      assert_equal 1, Good.voted_by_user(user.id).count
     end
 
     test "should return only goods followed by a user" do

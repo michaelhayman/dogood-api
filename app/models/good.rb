@@ -18,9 +18,9 @@ class Good < ActiveRecord::Base
 
   reportable!
 
-  attr_accessor :current_user_liked,
+  attr_accessor :current_user_voted,
     :current_user_commented,
-    :current_user_regooded
+    :current_user_followed
 
   belongs_to :category
   belongs_to :user
@@ -54,8 +54,8 @@ class Good < ActiveRecord::Base
 
   scope :popular, -> {
     order('
-      comments_count * 3 +
-      followers_count * 1.5 +
+      cached_comments_count * 3 +
+      cached_followers_count * 1.5 +
       cached_votes_up desc').
     where('created_at > ?', 2.weeks.ago)
   }
@@ -110,7 +110,7 @@ class Good < ActiveRecord::Base
       references(:followings)
   end
 
-  def self.liked_by_user(user_id)
+  def self.voted_by_user(user_id)
     if user_id
       @user = User.find(user_id)
       @user.get_voted Good

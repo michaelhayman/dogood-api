@@ -6,7 +6,7 @@ class Users::ProfileSerializer < ActiveModel::Serializer
     :current_user_following,
     :followers_count,
     :following_count,
-    :liked_goods_count,
+    :voted_goods_count,
     :rank,
     :followed_goods_count,
     :nominations_for_user_goods_count,

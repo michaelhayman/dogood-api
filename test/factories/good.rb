@@ -24,20 +24,23 @@ FactoryGirl.define do
 
     trait :lame do
       caption "Big oil"
-      followers_count 0
-      comments_count 0
+      cached_votes_up 0
+      cached_followers_count 0
+      cached_comments_count 0
     end
 
     trait :average do
       caption "Took out the trash"
-      followers_count 25
-      comments_count 25
+      cached_votes_up 10
+      cached_followers_count 25
+      cached_comments_count 25
     end
 
     trait :popular do
       caption "Freed a nation"
-      followers_count 50
-      comments_count 50
+      cached_votes_up 25
+      cached_followers_count 50
+      cached_comments_count 50
     end
 
     trait :health do

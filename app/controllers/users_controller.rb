@@ -6,7 +6,7 @@ class UsersController < ApiController
     :search,
     :search_by_twitter_ids,
     :search_by_facebook_ids,
-    :likers,
+    :voters,
     :followers,
     :following
   ]
@@ -52,7 +52,7 @@ class UsersController < ApiController
     render_paginated_index(@users, Users::SearchSerializer)
   end
 
-  def likers
+  def voters
     @instance = params[:type].
       constantize.
       find(params[:id])

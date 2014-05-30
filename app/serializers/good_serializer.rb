@@ -19,9 +19,9 @@ class DefaultsSerializer < ActiveModel::Serializer
 
   attributes :id,
     :caption,
-    :likes_count,
+    :votes_count,
     :comments_count,
-    :regoods_count,
+    :followers_count,
     :lat,
     :lng,
     :location_name,
@@ -56,12 +56,12 @@ end
 class CurrentUserGoodSerializer < ActiveModel::Serializer
   cached
 
-  attributes :current_user_liked,
+  attributes :current_user_voted,
     :current_user_commented,
-    :current_user_regooded
 
   def cache_key
     [object, current_user_liked, current_user_commented, current_user_regooded, scope]
   end
+    :current_user_followed
 end
 

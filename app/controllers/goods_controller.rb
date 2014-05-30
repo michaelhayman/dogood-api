@@ -6,7 +6,7 @@ class GoodsController < ApiController
     :nearby,
     :nominations_for,
     :followed_by,
-    :liked_by,
+    :voted_by,
     :nominations_by,
     :help_wanted_by
   ]
@@ -75,10 +75,10 @@ class GoodsController < ApiController
     render_paginated_index(@goods)
   end
 
-  def liked_by
+  def voted_by
     @goods = apply_scopes(Good.
       newest_first.
-      liked_by_user(params[:user_id]))
+      voted_by_user(params[:user_id]))
 
     render_paginated_index(@goods)
   end

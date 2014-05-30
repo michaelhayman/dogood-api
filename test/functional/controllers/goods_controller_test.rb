@@ -257,11 +257,11 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "liked_by" do
+  context "voted_by" do
     test "route" do
-      assert_routing '/goods/liked_by', {
+      assert_routing '/goods/voted_by', {
         controller: "goods",
-        action: "liked_by"
+        action: "voted_by"
       }
     end
 
@@ -272,7 +272,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
       @user.likes(liked_good)
 
-      get :liked_by, {
+      get :voted_by, {
         format: :json,
         user_id: @user.id,
       }

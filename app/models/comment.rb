@@ -6,7 +6,7 @@ class Comment < ActiveRecord::Base
 
   belongs_to :commentable,
     :polymorphic => true,
-    :counter_cache => :comments_count
+    :counter_cache => :cached_comments_count
 
   belongs_to :user
 

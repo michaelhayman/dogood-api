@@ -3,53 +3,22 @@ class CurrentUserDecorator < BaseDecorator
 
   delegate_all
 
-  def liked_good_ids
+  def voted_good_ids
     object.
       votes.
       where(:votable_type => "Good").
       map(&:votable_id)
   end
-  memoize :liked_good_ids
+  memoize :voted_good_ids
 
-  def good_liked?(good_or_good_id)
+  def good_voted_on?(good_or_good_id)
     if object.present?
       id = get_id(good_or_good_id)
 
-      !!self.liked_good_ids.include?(id)
+      !!self.voted_good_ids.include?(id)
     end
   end
-  memoize :good_liked?
-
-  def regooded_good_ids
-    object.
-      follows.
-      where(:followable_type => "Good").
-      map(&:followable_id)
-  end
-  memoize :regooded_good_ids
-
-  def good_regooded?(good_or_good_id)
-    if object.present?
-      id = get_id(good_or_good_id)
-
-      !!self.regooded_good_ids.include?(id)
-    end
-  end
-  memoize :good_regooded?
-
-  def commented_good_ids
-    object.comments.pluck(:commentable_id)
-  end
-  memoize :commented_good_ids
-
-  def good_commented?(good_or_good_id)
-    if object.present?
-      id = get_id(good_or_good_id)
-
-      !!self.commented_good_ids.include?(id)
-    end
-  end
-  memoize :good_commented?
+  memoize :good_voted_on?
 
   def followed_good_ids
     object.
@@ -67,6 +36,20 @@ class CurrentUserDecorator < BaseDecorator
     end
   end
   memoize :good_followed?
+
+  def commented_good_ids
+    object.comments.pluck(:commentable_id)
+  end
+  memoize :commented_good_ids
+
+  def good_commented?(good_or_good_id)
+    if object.present?
+      id = get_id(good_or_good_id)
+
+      !!self.commented_good_ids.include?(id)
+    end
+  end
+  memoize :good_commented?
 
   def followed_user_ids
     object.
