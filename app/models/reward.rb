@@ -15,6 +15,16 @@ class Reward < ActiveRecord::Base
   validates_presence_of :subtitle
   validates_presence_of :quantity
   validates_presence_of :quantity_remaining
+  validates :quantity, numericality: {
+    greater_than_or_equal_to: 1
+  }
+  validates :quantity_remaining, numericality: {
+    less_than_or_equal_to: :quantity,
+    greater_than_or_equal_to: 0
+  }
+  validates :cost, numericality: {
+    greater_than_or_equal_to: 1
+  }
 
   def self.sufficient_points(user)
     where("cost <= ?", user.points)

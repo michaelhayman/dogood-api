@@ -18,8 +18,19 @@ class RewardTest < DoGood::TestCase
       refute FactoryGirl.build(:reward, subtitle: "").valid?
     end
 
-    test "should be not be valid without a quantity" do
-      refute FactoryGirl.build(:reward, quantity: "").valid?
+    test "should be not be valid with a quantity of less than 2" do
+      assert FactoryGirl.build(:reward, quantity: 1, quantity_remaining: 1).valid?
+      refute FactoryGirl.build(:reward, quantity: 0, quantity_remaining: 0).valid?
+    end
+
+    test "should be not be valid with a quantity remaining of less than 0" do
+      assert FactoryGirl.build(:reward, quantity_remaining: 1).valid?
+      assert FactoryGirl.build(:reward, quantity_remaining: 0).valid?
+      refute FactoryGirl.build(:reward, quantity_remaining: -1).valid?
+    end
+
+    test "should be not be valid if quantity remaining is greater than quantity" do
+      refute FactoryGirl.build(:reward, quantity_remaining: 55).valid?
     end
 
     test "should be not be valid without a quantity remaining" do
