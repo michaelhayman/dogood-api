@@ -88,25 +88,6 @@ class CurrentUserDecoratorTest < DoGood::TestCase
       end
     end
 
-    context "followed_good_ids" do
-      test "should contain only the followed IDs" do
-        assert_equal [ @good_2.id, @good.id ], @user.followed_good_ids
-        assert Good.all.count > @user.followed_good_ids.count
-      end
-    end
-
-    context "good_followed?" do
-      test "should be true for a followed good" do
-        assert(@user.good_followed?(@good), "should accept a good itself")
-        assert(@user.good_followed?(@good.id), "should accept a good id")
-      end
-
-      test "should be false for a non-followed good" do
-        refute(@user.good_followed?(@good_3), "should accept good itself")
-        refute(@user.good_followed?(@good_3.id), "should accept a good id")
-      end
-    end
-
     context "followed_user_ids" do
       test "should contain only the followed IDs" do
         assert_equal [ @user_2.id ], @user.followed_user_ids
