@@ -74,7 +74,7 @@ class Good < ActiveRecord::Base
   end
 
   def send_invite?
-    self.done && self.nominee.present? && self.nominee.invite
+    self.done && self.nominee.present? && self.nominee.invite && !Unsubscribe.opted_out?(self.nominee.email)
   end
 
   def self.in_category(id)
