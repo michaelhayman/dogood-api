@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ClaimedRewardTest < DoGood::TestCase
-  context "has validations" do
+  context "validations" do
     def setup
       super
     end
@@ -27,7 +27,7 @@ class ClaimedRewardTest < DoGood::TestCase
       user: @user)
   end
 
-  context "has validations" do
+  context "functionality" do
     test "should withdraw points" do
       assert FactoryGirl.build(:claimed_reward).valid?
     end
