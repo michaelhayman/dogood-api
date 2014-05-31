@@ -18,6 +18,8 @@ module DoGoodApp
       config.autoload_paths << "#{Rails.root}/#{dir}"
     end
 
+    config.i18n.enforce_available_locales = false
+
     config.middleware.delete "ActionDispatch::Cookies"
     config.middleware.delete "ActionDispatch::Session::CookieStore"
     config.middleware.delete "ActionDispatch::Flash"
