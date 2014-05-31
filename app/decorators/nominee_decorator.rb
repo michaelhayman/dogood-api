@@ -3,7 +3,8 @@ class NomineeDecorator < BaseDecorator
   decorates_association :user
 
   def avatar_url
-    "hey"
+    object.avatar.url || ""
   end
+  memoize :avatar_url
 end
 

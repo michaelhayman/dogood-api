@@ -10,7 +10,7 @@ class NomineeDecoratorTest < DoGood::TestCase
 
   context "avatar" do
     test "avatar" do
-      assert_equal "hey", @nominee.avatar_url
+      assert_equal "", @nominee.avatar_url
     end
   end
 end
