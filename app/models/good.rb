@@ -74,7 +74,7 @@ class Good < ActiveRecord::Base
   end
 
   def send_invite?
-    self.done && self.nominee.present?
+    self.done && self.nominee.present? && self.nominee.invite
   end
 
   def self.in_category(id)

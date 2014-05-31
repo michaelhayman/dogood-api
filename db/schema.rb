@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140530000942) do
+ActiveRecord::Schema.define(version: 20140531003652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,13 +147,14 @@ ActiveRecord::Schema.define(version: 20140530000942) do
   end
 
   create_table "nominees", force: true do |t|
-    t.string  "full_name",               null: false
+    t.string  "full_name",                   null: false
     t.string  "email"
     t.string  "phone"
     t.string  "twitter_id"
     t.string  "facebook_id"
     t.string  "avatar"
     t.integer "user_id",     default: 0
+    t.boolean "invite",      default: false
   end
 
   create_table "points", force: true do |t|

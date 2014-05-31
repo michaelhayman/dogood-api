@@ -424,7 +424,8 @@ CREATE TABLE nominees (
     twitter_id character varying(255),
     facebook_id character varying(255),
     avatar character varying(255),
-    user_id integer DEFAULT 0
+    user_id integer DEFAULT 0,
+    invite boolean DEFAULT false
 );
 
 
@@ -1401,3 +1402,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140527002619');
 INSERT INTO schema_migrations (version) VALUES ('20140527083208');
 
 INSERT INTO schema_migrations (version) VALUES ('20140530000942');
+
+INSERT INTO schema_migrations (version) VALUES ('20140531003652');
