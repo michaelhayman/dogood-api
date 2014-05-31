@@ -29,7 +29,7 @@ class UserDecorator < BaseDecorator
   def followed_goods_count
     Good.followed_by_user(object.id).count
   end
-  # memoize :followed_goods_count
+  memoize :followed_goods_count
 
   def voted_goods_count
     Good.voted_by_user(object.id).count
