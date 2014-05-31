@@ -12,7 +12,7 @@ class InviteMailerTest < DoGood::TestCase
     @email = InviteMailer.invite_nominee(@nominee, @nominator).deliver
 
     refute ActionMailer::Base.deliveries.empty?
-    assert_match(/You've been nominated at Do Good/, @email.encoded)
+    assert_match(/You've been nominated/, @email.encoded)
     assert_equal [ @nominee.email ], @email.to
   end
 
