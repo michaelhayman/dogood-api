@@ -46,8 +46,10 @@ class ClaimedRewardTest < DoGood::TestCase
     end
 
     test "claim otherwise" do
+      original_qty = @claimed_reward.reward.quantity_remaining
       @user.add_points(10000, category: 'Bonus')
       assert @claimed_reward.create_claim
+      assert_equal @claimed_reward.reward.quantity_remaining, original_qty - 1
     end
   end
 

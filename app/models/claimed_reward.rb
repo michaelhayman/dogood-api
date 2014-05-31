@@ -24,6 +24,8 @@ class ClaimedReward < ActiveRecord::Base
     if errors.empty?
       self.withdraw_points
       self.save
+      self.reward.quantity_remaining -= 1
+      self.reward.save
       return true
     else
       return false
