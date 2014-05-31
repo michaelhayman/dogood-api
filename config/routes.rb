@@ -65,5 +65,7 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
+  post 'unsubscribe_email', to: 'unsubscribes#opt_out'
+
   root to: 'goods#index', :defaults => { :format => :html }
 end

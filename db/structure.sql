@@ -658,6 +658,35 @@ ALTER SEQUENCE simple_hashtag_hashtags_id_seq OWNED BY simple_hashtag_hashtags.i
 
 
 --
+-- Name: unsubscribes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE unsubscribes (
+    id integer NOT NULL,
+    email text NOT NULL
+);
+
+
+--
+-- Name: unsubscribes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE unsubscribes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: unsubscribes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE unsubscribes_id_seq OWNED BY unsubscribes.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -876,6 +905,13 @@ ALTER TABLE ONLY simple_hashtag_hashtags ALTER COLUMN id SET DEFAULT nextval('si
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY unsubscribes ALTER COLUMN id SET DEFAULT nextval('unsubscribes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -1028,6 +1064,14 @@ ALTER TABLE ONLY simple_hashtag_hashtaggings
 
 ALTER TABLE ONLY simple_hashtag_hashtags
     ADD CONSTRAINT simple_hashtag_hashtags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: unsubscribes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY unsubscribes
+    ADD CONSTRAINT unsubscribes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1212,6 +1256,13 @@ CREATE INDEX index_rewards_on_user_id ON rewards USING btree (user_id);
 --
 
 CREATE INDEX index_simple_hashtag_hashtaggings_on_hashtag_id ON simple_hashtag_hashtaggings USING btree (hashtag_id);
+
+
+--
+-- Name: index_unsubscribes_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_unsubscribes_on_email ON unsubscribes USING btree (email);
 
 
 --
@@ -1404,3 +1455,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140527083208');
 INSERT INTO schema_migrations (version) VALUES ('20140530000942');
 
 INSERT INTO schema_migrations (version) VALUES ('20140531003652');
+
+INSERT INTO schema_migrations (version) VALUES ('20140531155000');
