@@ -56,7 +56,7 @@ class RewardsController < ApiController
       user_id: current_user.id)
 
     if @claimed_reward.create_claim
-      render json: @claimed_reward.reward, root: "rewards"
+      render json: @claimed_reward.reward.decorate, root: "rewards"
     else
       msg = @claimed_reward.errors.full_messages || "Couldn't claim reward."
       raise DoGood::Api::RecordNotSaved.new(msg)
