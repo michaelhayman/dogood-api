@@ -19,9 +19,9 @@
         <td style="border-collapse: collapse">
           <span style="font-family: 'Helvetica Neue', Arial; color: gray;" >
             <%= @nominator.full_name %> has nominated you for doing a good deed!
-            <p>Here's what they had to say about you:</p>
+            <p>Here's what they had to say about you, <%= @nominee.full_name %>:</p>
             <p><blockquote><%= simple_format @good.caption %></blockquote></p>
-            Download the app and:
+            Download the app and see for yourself, plus:
             <br>
             <ul>
               <li>Nominate and reward good deeds</li>

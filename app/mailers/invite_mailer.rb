@@ -4,7 +4,7 @@ class InviteMailer < ActionMailer::Base
     @nominee = post.nominee
     @nominator = post.user
     if @nominee.email.present?
-      mail(to: "'#{@nominee.full_name}' <#{@nominee.email}>", from: "'Do Good' <invites@dogood.mobi>", subject: "You've been nominated!") do |format|
+      mail(to: "'#{@nominee.full_name}' <#{@nominee.email}>", from: "'Do Good' <nominations@dogood.mobi>", subject: "You've been nominated!") do |format|
         format.html
         format.text
       end
