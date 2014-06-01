@@ -4,22 +4,21 @@ class InviteMailerTest < DoGood::TestCase
   def setup
     super
 
-    @nominee = FactoryGirl.build(:nominee)
-    @nominator = FactoryGirl.build(:user)
+    @good = FactoryGirl.build(:nominee, :done)
   end
 
   test "send invite" do
-    @email = InviteMailer.invite_nominee(@nominee, @nominator).deliver
+    @email = InviteMailer.invite_nominee(@good).deliver
 
     refute ActionMailer::Base.deliveries.empty?
     assert_match(/You've been nominated/, @email.encoded)
-    assert_equal [ @nominee.email ], @email.to
+    assert_equal [ @good.nominee.email ], @email.to
   end
 
   test "don't send invite if no email address is present" do
-    nominee = @nominee
+    nominee = @good.nominee
     nominee.email = nil
-    @email = InviteMailer.invite_nominee(nominee, @nominator).deliver
+    @email = InviteMailer.invite_nominee(@good).deliver
 
     assert ActionMailer::Base.deliveries.empty?
   end
