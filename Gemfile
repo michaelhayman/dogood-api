@@ -65,9 +65,6 @@ group :development do
   gem 'pry-rails'
   gem 'ruby_parser'
   gem 'term-ansicolor'
-
-  # docs
-  # deployment
 end
 
 group :development, :test do
@@ -102,9 +99,6 @@ group :profiling do
 end
 
 group :guard do
-  gem 'guard-jasmine'
   gem 'guard-minitest'
-  # gem 'guard-spin'
-  # gem 'zeus'
 end
 
