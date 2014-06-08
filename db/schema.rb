@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140531155000) do
+ActiveRecord::Schema.define(version: 20140605222023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,10 @@ ActiveRecord::Schema.define(version: 20140531155000) do
     t.string  "range",           null: false, array: true
   end
 
+  add_index "entities", ["entityable_id", "entityable_type"], name: "index_entities_on_entityable_id_and_entityable_type", using: :btree
+  add_index "entities", ["link_id"], name: "index_entities_on_link_id", using: :btree
+  add_index "entities", ["title"], name: "index_entities_on_title", using: :btree
+
   create_table "follows", force: true do |t|
     t.integer  "followable_id",                   null: false
     t.string   "followable_type",                 null: false
@@ -112,6 +116,7 @@ ActiveRecord::Schema.define(version: 20140531155000) do
   add_index "goods", ["cached_votes_up"], name: "index_goods_on_cached_votes_up", using: :btree
   add_index "goods", ["cached_weighted_score"], name: "index_goods_on_cached_weighted_score", using: :btree
   add_index "goods", ["category_id"], name: "index_goods_on_category_id", using: :btree
+  add_index "goods", ["nominee_id"], name: "index_goods_on_nominee_id", using: :btree
   add_index "goods", ["user_id"], name: "index_goods_on_user_id", using: :btree
 
   create_table "merit_actions", force: true do |t|
@@ -157,6 +162,8 @@ ActiveRecord::Schema.define(version: 20140531155000) do
     t.boolean "invite",      default: false
   end
 
+  add_index "nominees", ["user_id"], name: "index_nominees_on_user_id", using: :btree
+
   create_table "points", force: true do |t|
     t.string   "pointable_type",     null: false
     t.integer  "pointable_id",       null: false
@@ -181,6 +188,7 @@ ActiveRecord::Schema.define(version: 20140531155000) do
   end
 
   add_index "reports", ["reportable_id", "reportable_type"], name: "index_reports_on_reportable_id_and_reportable_type", using: :btree
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "rewards", force: true do |t|
     t.string   "title"
