@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(version: 20140605222023) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "entities", force: true do |t|
-    t.text    "link",            null: false
     t.integer "link_id",         null: false
     t.text    "link_type",       null: false
     t.text    "title",           null: false
