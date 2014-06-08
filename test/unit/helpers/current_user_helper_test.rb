@@ -20,16 +20,13 @@ module CurrentUserHelperTests
       true
     end
 
-    context "dg_user" do
-      test "should be a user type class" do
-        assert_equal dg_user.object.class, User
-      end
+    test "should be a user type class" do
+      assert_equal dg_user.object.class, User
     end
-      context "logged_in?" do
-        test "should be logged in" do
-          assert logged_in?
-        end
-      end
+
+    test "should be logged in" do
+      assert logged_in?
+    end
   end
 
   class TestNullUser < DoGood::ActionViewTestCase
@@ -43,16 +40,12 @@ module CurrentUserHelperTests
       false
     end
 
-    context "dg_user" do
-      test "should be a decorated null (guest) user object" do
-        assert_equal dg_user.object.class, NullUser
-      end
+    test "should be a decorated null (guest) user object" do
+      assert_equal dg_user.object.class, NullUser
     end
 
-    context "logged_in?" do
-      test "shouldn't be logged in" do
-        refute logged_in?
-      end
+    test "shouldn't be logged in" do
+      refute logged_in?
     end
   end
 end

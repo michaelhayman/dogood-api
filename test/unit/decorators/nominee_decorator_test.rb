@@ -8,10 +8,8 @@ class NomineeDecoratorTest < DoGood::TestCase
     @nominee = NomineeDecorator.decorate(@nominee)
   end
 
-  context "avatar" do
-    test "avatar" do
-      assert_equal "", @nominee.avatar_url
-    end
+  test "avatar" do
+    assert_equal "", @nominee.avatar_url
   end
 end
 

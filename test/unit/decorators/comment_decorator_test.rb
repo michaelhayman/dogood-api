@@ -9,10 +9,8 @@ class CommentDecoratorTest < DoGood::TestCase
     @comment = CommentDecorator.decorate(@comment)
   end
 
-  context "comment" do
-    test "reveal the underlying comment" do
-      assert_equal @comment.object.comment, @comment.comment
-    end
+  test "reveal the underlying comment" do
+    assert_equal @comment.object.comment, @comment.comment
   end
 end
 

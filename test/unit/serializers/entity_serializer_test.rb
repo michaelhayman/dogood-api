@@ -9,9 +9,7 @@ class EntitySerializerTest < DoGood::TestCase
         link_type: @entity.link_type,
         link_id: @entity.link_id,
         title: @entity.title,
-        range: @entity.range,
-        entityable_type: @entity.entityable_type,
-        entityable_id: @entity.entityable_id
+        range: @entity.range
       }
     }
   end
@@ -19,8 +17,7 @@ class EntitySerializerTest < DoGood::TestCase
   def setup
     super
 
-    @entity = FactoryGirl.create(:entity)
-    @entity = TagDecorator.decorate(@entity)
+    @entity = FactoryGirl.create(:entity).decorate
     @serializer = EntitySerializer.new @entity, root: "entities"
   end
 

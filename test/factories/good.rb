@@ -52,7 +52,9 @@ FactoryGirl.define do
     end
 
     trait :tagged do
-      caption "Look at the #awesome that I did!"
+      after(:create) do |good|
+        good.entities = [ FactoryGirl.create(:entity, :awesome, entityable: good)  ]
+      end
     end
 
     trait :sydney do

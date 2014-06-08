@@ -5,7 +5,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
   tests UsersController
 
-  context "show" do
+  class UsersControllerTest::Show < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/users/1', {
         controller: "users",
@@ -29,7 +29,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "search" do
+  class UsersControllerTest::Search < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing({
         path: '/users/search',
@@ -61,7 +61,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "search_by_emails" do
+  class UsersControllerTest::SearchByEmails < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/users/search_by_emails', {
         controller: "users",
@@ -110,7 +110,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "search_by_twitter_ids" do
+  class UsersControllerTest::SearchByTwitterIDs < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/users/search_by_twitter_ids', {
         controller: "users",
@@ -144,7 +144,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "search_by_facebook_ids" do
+  class UsersControllerTest::SearchByFacebookIDs < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/users/search_by_facebook_ids', {
         controller: "users",
@@ -178,7 +178,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "voters" do
+  class UsersControllerTest::Voters < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/users/voters', {
         controller: "users",
@@ -204,7 +204,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "followers" do
+  class UsersControllerTest::Followers < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/users/followers', {
         controller: "users",
@@ -247,7 +247,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "following" do
+  class UsersControllerTest::Following < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/users/following', {
         controller: "users",
@@ -273,7 +273,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "update_profile" do
+  class UsersControllerTest::UpdateProfile < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {
         path: "/users/update_profile",
@@ -331,7 +331,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "update_password" do
+  class UsersControllerTest::UpdatePassword < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {
         path: "/users/update_password",
@@ -388,7 +388,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "social" do
+  class UsersControllerTest::Social < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {
         path: "/users/social",
@@ -451,7 +451,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "remove_avatar" do
+  class UsersControllerTest::RemoveAvatar < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {
         path: "/users/remove_avatar",
@@ -496,7 +496,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "rank" do
+  class UsersControllerTest::Rank < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {
         path: "/users/1/rank",
@@ -522,7 +522,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "points" do
+  class UsersControllerTest::Points < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {
         path: "/users/points",
@@ -558,7 +558,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "status" do
+  class UsersControllerTest::Status < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {
         path: "/users/1/status",
@@ -571,7 +571,7 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "validate_name" do
+  class UsersControllerTest::ValidateName < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {
         path: "/users/validate_name",

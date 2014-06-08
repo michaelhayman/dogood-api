@@ -1,25 +1,18 @@
 class TagsController < ApiController
   before_filter :setup_pagination, only: [
-    :index, :search, :popular
+    :popular, :search
   ]
-  def index
-    @tags = Tag.all.limit(20)
-    render_paginated_index(@tags)
-  end
 
   def search
-    hashtag = Tag.arel_table
-    if params[:q] != "(null)" && params[:q] != nil
-      @tags = Tag.
-        where(hashtag[:name].matches("%#{params[:q]}%")).
-        limit(10)
-    else
-      @tags = Tag.limit(10)
-    end
+    @tags = Tag.matching(params[:q])
+    @tags = Tag.popular unless @tags.present?
     render_paginated_index(@tags)
   end
 
   def popular
+    @pagination_options = @pagination_options.merge({
+      total_entries: 10
+    })
     @tags = Tag.popular
     render_paginated_index(@tags)
   end

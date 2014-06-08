@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class CommentTest < DoGood::TestCase
-  context "has validations" do
+  class CommentValidations < DoGood::TestCase
     test "should be valid with all default values" do
       assert FactoryGirl.build(:comment).valid?
     end
@@ -24,22 +24,22 @@ class CommentTest < DoGood::TestCase
     test "should not be too short" do
       refute FactoryGirl.build(:comment, :too_short).valid?
     end
+  end
 
-    context "arrays" do
-      test "should return all comments for a specific good" do
-        good = FactoryGirl.create(:good)
+  class CommentArrays < DoGood::TestCase
+    test "should return all comments for a specific good" do
+      good = FactoryGirl.create(:good)
 
-        FactoryGirl.create(
-          :comment,
-          commentable_id: good.id,
-          commentable_type: "Good")
-        FactoryGirl.create(
-          :comment,
-          commentable_id: good.id,
-          commentable_type: "Good")
+      FactoryGirl.create(
+        :comment,
+        commentable_id: good.id,
+        commentable_type: "Good")
+      FactoryGirl.create(
+        :comment,
+        commentable_id: good.id,
+        commentable_type: "Good")
 
-        assert_equal 2, Comment.for_good(good.id).count
-      end
+      assert_equal 2, Comment.for_good(good.id).count
     end
   end
 end

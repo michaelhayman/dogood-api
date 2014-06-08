@@ -7,10 +7,8 @@ class CategoryDecoratorTest < DoGood::TestCase
     @category = FactoryGirl.create(:category).decorate
   end
 
-  context "colour" do
-    test "prefixed by #" do
-      assert_equal @category.colour, "##{@category.object.colour.upcase}"
-    end
+  test "prefixed by #" do
+    assert_equal @category.colour, "##{@category.object.colour.upcase}"
   end
 end
 

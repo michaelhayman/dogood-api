@@ -4,13 +4,14 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
   tests FollowsController
 
   def setup
+    super
     @user = FactoryGirl.create(:user)
     sign_in @user
 
     @good = FactoryGirl.create(:good)
   end
 
-  context "create" do
+  class FollowsControllerTest::Create < FollowsControllerTest
     test "route" do
       assert_routing( {
         path: '/follows',
@@ -34,64 +35,62 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       assert_response :unauthorized
     end
 
-    context "authenticated" do
-      test "do not allow empty parameters" do
-        post :create, {
-          format: :json
+    test "do not allow empty parameters" do
+      post :create, {
+        format: :json
+      }
+      assert_response :unprocessable_entity
+    end
+
+    test "follow with valid parameters should succeed" do
+      assert 0, @good.followers
+
+      post :create, {
+        format: :json,
+        follow: {
+          followable_id: @good.id,
+          followable_type: "Good"
         }
-        assert_response :unprocessable_entity
-      end
+      }
+      json = jsonify(response)
+      assert_response :success
+      assert 1, @good.followers
+    end
 
-      test "follow with valid parameters should succeed" do
-        assert 0, @good.followers
+    test "following something already followed should fail" do
+      @user.follow @good
 
-        post :create, {
-          format: :json,
-          follow: {
-            followable_id: @good.id,
-            followable_type: "Good"
-          }
+      post :create, {
+        format: :json,
+        follow: {
+          followable_id: @good.id,
+          followable_type: "Good"
         }
-        json = jsonify(response)
-        assert_response :success
-        assert 1, @good.followers
-      end
+      }
+      json = jsonify(response)
+      assert_response :unprocessable_entity
+      assert 0, @good.followers
+    end
 
-      test "following something already followed should fail" do
-        @user.follow @good
-
-        post :create, {
-          format: :json,
-          follow: {
-            followable_id: @good.id,
-            followable_type: "Good"
-          }
-        }
-        json = jsonify(response)
-        assert_response :unprocessable_entity
-        assert 0, @good.followers
-      end
-
-      test "database error" do
+    test "database error" do
       any_instance_of(User) do |klass|
           stub(klass).follow { false }
       end
 
-        post :create, {
-          format: :json,
-          follow: {
-            followable_id: @good.id,
-            followable_type: "Good"
-          }
+      post :create, {
+        format: :json,
+        follow: {
+          followable_id: @good.id,
+          followable_type: "Good"
         }
-        json = jsonify(response)
-        assert_response :internal_server_error
-        assert 0, @good.followers
-      end
+      }
+      json = jsonify(response)
+      assert_response :internal_server_error
+      assert 0, @good.followers
     end
   end
 
-  context "destroy" do
+  class FollowsControllerTest::Destroy < FollowsControllerTest
     test "route" do
       assert_routing( {
         path: '/follows/1',
@@ -117,46 +116,44 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       assert_response :unauthorized
     end
 
-    context "authenticated" do
-      test "do not allow empty parameters" do
-        delete :destroy, {
-          id: @good.id,
-          format: :json
+    test "do not allow empty parameters" do
+      delete :destroy, {
+        id: @good.id,
+        format: :json
+      }
+      assert_response :unprocessable_entity
+    end
+
+    test "unfollow with valid parameters should succeed" do
+      @user.follow @good
+
+      assert 1, @good.followers
+
+      delete :destroy, {
+        format: :json,
+        id: @good.id,
+        follow: {
+          followable_id: @good.id,
+          followable_type: "Good"
         }
-        assert_response :unprocessable_entity
-      end
+      }
+      json = jsonify(response)
+      assert_response :success
+      assert 0, @good.followers
+    end
 
-      test "unfollow with valid parameters should succeed" do
-        @user.follow @good
-
-        assert 1, @good.followers
-
-        delete :destroy, {
-          format: :json,
-          id: @good.id,
-          follow: {
-            followable_id: @good.id,
-            followable_type: "Good"
-          }
+    test "unfollowing something not already followed should fail" do
+      delete :destroy, {
+        format: :json,
+        id: @good.id,
+        follow: {
+          followable_id: @good.id,
+          followable_type: "Good"
         }
-        json = jsonify(response)
-        assert_response :success
-        assert 0, @good.followers
-      end
-
-      test "unfollowing something not already followed should fail" do
-        delete :destroy, {
-          format: :json,
-          id: @good.id,
-          follow: {
-            followable_id: @good.id,
-            followable_type: "Good"
-          }
-        }
-        json = jsonify(response)
-        assert_response :internal_server_error
-        assert 0, @good.followers
-      end
+      }
+      json = jsonify(response)
+      assert_response :internal_server_error
+      assert 0, @good.followers
     end
   end
 end

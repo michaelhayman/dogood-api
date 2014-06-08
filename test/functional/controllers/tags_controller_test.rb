@@ -2,91 +2,75 @@ require 'test_helper'
 
 class TagsControllerTest < DoGood::ActionControllerTestCase
   tests TagsController
-  def setup
-    super
-    @tag = FactoryGirl.create(:tag)
-    @tag_2 = FactoryGirl.create(:tag, :cool)
-    @tag_3 = FactoryGirl.create(:tag, :weird)
+
+  test "search route" do
+    assert_routing '/tags/search', {
+      controller: "tags",
+      action: "search"
+    }
   end
 
-  context "index" do
-    test "route" do
-      assert_routing '/tags', {
-        controller: "tags",
-        action: "index"
-      }
-    end
+  test "search request should be successful with no parameters" do
 
-    test "request should be successful with no parameters" do
-      get :index, {
-        format: :json
-      }
-      json = jsonify(response)
+    get :search, {
+      format: :json
+    }
+    json = jsonify(response)
 
-      assert_response :success
-      assert_equal @tag.id, json.traverse(:tags, 0, :id)
-    end
+    assert_response :success
+    assert_equal Tag.count, json.traverse(:meta, :pagination, :total_entries)
   end
 
-  context "search" do
-    test "route" do
-      assert_routing '/tags/search', {
-        controller: "tags",
-        action: "search"
-      }
-    end
+  test "search request should be successful with parameters" do
+    @tag = FactoryGirl.create(:tag).decorate
+    FactoryGirl.create(:tag, :cool)
+    FactoryGirl.create(:tag, :weird)
 
-    test "request should be successful with no parameters" do
-      get :search, {
-        format: :json
-      }
-      assert_response :success
-    end
+    get :search, {
+      format: :json,
+      q: "awesome"
+    }
+    json = jsonify(response)
 
-    test "request should be successful with no parameters" do
-      get :search, {
-        format: :json
-      }
-      json = jsonify(response)
-
-      assert_response :success
-      assert_equal Tag.count, json.traverse(:meta, :pagination, :total_entries)
-    end
-
-    test "request should be successful with parameters" do
-      get :search, {
-        format: :json,
-        q: "awesome"
-      }
-      json = jsonify(response)
-
-      assert_response :success
-      assert_equal @tag.id, json.traverse(:tags, 0, :id)
-    end
+    assert_response :success
+    assert_equal @tag.name, json.traverse(:tags, 0, :name)
   end
 
-  context "popular" do
-    test "route" do
-      assert_routing '/tags/popular', {
-        controller: "tags",
-        action: "popular"
-      }
+  test "search request should be return popular tags if no matches found" do
+    @tag = FactoryGirl.create(:tag).decorate
+    @tag = FactoryGirl.create(:tag).decorate
+    FactoryGirl.create(:tag, :cool)
+    FactoryGirl.create(:tag, :weird)
+
+    get :search, {
+      format: :json,
+      q: "boring"
+    }
+    json = jsonify(response)
+
+    assert_response :success
+    assert_equal @tag.name, json.traverse(:tags, 0, :name)
+  end
+
+  test "popular route" do
+    assert_routing '/tags/popular', {
+      controller: "tags",
+      action: "popular"
+    }
+  end
+
+  test "popular request should return 10 results" do
+    15.times do
+      FactoryGirl.create(:tag, title: Faker::Internet.domain_word)
     end
 
-    test "request should be successful with parameters" do
-      10.times do
-        @tag = FactoryGirl.create(:tag, :cool)
-        FactoryGirl.create(:tagging, hashtag: @tag)
-      end
+    get :popular, {
+      format: :json
+    }
+    json = jsonify(response)
 
-      get :popular, {
-        format: :json
-      }
-      json = jsonify(response)
-
-      assert_response :success
-      assert_equal 10, json.traverse(:meta, :pagination, :total_entries)
-    end
+    assert_response :success
+    assert_equal 10, json.traverse(:meta, :pagination, :total_entries)
   end
 end
 

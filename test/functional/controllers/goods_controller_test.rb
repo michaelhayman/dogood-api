@@ -9,7 +9,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     super
   end
 
-  context "index" do
+  class GoodsController::Index < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods', {
         controller: "goods",
@@ -92,7 +92,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "show" do
+  class GoodsController::Show < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/1', {
         controller: "goods",
@@ -117,25 +117,12 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
   end
 
-  context "tagged" do
+  class GoodsController::Tagged < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/tagged', {
         controller: "goods",
         action: "tagged"
       }
-    end
-
-    test "should return goods matching the given tag id" do
-      hashtag = "awesome"
-      @good = FactoryGirl.create(:good, :tagged)
-
-      get :tagged, {
-        format: :json,
-        id: SimpleHashtag::Hashtag.find_by_name('awesome')
-      }
-
-      json = jsonify(response)
-      assert_equal @good.id, json.traverse(:goods, 0, :id)
     end
 
     test "should return goods matching the given tag name" do
@@ -153,7 +140,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "popular" do
+  class GoodsController::Popular < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/popular', {
         controller: "goods",
@@ -178,7 +165,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "nearby" do
+  class GoodsController::Nearby < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/nearby', {
         controller: "goods",
@@ -202,7 +189,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "nominations_for" do
+  class GoodsController::NominationsFor < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/nominations_for', {
         controller: "goods",
@@ -230,7 +217,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "followed_by" do
+  class GoodsController::FollowedBy < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/followed_by', {
         controller: "goods",
@@ -257,7 +244,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "voted_by" do
+  class GoodsController::VotedBy < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/voted_by', {
         controller: "goods",
@@ -283,7 +270,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "nominations_by" do
+  class GoodsController::NominationsBy < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/nominations_by', {
         controller: "goods",
@@ -307,7 +294,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "help_wanted_by" do
+  class GoodsController::HelpWantedBy < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing '/goods/help_wanted_by', {
         controller: "goods",
@@ -331,7 +318,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
-  context "create" do
+  class GoodsController::Create < DoGood::ActionControllerTestCase
     def setup
       @user = FactoryGirl.create(:user)
       sign_in @user
@@ -347,127 +334,121 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       })
     end
 
-    context "should fail" do
-      test "should not allow access if the user is not authenticated" do
-        sign_out @user
-        @good = FactoryGirl.build(:good)
+    test "should not allow access if the user is not authenticated" do
+      sign_out @user
+      @good = FactoryGirl.build(:good)
 
-        post :create, {
-          format: :json,
-          good: {
-            caption: @good.caption,
-            user_id: @good.user.id,
-            nominee_attributes: {
-              full_name: @good.nominee.full_name
-            }
+      post :create, {
+        format: :json,
+        good: {
+          caption: @good.caption,
+          user_id: @good.user.id,
+          nominee_attributes: {
+            full_name: @good.nominee.full_name
           }
         }
-        assert_response :unauthorized
+      }
+      assert_response :unauthorized
+    end
+
+    test "for an authenticated user should not allow no parameters to be passed" do
+      stub(Good).just_created_by { false }
+      sign_in @user
+      post :create, {
+        format: :json,
+      }
+      json = jsonify(response)
+      assert_response :unprocessable_entity
+    end
+
+    test "should not allow two goods to be posted too quickly" do
+      sign_in @user
+      stub(Good).just_created_by { true }
+
+      3.times do
+        post :create, {
+          format: :json,
+        }
+      end
+      assert_response :too_many_requests
+    end
+
+    test "should fail for db error" do
+      sign_in @user
+
+      @good = FactoryGirl.build(:good)
+      stub(Good).just_created_by { false }
+      stub_save_method(Good)
+
+      post :create, {
+        format: :json,
+        good: {
+          caption: @good.caption,
+          user_id: @good.user.id,
+          done: false
+        }
+      }
+      assert_response :internal_server_error
+    end
+
+    test "done good" do
+      any_instance_of(Good) do |klass|
+        stub(klass).send_invite? { false }
       end
 
-      context "for an authenticated user" do
-        test "should not allow no parameters to be passed" do
-          stub(Good).just_created_by { false }
-          sign_in @user
-          post :create, {
-            format: :json,
+      stub(Good).just_created_by { false }
+
+      @good = FactoryGirl.build(:good, :done, user: @user)
+
+      sign_in @user
+
+      post :create, {
+        format: :json,
+        good: {
+          caption: @good.caption,
+          done: true,
+          user_id: @good.user.id,
+          nominee_attributes: {
+            full_name: @good.nominee.full_name
           }
-          json = jsonify(response)
-          assert_response :unprocessable_entity
-        end
+        }
+      }
 
-        test "should not allow two goods to be posted too quickly" do
-          sign_in @user
-          stub(Good).just_created_by { true }
+      assert_response :success
+      assert_equal 1, Good.all.count
 
-          3.times do
-            post :create, {
-              format: :json,
-            }
-          end
-          assert_response :too_many_requests
-        end
+      @created_good = Good.first
+      assert_equal @created_good.caption, @good.caption
+      assert_equal @created_good.user.points, 1
+    end
 
-        test "should fail for db error" do
-          sign_in @user
+    test "todo good (& it should ignore the nominee attributes)" do
+      stub(Good).just_created_by { false }
+      sign_in @user
 
-          @good = FactoryGirl.build(:good)
-          stub(Good).just_created_by { false }
-          stub_save_method(Good)
+      @good = FactoryGirl.build(:good, user: @user)
 
-          post :create, {
-            format: :json,
-            good: {
-              caption: @good.caption,
-              user_id: @good.user.id,
-              done: false
-            }
+      post :create, {
+        format: :json,
+        good: {
+          caption: @good.caption,
+          user_id: @good.user.id,
+          done: false,
+          nominee_attributes: {
+            full_name: @good.nominee.full_name
           }
-          assert_response :internal_server_error
-        end
-      end
+        }
+      }
 
-      context "should be successful for a fully populated" do
-        test "done good" do
-          any_instance_of(Good) do |klass|
-            stub(klass).send_invite? { false }
-          end
+      assert_response :success
+      assert_equal 1, Good.all.count
 
-          stub(Good).just_created_by { false }
-
-          @good = FactoryGirl.build(:good, :done, user: @user)
-
-          sign_in @user
-
-          post :create, {
-            format: :json,
-            good: {
-              caption: @good.caption,
-              done: true,
-              user_id: @good.user.id,
-              nominee_attributes: {
-                full_name: @good.nominee.full_name
-              }
-            }
-          }
-
-          assert_response :success
-          assert_equal 1, Good.all.count
-
-          @created_good = Good.first
-          assert_equal @created_good.caption, @good.caption
-          assert_equal @created_good.user.points, 1
-        end
-
-        test "todo good (& it should ignore the nominee attributes)" do
-          stub(Good).just_created_by { false }
-          sign_in @user
-
-          @good = FactoryGirl.build(:good, user: @user)
-
-          post :create, {
-            format: :json,
-            good: {
-              caption: @good.caption,
-              user_id: @good.user.id,
-              done: false,
-              nominee_attributes: {
-                full_name: @good.nominee.full_name
-              }
-            }
-          }
-
-          assert_response :success
-          assert_equal 1, Good.all.count
-
-          @created_good = Good.first
-          assert_equal @created_good.caption, @good.caption
-        end
-      end
+      @created_good = Good.first
+      assert_equal @created_good.caption, @good.caption
     end
   end
 
-  context "destroy" do
+  class GoodsController::Destroy < DoGood::ActionControllerTestCase
     def setup
       @user = FactoryGirl.create(:user)
       sign_in @user

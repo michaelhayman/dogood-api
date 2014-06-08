@@ -1,19 +1,21 @@
 require 'test_helper'
 
 class TagTest < DoGood::TestCase
-  context "validations" do
-    test "default is valid" do
-      assert FactoryGirl.build(:tag).valid?
+  test "popular should return only 10 tags" do
+    10.times do
+      @tag = FactoryGirl.create(:tag, title: Faker::Internet.domain_word)
     end
+    assert_equal 10, Tag.popular.size.size
   end
 
-  context "queries" do
-    test "should return only 10 tags" do
-      10.times do
-        @tag = FactoryGirl.create(:tag, :cool)
-        FactoryGirl.create(:tagging, hashtag: @tag)
-      end
-      assert_equal 10, Tag.popular.count
-    end
+  test "only returns tag type entities" do
+    @tag = FactoryGirl.create(:tag)
+    @entity = FactoryGirl.create(:entity)
+    assert_equal Tag.all, [ @tag ]
+  end
+
+  test "matching should return tags matching a string" do
+    @tag = FactoryGirl.create(:tag)
+    assert_equal @tag, Tag.matching("#awe").first
   end
 end

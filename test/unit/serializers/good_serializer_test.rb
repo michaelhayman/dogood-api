@@ -46,9 +46,7 @@ class GoodSerializerTest < DoGood::TestCase
           link_type: @entity.link_type,
           link_id: @entity.link_id,
           title: @entity.title,
-          range: @entity.range,
-          entityable_type: @entity.entityable_type,
-          entityable_id: @entity.entityable_id
+          range: @entity.range
         }],
         nominee: {
           full_name: @good.nominee.full_name,
@@ -78,13 +76,15 @@ class GoodSerializerTest < DoGood::TestCase
     assert_equal expected_hash.to_json, @serializer.to_json
   end
 
-  xtest "defaults cache key" do
+  test "defaults cache key" do
+    skip "not implemented"
     @serializer = DefaultsSerializer.new @good, root: "goods"
     stub(@serializer).current_user { nil }
     assert_equal @serializer.cache_key, [ @good, @serializer.comment_key, nil ]
   end
 
-  xtest "current user good cache key" do
+  test "current user good cache key" do
+    skip "not implemented"
     @serializer = CurrentUserGoodSerializer.new @good, root: "goods"
     stub(@serializer).current_user { nil }
     assert_equal @serializer.cache_key, [ @good.object, @good.current_user_liked, @good.current_user_commented, @good.current_user_regooded, nil ]

@@ -6,19 +6,15 @@ class VoteTest < DoGood::TestCase
     @user = FactoryGirl.create(:user)
   end
 
-  context "validations" do
-    test "default is valid" do
-      build_vote.valid?
-    end
+  test "default is valid" do
+    build_vote.valid?
   end
 
-  context "queries" do
-    test "should return 10 votes" do
-      10.times do
-        build_vote
-      end
-      assert_equal 10, Vote.count
+  test "should return 10 votes" do
+    10.times do
+      build_vote
     end
+    assert_equal 10, Vote.count
   end
 
   def build_vote

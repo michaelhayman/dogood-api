@@ -4,7 +4,7 @@ class InviteMailerTest < DoGood::TestCase
   def setup
     super
 
-    @good = FactoryGirl.build(:nominee, :done)
+    @good = FactoryGirl.build(:good, :done)
   end
 
   test "send invite" do
@@ -16,8 +16,8 @@ class InviteMailerTest < DoGood::TestCase
   end
 
   test "don't send invite if no email address is present" do
-    nominee = @good.nominee
-    nominee.email = nil
+    ActionMailer::Base.deliveries = []
+    @good.nominee.email = nil
     @email = InviteMailer.invite_nominee(@good).deliver
 
     assert ActionMailer::Base.deliveries.empty?

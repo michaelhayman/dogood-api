@@ -4,8 +4,7 @@ class TagSerializerTest < DoGood::TestCase
   def expected_hash
     {
       tags: {
-        id: @tag.id,
-        name: @tag.name
+        name: @tag.title
       }
     }
   end
@@ -13,8 +12,7 @@ class TagSerializerTest < DoGood::TestCase
   def setup
     super
 
-    @tag = FactoryGirl.create(:tag)
-    @tag = TagDecorator.decorate(@tag)
+    @tag = FactoryGirl.build(:tag).decorate
     @serializer = TagSerializer.new @tag, root: "tags"
   end
 

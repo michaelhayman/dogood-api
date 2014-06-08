@@ -17,46 +17,32 @@ class GoodDecoratorTest < DoGood::TestCase
     stub(@good).current_user_followed { false }
   end
 
-  context "current_user_commented" do
-    test "set" do
-      assert @good.current_user_commented
-    end
+  test "current_user_commented" do
+    assert @good.current_user_commented
   end
 
-  context "current_user_voted" do
-    test "set" do
-      assert @good.current_user_voted
-    end
+  test "current_user_voted" do
+    assert @good.current_user_voted
   end
 
-  context "current_user_followed" do
-    test "set" do
-      refute @good.current_user_followed
-    end
+  test "current_user_followed" do
+    refute @good.current_user_followed
   end
 
-  context "evidence" do
-    test "set correctly" do
-      assert_equal @good.evidence, @good.object.evidence.url
-    end
+  test "evidence" do
+    assert_equal @good.evidence, @good.object.evidence.url
   end
 
-  context "votes_count" do
-    test "set correctly" do
-      assert_equal @good.votes_count, @good.cached_votes_up
-    end
+  test "votes_count" do
+    assert_equal @good.votes_count, @good.cached_votes_up
   end
 
-  context "followers_count" do
-    test "set correctly" do
-      assert_equal @good.followers_count, @good.cached_followers_count
-    end
+  test "followers_count" do
+    assert_equal @good.followers_count, @good.cached_followers_count
   end
 
-  context "comments_count" do
-    test "set correctly" do
-      assert_equal @good.comments_count, @good.cached_comments_count
-    end
+  test "comments_count" do
+    assert_equal @good.comments_count, @good.cached_comments_count
   end
 end
 

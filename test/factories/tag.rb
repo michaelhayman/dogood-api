@@ -1,13 +1,17 @@
 FactoryGirl.define do
   factory :tag do
-    name "awesome"
+    title "awesome"
+    link_type "tag"
+    range ["0", "6"]
+    entityable_id 112
+    entityable_type "Comment"
 
     trait :cool do
-      name "cool"
+      title "cool"
     end
 
     trait :weird do
-      name "weird"
+      title "weird"
     end
   end
 end
