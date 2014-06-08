@@ -1,13 +1,9 @@
-# encoding: UTF-8
-
 require 'test_cases/do_good/active_record/extensions'
 
 class DoGood::ActiveRecordTestCase < ActiveSupport::TestCase
   include DoGood::TestHelper
   include DoGood::ARBCHelper
   include DoGood::AssertsHelper
-  include DoGood::ContextHelper
-  include DoGood::Testing::TaggedLogging
 
   def teardown
     super

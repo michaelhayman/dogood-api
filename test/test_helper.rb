@@ -17,14 +17,13 @@ SimpleCov.start 'rails' do
 end
 
 require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
 require 'minitest/autorun'
 require 'minitest/reporters'
 
+require 'rails/test_help'
 require 'helpers/do_good/test_helper'
 require 'helpers/do_good/arbc_helper'
 require 'helpers/do_good/asserts_helper'
-require 'helpers/do_good/context_helper'
 require 'helpers/do_good/foo_tests_helper'
 require 'helpers/do_good/spatial_helper'
 
@@ -33,7 +32,6 @@ require 'test_cases/do_good/action_dispatch'
 require 'test_cases/do_good/action_view'
 require 'test_cases/do_good/active_record'
 require 'test_cases/do_good/active_support'
-
 
 class DoGoodTestRunner < MiniTest::Reporters::SpecReporter
   include DoGood::ARBCHelper

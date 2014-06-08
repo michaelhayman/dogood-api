@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module DoGood::AssertsHelper
   def assert_same_contents(expected, actual, msg = nil)
     assert same_elements?(expected, actual), msg || "#{expected} did not have the same elements as #{actual}"

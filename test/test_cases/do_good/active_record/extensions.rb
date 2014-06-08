@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module ActiveRecord
   class SQLCounter
     cattr_accessor :ignored_sql

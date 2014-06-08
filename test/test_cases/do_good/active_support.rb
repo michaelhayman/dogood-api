@@ -1,16 +1,11 @@
-# encoding: UTF-8
 
 class DoGood::TestCase < ActiveSupport::TestCase
   include DoGood::TestHelper
-  include DoGood::ARBCHelper
   include DoGood::AssertsHelper
-  include DoGood::ContextHelper
-  include DoGood::Testing::TaggedLogging
 
   def teardown
     super
-
+    ActiveRecord::Base.subclasses.each(&:delete_all)
     Rails.cache.clear
-    Timecop.return
   end
 end

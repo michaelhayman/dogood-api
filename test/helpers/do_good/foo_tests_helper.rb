@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module DoGood::FooTestsHelper
   extend ActiveSupport::Concern
   extend DoGood::ARBCHelper

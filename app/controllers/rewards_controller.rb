@@ -31,10 +31,8 @@ class RewardsController < ApiController
   end
 
   def create
-    @reward = Reward.new(
-      title: resource_params[:title],
-      subtitle: resource_params[:subtitle],
-      user_id: current_user.id)
+    @reward = Reward.new(resource_params)
+    @reward.user_id = current_user.id
 
     if @reward.save
       render json: @reward, root: "rewards"
@@ -64,7 +62,7 @@ class RewardsController < ApiController
   end
 
   def resource_params
-    params.require(:reward).permit(:id, :title, :subtitle)
+    params.require(:reward).permit(:id, :title, :subtitle, :quantity, :quantity_remaining, :cost)
   end
   private :resource_params
 end

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module DoGood::SpatialHelper
   MIDDLE_OF_TORONTO =
     "SRID=4326; POINT (-79.3901881618097889 43.7266091633893410)".freeze
