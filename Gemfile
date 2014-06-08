@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 ruby "2.1.2"
 
-gem 'railties', '4.0.1'
-gem 'rails', '4.0.1'
+gem 'railties', '4.1.1'
+gem 'rails', '4.1.1'
 gem 'rack-cors', :require => 'rack/cors'
 
 # Authentication
@@ -53,6 +53,7 @@ gem 'memoist', '0.9.1'
 
 group :development do
   # debugging
+  gem 'spring'
   gem 'awesome_print'
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -93,7 +94,6 @@ group :test do
   gem 'minitest-reporters'
   gem 'rr'
   gem 'faker'
-  gem 'timecop'
 end
 
 group :profiling do
@@ -104,7 +104,7 @@ end
 group :guard do
   gem 'guard-jasmine'
   gem 'guard-minitest'
-  gem 'guard-spin'
-  gem 'zeus'
+  # gem 'guard-spin'
+  # gem 'zeus'
 end
 
