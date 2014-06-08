@@ -7,7 +7,5 @@ class EntitySerializer < ActiveModel::Serializer
     :link_type,
     :link_id,
     :title,
-    :range,
-    :entityable_type,
-    :entityable_id
+    :range
 end

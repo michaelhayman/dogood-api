@@ -1,9 +1,6 @@
 class Good < ActiveRecord::Base
   include DoGood::Reportable
 
-  include SimpleHashtag::Hashtaggable
-  hashtaggable_attribute :caption
-
   mount_uploader :evidence, EvidenceUploader
 
   acts_as_commentable

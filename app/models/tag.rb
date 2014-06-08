@@ -1,11 +1,25 @@
-class Tag < SimpleHashtag::Hashtag
-  def self.popular
-    @popular = SimpleHashtag::Hashtagging.group(:hashtag_id).
-      order(count: :desc).
-      limit(10).
-      count
-    @popular = @popular.collect {|ind| ind[0]}
-    Tag.where(id: @popular)
+class Tag < Entity
+  default_scope { where(link_type: "tag") }
+
+  class << self
+    def popular
+      select(:title).
+        group(:title).
+        limit(10).
+        order(count: :desc)
+    end
+
+    def matching(query)
+      p query
+      if query
+        query = query.sub(/^#/, '')
+        where('title LIKE ?', "%#{query}%").limit(20)
+      end
+    end
+
+    def link_ids_matching_name(name)
+      where(entityable_type: "Good", title: name).map(&:link_id)
+    end
   end
 end
 

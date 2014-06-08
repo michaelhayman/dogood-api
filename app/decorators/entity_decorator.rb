@@ -2,8 +2,11 @@ class EntityDecorator < BaseDecorator
   decorates Entity
 
   def link
-    "dogood://users/#{object.link_id}"
+    if object.link_type == "user"
+      "dogood://users/#{object.link_id}"
+    else
+      "dogood://tagged/#{object.title}"
+    end
   end
 end
-
 

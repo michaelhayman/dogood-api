@@ -1,8 +1,5 @@
 class Comment < ActiveRecord::Base
   include ActsAsCommentable::Comment
-  include SimpleHashtag::Hashtaggable
-
-  hashtaggable_attribute :comment
 
   belongs_to :commentable,
     polymorphic: true,

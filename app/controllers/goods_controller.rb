@@ -23,13 +23,7 @@ class GoodsController < ApiController
   end
 
   def tagged
-    if params[:id] && params[:id] != "(null)"
-      hashtag = SimpleHashtag::Hashtag.find(params[:id])
-    elsif params[:name]
-      hashtag = SimpleHashtag::Hashtag.find_by_name(params[:name])
-    end
-
-    hashtagged_elements = hashtag.hashtagged_ids_for_type("Good") if hashtag
+    hashtagged_elements = Tag.link_ids_matching_name(params[:name])
 
     @goods = Good.where(id: hashtagged_elements).
       extra_info.
