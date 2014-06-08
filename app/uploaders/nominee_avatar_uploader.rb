@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class NomineeAvatarUploader < CarrierWave::Uploader::Base
   storage :fog
 
