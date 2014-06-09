@@ -58,6 +58,7 @@ group :development do
   gem 'pry-rails'
   gem 'ruby_parser'
   gem 'term-ansicolor'
+  gem 'guard-minitest'
 end
 
 group :development, :test do
@@ -89,9 +90,5 @@ end
 group :profiling do
   gem 'active-profiling'
   gem 'ruby-prof'
-end
-
-group :guard do
-  gem 'guard-minitest'
 end
 
