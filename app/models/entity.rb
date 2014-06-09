@@ -5,9 +5,6 @@ class Entity < ActiveRecord::Base
   validates :link_type,
     presence: { message: "Entities must have a link type." }
 
-  validates :link_id,
-    presence: { message: "Entities must have a link id." }
-
   validates :title,
     presence: { message: "Entities must have a title." }
 
@@ -20,10 +17,22 @@ class Entity < ActiveRecord::Base
   validates :range,
     presence: { message: "Enter a range." }
 
-  before_validation :add_link_id
+  before_save :add_link_id
 
   def add_link_id
-    self.link_id = self.entityable_id unless self.link_id.present? && self.link_id > 0
+    self.link_id = self.entityable_id unless link_id_present?
+  end
+
+  def link_id_present?
+    if self.link_id.present?
+      if self.link_id == 0
+        false
+      else
+        true
+      end
+    else
+      false
+    end
   end
 end
 
