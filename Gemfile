@@ -20,15 +20,11 @@ gem 'ice_nine', '~> 0.11.0'
 # Social
 gem 'acts_as_commentable', '~> 4.0.0'
 gem 'acts_as_votable', '~> 0.9.0'
-# gem 'acts_as_votable', '~> 0.6.0'
 gem 'acts_as_follower', '~> 0.2.1'
 gem 'merit', '~> 2.1.1'
 
 # Database
-# gem 'activerecord-postgresql-extensions', :github => 'zoocasa/activerecord-postgresql-extensions', :branch => 'rails-4'
-# gem 'activerecord-postgresql-cursors', '~> 0.1.0'
 gem 'pg', '~> 0.17.0'
-# gem 'activerecord-spatial', '~> 0.2.0'
 
 # JSON
 gem 'active_model_serializers', '~> 0.8.1'
