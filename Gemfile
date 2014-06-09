@@ -50,14 +50,9 @@ gem 'newrelic_rpm', '~> 3.6.6.147'
 gem 'memoist', '0.9.1'
 
 group :development do
-  # debugging
   gem 'spring'
   gem 'awesome_print'
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'brice'
-#  gem 'debugger'
-#  gem 'debugger-ruby_core_source'
   gem 'hirb'
   gem 'pry'
   gem 'pry-rails'

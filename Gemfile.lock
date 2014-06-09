@@ -39,11 +39,6 @@ GEM
     arel (5.0.1.20140414130214)
     awesome_print (1.2.0)
     bcrypt (3.1.7)
-    better_errors (1.1.0)
-      coderay (>= 1.0.0)
-      erubis (>= 2.6.6)
-    binding_of_caller (0.7.2)
-      debug_inspector (>= 0.0.1)
     brice (0.2.9)
       ruby-nuggets (>= 0.5.2)
     builder (3.2.2)
@@ -64,7 +59,6 @@ GEM
       nio4r (>= 0.5.0)
     coderay (1.1.0)
     dalli (2.6.4)
-    debug_inspector (0.0.2)
     devise (3.2.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -247,8 +241,6 @@ DEPENDENCIES
   acts_as_follower (~> 0.2.1)
   acts_as_votable (~> 0.9.0)
   awesome_print
-  better_errors
-  binding_of_caller
   brice
   capistrano (= 2.12)
   carrierwave (~> 0.9.0)
