@@ -27,7 +27,7 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
-  resources :tags, :only => [ :index ] do
+  resources :tags, :only => [ ] do
     collection do
       get :search
       get :popular
