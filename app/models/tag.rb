@@ -22,7 +22,7 @@ class Tag < Entity
     end
 
     def link_ids_matching_name(name)
-      where(entityable_type: "Good", title: name).map(&:link_id)
+      where(title: name).map(&:link_id)
     end
   end
 end
