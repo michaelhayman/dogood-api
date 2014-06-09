@@ -15,7 +15,7 @@ class CommentsController < ApiController
     @comment.user_id = current_user.id
 
     if @comment.save
-      render json: @comment, root: "comments"
+      render json: @comment.decorate, root: "comments"
     else
       message = @comment.errors.full_messages.first || "Couldn't save comment."
       raise DoGood::Api::RecordNotSaved.new(message)
