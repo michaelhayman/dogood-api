@@ -10,10 +10,14 @@ class Tag < Entity
     end
 
     def matching(query)
-      p query
-      if query
+      if query.present?
         query = query.sub(/^#/, '')
-        where('title LIKE ?', "%#{query}%").limit(20)
+        where('title LIKE ?', "%#{query}%").
+          select(:title).
+          uniq.
+          limit(10)
+      else
+        self.popular
       end
     end
 

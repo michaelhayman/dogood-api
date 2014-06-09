@@ -15,7 +15,7 @@ class TagTest < DoGood::TestCase
   end
 
   test "matching should return tags matching a string" do
-    @tag = FactoryGirl.create(:tag)
-    assert_equal @tag, Tag.matching("#awe").first
+    @tag = FactoryGirl.create(:tag).decorate
+    assert_equal @tag.title, Tag.matching("#awe")[0].title
   end
 end

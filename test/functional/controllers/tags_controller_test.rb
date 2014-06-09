@@ -11,14 +11,13 @@ class TagsControllerTest < DoGood::ActionControllerTestCase
   end
 
   test "search request should be successful with no parameters" do
-
     get :search, {
       format: :json
     }
     json = jsonify(response)
 
     assert_response :success
-    assert_equal Tag.count, json.traverse(:meta, :pagination, :total_entries)
+    assert_equal [], json.traverse(:tags)
   end
 
   test "search request should be successful with parameters" do
@@ -36,7 +35,7 @@ class TagsControllerTest < DoGood::ActionControllerTestCase
     assert_equal @tag.name, json.traverse(:tags, 0, :name)
   end
 
-  test "search request should be return popular tags if no matches found" do
+  test "search request should be return popular tags if query is empty" do
     @tag = FactoryGirl.create(:tag).decorate
     @tag = FactoryGirl.create(:tag).decorate
     FactoryGirl.create(:tag, :cool)
@@ -44,7 +43,7 @@ class TagsControllerTest < DoGood::ActionControllerTestCase
 
     get :search, {
       format: :json,
-      q: "boring"
+      q: ""
     }
     json = jsonify(response)
 
@@ -70,7 +69,7 @@ class TagsControllerTest < DoGood::ActionControllerTestCase
     json = jsonify(response)
 
     assert_response :success
-    assert_equal 10, json.traverse(:meta, :pagination, :total_entries)
+    assert_equal 10, json.traverse(:tags).count
   end
 end
 

@@ -9,6 +9,10 @@ module Api::Helpers::RenderHelper
       end
     end
 
+    def render_index(entries)
+      render json: entries.decorate
+    end
+
     def render_ok
       render json: { }, status: :ok
     end
