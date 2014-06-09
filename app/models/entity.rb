@@ -21,16 +21,9 @@ class Entity < ActiveRecord::Base
     presence: { message: "Enter a range." }
 
   before_validation :add_link_id
-  before_validation :strip_hash_symbol
 
   def add_link_id
     self.link_id = self.entityable_id unless self.link_id.present?
-  end
-
-  def strip_hash_symbol
-    if self.link_type == "tag"
-      self.title = self.title.sub(/^#/, '')
-    end
   end
 end
 
