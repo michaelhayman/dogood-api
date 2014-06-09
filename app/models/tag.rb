@@ -12,7 +12,7 @@ class Tag < Entity
     def matching(query)
       if query.present?
         query = query.sub(/^#/, '')
-        where('title LIKE ?', "%#{query}%").
+        where('title LIKE ?', "_#{query}%").
           select(:title).
           uniq.
           limit(10)

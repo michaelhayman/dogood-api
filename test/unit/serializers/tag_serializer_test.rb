@@ -4,7 +4,7 @@ class TagSerializerTest < DoGood::TestCase
   def expected_hash
     {
       tags: {
-        name: @tag.title
+        name: @tag.name
       }
     }
   end
