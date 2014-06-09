@@ -31,11 +31,16 @@ class EntityTest < DoGood::TestCase
     refute FactoryGirl.build(:entity, range: "").valid?
   end
 
-  test "should save with a link id based on entityable id if it doesn't exist" do
+  test "should fill in link id it doesn't exist" do
     @entity = FactoryGirl.build(:entity, :no_link_id)
     @entity.valid?
     assert_equal @entity.link_id, @entity.entityable_id
   end
 
+  test "should fill in link_id it's 0" do
+    @entity = FactoryGirl.build(:entity, link_id: 0)
+    @entity.valid?
+    assert_equal @entity.link_id, @entity.entityable_id
+  end
 end
 
