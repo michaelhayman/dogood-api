@@ -5,7 +5,7 @@ class EntityDecorator < BaseDecorator
     if object.link_type == "user"
       "dogood://users/#{object.link_id}"
     else
-      "dogood://tagged/#{object.title}"
+      "dogood://goods/tagged/#{object.title}"
     end
   end
 end

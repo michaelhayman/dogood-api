@@ -8,7 +8,7 @@ class EntityDecoratorTest < DoGood::TestCase
 
   test "link is a tag" do
     @entity = FactoryGirl.create(:entity, :tag).decorate
-    assert_equal "dogood://tagged/#{@entity.object.title}", @entity.link
+    assert_equal "dogood://goods/tagged/#{@entity.object.title}", @entity.link
   end
 end
 

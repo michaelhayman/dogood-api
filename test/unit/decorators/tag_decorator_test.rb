@@ -10,5 +10,9 @@ class TagDecoratorTest < DoGood::TestCase
   test "tag name" do
     assert_equal @tag.object.title, @tag.name
   end
+
+  test "tag link" do
+    assert_equal "dogood://goods/tagged/#{@tag.object.title}", @tag.link
+  end
 end
 

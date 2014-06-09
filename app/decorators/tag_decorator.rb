@@ -1,4 +1,4 @@
-class TagDecorator < BaseDecorator
+class TagDecorator < EntityDecorator
   decorates Tag
 
   def name
