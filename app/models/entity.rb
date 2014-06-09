@@ -8,14 +8,10 @@ class Entity < ActiveRecord::Base
   validates :title,
     presence: { message: "Entities must have a title." }
 
-  validates :entityable_type,
-    presence: { message: "Entities must be based on a model type." }
-
-  validates :entityable_id,
-    presence: { message: "Entities must be associated with a record." }
-
   validates :range,
     presence: { message: "Enter a range." }
+
+  validates_associated :entityable
 
   before_save :add_link_id
 

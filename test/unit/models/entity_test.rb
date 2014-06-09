@@ -6,7 +6,9 @@ class EntityTest < DoGood::TestCase
   test "should have a link id after saving" do
     @entity = FactoryGirl.build(:entity, link_id: "")
     @entity.save
+    @entity.reload
     assert @entity.valid?
+    assert_equal @entity.link_id, @entity.entityable_id
   end
 
   test "should have a link type" do
@@ -17,27 +19,21 @@ class EntityTest < DoGood::TestCase
     refute FactoryGirl.build(:entity, title: "").valid?
   end
 
-  test "have entityable id as optional attribute" do
-    refute FactoryGirl.build(:entity, entityable_id: "").valid?
-  end
-
-  test "should have a entityable type" do
-    refute FactoryGirl.build(:entity, entityable_type: "").valid?
-  end
-
   test "should have a range" do
     refute FactoryGirl.build(:entity, range: "").valid?
   end
 
   test "should fill in link id it doesn't exist" do
     @entity = FactoryGirl.build(:entity, :no_link_id)
-    @entity.valid?
+    @entity.save
+    @entity.reload
     assert_equal @entity.link_id, @entity.entityable_id
   end
 
   test "should fill in link_id it's 0" do
     @entity = FactoryGirl.build(:entity, link_id: 0)
-    @entity.valid?
+    @entity.save
+    @entity.reload
     assert_equal @entity.link_id, @entity.entityable_id
   end
 end
