@@ -61,8 +61,6 @@ group :development, :test do
   gem 'simplecov', '~> 0.8.2'
 end
 
-gem 'capistrano', '2.12'
-
 # Heroku
 group :production do
   gem 'unicorn', '~> 4.6.3'
