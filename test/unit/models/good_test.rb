@@ -116,12 +116,6 @@ class GoodTests < DoGood::TestCase
     refute @good.send_invite?
   end
 
-  def teardown
-    super
-    # Good.destroy_all
-    #  ActiveRecord::Base.subclasses.each(&:delete_all)
-  end
-
  # pending "should return extra info" do
  # end
 

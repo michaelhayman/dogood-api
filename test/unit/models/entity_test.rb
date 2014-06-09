@@ -37,10 +37,5 @@ class EntityTest < DoGood::TestCase
     assert_equal @entity.link_id, @entity.entityable_id
   end
 
-
-  def teardown
-    super
-    Entity.destroy_all
-  end
 end
 

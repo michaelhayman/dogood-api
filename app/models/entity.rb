@@ -23,7 +23,7 @@ class Entity < ActiveRecord::Base
   before_validation :add_link_id
 
   def add_link_id
-    self.link_id = self.entityable_id unless self.link_id.present?
+    self.link_id = self.entityable_id unless self.link_id.present? && self.link_id > 0
   end
 end
 
