@@ -37,6 +37,12 @@ class EntityTest < DoGood::TestCase
     assert_equal @entity.link_id, @entity.entityable_id
   end
 
+  test "should save without hash tag in title" do
+    @entity = FactoryGirl.build(:entity, :tag, title: "#wicked")
+    @entity.valid?
+    assert_equal @entity.title, "wicked"
+  end
+
   def teardown
     super
     Entity.destroy_all
