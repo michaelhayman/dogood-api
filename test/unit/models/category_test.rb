@@ -1,10 +1,4 @@
-require 'test_helper'
-
 class CategoryTest < DoGood::TestCase
-  def setup
-    super
-  end
-
   test "should have a name" do
     assert FactoryGirl.build(:category).valid?
     refute FactoryGirl.build(:category, name: "").valid?

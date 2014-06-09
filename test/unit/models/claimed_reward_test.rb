@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class ClaimedRewardTest < DoGood::TestCase
   class ClaimedRewardTest::Validations < DoGood::TestCase
     test "should be valid by default" do

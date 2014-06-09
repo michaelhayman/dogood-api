@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class TagTest < DoGood::TestCase
   test "popular should return only 10 tags" do
     10.times do

@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class InviteMailerTest < DoGood::TestCase
   def setup
     super

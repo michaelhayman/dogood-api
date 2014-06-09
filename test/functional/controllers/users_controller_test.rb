@@ -1,8 +1,4 @@
-require 'test_helper'
-
 class UsersControllerTest < DoGood::ActionControllerTestCase
-  include Devise::TestHelpers
-
   tests UsersController
 
   class UsersControllerTest::Show < DoGood::ActionControllerTestCase

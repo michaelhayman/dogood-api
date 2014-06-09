@@ -1,8 +1,4 @@
-require 'test_helper'
-
 class CommentsControllerTest < DoGood::ActionControllerTestCase
-  include Devise::TestHelpers
-
   tests CommentsController
 
   test "index route" do

@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class FollowsControllerTest < DoGood::ActionControllerTestCase
   tests FollowsController
 

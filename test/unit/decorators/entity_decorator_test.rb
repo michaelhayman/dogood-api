@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class EntityDecoratorTest < DoGood::TestCase
   test "link is a user" do
     @entity = FactoryGirl.create(:entity).decorate

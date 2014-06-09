@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class UnsubscribesControllerTest < DoGood::ActionControllerTestCase
   tests UnsubscribesController
 

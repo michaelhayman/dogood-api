@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class FollowTest < DoGood::TestCase
   test "block" do
     @follow = FactoryGirl.create(:follow)

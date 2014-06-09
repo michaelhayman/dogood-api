@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class Users::ProfileSerializerTest < DoGood::TestCase
   def expected_hash
     {

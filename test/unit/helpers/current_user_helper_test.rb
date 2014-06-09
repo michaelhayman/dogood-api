@@ -1,5 +1,3 @@
-require 'test_helper'
-
 module CurrentUserHelperTests
   module Base
     include CurrentUserHelper

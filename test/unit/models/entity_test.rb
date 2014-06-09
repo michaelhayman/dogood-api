@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class EntityTest < DoGood::TestCase
   test "should be valid with all default values" do
     assert FactoryGirl.build(:entity).valid?

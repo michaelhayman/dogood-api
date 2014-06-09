@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class CommentTest < DoGood::TestCase
   class CommentValidations < DoGood::TestCase
     test "should be valid with all default values" do

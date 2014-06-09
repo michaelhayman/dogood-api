@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class CommentDecoratorTest < DoGood::TestCase
   def setup
     super

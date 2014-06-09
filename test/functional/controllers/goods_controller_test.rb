@@ -1,13 +1,5 @@
-require 'test_helper'
-
 class GoodsControllerTest < DoGood::ActionControllerTestCase
-  include Devise::TestHelpers
-
   tests GoodsController
-
-  def setup
-    super
-  end
 
   class GoodsController::Index < DoGood::ActionControllerTestCase
     test "route" do

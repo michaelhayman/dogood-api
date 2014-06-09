@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class CategorySerializerTest < DoGood::TestCase
   def expected_hash
     {

@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class ApplicationControllerTest < DoGood::ActionControllerTestCase
   tests ApplicationController
 

@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class VoteTest < DoGood::TestCase
   def setup
     @good = FactoryGirl.create(:good)

@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class GoodSerializerTest < DoGood::TestCase
   def expected_hash
     @comment = @good.comments.first

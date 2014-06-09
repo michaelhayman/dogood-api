@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class UnsubscribeTest < DoGood::TestCase
   test "opt out returns the correct value" do
     Unsubscribe.create(email: "hi@hi.com")

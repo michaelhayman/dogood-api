@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class UserDecoratorTest < DoGood::TestCase
   def setup
     super

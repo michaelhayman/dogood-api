@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class RewardTest < DoGood::TestCase
   test "should be valid" do
     assert FactoryGirl.build(:reward).valid?

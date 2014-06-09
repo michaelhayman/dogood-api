@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class TagDecoratorTest < DoGood::TestCase
   def setup
     super

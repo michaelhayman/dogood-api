@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class NomineeSerializerTest < DoGood::TestCase
   def expected_hash
     {

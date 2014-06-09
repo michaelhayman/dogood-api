@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class ReportTest < DoGood::TestCase
   test "should be valid with all default values" do
     assert FactoryGirl.build(:report).valid?

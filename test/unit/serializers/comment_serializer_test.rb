@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class CommentSerializerTest < DoGood::TestCase
   def expected_hash
     {

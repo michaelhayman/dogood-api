@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class GoodTests < DoGood::TestCase
   test "should return the standard goods" do
     21.times do
