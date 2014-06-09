@@ -86,9 +86,3 @@ group :test do
   gem 'rr'
   gem 'faker'
 end
-
-group :profiling do
-  gem 'active-profiling'
-  gem 'ruby-prof'
-end
-
