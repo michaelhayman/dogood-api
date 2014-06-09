@@ -130,7 +130,32 @@ class GoodsController < ApiController
   end
 
   def resource_params
-    params.require(:good).permit(:caption, :evidence, :user_id, :category_id, :lat, :lng, :location_name, :location_image, :done, nominee_attributes: [ :full_name, :email, :phone, :user_id, :twitter_id, :facebook_id, :avatar, :invite ], entities_attributes: [ :entityable_id, :entityable_type, :link, :link_id, :link_type, :title, range: [] ])
+    params.require(:good).permit(
+      :caption,
+      :evidence,
+      :user_id,
+      :category_id,
+      :lat,
+      :lng,
+      :location_name,
+      :location_image,
+      :done,
+      nominee_attributes: [
+        :full_name,
+        :email,
+        :phone,
+        :user_id,
+        :twitter_id,
+        :facebook_id,
+        :avatar,
+        :invite
+      ],
+      entities_attributes: [
+        :link_id,
+        :link_type,
+        :title,
+        range: []
+    ])
   end
   private :resource_params
 

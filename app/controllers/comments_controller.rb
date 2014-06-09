@@ -29,9 +29,6 @@ class CommentsController < ApiController
       :comment,
       :user_id,
       entities_attributes: [
-        :entityable_id,
-        :entityable_type,
-        :link,
         :link_id,
         :link_type,
         :title,
