@@ -1,6 +1,7 @@
 require "bundler/capistrano"
-require "dotenv/deployment/capistrano"
 # require "rvm/capistrano"
+
+load "config/deploy/figaro"
 
 server "107.170.146.216", :web, :app, :db, primary: true
 

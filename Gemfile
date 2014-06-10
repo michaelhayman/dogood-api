@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 ruby "2.1.2"
 
-gem 'dotenv-rails', groups: [ :development, :production, :test ]
-gem 'dotenv-deployment'
-
 gem 'railties', '4.1.1'
 gem 'rails', '4.1.1'
 gem 'rack-cors', :require => 'rack/cors'
+
+# Configuration
+gem 'figaro'
 
 # Authentication
 gem 'devise', '~> 3.2.0'
