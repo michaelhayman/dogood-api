@@ -1,0 +1,16 @@
+{
+  "records": [
+    {
+      "sprig_id": 1,
+      "title": "Free flight to Vegas",
+      "subtitle": "Air Canada",
+      "user_id": 1,
+      "cost": 1,
+      "quantity": 10,
+      "quantity_remaining": 2,
+      "full_description": "Get a free flight to Vegas for all your hard work!",
+      "instructions": "Enter code 55555 on checkout.",
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/uploads/reward/teaser/1/air-canada2.jpg"
+    }
+  ]
+}
