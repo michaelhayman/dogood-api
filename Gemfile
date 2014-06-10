@@ -2,11 +2,12 @@ source 'https://rubygems.org'
 
 ruby "2.1.2"
 
+gem 'dotenv-rails', groups: [ :development, :production, :test ]
+gem 'dotenv-deployment'
+
 gem 'railties', '4.1.1'
 gem 'rails', '4.1.1'
 gem 'rack-cors', :require => 'rack/cors'
-
-gem 'dotenv-rails', groups: [ :development, :test ]
 
 # Authentication
 gem 'devise', '~> 3.2.0'
@@ -47,6 +48,7 @@ gem 'newrelic_rpm', '~> 3.6.6.147'
 # Unstable gems - lock to known working version
 gem 'memoist', '0.9.1'
 
+
 group :development do
   gem 'spring'
   gem 'awesome_print'
@@ -65,7 +67,6 @@ end
 
 # Heroku
 group :production do
-  gem 'dotenv-deployment'
   gem 'unicorn', '~> 4.6.3'
   gem 'rails_12factor', '~> 0.0.2'
   gem 'rb-readline', '~> 0.5.1'
