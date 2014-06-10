@@ -6,6 +6,8 @@ gem 'railties', '4.1.1'
 gem 'rails', '4.1.1'
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'dotenv-rails', groups: [ :development, :test ]
+
 # Authentication
 gem 'devise', '~> 3.2.0'
 
@@ -63,6 +65,7 @@ end
 
 # Heroku
 group :production do
+  gem 'dotenv-deployment'
   gem 'unicorn', '~> 4.6.3'
   gem 'rails_12factor', '~> 0.0.2'
 
