@@ -68,6 +68,7 @@ group :production do
   gem 'dotenv-deployment'
   gem 'unicorn', '~> 4.6.3'
   gem 'rails_12factor', '~> 0.0.2'
+  gem 'rb-readline', '~> 0.5.1'
 
   # Caching
   gem 'rack-cache', '~> 1.2'
