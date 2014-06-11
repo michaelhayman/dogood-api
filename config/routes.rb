@@ -1,11 +1,11 @@
 DoGoodApp::Application.routes.draw do
-  devise_for :users, :controllers => {
+  devise_for :users, controllers: {
       :sessions => 'sessions',
       :registrations => 'registrations',
       :passwords => 'passwords'
   }
 
-  resources :users, :only => [ :show ] do
+  resources :users, only: [ :show ] do
     collection do
       get :voters
       get :followers
@@ -27,18 +27,18 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
-  resources :tags, :only => [ ] do
+  resources :tags, only: [ ] do
     collection do
       get :search
       get :popular
     end
   end
 
-  resources :reports, :only => [ :create ]
+  resources :reports, only: [ :create ]
 
-  resources :categories, :only => [ :index ]
+  resources :categories, only: [ :index ]
 
-  resources :goods, :only => [ :index, :show, :create, :destroy ] do
+  resources :goods, only: [ :index, :show, :create, :destroy ] do
     collection do
       get :nominations_for
       get :followed_by
@@ -51,13 +51,13 @@ DoGoodApp::Application.routes.draw do
     end
   end
 
-  resources :comments, :only => [ :index, :create ]
+  resources :comments, only: [ :index, :create ]
 
-  resources :votes, :only => [ :create, :destroy ]
+  resources :votes, only: [ :create, :destroy ]
 
-  resources :follows, :only => [ :create, :destroy ]
+  resources :follows, only: [ :create, :destroy ]
 
-  resources :rewards, :only => [ :index, :create, :destroy ] do
+  resources :rewards, only: [ :index, :create, :destroy ] do
     collection do
       post :claim
       get :claimed
@@ -67,7 +67,8 @@ DoGoodApp::Application.routes.draw do
 
   post 'unsubscribe_email', to: 'unsubscribes#opt_out'
 
-  root to: 'goods#index', :defaults => { :format => :html }
   get '/404', to: 'errors#not_found'
   get '/500', to: 'errors#exception'
+
+  root to: 'goods#index', defaults: { format: :html }
 end
