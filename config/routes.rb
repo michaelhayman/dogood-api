@@ -70,5 +70,5 @@ DoGoodApp::Application.routes.draw do
   get '/404', to: 'errors#not_found'
   get '/500', to: 'errors#exception'
 
-  root to: 'goods#index', defaults: { format: :html }
+  root to: 'goods#index'
 end
