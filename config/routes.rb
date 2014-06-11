@@ -68,4 +68,6 @@ DoGoodApp::Application.routes.draw do
   post 'unsubscribe_email', to: 'unsubscribes#opt_out'
 
   root to: 'goods#index', :defaults => { :format => :html }
+  get '/404', to: 'errors#not_found'
+  get '/500', to: 'errors#exception'
 end

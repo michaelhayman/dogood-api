@@ -32,6 +32,8 @@ module DoGoodApp
         'X-Frame-Options' => 'ALLOWALL'
     }
 
+    config.exceptions_app = self.routes
+
     config.middleware.use Rack::Cors do
       allow do
         origins '*'
