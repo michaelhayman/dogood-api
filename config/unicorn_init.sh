@@ -14,8 +14,8 @@ set -e
 TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/home/mhayman/setup/dg/api/current
 PID=$APP_ROOT/tmp/pids/unicorn.pid
-CMD="cd $APP_ROOT; bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E production"
 AS_USER=mhayman
+CMD="cd $APP_ROOT; /home/$AS_USER/.rbenv/shims/bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E production"
 set -u
 
 OLD_PIN="$PID.oldbin"
