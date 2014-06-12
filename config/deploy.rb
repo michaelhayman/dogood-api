@@ -9,7 +9,7 @@ set :default_environment, { 'PATH' => '$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH
 
 set :application, "dg-api"
 set :user, "mhayman"
-set :port, 1069
+set :port, 969
 set :deploy_to, "/home/mhayman/setup/dg/api"
 set :deploy_via, :remote_cache
 set :use_sudo, false
