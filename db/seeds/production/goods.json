@@ -1,0 +1,74 @@
+{
+  "records": [
+    {
+      "sprig_id": 1,
+      "caption": "Elderly Care at Hospice Toronto.  Started 25 years ago, Hospice Toronto is Toronto’s first volunteer and community-based, not for profit, in-home hospice palliative care program.  We're looking for volunteers - chat to us in the comments or post for us at http://www.hospicetoronto.ca/.",
+      "user_id": 1,
+      "done": 0,
+      "lat": 43.706020,
+      "lng": -79.397925,
+      "location_name": "Hospice Toronto",
+      "category_id": 1,
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/hospice.png"
+    },
+    {
+      "sprig_id": 2,
+      "caption": "GlobalMedic is a small Canadian NGO based in Toronto, Ontario. We strive to help people in need around the world by offering emergency relief services to aid victims of disasters and by training medical personnel and donating medicines to developing and war-torn countries.
+
+      GlobalMedic is an entirely volunteer based organization. Our team members take personal vacation time when they need to deploy and assist in packing supplies and fundraising in their spare time between missions. Volunteers can have a variety of duties, from being part of a disaster response team traveling around the world, to organizing fundraising events here in Canada, to helping pack for upcoming programs. Every individual is as involved as they would like to be, all that we ask is that you have a positive attitude and a strong will to help those less fortunate.
+
+      GlobalMedic is always in need of volunteers for Support and Fundraising. http://www.globalmedic.ca/volunteer/",
+      "user_id": 1,
+      "done": 0,
+      "lat": 43.746668,
+      "lng": -79.632614,
+      "location_name": "GlobalMedic Canada",
+      "category_id": 2,
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/globalmedic.jpg"
+    },
+    {
+      "sprig_id": 3,
+      "caption": "CanadaHelps is a registered charity with a goal to make giving simple.  http://www.canadahelps.org/",
+      "user_id": 1,
+      "done": 0,
+      "lat": 43.650919,
+      "lng": -79.391309,
+      "location_name": "Canada Helps",
+      "category_id": 3,
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/canadahelps.jpg"
+    },
+    {
+      "sprig_id": 4,
+      "caption": "The Pathways to Education Program offers you an opportunity to make a long-lasting, positive difference in the lives of young people. As a volunteer with Pathways you are making a strong, collective statement about how much and how many people believe in the capabilities of our youth. Pathways to Education http://www.pathwaystoeducation.ca/en/take-action/volunteer",
+      "user_id": 1,
+      "done": 0,
+      "lat": 43.662362,
+      "lng": -79.36703,
+      "location_name": "Pathways to Education",
+      "category_id": 4,
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/pathways.png"
+    },
+    {
+      "sprig_id": 5,
+      "caption": "Get out and help us plant trees at the Brickworks this summer!  Other volunteer opportunities are available too.  Help us make Toronto green.  See here for more details.  http://www.evergreen.ca/get-involved/volunteer/volunteer-opportunities/",
+      "user_id": 1,
+      "done": 0,
+      "lat": 43.684032,
+      "lng": -79.365,
+      "location_name": "Evergreen Brickworks",
+      "category_id": 5,
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/evergreen.jpg"
+    },
+    {
+      "sprig_id": 6,
+      "caption": "Give blood at Red Cross Toronto.  Your blood helps save lives! http://www.redcross.ca/",
+      "user_id": 1,
+      "done": 0,
+      "lat": 43.658224 ,
+      "lng": -79.450686,
+      "location_name": "Red Cross Toronto",
+      "category_id": 6,
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/redcross.jpg"
+    }
+  ]
+}
