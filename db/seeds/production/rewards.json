@@ -2,10 +2,22 @@
   "records": [
     {
       "sprig_id": 1,
+      "title": "Free Coffee",
+      "subtitle": "Tim Hortons",
+      "user_id": 1,
+      "cost": 1,
+      "quantity": 100,
+      "quantity_remaining": 50,
+      "full_description": "Get a free coffee for all the good things you've done!",
+      "instructions": "Your reward will be emailed to you shortly.",
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/reward/teaser/coffee.jpg"
+    },
+    {
+      "sprig_id": 2,
       "title": "Free flight to Vegas",
       "subtitle": "Air Canada",
       "user_id": 1,
-      "cost": 1,
+      "cost": 25,
       "quantity": 10,
       "quantity_remaining": 2,
       "full_description": "Get a free flight to Vegas for all your hard work!",
