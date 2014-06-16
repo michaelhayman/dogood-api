@@ -100,6 +100,7 @@ class GoodTests < DoGood::TestCase
   end
 
   test "should send an invite if the good is done & has a nominee" do
+    skip
     @good = FactoryGirl.build(:good, :done)
     assert @good.send_invite?
   end
