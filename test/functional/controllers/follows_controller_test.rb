@@ -40,7 +40,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       assert_response :unprocessable_entity
     end
 
-    test "follow with valid parameters should succeed" do
+    test "following a good with valid parameters should succeed and update counters" do
       assert_empty @good.followers
 
       post :create, {
@@ -53,6 +53,31 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       json = jsonify(response)
       assert_response :success
       assert_equal [ @user ], @good.followers
+      @good.reload
+      @user.reload
+      assert_equal 1, @good.cached_followers_count
+      assert_equal 0, @user.cached_following_count
+    end
+
+    test "following a user with valid parameters should succeed and update counters" do
+      @bob = FactoryGirl.create(:user, :bob)
+
+      assert_empty @bob.followers
+
+      post :create, {
+        format: :json,
+        follow: {
+          followable_id: @bob.id,
+          followable_type: "User"
+        }
+      }
+      json = jsonify(response)
+      assert_response :success
+      assert_equal [ @user ], @bob.followers
+      @bob.reload
+      @user.reload
+      assert_equal 1, @bob.cached_followers_count
+      assert_equal 1, @user.cached_following_count
     end
 
     test "following something already followed should fail" do
