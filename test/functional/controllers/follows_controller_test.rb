@@ -41,7 +41,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
     end
 
     test "follow with valid parameters should succeed" do
-      assert 0, @good.followers
+      assert_empty @good.followers
 
       post :create, {
         format: :json,
@@ -52,7 +52,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
       assert_response :success
-      assert 1, @good.followers
+      assert_equal [ @user ], @good.followers
     end
 
     test "following something already followed should fail" do
@@ -67,7 +67,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
       assert_response :unprocessable_entity
-      assert 0, @good.followers
+      assert_equal [ @user ], @good.followers
     end
 
     test "database error" do
@@ -84,7 +84,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
       assert_response :internal_server_error
-      assert 0, @good.followers
+      assert_empty @good.followers
     end
   end
 
@@ -125,7 +125,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
     test "unfollow with valid parameters should succeed" do
       @user.follow @good
 
-      assert 1, @good.followers
+      assert_equal [ @user ], @good.followers
 
       delete :destroy, {
         format: :json,
@@ -137,7 +137,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
       assert_response :success
-      assert 0, @good.followers
+      assert_empty @good.followers
     end
 
     test "unfollowing something not already followed should fail" do
@@ -151,7 +151,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
       assert_response :internal_server_error
-      assert 0, @good.followers
+      assert_empty @good.followers
     end
   end
 end
