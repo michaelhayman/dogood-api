@@ -10,7 +10,8 @@ class RewardSerializer < ActiveModel::Serializer
     :cost,
     :quantity,
     :quantity_remaining,
-    :instructions
+    :instructions,
+    :within_budget
 
   has_one :user
 end
