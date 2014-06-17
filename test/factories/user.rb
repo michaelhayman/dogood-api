@@ -3,6 +3,7 @@ FactoryGirl.define do
     full_name "Michael Hayman"
     email { Faker::Internet.email }
     password "captcha24"
+    phone "416-315-7605"
     # level 5
 
     trait :bob do

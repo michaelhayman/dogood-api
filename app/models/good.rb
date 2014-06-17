@@ -31,6 +31,8 @@ class Good < ActiveRecord::Base
       if: Proc.new { |good| good.done === true }
     }
 
+  validates :nominee, :'validators/nominee' => true
+
   validates :caption,
     presence: { message: "Enter a name." },
     length: { maximum: 500, message: "Please enter a shorter caption." }

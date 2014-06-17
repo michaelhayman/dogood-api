@@ -19,6 +19,26 @@ class GoodTests < DoGood::TestCase
     refute FactoryGirl.build(:good, :no_user).valid?
   end
 
+  test "should not have a nominee the same as the user id" do
+    @nominee = FactoryGirl.create(:nominee, :dg_user)
+    @good = FactoryGirl.build(:good, :done, user: @nominee.user, nominee: @nominee)
+    refute @good.valid?
+  end
+
+  test "should not have a nominee email the same as the user id" do
+    @user = FactoryGirl.create(:user)
+    @nominee = FactoryGirl.create(:nominee, email: @user.email)
+    @good = FactoryGirl.build(:good, :done, user: @user, nominee: @nominee)
+    refute @good.valid?
+  end
+
+  test "should not have a nominee phone the same as the user id" do
+    @user = FactoryGirl.create(:user)
+    @nominee = FactoryGirl.create(:nominee, phone: @user.phone)
+    @good = FactoryGirl.build(:good, :done, user: @user, nominee: @nominee)
+    refute @good.valid?
+  end
+
   test "should return only goods belonging to a category" do
     good1 = FactoryGirl.create(:good, category_id: 3)
     good2 = FactoryGirl.create(:good, category_id: 5)
