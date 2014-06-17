@@ -64,17 +64,17 @@ class GoodTests < DoGood::TestCase
   end
 
   test "should return goods nominated by a specific user" do
-    good1 = FactoryGirl.create(:good, user_id: 3)
-    good2 = FactoryGirl.create(:good, user_id: 5)
-    good3 = FactoryGirl.create(:good, :done, user_id: 5)
-    assert_equal 1, Good.nominations_by_user(5).count
+    good1 = FactoryGirl.create(:good)
+    good2 = FactoryGirl.create(:good)
+    good3 = FactoryGirl.create(:good, :done, user: good2.user)
+    assert_equal 1, Good.nominations_by_user(good3.user.id).count
   end
 
   test "should return help wanted goods by a specific user" do
-    good1 = FactoryGirl.create(:good, user_id: 3)
-    good2 = FactoryGirl.create(:good, user_id: 5)
-    good3 = FactoryGirl.create(:good, :done, user_id: 5)
-    assert_equal 1, Good.help_wanted_by_user(5).count
+    good1 = FactoryGirl.create(:good)
+    good2 = FactoryGirl.create(:good, :done)
+    good3 = FactoryGirl.create(:good, user: good2.user)
+    assert_equal 1, Good.help_wanted_by_user(good3.user.id).count
   end
 
   test "should return only goods liked by a user" do
