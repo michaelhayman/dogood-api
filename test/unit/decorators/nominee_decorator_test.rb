@@ -7,7 +7,7 @@ class NomineeDecoratorTest < DoGood::TestCase
   end
 
   test "avatar" do
-    assert_equal "", @nominee.avatar_url
+    assert_equal nil, @nominee.avatar_url
   end
 end
 

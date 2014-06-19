@@ -2,7 +2,7 @@ class UserDecorator < BaseDecorator
   decorates User
 
   def avatar_url
-    object.avatar.url || ""
+    object.avatar.url
   end
   memoize :avatar_url
 
