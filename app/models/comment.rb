@@ -7,7 +7,7 @@ class Comment < ActiveRecord::Base
 
   belongs_to :user
 
-  belongs_to :good, counter_cache: true
+  belongs_to :good, counter_cache: :cached_comments_count
 
   has_many :entities, as: :entityable
 
