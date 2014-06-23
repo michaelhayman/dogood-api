@@ -1,0 +1,22 @@
+{
+  "records": [
+    {
+      "sprig_id": 1,
+      "full_name": "Michael Hayman",
+      "email": "michael@dogood.mobi",
+      "password": "p4ssword"
+    },
+    {
+      "sprig_id": 2,
+      "full_name": "Basimah Syed",
+      "email": "baismah.syed@gmail.com",
+      "password": "p4ssword"
+    },
+    {
+      "sprig_id": 3,
+      "full_name": "Red Cross Toronto",
+      "email": "redcross@toronto.com",
+      "password": "p4ssword"
+    }
+  ]
+}

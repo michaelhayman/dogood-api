@@ -9,7 +9,7 @@
       "lng": -79.397925,
       "location_name": "Hospice Toronto",
       "category_id": 1,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/hospice.png"
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/hospice.jpg"
     },
     {
       "sprig_id": 2,
@@ -33,7 +33,7 @@
       "done": 0,
       "lat": 43.650919,
       "lng": -79.391309,
-      "location_name": "Canada Helps",
+      "location_name": "CanadaHelps.org",
       "category_id": 3,
       "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/canadahelps.jpg"
     },
@@ -46,7 +46,7 @@
       "lng": -79.36703,
       "location_name": "Pathways to Education",
       "category_id": 4,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/pathways.png"
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/pathways.jpg"
     },
     {
       "sprig_id": 5,
@@ -68,7 +68,23 @@
       "lng": -79.450686,
       "location_name": "Red Cross Toronto",
       "category_id": 6,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/redcross.jpg"
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/donateblood.jpg"
+    },
+    {
+      "sprig_id": 7,
+      "caption": "Trash free seas!",
+      "user_id": 1,
+      "done": 0,
+      "category_id": 5,
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/trashfreeseas.jpg"
+    },
+    {
+      "sprig_id": 8,
+      "caption": "Clean the beach!  Find these items and post here!",
+      "user_id": 1,
+      "done": 0,
+      "category_id": 5,
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/cleanbeach.jpg"
     }
   ]
 }

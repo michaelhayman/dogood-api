@@ -5,24 +5,36 @@
       "title": "Free Coffee",
       "subtitle": "Dark Horse Espresso",
       "user_id": 1,
-      "cost": 1,
+      "cost": 50,
       "quantity": 100,
-      "quantity_remaining": 50,
-      "full_description": "Get a free coffee for all the good things you've done!",
+      "quantity_remaining": 100,
+      "full_description": "Get a free coffee as a small thank you for all the good things you've done.  Valid at any of our Dark Horse Espresso locations in Toronto.",
       "instructions": "Your reward will be emailed to you shortly.",
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/reward/teaser/coffee.png"
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/reward/teaser/darkhorse.jpg"
     },
     {
       "sprig_id": 2,
-      "title": "Free flight to Vegas",
+      "title": "Domestic flight",
       "subtitle": "Air Canada",
       "user_id": 1,
-      "cost": 25,
-      "quantity": 10,
-      "quantity_remaining": 2,
-      "full_description": "Get a free flight to Vegas for all your hard work!",
-      "instructions": "Enter code 55555 on checkout.",
+      "cost": 150000,
+      "quantity": 1,
+      "quantity_remaining": 1,
+      "full_description": "Get a free flight for all your hard work.",
+      "instructions": "Your reward will be emailed to you shortly.",
       "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/reward/teaser/aircanada.jpg"
+    },
+    {
+      "sprig_id": 3,
+      "title": "Donate $20",
+      "subtitle": "Canada Helps",
+      "user_id": 1,
+      "cost": 2000,
+      "quantity": 10,
+      "quantity_remaining": 10,
+      "full_description": "Use your points to make a donation to a CanadaHelps charity of your choice.",
+      "instructions": "Instructions will be emailed to you.",
+      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/reward/teaser/canadahelps.jpg"
     }
   ]
 }
