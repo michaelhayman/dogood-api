@@ -9,22 +9,18 @@
       "lng": -79.397925,
       "location_name": "Hospice Toronto",
       "category_id": 1,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/hospice.jpg"
+      "remote_evidence_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/hospice.jpg"
     },
     {
       "sprig_id": 2,
-      "caption": "GlobalMedic is a small Canadian NGO based in Toronto, Ontario. We strive to help people in need around the world by offering emergency relief services to aid victims of disasters and by training medical personnel and donating medicines to developing and war-torn countries.
-
-      GlobalMedic is an entirely volunteer based organization. Our team members take personal vacation time when they need to deploy and assist in packing supplies and fundraising in their spare time between missions. Volunteers can have a variety of duties, from being part of a disaster response team traveling around the world, to organizing fundraising events here in Canada, to helping pack for upcoming programs. Every individual is as involved as they would like to be, all that we ask is that you have a positive attitude and a strong will to help those less fortunate.
-
-      GlobalMedic is always in need of volunteers for Support and Fundraising. http://www.globalmedic.ca/volunteer/",
+      "caption": "GlobalMedic is an NGO which helps people in need around the world by offering emergency relief services to aid victims of disasters and by training medical personnel and donating medicines to developing and war-torn countries. Volunteer duties range from disaster response, to organizing fundraising events, to helping pack for upcoming programs. If you have a positive attitude and a strong will to help those less fortunate, join at: http://www.globalmedic.ca/volunteer/",
       "user_id": 1,
       "done": 0,
       "lat": 43.746668,
       "lng": -79.632614,
       "location_name": "GlobalMedic Canada",
       "category_id": 2,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/globalmedic.jpg"
+      "remote_evidence_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/globalmedic.jpg"
     },
     {
       "sprig_id": 3,
@@ -35,7 +31,7 @@
       "lng": -79.391309,
       "location_name": "CanadaHelps.org",
       "category_id": 3,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/canadahelps.jpg"
+      "remote_evidence_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/canadahelps.jpg"
     },
     {
       "sprig_id": 4,
@@ -46,7 +42,7 @@
       "lng": -79.36703,
       "location_name": "Pathways to Education",
       "category_id": 4,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/pathways.jpg"
+      "remote_evidence_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/pathways.jpg"
     },
     {
       "sprig_id": 5,
@@ -57,7 +53,7 @@
       "lng": -79.365,
       "location_name": "Evergreen Brickworks",
       "category_id": 5,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/evergreen.jpg"
+      "remote_evidence_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/evergreen.jpg"
     },
     {
       "sprig_id": 6,
@@ -68,7 +64,7 @@
       "lng": -79.450686,
       "location_name": "Red Cross Toronto",
       "category_id": 6,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/donateblood.jpg"
+      "remote_evidence_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/donateblood.jpg"
     },
     {
       "sprig_id": 7,
@@ -76,7 +72,7 @@
       "user_id": 1,
       "done": 0,
       "category_id": 5,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/trashfreeseas.jpg"
+      "remote_evidence_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/trashfreeseas.jpg"
     },
     {
       "sprig_id": 8,
@@ -84,7 +80,7 @@
       "user_id": 1,
       "done": 0,
       "category_id": 5,
-      "remote_teaser_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/cleanbeach.jpg"
+      "remote_evidence_url": "https://reciprocity-development.s3.amazonaws.com/seeds/good/evidence/cleanbeach.jpg"
     }
   ]
 }
