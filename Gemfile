@@ -15,6 +15,10 @@ gem 'devise', '~> 3.2.0'
 # Notifications
 gem 'houston'
 
+# Jobs
+gem 'resque'
+gem 'resque-retry', '~> 1.1', :require => false
+
 # Model Decoration
 gem 'draper', '~> 1.0'
 
