@@ -3,7 +3,7 @@ require "bundler/capistrano"
 
 load "config/deploy/figaro"
 
-server "107.170.146.216", :web, :app, :db, primary: true
+server "107.170.146.216", :web, :app, :db, :worker, primary: true
 
 set :default_environment, { 'PATH' => '$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH' }
 
@@ -22,6 +22,7 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
+after "deploy:restart", "deploy:restart_workers"
 
 namespace :deploy do
   %w[start stop restart].each do |command|
@@ -51,6 +52,11 @@ namespace :deploy do
   end
   after "deploy:finalize_update", "deploy:symlink_config"
 
+  desc "Restart Resque Workers"
+  task :restart_workers, :roles => :worker do
+    run_remote_rake "resque:restart_workers"
+  end
+
   desc "Make sure local git is in sync with remote."
   task :check_revision, roles: :web do
     unless `git rev-parse HEAD` == `git rev-parse origin/master`
@@ -62,4 +68,13 @@ namespace :deploy do
   before "deploy", "deploy:check_revision"
 end
 
+# for resque
+def run_remote_rake(rake_cmd)
+  rake_args = ENV['RAKE_ARGS'].to_s.split(',')
+
+  cmd = "cd #{fetch(:latest_release)} && bundle exec #{fetch(:rake, "rake")} RAILS_ENV=#{fetch(:rails_env, "production")} #{rake_cmd}"
+  cmd += "['#{rake_args.join("','")}']" unless rake_args.empty?
+  run cmd
+  set :rakefile, nil if exists?(:rakefile)
+end
 
