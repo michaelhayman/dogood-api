@@ -12,6 +12,9 @@ gem 'figaro'
 # Authentication
 gem 'devise', '~> 3.2.0'
 
+# Notifications
+gem 'houston'
+
 # Model Decoration
 gem 'draper', '~> 1.0'
 

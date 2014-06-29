@@ -50,6 +50,8 @@ GEM
       celluloid (>= 0.15.0)
       nio4r (>= 0.5.0)
     coderay (1.1.0)
+    commander (4.2.0)
+      highline (~> 1.6.11)
     dalli (2.6.4)
     devise (3.2.4)
       bcrypt (~> 3.0)
@@ -101,8 +103,12 @@ GEM
     guard-minitest (2.2.0)
       guard (~> 2.0)
       minitest (>= 3.0)
+    highline (1.6.21)
     hike (1.2.3)
     hirb (0.7.1)
+    houston (2.1.0)
+      commander (~> 4.1)
+      json
     i18n (0.6.9)
     ice_nine (0.11.0)
     json (1.8.1)
@@ -242,6 +248,7 @@ DEPENDENCIES
   geokit-rails (~> 2.0.0)
   guard-minitest
   hirb
+  houston
   ice_nine (~> 0.11.0)
   kgio (~> 2.6)
   memcachier (~> 0.0.2)
