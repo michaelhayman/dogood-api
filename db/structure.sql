@@ -163,12 +163,45 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
+-- Name: devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE devices (
+    id integer NOT NULL,
+    token character varying(255),
+    provider character varying(255),
+    is_valid boolean DEFAULT true,
+    user_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE devices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE devices_id_seq OWNED BY devices.id;
+
+
+--
 -- Name: entities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE entities (
     id integer NOT NULL,
-    link text NOT NULL,
     link_id integer NOT NULL,
     link_type text NOT NULL,
     title text NOT NULL,
@@ -238,7 +271,7 @@ ALTER SEQUENCE follows_id_seq OWNED BY follows.id;
 
 CREATE TABLE goods (
     id integer NOT NULL,
-    caption character varying(255),
+    caption text NOT NULL,
     category_id integer,
     user_id integer,
     created_at timestamp without time zone,
@@ -807,6 +840,13 @@ ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY devices ALTER COLUMN id SET DEFAULT nextval('devices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY entities ALTER COLUMN id SET DEFAULT nextval('entities_id_seq'::regclass);
 
 
@@ -952,6 +992,14 @@ ALTER TABLE ONLY claimed_rewards
 
 ALTER TABLE ONLY comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY devices
+    ADD CONSTRAINT devices_pkey PRIMARY KEY (id);
 
 
 --
@@ -1161,6 +1209,41 @@ CREATE INDEX index_comments_on_user_id ON comments USING btree (user_id);
 
 
 --
+-- Name: index_devices_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_devices_on_token ON devices USING btree (token);
+
+
+--
+-- Name: index_devices_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_devices_on_user_id ON devices USING btree (user_id);
+
+
+--
+-- Name: index_entities_on_entityable_id_and_entityable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_entities_on_entityable_id_and_entityable_type ON entities USING btree (entityable_id, entityable_type);
+
+
+--
+-- Name: index_entities_on_link_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_entities_on_link_id ON entities USING btree (link_id);
+
+
+--
+-- Name: index_entities_on_title; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_entities_on_title ON entities USING btree (title);
+
+
+--
 -- Name: index_goods_on_cached_votes_down; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1203,6 +1286,13 @@ CREATE INDEX index_goods_on_category_id ON goods USING btree (category_id);
 
 
 --
+-- Name: index_goods_on_nominee_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_goods_on_nominee_id ON goods USING btree (nominee_id);
+
+
+--
 -- Name: index_goods_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1214,6 +1304,13 @@ CREATE INDEX index_goods_on_user_id ON goods USING btree (user_id);
 --
 
 CREATE INDEX index_hashtaggings_hashtaggable_id_hashtaggable_type ON simple_hashtag_hashtaggings USING btree (hashtaggable_id, hashtaggable_type);
+
+
+--
+-- Name: index_nominees_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_nominees_on_user_id ON nominees USING btree (user_id);
 
 
 --
@@ -1242,6 +1339,13 @@ CREATE INDEX index_points_on_to_user_id ON points USING btree (to_user_id);
 --
 
 CREATE INDEX index_reports_on_reportable_id_and_reportable_type ON reports USING btree (reportable_id, reportable_type);
+
+
+--
+-- Name: index_reports_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reports_on_user_id ON reports USING btree (user_id);
 
 
 --
@@ -1457,4 +1561,14 @@ INSERT INTO schema_migrations (version) VALUES ('20140530000942');
 INSERT INTO schema_migrations (version) VALUES ('20140531003652');
 
 INSERT INTO schema_migrations (version) VALUES ('20140531155000');
+
+INSERT INTO schema_migrations (version) VALUES ('20140605220143');
+
+INSERT INTO schema_migrations (version) VALUES ('20140605220940');
+
+INSERT INTO schema_migrations (version) VALUES ('20140605222023');
+
+INSERT INTO schema_migrations (version) VALUES ('20140616015130');
+
+INSERT INTO schema_migrations (version) VALUES ('20140626210603');
 

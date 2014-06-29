@@ -67,6 +67,8 @@ DoGoodApp::Application.routes.draw do
 
   post 'unsubscribe_email', to: 'unsubscribes#opt_out'
 
+  resources :devices, only: [ :update, :destroy ]
+
   get '/404', to: 'errors#not_found'
   get '/500', to: 'errors#exception'
 
