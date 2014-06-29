@@ -40,7 +40,7 @@ class Entity < ActiveRecord::Base
             message = "#{comment.user.full_name} mentioned you in a comment"
             url = "dogood://goods/#{comment.commentable_id}"
             if comment.good
-              SendNotification.perform(user.id, message, url)
+              Resque.enqueue(SendNotification, user.id, message, url)
             end
           end
         end
@@ -51,7 +51,7 @@ class Entity < ActiveRecord::Base
           if link_type == "user"
             message = "#{good.user.full_name} mentioned you in a good post"
             url = "dogood://goods/#{good.id}"
-            SendNotification.perform(user.id, message, url)
+            Resque.enqueue(SendNotification, user.id, message, url)
           end
         end
       end

@@ -44,7 +44,7 @@ class Comment < ActiveRecord::Base
     if self.user && self.good
       message = "#{self.user.full_name} posted a new comment on your post"
       url = "dogood://goods/#{self.commentable_id}"
-      SendNotification.perform(self.good.user_id, message, url)
+      Resque.enqueue(SendNotification, self.good.user_id, message, url)
     end
   end
 end
