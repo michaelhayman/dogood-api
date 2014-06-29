@@ -1,2 +1,2 @@
-web: passenger start -p 3002
+web: passenger start -p 5000 -e development
 
