@@ -1,1 +1,1 @@
-silence_warnings { require 'resque-retry' }
+# silence_warnings { require 'resque-retry' }

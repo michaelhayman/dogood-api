@@ -1,7 +1,7 @@
 class SendNotification
-  extend Resque::Plugins::ExponentialBackoff
+  # extend Resque::Plugins::ExponentialBackoff
 
-  @backoff_strategy = [ 0, 60, 120, 300, 600, 900, 1200, 1800, 3600, 7200, 14400 ]
+  # @backoff_strategy = [ 0, 60, 120, 300, 600, 900, 1200, 1800, 3600, 7200, 14400 ]
   @queue = :send_notification
 
   class << self
