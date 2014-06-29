@@ -35,7 +35,7 @@ class RewardsController < ApiController
     @reward.user_id = current_user.id
 
     if @reward.save
-      render json: @reward, root: "rewards"
+      render json: @reward.decorate, root: "rewards"
     else
       msg = @reward.errors.full_messages.first || "Couldn't add the reward."
       raise DoGood::Api::RecordNotSaved.new(msg)
