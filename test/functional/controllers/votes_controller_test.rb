@@ -7,6 +7,8 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
 
     @good = FactoryGirl.create(:good)
     @good_done = FactoryGirl.create(:good, :done)
+
+    stub(Vote).send_notification { true }
   end
 
   test "creating vote route" do

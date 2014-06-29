@@ -30,5 +30,32 @@ class Entity < ActiveRecord::Base
       false
     end
   end
+
+  def send_notification
+    if user = User.find_by_id(link_id)
+
+      if entityable_type == "Comment"
+        if comment = Comment.find_by_id(entityable_id)
+          if link_type == "user"
+            message = "#{comment.user.full_name} mentioned you in a comment"
+            url = "dogood://goods/#{comment.commentable_id}"
+            if comment.good
+              SendNotification.perform(user.id, message, url)
+            end
+          end
+        end
+      end
+
+      if entityable_type == "Good"
+        if good = Good.find_by_id(entityable_id)
+          if link_type == "user"
+            message = "#{good.user.full_name} mentioned you in a good post"
+            url = "dogood://goods/#{good.id}"
+            SendNotification.perform(user.id, message, url)
+          end
+        end
+      end
+    end
+  end
 end
 

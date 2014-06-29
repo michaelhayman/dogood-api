@@ -386,6 +386,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     test "done good" do
       any_instance_of(Good) do |klass|
         stub(klass).send_invite? { false }
+        stub(klass).send_notification { false }
       end
 
       stub(Good).just_created_by { false }

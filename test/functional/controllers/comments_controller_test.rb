@@ -77,7 +77,7 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
     @user = FactoryGirl.create(:user)
     sign_in @user
 
-    @comment = FactoryGirl.create(:comment, user: @user)
+    @comment = FactoryGirl.build(:comment, user: @user)
 
     post :create, {
       format: :json,

@@ -39,5 +39,13 @@ class Comment < ActiveRecord::Base
   def self.for_good(good_id)
     where(commentable_type: "Good", commentable_id: good_id)
   end
+
+  def send_notification
+    if self.user && self.good
+      message = "#{self.user.full_name} posted a new comment on your post"
+      url = "dogood://goods/#{self.commentable_id}"
+      SendNotification.perform(self.good.user_id, message, url)
+    end
+  end
 end
 

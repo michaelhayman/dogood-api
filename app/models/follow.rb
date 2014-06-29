@@ -25,4 +25,20 @@ class Follow < ActiveRecord::Base
   def block!
     self.update_attribute(:blocked, true)
   end
+
+  def self.send_notification(followable, follower)
+    if follower.present?
+      if followable.is_a?(Good)
+        message = "#{follower.full_name} followed your good post"
+        url = "dogood://users/#{follower.id}"
+        SendNotification.perform(followable.user_id, message, url)
+      end
+
+      if followable.is_a?(User)
+        message = "#{follower.full_name} followed you"
+        url = "dogood://users/#{follower.id}"
+        SendNotification.perform(followable.id, message, url)
+      end
+    end
+  end
 end

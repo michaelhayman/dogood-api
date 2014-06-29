@@ -105,6 +105,11 @@ class GoodsController < ApiController
     @good.evidence = resource_params[:evidence]
 
     if @good.save
+      @good.send_notification
+      @good.entities.each do |e|
+        e.send_notification
+      end
+
       render json: @good.decorate, root: "goods"
       if @good.send_invite?
         InviteMailer.invite_nominee(@good).deliver

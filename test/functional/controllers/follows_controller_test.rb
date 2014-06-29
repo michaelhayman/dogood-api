@@ -42,6 +42,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
 
     test "following a good with valid parameters should succeed and update counters" do
       assert_empty @good.followers
+      stub(Follow).send_notification { false }
 
       post :create, {
         format: :json,
@@ -61,6 +62,7 @@ class FollowsControllerTest < DoGood::ActionControllerTestCase
 
     test "following a user with valid parameters should succeed and update counters" do
       @bob = FactoryGirl.create(:user, :bob)
+      stub(Follow).send_notification { false }
 
       assert_empty @bob.followers
 

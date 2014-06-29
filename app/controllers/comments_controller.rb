@@ -15,6 +15,10 @@ class CommentsController < ApiController
     @comment.user_id = current_user.id
 
     if @comment.save
+      @comment.send_notification
+      @comment.entities.each do |e|
+        e.send_notification
+      end
       render json: @comment.decorate, root: "comments"
     else
       message = @comment.errors.full_messages.first || "Couldn't save comment."

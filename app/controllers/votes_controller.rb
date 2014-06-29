@@ -5,6 +5,7 @@ class VotesController < ApiController
     raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:vote].present?
 
     if @vote = polymorphic_association.liked_by(current_user)
+      Vote.send_notification(polymorphic_association, current_user)
       @user = awardable_user
       if awardable_user.present?
         @user.add_points(Vote::VOTE_POINTS, category: 'Vote created')

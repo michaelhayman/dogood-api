@@ -74,6 +74,14 @@ class Good < ActiveRecord::Base
     end
   end
 
+  def send_notification
+    if self && self.done && self.nominee.user_id
+      message = "#{self.user.full_name} nominated you!"
+      url = "dogood://goods/#{self.id}"
+      SendNotification.perform(self.nominee.user_id, message, url)
+    end
+  end
+
   def send_invite?
     false
   end

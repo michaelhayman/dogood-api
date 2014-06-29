@@ -5,6 +5,7 @@ class FollowsController < ApiController
     raise DoGood::Api::ParametersInvalid.new("Already following that.") if current_user.following?(polymorphic_association)
 
     if current_user.follow(polymorphic_association)
+      Follow.send_notification(polymorphic_association, current_user)
       render_ok
     else
       raise DoGood::Api::RecordNotSaved.new("Follow not registered.")
