@@ -17,7 +17,8 @@ class VotesController < ApiController
 
   def destroy
     if @vote = polymorphic_association.unliked_by(current_user)
-      if @user = awardable_user
+      @user = awardable_user
+      if awardable_user.present?
         @user.subtract_points(Vote::VOTE_POINTS, category: 'Vote destroyed')
       end
       render_ok
