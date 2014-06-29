@@ -1,6 +1,7 @@
 class GoodsController < ApiController
   before_filter :setup_pagination, only: [
     :index,
+    :show,
     :tagged,
     :popular,
     :nearby,
@@ -18,8 +19,9 @@ class GoodsController < ApiController
   end
 
   def show
-    @good = Good.find(params[:id])
-    render json: @good.decorate, root: "goods"
+    @good = Good.where(id: params[:id])
+
+    render_paginated_index(@good)
   end
 
   def tagged
