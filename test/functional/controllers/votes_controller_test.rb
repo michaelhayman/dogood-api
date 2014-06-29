@@ -57,7 +57,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
 
     assert_response :success
     assert_equal 1, voted_good(@good_done).cached_votes_up
-    assert_equal 10, voted_good(@good_done).nominee.user.points
+    assert_equal Vote::VOTE_POINTS, voted_good(@good_done).nominee.user.points
     assert_equal 0, @user.points
   end
 
@@ -130,7 +130,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
     add_valid_vote(@good_done)
 
     assert_equal 1, voted_good(@good_done).cached_votes_up
-    assert_equal 10, voted_good(@good_done).nominee.user.points
+    assert_equal Vote::VOTE_POINTS, voted_good(@good_done).nominee.user.points
 
     remove_valid_vote(@good_done)
 

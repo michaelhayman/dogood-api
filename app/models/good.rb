@@ -1,6 +1,8 @@
 class Good < ActiveRecord::Base
   include DoGood::Reportable
 
+  GOOD_POINTS = 4
+
   mount_uploader :evidence, EvidenceUploader
 
   acts_as_commentable

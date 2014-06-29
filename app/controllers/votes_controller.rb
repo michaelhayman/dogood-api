@@ -1,15 +1,13 @@
 class VotesController < ApiController
   before_filter :check_auth
 
-  VOTE_POINTS = 10
-
   def create
     raise DoGood::Api::ParametersInvalid.new("No parameters.") if !params[:vote].present?
 
     if @vote = polymorphic_association.liked_by(current_user)
       @user = awardable_user
       if awardable_user.present?
-        @user.add_points(VOTE_POINTS, category: 'Vote created')
+        @user.add_points(Vote::VOTE_POINTS, category: 'Vote created')
       end
       render_ok
     else
@@ -20,7 +18,7 @@ class VotesController < ApiController
   def destroy
     if @vote = polymorphic_association.unliked_by(current_user)
       if @user = awardable_user
-        @user.subtract_points(VOTE_POINTS, category: 'Vote destroyed')
+        @user.subtract_points(Vote::VOTE_POINTS, category: 'Vote destroyed')
       end
       render_ok
     else

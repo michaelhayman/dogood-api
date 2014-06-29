@@ -1,6 +1,8 @@
 class Comment < ActiveRecord::Base
   include ActsAsCommentable::Comment
 
+  COMMENT_POINTS = 3
+
   belongs_to :commentable,
     polymorphic: true,
     counter_cache: :cached_comments_count

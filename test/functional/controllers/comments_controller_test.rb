@@ -53,7 +53,7 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
 
     assert_equal @comment.comment, json.traverse(:comments, :comment)
     added_comment = Comment.find_by_commentable_id(@comment.commentable_id)
-    assert_equal added_comment.user.points, 1
+    assert_equal added_comment.user.points, Comment::COMMENT_POINTS
   end
 
   test "request should create a comment with entities" do
