@@ -21,7 +21,7 @@ class VotesControllerTest < DoGood::ActionControllerTestCase
     })
   end
 
-  test "creatin vote should not be allowed if the user is not authenticated" do
+  test "creating a vote should not be allowed if the user is not authenticated" do
     sign_out @user
 
     post :create, {
