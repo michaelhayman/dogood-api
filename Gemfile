@@ -75,7 +75,7 @@ end
 # Heroku
 group :production do
   gem 'unicorn', '~> 4.6.3'
-  gem 'rails_12factor', '~> 0.0.2'
+  # gem 'rails_12factor', '~> 0.0.2'
   gem 'rb-readline', '~> 0.5.1'
 
   # Caching
