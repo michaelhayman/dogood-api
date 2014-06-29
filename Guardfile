@@ -22,6 +22,10 @@ guard :minitest, spring: 'rake test', all_on_start: false do
     "test/unit/models/validators/#{m[1]}_test.rb"
   }
 
+  watch(%r{^app/workers/(.+)\.rb$}) { |m|
+    "test/unit/workers/#{m[1]}_test.rb"
+  }
+
   watch(%r{^lib/(.+)\.rb$}) { |m|
     "test/unit/lib/#{m[1]}_test.rb"
   }
