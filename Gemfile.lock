@@ -134,6 +134,7 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
+    mono_logger (1.1.0)
     multi_json (1.10.1)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
