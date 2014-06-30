@@ -104,7 +104,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
       }
       json = jsonify(response)
 
-      assert_equal @good_2.id, json.traverse(:goods, :id)
+      assert_equal @good_2.id, json.traverse(:goods, 0, :id)
     end
 
   end
