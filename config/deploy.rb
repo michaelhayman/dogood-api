@@ -1,6 +1,4 @@
 require "bundler/capistrano"
-require 'capistrano/sidekiq'
-
 load "config/deploy/figaro"
 
 server "107.170.146.216", :web, :app, :db, :worker, primary: true
