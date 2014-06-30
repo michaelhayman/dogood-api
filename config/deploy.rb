@@ -1,5 +1,4 @@
 require "bundler/capistrano"
-# require "rvm/capistrano"
 require 'capistrano/sidekiq'
 
 load "config/deploy/figaro"
