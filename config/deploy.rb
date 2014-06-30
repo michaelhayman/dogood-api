@@ -54,11 +54,6 @@ namespace :deploy do
   end
   after "deploy:finalize_update", "deploy:symlink_config"
 
-  desc "Restart Resque Workers"
-  task :restart_workers, :roles => :worker do
-    run_remote_rake "resque:restart_workers"
-  end
-
   desc "Make sure local git is in sync with remote."
   task :check_revision, roles: :web do
     unless `git rev-parse HEAD` == `git rev-parse origin/master`
@@ -68,15 +63,5 @@ namespace :deploy do
     end
   end
   before "deploy", "deploy:check_revision"
-end
-
-# for resque
-def run_remote_rake(rake_cmd)
-  rake_args = ENV['RAKE_ARGS'].to_s.split(',')
-
-  cmd = "cd #{fetch(:latest_release)} && #{fetch(:rake, "rake")} RAILS_ENV=#{fetch(:rails_env, "production")} #{rake_cmd}"
-  cmd += "['#{rake_args.join("','")}']" unless rake_args.empty?
-  run cmd
-  set :rakefile, nil if exists?(:rakefile)
 end
 
