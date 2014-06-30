@@ -8,6 +8,7 @@ gem 'rack-cors', :require => 'rack/cors'
 
 # Configuration
 gem 'figaro'
+gem 'capistrano', '~> 2.15.5'
 
 # Authentication
 gem 'devise', '~> 3.2.0'
