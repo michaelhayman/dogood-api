@@ -14,7 +14,7 @@ gem 'capistrano', '~> 2.15.5'
 gem 'devise', '~> 3.2.0'
 
 # Notifications
-gem 'houston'
+gem 'houston', '~> 2.1'
 
 # Jobs
 gem 'resque'

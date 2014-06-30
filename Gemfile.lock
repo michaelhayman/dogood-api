@@ -280,7 +280,7 @@ DEPENDENCIES
   geokit-rails (~> 2.0.0)
   guard-minitest
   hirb
-  houston
+  houston (~> 2.1)
   ice_nine (~> 0.11.0)
   kgio (~> 2.6)
   memcachier (~> 0.0.2)
