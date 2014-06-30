@@ -17,8 +17,8 @@ gem 'devise', '~> 3.2.0'
 gem 'houston', '~> 2.1'
 
 # Jobs
-gem 'resque'
-gem 'resque-retry', '~> 1.1', :require => false
+gem 'sidekiq', '~> 3.1'
+gem 'capistrano-sidekiq' , github: 'seuros/capistrano-sidekiq'
 
 # Model Decoration
 gem 'draper', '~> 1.0'
