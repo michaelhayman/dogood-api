@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   has_many :owned_rewards, class_name: "Reward", source: :vendor
   has_many :comments
   has_many :reports
+  has_many :devices
   has_one :nominee
 
   validates :full_name,

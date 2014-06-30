@@ -78,7 +78,7 @@ class Good < ActiveRecord::Base
     if self && self.done && self.nominee.user_id
       message = "#{self.user.full_name} nominated you!"
       url = "dogood://goods/#{self.id}"
-      Resque.enqueue(SendNotification, self.nominee.user_id, message, url)
+      NotifierWorker.perform_async(message, self.nominee.user_id, { url: url })
     end
   end
 

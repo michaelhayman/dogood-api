@@ -4,7 +4,7 @@ class Vote < ActsAsVotable::Vote
   def self.send_notification(good, user)
     message = "#{user.full_name} voted on your post"
     url = "dogood://good/#{good.id}"
-    Resque.enqueue(SendNotification, good.user_id, message, url)
+    NotifierWorker.perform_async(message, good.user_id, { url: url })
   end
 end
 

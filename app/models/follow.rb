@@ -31,13 +31,13 @@ class Follow < ActiveRecord::Base
       if followable.is_a?(Good)
         message = "#{follower.full_name} followed your good post"
         url = "dogood://users/#{follower.id}"
-        Resque.enqueue(SendNotification, followable.user_id, message, url)
+        NotifierWorker.perform_async(message, followable.user_id, { url: url })
       end
 
       if followable.is_a?(User)
         message = "#{follower.full_name} followed you"
         url = "dogood://users/#{follower.id}"
-        Resque.enqueue(SendNotification, followable.id, message, url)
+        NotifierWorker.perform_async(message, followable.id, { url: url })
       end
     end
   end
