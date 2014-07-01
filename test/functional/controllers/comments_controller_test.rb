@@ -33,10 +33,13 @@ class CommentsControllerTest < DoGood::ActionControllerTestCase
   end
 
   test "request should create a basic comment" do
+    stub(NotifierWorker).perform_async { true }
+
     @user = FactoryGirl.create(:user)
     sign_in @user
 
-    @comment = FactoryGirl.build(:comment, user: @user)
+    @good = FactoryGirl.create(:good)
+    @comment = FactoryGirl.build(:comment, user: @user, commentable_id: @good.id)
 
     post :create, {
       format: :json,
