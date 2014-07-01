@@ -135,6 +135,15 @@ class GoodTests < DoGood::TestCase
     refute @good.send_invite?
   end
 
+  test "send notification for good" do
+    @good = FactoryGirl.create(:good, :done)
+    stub(NotifierWorker).perform_async { true }
+    @good.send_notification
+    message = "#{@good.user.full_name} nominated you!"
+    url = "dogood://goods/#{@good.id}"
+    assert_received(NotifierWorker) { |o| o.perform_async(message, @good.nominee.user_id, { url: url }) }
+  end
+
  # pending "should return extra info" do
  # end
 
