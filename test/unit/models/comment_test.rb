@@ -36,4 +36,16 @@ class CommentTest < DoGood::TestCase
 
     assert_equal 2, Comment.for_good(good.id).count
   end
+
+  test "send notification for comment" do
+    @bob = FactoryGirl.create(:user, :bob)
+    @tony = FactoryGirl.create(:user, :tony)
+    @good = FactoryGirl.create(:good, user: @tony)
+    @comment = FactoryGirl.create(:comment, user: @bob, commentable: @good)
+    stub(NotifierWorker).perform_async { true }
+    @comment.send_notification
+    message = "#{@bob.full_name} posted a new comment on your post"
+    url = "dogood://goods/#{@good.id}"
+    assert_received(NotifierWorker) { |o| o.perform_async(message, @tony.id, { url: url }) }
+  end
 end
