@@ -36,5 +36,29 @@ class EntityTest < DoGood::TestCase
     @entity.reload
     assert_equal @entity.link_id, @entity.entityable_id
   end
+
+  test "send notification for comment" do
+    @user = FactoryGirl.create(:user, :bob)
+    @tony = FactoryGirl.create(:user, :tony)
+    @comment = FactoryGirl.create(:comment, user: @tony)
+    @entity = FactoryGirl.create(:entity, link_id: @user.id, entityable_type: "Comment", entityable_id: @comment.id)
+    stub(NotifierWorker).perform_async { true }
+    @entity.send_notification
+    message = "#{@tony.full_name} mentioned you in a comment"
+    url = "dogood://goods/#{@comment.commentable_id}"
+    assert_received(NotifierWorker) { |o| o.perform_async(message, @user.id, { url: url }) }
+  end
+
+  test "send notification for good caption" do
+    @user = FactoryGirl.create(:user, :bob)
+    @tony = FactoryGirl.create(:user, :tony)
+    @good = FactoryGirl.create(:good, user: @tony)
+    @entity = FactoryGirl.create(:entity, link_id: @user.id, entityable_type: "Good", entityable_id: @good.id)
+    stub(NotifierWorker).perform_async { true }
+    @entity.send_notification
+    message = "#{@tony.full_name} mentioned you in a good post"
+    url = "dogood://goods/#{@good.id}"
+    assert_received(NotifierWorker) { |o| o.perform_async(message, @user.id, { url: url }) }
+  end
 end
 
