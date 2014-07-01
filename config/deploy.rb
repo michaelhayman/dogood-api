@@ -16,6 +16,8 @@ set :scm, "git"
 set :repository, "git@github.com:michaelhayman/#{application}.git"
 set :branch, "master"
 
+set :normalize_asset_timestamps, false
+
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
