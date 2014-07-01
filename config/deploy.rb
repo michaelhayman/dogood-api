@@ -39,6 +39,7 @@ namespace :deploy do
     sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-available/#{application}"
     sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
     sudo "ln -nfs #{current_path}/config/sidekiq.conf /etc/init/sidekiq.conf"
+    sudo "initctl reload-configuration"
     run "mkdir -p #{shared_path}/config"
     put File.read("config/database.vps.yml"), "#{shared_path}/config/database.yml"
     put File.read("config/apple_push_notification_production.pem"), "#{shared_path}/config/apple_push_notification_production.pem"
