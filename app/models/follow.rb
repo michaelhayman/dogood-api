@@ -30,7 +30,7 @@ class Follow < ActiveRecord::Base
     if follower.present?
       if followable.is_a?(Good)
         message = "#{follower.full_name} followed your good post"
-        url = "dogood://users/#{follower.id}"
+        url = "dogood://goods/#{followable.id}"
         NotifierWorker.perform_async(message, followable.user_id, { url: url })
       end
 

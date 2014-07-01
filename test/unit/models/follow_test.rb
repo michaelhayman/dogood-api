@@ -23,7 +23,7 @@ class FollowTest < DoGood::TestCase
     @follower = FactoryGirl.create(:user)
     Follow.send_notification(@followable, @follower)
     message = "#{@follower.full_name} followed your good post"
-    url = "dogood://users/#{@follower.id}"
+    url = "dogood://goods/#{@followable.id}"
     assert_received(NotifierWorker) { |o| o.perform_async(message, @followable.user_id, { url: url }) }
   end
 end
