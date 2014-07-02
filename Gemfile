@@ -7,7 +7,7 @@ gem 'rails', '4.1.3'
 gem 'rack-cors', :require => 'rack/cors'
 
 # Configuration
-gem 'figaro'
+gem 'figaro', '~> 0.7.0'
 gem 'capistrano', '~> 2.15.5'
 
 # Authentication
