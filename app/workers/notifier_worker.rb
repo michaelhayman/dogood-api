@@ -2,7 +2,7 @@ require 'apn_connection'
 
 class NotifierWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false, dead: false
+  sidekiq_options retry: 5
 
   APN_POOL = ConnectionPool.new(size: 2, timeout: 300) do
     APNConnection.new
