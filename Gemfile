@@ -8,7 +8,6 @@ gem 'rack-cors', :require => 'rack/cors'
 
 # Configuration
 gem 'figaro', '~> 0.7.0'
-gem 'capistrano', '~> 2.15.5'
 
 # Authentication
 gem 'devise', '~> 3.2.0'
@@ -18,7 +17,6 @@ gem 'houston', '~> 2.1'
 
 # Jobs
 gem 'sidekiq', '~> 3.1'
-gem 'capistrano-sidekiq' , github: 'seuros/capistrano-sidekiq'
 
 # Model Decoration
 gem 'draper', '~> 1.0'
@@ -56,8 +54,9 @@ gem 'newrelic_rpm', '~> 3.6.6.147'
 # Unstable gems - lock to known working version
 gem 'memoist', '0.9.1'
 
-
 group :development do
+  gem 'capistrano', '~> 2.15.5'
+  gem 'capistrano-sidekiq' , github: 'seuros/capistrano-sidekiq'
   gem 'spring'
   gem 'awesome_print'
   gem 'brice'
