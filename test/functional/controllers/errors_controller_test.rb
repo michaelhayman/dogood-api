@@ -9,7 +9,7 @@ class ErrorsControllerTest < DoGood::ActionControllerTestCase
   end
 
   test "not found method" do
-    get :not_found
+    get :not_found, format: :json
 
     assert_response :not_found
   end
@@ -22,7 +22,7 @@ class ErrorsControllerTest < DoGood::ActionControllerTestCase
   end
 
   test "exception method" do
-    get :exception
+    get :exception, format: :json
 
     assert_response :internal_server_error
   end
