@@ -1,4 +1,6 @@
 class GoodsController < ApiController
+  include DecoratorHelper
+
   before_filter :setup_pagination, only: [
     :index,
     :show,
@@ -15,13 +17,26 @@ class GoodsController < ApiController
   def index
     @goods = apply_scopes(Good.extra_info)
 
-    render_paginated_index(@goods)
+    respond_to do |format|
+      format.html {
+        @goods = paginated_entries(@goods)
+      }
+      format.json {
+        render_paginated_index(@goods)
+      }
+    end
   end
 
   def show
-    @good = Good.where(id: params[:id])
-
-    render_paginated_index(@good)
+    respond_to do |format|
+      format.html {
+        @good = Good.friendly.where(slug: params[:id]).first.decorate
+      }
+      format.json {
+        @good = Good.friendly.where(id: params[:id])
+        render_paginated_index(@good)
+      }
+    end
   end
 
   def tagged

@@ -1,5 +1,8 @@
 class Good < ActiveRecord::Base
+  extend FriendlyId
   include DoGood::Reportable
+
+  friendly_id :caption_summary, use: :slugged
 
   GOOD_POINTS = 4
 
@@ -67,6 +70,10 @@ class Good < ActiveRecord::Base
   scope :newest_first, -> {
     order("goods.created_at desc")
   }
+
+  def caption_summary
+    caption.first(25)
+  end
 
   def scrub_nominee
     if !self.done

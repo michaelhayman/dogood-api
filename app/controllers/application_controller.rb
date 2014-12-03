@@ -3,8 +3,7 @@ class ApplicationController < ActionController::Base
 
   serialization_scope :dg_user
 
-  respond_to :json
-  before_filter :set_default_response_format
+  respond_to :json, :html
 
   def instance_from_type_and_id(type, id)
     type.constantize.find(id)
@@ -40,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   private
     def set_default_response_format
-      request.format = :json
+      request.format = :html
     end
 
     def check_auth

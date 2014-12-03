@@ -12,8 +12,14 @@ class UsersController < ApiController
   ]
 
   def show
-    @user = User.find(params[:id])
-    render json: @user.decorate, root: "users", serializer: Users::ProfileSerializer
+    @user = User.friendly.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: @user.decorate, root: "users", serializer: Users::ProfileSerializer
+      }
+    end
   end
 
   def search

@@ -36,7 +36,7 @@ DoGoodApp::Application.routes.draw do
 
   resources :reports, only: [ :create ]
 
-  resources :categories, only: [ :index ]
+  resources :categories, only: [ :index, :show ]
 
   resources :goods, only: [ :index, :show, :create, :destroy ] do
     collection do
@@ -72,5 +72,5 @@ DoGoodApp::Application.routes.draw do
   get '/404', to: 'errors#not_found'
   get '/500', to: 'errors#exception'
 
-  root to: 'goods#index'
+  root to: 'home#index'
 end

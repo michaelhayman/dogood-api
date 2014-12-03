@@ -8,5 +8,11 @@ class CategoriesController < ApplicationController
       render json: @categories.decorate
     end
   end
+
+  def show
+    @category = Category.friendly.find(params[:id])
+
+    @goods = Good.in_category(@category.id).decorate
+  end
 end
 

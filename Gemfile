@@ -1,10 +1,14 @@
 source 'https://rubygems.org'
 
-ruby "2.1.2"
+ruby "2.1.4"
 
-gem 'railties', '4.1.4'
-gem 'rails', '4.1.4'
+gem 'railties', '4.1.8'
+gem 'rails', '4.1.8'
 gem 'rack-cors', :require => 'rack/cors'
+
+gem 'rails_autolink'
+
+gem 'sass-rails'
 
 # Configuration
 gem 'figaro', '~> 0.7.0'
@@ -47,6 +51,10 @@ gem 'geokit-rails', '~> 2.0.0'
 # Files
 gem 'carrierwave', '~> 0.9.0'
 gem 'fog', '~> 1.3.1'
+
+gem 'friendly_id'
+
+gem 'slim'
 
 # New Relic
 gem 'newrelic_rpm', '~> 3.6.6.147'

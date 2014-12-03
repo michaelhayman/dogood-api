@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140626210603) do
+ActiveRecord::Schema.define(version: 20141203183007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,10 @@ ActiveRecord::Schema.define(version: 20140626210603) do
     t.datetime "updated_at"
     t.text     "name_constant"
     t.string   "colour"
+    t.string   "slug"
   end
+
+  add_index "categories", ["slug"], name: "index_categories_on_slug", using: :btree
 
   create_table "claimed_rewards", force: true do |t|
     t.integer  "user_id"
@@ -98,6 +101,19 @@ ActiveRecord::Schema.define(version: 20140626210603) do
   add_index "follows", ["followable_id", "followable_type"], name: "fk_followables", using: :btree
   add_index "follows", ["follower_id", "follower_type"], name: "fk_follows", using: :btree
 
+  create_table "friendly_id_slugs", force: true do |t|
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope"
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
   create_table "goods", force: true do |t|
     t.text     "caption",                               null: false
     t.integer  "category_id"
@@ -119,6 +135,7 @@ ActiveRecord::Schema.define(version: 20140626210603) do
     t.integer  "nominee_id"
     t.integer  "cached_following_count", default: 0
     t.integer  "cached_weighted_score",  default: 0
+    t.string   "slug"
   end
 
   add_index "goods", ["cached_votes_down"], name: "index_goods_on_cached_votes_down", using: :btree
@@ -128,6 +145,7 @@ ActiveRecord::Schema.define(version: 20140626210603) do
   add_index "goods", ["cached_weighted_score"], name: "index_goods_on_cached_weighted_score", using: :btree
   add_index "goods", ["category_id"], name: "index_goods_on_category_id", using: :btree
   add_index "goods", ["nominee_id"], name: "index_goods_on_nominee_id", using: :btree
+  add_index "goods", ["slug"], name: "index_goods_on_slug", using: :btree
   add_index "goods", ["user_id"], name: "index_goods_on_user_id", using: :btree
 
   create_table "merit_actions", force: true do |t|
@@ -268,11 +286,13 @@ ActiveRecord::Schema.define(version: 20140626210603) do
     t.integer  "sash_id"
     t.integer  "level",                  default: 0
     t.integer  "cached_following_count", default: 0
+    t.string   "slug"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["facebook_id"], name: "index_users_on_facebook_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["slug"], name: "index_users_on_slug", using: :btree
   add_index "users", ["twitter_id"], name: "index_users_on_twitter_id", using: :btree
 
   create_table "votes", force: true do |t|

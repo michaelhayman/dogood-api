@@ -1,0 +1,18 @@
+- content_for :title
+  = @user.full_name
+
+h1 = @user.full_name
+
+= @user.biography
+= @user.location
+= @user.rank
+
+p
+  'Friendly ID:
+  = @user.slug
+
+h4 Goods
+
+- if @user.goods
+  - @user.goods.each do |g|
+    = render 'goods/individual', good: g

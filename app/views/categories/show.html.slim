@@ -1,0 +1,4 @@
+= render 'categories/header', category: @category
+
+- @goods.each do |g|
+  = render 'goods/individual', good: g

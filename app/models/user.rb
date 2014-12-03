@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :full_name, use: :slugged
+
   has_merit
 
   include DoGood::Reportable

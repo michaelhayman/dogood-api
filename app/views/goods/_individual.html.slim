@@ -1,0 +1,26 @@
+.b-good
+  = render 'categories/header', category: good.category if !@category.present?
+  .d-evidence[style="height:320; width:320px"]
+    img.d-evidence[style="max-width: 100%" src=good.evidence]
+  br
+  .b-text[style="padding: 10px;"]
+    = auto_link(good.caption)
+    br
+    br
+    - if good.votes_count > 0
+      = link_to pluralize(good.votes_count, 'votes'), good_path(good.slug)
+      br
+    - if good.comments_count > 0
+      = link_to pluralize(good.comments_count, 'comments'), good_path(good.slug)
+      br
+    - if good.followers_count > 0
+      = link_to pluralize(good.followers_count, 'followers'), good_path(good.slug)
+      br
+    - good.comments.each do |c|
+      blockquote
+        = c.comment
+        br
+        ' -
+        '
+        = link_to c.user.full_name, user_path(c.user.slug)
+    br
