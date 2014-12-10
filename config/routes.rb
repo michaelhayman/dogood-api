@@ -73,4 +73,5 @@ DoGoodApp::Application.routes.draw do
   get '/500', to: 'errors#exception'
 
   root to: 'home#index'
+  get '/passwords/edit/:id', to: 'custom_passwords#edit'
 end
