@@ -31,6 +31,14 @@ body {
   }
 }
 
+a, a:visited {
+  color: rgb(43,200,35);
+}
+
+a:visited {
+  color: rgb(43,100,35);
+}
+
 .d-logo-background {
   padding: 0px;
   padding-top: 10px;
