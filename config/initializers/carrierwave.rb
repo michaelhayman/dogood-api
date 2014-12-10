@@ -2,15 +2,15 @@ if Rails.env.test? or Rails.env.cucumber?
   CarrierWave.configure do |config|
     #config.storage = :file
     #config.enable_processing = false
-     config.fog_credentials = {
-        provider: 'AWS',
-        aws_access_key_id: "XXXX",
-        aws_secret_access_key: "XXXX"
-       }
-      config.storage        = :fog
-      config.fog_directory = 'reciprocity-development'
-      config.fog_public     = true
-      config.fog_attributes = { 'Cache-Control' => 'max-age=315576000'}
+    config.fog_credentials = {
+       provider: 'AWS',
+       aws_access_key_id: "XXXX",
+       aws_secret_access_key: "XXXX"
+    }
+    config.storage        = :fog
+    config.fog_directory = 'reciprocity-development'
+    config.fog_public     = true
+    config.fog_attributes = { 'Cache-Control' => 'max-age=315576000'}
   end
 else
   CarrierWave.configure do |config|
