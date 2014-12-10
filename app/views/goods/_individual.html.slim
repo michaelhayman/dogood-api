@@ -3,13 +3,27 @@
   .d-evidence[style="height:320; width:320px"]
     img.d-evidence[style="max-width: 100%" src=good.evidence]
   br
-  .d-text[style="padding: 10px;"]
+  .d-text
+    .b-nominee
+      - if good.nominee.present?
+        - if good.nominee.user_id.present?
+          = link_to "Nominee: #{good.nominee.full_name}", user_path(good.nominee.user.slug)
+        - else
+          = "Nominee: #{good.nominee.full_name}"
     = auto_link(good.caption)
+    .b-poster
+      '- Posted by
+      = link_to good.user.full_name, user_path(good.user.slug)
     br
     .d-location
       - if good.location_name && good.lat && good.lng
         = image_tag 'posts/icon_content_pin@2x.png', align: 'absmiddle'
         = link_to good.location_name, "http://maps.google.com/?q=#{good.lat},#{good.lng}"
+    - if good.category
+      .d-category
+        = link_to category_path(good.category.slug) do
+          = image_tag "posts/categories/icon_content_#{good.category.name_constant}@2x.png", align: 'absmiddle'
+        = link_to good.category.name, category_path(good.category.slug), style: "color: #{good.category.colour}"
     br
     .d-icons
       = image_tag 'posts/bt_face_off@2x.png'
