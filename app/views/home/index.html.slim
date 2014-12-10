@@ -1,11 +1,11 @@
-.b-splash
-.b-categories
+.d-splash
+.d-categories
   - @categories.each do |c|
     = render 'categories/individual', category: c
-.b-content
-  .b-goods
+.d-content
+  .d-goods
     - @goods.each do |g|
       = render 'goods/individual', good: g
-  .b-tags
+  .d-tags
     - @tags.each do |t|
       = render 'tags/individual', tag: g

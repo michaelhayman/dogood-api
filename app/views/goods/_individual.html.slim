@@ -1,9 +1,9 @@
-.b-good
+.d-good
   = render 'categories/header', category: good.category if !@category.present?
   .d-evidence[style="height:320; width:320px"]
     img.d-evidence[style="max-width: 100%" src=good.evidence]
   br
-  .b-text[style="padding: 10px;"]
+  .d-text[style="padding: 10px;"]
     = auto_link(good.caption)
     br
     br

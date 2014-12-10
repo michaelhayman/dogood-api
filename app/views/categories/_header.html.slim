@@ -1,3 +1,4 @@
-.b-category-outer[style="width: 99.5%; padding: 0px; color: white; background-color: #{category.colour}; font-weight: bold"]
-  .b-category-inner[style="padding: 10px;"]
-    = link_to category.name, category_path(category.slug), style: "color: white"
+.d-category-outer[style="background-color: #{category.colour}"]
+  .d-category-inner
+    = image_tag "categories/icon_menu_#{category.name_constant}@2x.png", align: 'absmiddle'
+    = link_to category.name, category_path(category.slug), class: 'd-category-link'
