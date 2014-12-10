@@ -12,6 +12,7 @@ DoGoodApp::Application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
+  config.serve_static_assets = false
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -30,7 +31,7 @@ DoGoodApp::Application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
 
-  config.assets.compile = false
+  # config.assets.compile = false
   config.assets.precompile = false
 
   # config.after_initialize do
