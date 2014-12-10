@@ -6,10 +6,10 @@ html
         = " - "
       = "Do Good"
     meta[name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"]
-
-    = yield :other_stylesheets
+    = yield :other_meta
 
     = stylesheet_link_tag 'goods'
+    = yield :other_stylesheets
 
   body
     = render 'common/header'
