@@ -6,6 +6,16 @@
   .d-text[style="padding: 10px;"]
     = auto_link(good.caption)
     br
+    .d-location
+      - if good.location_name && good.lat && good.lng
+        = image_tag 'posts/icon_content_pin@2x.png', align: 'absmiddle'
+        = link_to good.location_name, "http://maps.google.com/?q=#{good.lat},#{good.lng}"
+    br
+    .d-icons
+      = image_tag 'posts/bt_face_off@2x.png'
+      = image_tag 'posts/bt_bubble_off@2x.png'
+      = image_tag 'posts/bt_arrows_off@2x.png'
+      = image_tag 'posts/bt_dots@2x.png'
     br
     - if good.votes_count > 0
       = link_to pluralize(good.votes_count, 'votes'), good_path(good.slug)

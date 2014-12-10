@@ -69,6 +69,21 @@ a:visited {
     margin-left: 10px;
     color: white;
     line-height: 25px;
+    text-decoration: none;
   }
 }
 
+.d-icons {
+  img {
+    max-height: 44px;
+    margin-left: 5px;
+  }
+}
+
+.d-location {
+  line-height: 40px;
+  img {
+    max-height: 30px;
+    margin-right: 10px;
+  }
+}
