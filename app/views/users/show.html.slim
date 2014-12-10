@@ -1,18 +1,24 @@
 - content_for :title
   = @user.full_name
 
-h1 = @user.full_name
+.d-profile-block
+  .d-text-center
+    .b-pic
+      = image_tag @user.avatar_url
+    span.b-profile-full-name = @user.full_name
+    .b-second-line
+      = @user.rank
+    .b-followers
+      => link_to pluralize(@user.followers_count, 'follower'), following_users_path(type: 'following', id: @user.id)
+      '*
+      => link_to "#{@user.following_count} following", followers_users_path(type: 'follower', id: @user.id)
 
-= @user.biography
-= @user.location
-= @user.rank
+  = @user.biography
+  '*
+  = @user.location
+  '*
+- if @user.goods.present?
+  h4 Goods
 
-p
-  'Friendly ID:
-  = @user.slug
-
-h4 Goods
-
-- if @user.goods
   - @user.goods.each do |g|
     = render 'goods/individual', good: g
