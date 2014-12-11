@@ -8,6 +8,7 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'rails_autolink'
 
+gem 'jquery-rails'
 gem 'sass-rails'
 
 # Configuration
