@@ -143,3 +143,83 @@ a:visited {
     font-weight: bold;
   }
 }
+
+/* modals */
+.white-popup {
+  position: relative;
+  background: #FFF;
+  padding: 20px;
+  width: auto;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+/* forms */
+
+label {
+  display: inline-block;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.form-control {
+  height: 34px;
+  padding: 6px 12px;
+  display: block;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  touch-action: manipulation;
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #fff;
+  border-color: #ccc;
+  outline: none;
+}
+
+.d-forgot-password-link {
+  margin-left: 30px;
+}
+
+.d-user-session-header {
+  height: 60px;
+  line-height: 60px;
+}
+
+.d-user-session-heading {
+  font-weight: bold;
+  font-size: 20pt;
+  float: left;
+}
+
+.d-create-account-link, .d-sign-in-link {
+  float:right;
+}
+
+.alert-danger {
+  padding: 10px;
+  border: 1px solid red;
+  color: white;
+  background-color: #ff3333;
+  text-align: center;
+}
+
+.d-error {
+  position: absolute;
+  margin-right: auto;
+  margin-left: auto;
+  left: 0;
+  right: 0;
+  width: 320px;
+}

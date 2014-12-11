@@ -20,9 +20,6 @@ module DoGoodApp
 
     config.i18n.enforce_available_locales = false
 
-    config.middleware.delete "ActionDispatch::Cookies"
-    config.middleware.delete "ActionDispatch::Session::CookieStore"
-    config.middleware.delete "ActionDispatch::Flash"
     config.middleware.delete "Rack::Lock"
     config.middleware.delete "ActionDispatch::BestStandardsSupport"
 

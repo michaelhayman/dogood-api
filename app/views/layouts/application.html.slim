@@ -9,10 +9,12 @@ html
     = yield :other_meta
 
     = stylesheet_link_tag 'goods'
+    = stylesheet_link_tag 'magnific-popup'
     = yield :other_stylesheets
 
-  body
+  body[data-logged-in=logged_in?.to_s]
     = render 'common/header'
+    = render 'users/sign_in'
     = yield
     = yield :other_javascripts
 

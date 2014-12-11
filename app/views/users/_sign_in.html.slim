@@ -1,0 +1,50 @@
+- content_for :other_javascripts
+  = javascript_include_tag 'sign_in'
+
+#test-popup.white-popup.mfp-hide
+  .d-error.alert.alert-danger[style="display: none"]
+    'Error message
+
+  .d-create-account[style="display: none"]
+    .d-user-session-header
+      .d-user-session-heading Create account
+      = link_to 'Sign in', 'javascript:void(0)', class: 'd-sign-in-link'
+
+    = form_for :user do |f|
+      .form-group
+        label Full name
+        input.form-control[type="text" name="user[full_name]" value=@name placeholder="Name"]
+      .form-group
+        label Email address
+        input.form-control[type="text" name="user[email]" value=@email placeholder="Email address"]
+      .form-group
+        label Password
+        input.form-control[type="password" name="user[password]" value=@password placeholder="Password"]
+      input[type="submit" value="Create Account" class="btn btn-default"]
+
+  .d-sign-in[style="display: none"]
+    .d-user-session-header
+      .d-user-session-heading Sign in
+      = link_to 'Create account', 'javascript:void(0)', class: 'd-create-account-link'
+
+    = form_for :user do |f|
+      .form-group
+        label Email address
+        input.d-sign-in-email.form-control[type="text" name="user[email]" value=@email placeholder="Email address"]
+      .form-group
+        label Password
+        input.form-control[type="password" name="user[password]" value=@password placeholder="Password"]
+      .form-group
+        input[type="submit" value="Sign In" class="btn btn-default"]
+        = link_to 'Forgot your password?', 'javascript:void(0)', class: 'd-forgot-password-link'
+
+  .d-forgot-password[style="display: none"]
+    .d-user-session-header
+      .d-user-session-heading Forgot password
+      = link_to 'Sign in', 'javascript:void(0)', class: 'd-sign-in-link'
+
+    = form_for :user do |f|
+      .form-group
+        label Password
+        input.form-control[type="text" name="user[email]" value=@email placeholder="Email address"]
+      input[type="submit" value="Send Password" class="btn btn-default"]

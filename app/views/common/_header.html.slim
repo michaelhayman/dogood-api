@@ -1,3 +1,9 @@
 .d-logo-background
   a[href="/"]
     = image_tag "dg_logo_sm@2x.png", id: "d-logo"
+  - if !logged_in?
+    a[href="#test-popup" style="outline: none; color: white" class="d-open-user-session-dialog-link"] Sign in
+  - else
+    = link_to 'Profile', user_path(dg_user.slug), style: "color:white"
+    '|
+    = link_to 'Sign out', destroy_user_session_path, method: :delete
