@@ -1,4 +1,3 @@
 = render 'categories/header', category: @category
 
-- @goods.each do |g|
-  = render 'goods/individual', good: g
+= render partial: 'goods/individual', collection: @goods, as: :good

@@ -7,12 +7,9 @@
 
 .d-splash
 .d-categories
-  - @categories.each do |c|
-    = render 'categories/individual', category: c
+  = render partial: 'categories/header', collection: @categories, as: :category
 .d-content
   .d-goods
-    - @goods.each do |g|
-      = render 'goods/individual', good: g
+    = render partial: 'goods/individual', collection: @goods, as: :good
   .d-tags
-    - @tags.each do |t|
-      = render 'tags/individual', tag: g
+    = render partial: 'tags/individual', collection: @tags, as: :tag
