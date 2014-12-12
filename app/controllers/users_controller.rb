@@ -70,13 +70,27 @@ class UsersController < ApiController
   def followers
     @instance = instance_from_type_and_id(params[:type], params[:id])
     @users = @instance.user_followers
-    render_paginated_index(@users, Users::SearchSerializer)
+    respond_to do |format|
+      format.html {
+        @user = User.find(params[:id]).decorate
+      }
+      format.json {
+        render_paginated_index(@users, Users::SearchSerializer)
+      }
+    end
   end
 
   def following
     @instance = instance_from_type_and_id(params[:type], params[:id])
     @users = @instance.following_users
-    render_paginated_index(@users, Users::SearchSerializer)
+    respond_to do |format|
+      format.html {
+        @user = User.find(params[:id]).decorate
+      }
+      format.json {
+        render_paginated_index(@users, Users::SearchSerializer)
+      }
+    end
   end
 
   def rank

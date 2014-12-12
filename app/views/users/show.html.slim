@@ -9,9 +9,9 @@
     .b-second-line
       = @user.rank
     .b-followers
-      => link_to pluralize(@user.followers_count, 'follower'), following_users_path(type: 'following', id: @user.id)
+      => link_to pluralize(@user.followers_count, 'follower'), following_users_path(type: 'User', id: @user.id)
       '*
-      => link_to "#{@user.following_count} following", followers_users_path(type: 'follower', id: @user.id)
+      => link_to "#{@user.following_count} following", followers_users_path(type: 'User', id: @user.id)
 
   = @user.biography
   '*
