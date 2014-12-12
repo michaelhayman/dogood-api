@@ -1,0 +1,25 @@
+- content_for :other_javascripts
+  = javascript_include_tag 'post_good'
+
+.d-error.alert.alert-danger[style="display: none"]
+  'Error message
+br
+br
+br
+= form_for @good, remote: true, html: { id: 'd-post-good' } do |f|
+
+  .d-first-step
+    a.d-button-active.d-button.d-nominate Nominate
+    p
+    a.d-button-active.d-button.d-ask-for-help Ask for help
+
+  .d-second-step[style="display: none"]
+    = f.hidden_field :done, class: 'd-done'
+
+    = f.text_area :caption, placeholder: "Write something nice", cols: 50, rows: 14
+    .b-fields-row
+      = f.label :category, class: 'b-field-label'
+      = f.select :category_id, Category.all.collect {|t| [ t.name, t.id ] }, { prompt: "Select category..." }
+    = f.submit
+
+

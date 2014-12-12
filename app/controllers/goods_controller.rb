@@ -112,6 +112,10 @@ class GoodsController < ApiController
     render_paginated_index(@goods)
   end
 
+  def new
+    @good = Good.new
+  end
+
   def create
     check_auth
     raise DoGood::Api::TooManyQueries.new if Good.just_created_by(dg_user)

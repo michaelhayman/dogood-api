@@ -1,6 +1,10 @@
+$white: rgb(255,255,255);
 $vivid: rgb(43,200,35);
 $vivid-visited: rgb(43,100,35);
+$vivid-hover: rgb(43,220,35);
 $mud: rgb(65, 53, 44);
+$wall: lightgray;
+$storm: darkgray;
 
 $basefont: San Francisco Text, Helvetica, Arial;
 
@@ -16,6 +20,7 @@ body {
 }
 
 a {
+  cursor: pointer;
   color: $vivid;
 }
 
@@ -310,4 +315,39 @@ label {
   left: 0;
   right: 0;
   width: 320px;
+}
+
+.d-first-step {
+  text-align: center;
+}
+
+.d-button {
+  color: $white;
+  font-weight: bold;
+  background-color: $wall;
+  border-color: $storm;
+  border: 1px solid #999;
+  border-bottom-width: 4px;
+  text-decoration: none;
+  border-radius: 3px;
+}
+
+.d-button-active {
+  background-color: $vivid;
+  border-color: $vivid-visited;
+}
+
+.d-button-active:hover {
+  background-color: $vivid-hover;
+}
+
+.d-button-active:active {
+  background-color: $vivid-visited;
+}
+
+.d-nominate, .d-ask-for-help {
+  display: inline-block;
+  padding: .75em 1em;
+  font-size: 1.5em;
+  line-height: 1em;
 }
