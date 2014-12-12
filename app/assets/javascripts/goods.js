@@ -4,17 +4,27 @@ var goods = {
   },
 
   attachEvents: function() {
+    this.attachVoting();
+    this.attachCommenting();
+    this.attachFollowing();
+  },
+
+  attachCommenting: function() {
     $(document).on('click', '.d-comment-link', function() {
     });
-    $(document).on('click', '.d-vote-link', function() {
-      var method, data, url;
+  },
 
-      data = {
-        vote: {
-          votable_id: $(this).data('id'),
-          votable_type: "Good"
-        }
-      };
+  attachVoting: function() {
+    $(document).on('click', '.d-vote-link', function() {
+      var that = this,
+        data = {
+          vote: {
+            votable_id: $(this).data('id'),
+            votable_type: "Good"
+          }
+        },
+        method,
+        url;
 
       if ($(this).data('state') === "on") {
         method = "DELETE";
@@ -29,16 +39,70 @@ var goods = {
         data: data,
         method: method
       }).done(function(response, statusCode, xhr) {
-        debugger;
-        location.reload();
+        goods.react(that, '.d-votes-link-wrapper', '.d-votes-count', 'vote', '.d-vote', method);
       }).fail(function(xhr, statusCode, errorThrown) {
         debugger;
-        // userSession.showError(userSession.errorMessage(xhr));
       });
     });
+  },
+
+  attachFollowing: function() {
     $(document).on('click', '.d-follow-link', function() {
       debugger;
+      var that = this,
+        data = {
+          follow: {
+            followable_id: $(this).data('id'),
+            followable_type: "Good"
+          }
+        },
+        method,
+        url;
+
+      if ($(this).data('state') === "on") {
+        method = "DELETE";
+        url = '/follows/' + $(this).data('id');
+      } else {
+        method = "POST";
+        url = '/follows';
+      }
+
+      $.ajax({
+        url: url,
+        data: data,
+        method: method
+      }).done(function(response, statusCode, xhr) {
+        goods.react(that, '.d-follows-link-wrapper', '.d-follows-count', 'follower', '.d-follow', method);
+      }).fail(function(xhr, statusCode, errorThrown) {
+        debugger;
+      });
     });
+  },
+
+  react: function(that, wrapper, link, text, button, method) {
+    var $countWrapper = $(that).parent().parent().find(wrapper),
+      $countLink = $countWrapper.find(link),
+      count;
+
+    count = $countWrapper.data('count');
+    if (method === "DELETE") {
+      $(that).find(button).removeClass('on');
+      $(that).data('state', 'off');
+      count--;
+    } else {
+      $(that).find(button).addClass('on');
+      $(that).data('state', 'on');
+      count++;
+    }
+
+    $countWrapper.data('count', count);
+    $countLink.text(count + (count == 1 ? ' ' + text : ' ' + text + 's'));
+
+    if (count === 0) {
+      $countWrapper.addClass('d-hidden');
+    } else {
+      $countWrapper.removeClass('d-hidden');
+    }
   }
 }
 

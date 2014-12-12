@@ -25,31 +25,37 @@
           = image_tag "posts/categories/icon_content_#{good.category.name_constant}@2x.png", align: 'absmiddle'
         = link_to good.category.name, category_path(good.category.slug), style: "color: #{good.category.colour}"
     br
-    .d-icons
-      - vote_state = good.current_user_voted ? "on" : "off"
-      = link_to image_tag("posts/bt_face_#{vote_state}@2x.png"), "javascript:void(0)", class: 'd-vote-link', data: { id: good.id, state: vote_state  }
-      - comment_state = good.current_user_commented ? "on" : "off"
-      = link_to image_tag("posts/bt_bubble_#{comment_state}@2x.png"), "javascript:void(0)", class: 'd-comment-link', data: { id: good.id }
-      - follow_state = good.current_user_followed ? "on" : "off"
-
-      = link_to image_tag("posts/bt_arrows_#{follow_state}@2x.png"), "javascript:void(0)", class: 'd-follow-link', data: { id: good.id, state: follow_state }
-      = image_tag 'posts/bt_dots@2x.png'
-    br
-    - if good.votes_count > 0
-      = link_to pluralize(good.votes_count, 'votes'), good_path(good.slug)
-      br
+    - votes_exist = good.votes_count > 0 ? "" : "d-hidden"
+    .d-votes-link-wrapper[data-count=good.votes_count class="#{votes_exist}"]
+      = link_to pluralize(good.votes_count, 'votes'), good_path(good.slug), class: "d-votes-count"
     - if good.comments_count > 0
       = link_to pluralize(good.comments_count, 'comments'), good_path(good.slug)
       br
     - if good.followers_count > 0
       = link_to pluralize(good.followers_count, 'followers'), good_path(good.slug)
       br
-    - good.comments.each do |c|
+    - followers_exist = good.followers_count > 0 ? "" : "d-hidden"
+    .d-follows-link-wrapper[data-count=good.followers_count class="#{followers_exist}"]
+      = link_to pluralize(good.followers_count, 'follows'), good_path(good.slug), class: "d-follows-count"
+    - good.comments.last(5).each do |c|
       blockquote
         = c.comment
         br
         ' -
         '
         = link_to c.user.full_name, user_path(c.user.slug)
+    br
+    .d-icons
+      - vote_state = good.current_user_voted ? "on" : "off"
+      a.d-vote-link[href="javascript:void(0)" data-id=good.id data-state=vote_state]
+        .d-vote[class=vote_state]
+      - comment_state = good.current_user_commented ? "on" : "off"
+      a.d-comment-link[href="javascript:void(0)" data-id=good.id data-state=comment_state]
+        .d-comment[class=comment_state]
+      - follow_state = good.current_user_followed ? "on" : "off"
+      a.d-follow-link[href="javascript:void(0)" data-id=good.id data-state=follow_state]
+        .d-follow[class=follow_state]
+      a.d-dots-link[href="javascript:void(0)" data-id=good.id]
+        .d-dots[class=""]
     br
 hr

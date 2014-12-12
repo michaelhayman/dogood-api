@@ -23,6 +23,10 @@ a:visited {
   color: $vivid-visited;
 }
 
+.d-hidden {
+  display: none;
+}
+
 /* header */
 
 .d-header {
@@ -169,6 +173,42 @@ a:visited {
 
 .d-nominee {
   line-height: 25pt;
+}
+
+.d-icons {
+  width: 100%;
+  .button {
+    display: inline-block;
+    height: 60px;
+    width: 60px;
+    background-size: 60px;
+    margin-right: 10px;
+  }
+  .d-vote {
+    @extend .button;
+    background: url(asset-path('posts/bt_face_off@2x.png')) center center no-repeat;
+    &.on {
+      background: url(asset-path('posts/bt_face_on@2x.png')) center center no-repeat;
+    }
+  }
+  .d-comment {
+    @extend .button;
+    background: url(asset-path('posts/bt_bubble_off@2x.png')) center center no-repeat;
+    &.on {
+      background: url(asset-path('posts/bt_bubble_on@2x.png')) center center no-repeat;
+    }
+  }
+  .d-follow {
+    @extend .button;
+    background: url(asset-path('posts/bt_arrows_off@2x.png')) center center no-repeat;
+    &.on {
+      background: url(asset-path('posts/bt_arrows_on@2x.png')) center center no-repeat;
+    }
+  }
+  .d-dots {
+    @extend .button;
+    background: url(asset-path('posts/bt_dots@2x.png')) center center no-repeat;
+  }
 }
 
 /* user */
