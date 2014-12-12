@@ -12,12 +12,12 @@ class UsersController < ApiController
   ]
 
   def show
-    @user = User.friendly.find(params[:id])
+    @user = User.friendly.find(params[:id]).decorate
 
     respond_to do |format|
       format.html
       format.json {
-        render json: @user.decorate, root: "users", serializer: Users::ProfileSerializer
+        render json: @user, root: "users", serializer: Users::ProfileSerializer
       }
     end
   end
