@@ -12,9 +12,10 @@ html
     = stylesheet_link_tag 'magnific-popup'
     = yield :other_stylesheets
 
-  body[data-logged-in=logged_in?.to_s]
+  body[data-logged-in="#{logged_in?}"]
     = render 'common/header'
     = render 'users/sign_in' unless logged_in?
     = yield
+    = javascript_include_tag 'app'
     = yield :other_javascripts
 

@@ -1,7 +1,3 @@
-//= require jquery
-//= require jquery_ujs
-//= require magnific-popup
-
 var userSession = {
   isLoggedIn: $('body').data('logged-in'),
 
@@ -77,17 +73,18 @@ var userSession = {
   attachDialog: function() {
     $(document).on('needsSignIn.APP', function() {
       if (!userSession.isLoggedIn) {
-        userSession.dom.$invocationLink.click();
-      }
-    });
-
-    userSession.dom.$invocationLink.magnificPopup({
-      type:'inline',
-      midClick: true,
-      callbacks: {
-        open: function() {
-          // userSession.reset();
-        }
+        $.magnificPopup.open({
+          items: {
+            src: '#d-user-session-dialog',
+            type: 'inline'
+          },
+          midClick: true,
+          callbacks: {
+            open: function() {
+              // userSession.reset();
+            }
+          }
+        });
       }
     });
   },
