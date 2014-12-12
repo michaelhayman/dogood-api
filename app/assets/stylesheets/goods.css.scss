@@ -25,12 +25,54 @@ a:visited {
 
 /* header */
 
-.d-logo-background {
+.d-header {
   padding: 0px;
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: $vivid;
+  position: relative;
+  color: white;
   min-width: 100%;
+  clear: both;
+  .d-header-link {
+    color: white;
+    outline: none;
+  }
+  .d-profile-icon-wrapper {
+    position: relative;
+    float: left;
+    margin-left: 10px;
+    .d-profile-icon {
+      background: url(asset-path('header/profile@2x.png')) center center no-repeat;
+      background-size: 20px;
+      height: 20px;
+      width: 20px;
+    }
+  }
+  .d-post-icon-wrapper {
+    float: right;
+    position: relative;
+    margin-right: 10px;
+    .d-post-icon {
+      background: url(asset-path('header/post@2x.png')) center center no-repeat;
+      background-size: 20px;
+      height: 20px;
+      width: 20px;
+    }
+  }
+  .d-logo-wrapper {
+    position: relative;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: center;
+    .d-logo {
+      background: url(asset-path('header/dg_logo_sm@2x.png')) center center no-repeat;
+      margin: 0 auto;
+      background-size: 100px;
+      height: 57px;
+      width: 100px;
+    }
+  }
 }
 
 #d-logo {

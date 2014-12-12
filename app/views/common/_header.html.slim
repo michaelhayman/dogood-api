@@ -1,9 +1,18 @@
-.d-logo-background
-  a[href="/"]
-    = image_tag "dg_logo_sm@2x.png", id: "d-logo"
-  - if !logged_in?
-    a[href="#test-popup" style="outline: none; color: white" class="d-open-user-session-dialog-link"] Sign in
-  - else
-    = link_to 'Profile', user_path(dg_user.slug), style: "color:white"
-    '|
-    = link_to 'Sign out', destroy_user_session_path, method: :delete
+- content_for :other_javascripts
+  = javascript_include_tag 'header'
+
+.d-header
+  .d-profile-icon-wrapper
+    - if !logged_in?
+      a.d-open-user-session-dialog-link.d-header-link[href="javascript:void(0)"]
+        .d-profile-icon
+    - else
+      a[href="#{user_path(dg_user.slug)}"]
+        .d-profile-icon
+  .d-post-icon-wrapper
+    a.d-header-link[href="javascript:void(0)" style="outline: none; color: white" class="d-post"]
+      .d-post-icon
+  .d-logo-wrapper
+    a[href="/"]
+      .d-logo
+
