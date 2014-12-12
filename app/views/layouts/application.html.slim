@@ -14,7 +14,7 @@ html
 
   body[data-logged-in=logged_in?.to_s]
     = render 'common/header'
-    = render 'users/sign_in'
+    = render 'users/sign_in' unless logged_in?
     = yield
     = yield :other_javascripts
 
