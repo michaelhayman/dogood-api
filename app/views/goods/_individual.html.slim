@@ -1,5 +1,5 @@
 .d-good
-  = render 'categories/header', category: good.category if !@category.present?
+  / = render 'categories/header', category: good.category if !@category.present?
   .d-evidence[style="height:320; width:320px"]
     img.d-evidence[style="max-width: 100%" src=good.evidence]
   br
@@ -26,9 +26,13 @@
         = link_to good.category.name, category_path(good.category.slug), style: "color: #{good.category.colour}"
     br
     .d-icons
-      = image_tag 'posts/bt_face_off@2x.png'
-      = image_tag 'posts/bt_bubble_off@2x.png'
-      = image_tag 'posts/bt_arrows_off@2x.png'
+      - vote_state = good.current_user_voted ? "on" : "off"
+      = link_to image_tag("posts/bt_face_#{vote_state}@2x.png"), "javascript:void(0)", class: 'd-vote-link', data: { id: good.id }
+      - comment_state = good.current_user_commented ? "on" : "off"
+      = link_to image_tag("posts/bt_bubble_#{comment_state}@2x.png"), "javascript:void(0)", class: 'd-comment-link', data: { id: good.id }
+      - follow_state = good.current_user_followed ? "on" : "off"
+
+      = link_to image_tag("posts/bt_arrows_#{follow_state}@2x.png"), "javascript:void(0)", class: 'd-follow-link', data: { id: good.id }
       = image_tag 'posts/bt_dots@2x.png'
     br
     - if good.votes_count > 0
@@ -48,3 +52,4 @@
         '
         = link_to c.user.full_name, user_path(c.user.slug)
     br
+hr
