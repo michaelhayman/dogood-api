@@ -22,3 +22,6 @@
 
   - @user.goods.each do |g|
     = render 'goods/individual', good: g
+- if logged_in? && dg_user.id == @user.id
+  .d-text-center
+    = link_to 'Sign out', destroy_user_session_path, method: :delete
