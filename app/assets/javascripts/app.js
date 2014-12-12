@@ -1,6 +1,6 @@
-//= require jquery
-//= require jquery_ujs
-//= require magnific-popup
+//= require jquery/dist/jquery
+//= require jquery-ujs/src/rails
+//= require magnific-popup/dist/jquery.magnific-popup
 
 var app = {
   init: function() {

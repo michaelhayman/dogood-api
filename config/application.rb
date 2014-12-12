@@ -18,6 +18,8 @@ module DoGoodApp
       config.autoload_paths << "#{Rails.root}/#{dir}"
     end
 
+    config.assets.paths << Rails.root.join("vendor", "assets", "bower_components")
+
     config.i18n.enforce_available_locales = false
 
     config.middleware.delete "Rack::Lock"

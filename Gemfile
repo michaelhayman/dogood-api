@@ -8,8 +8,9 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'rails_autolink'
 
-gem 'jquery-rails'
 gem 'sass-rails'
+
+gem 'bower-rails'
 
 # Configuration
 gem 'figaro', '~> 0.7.0'

@@ -26,3 +26,5 @@ public/uploads/
 # Ignore application configuration
 /config/application.yml
 *.pem
+
+vendor/assets/bower_components

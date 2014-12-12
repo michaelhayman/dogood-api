@@ -1,0 +1,3 @@
+asset 'typeahead.js'
+asset 'jquery-ujs'
+asset 'magnific-popup'
