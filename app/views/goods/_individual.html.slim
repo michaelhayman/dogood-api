@@ -27,12 +27,12 @@
     br
     .d-icons
       - vote_state = good.current_user_voted ? "on" : "off"
-      = link_to image_tag("posts/bt_face_#{vote_state}@2x.png"), "javascript:void(0)", class: 'd-vote-link', data: { id: good.id }
+      = link_to image_tag("posts/bt_face_#{vote_state}@2x.png"), "javascript:void(0)", class: 'd-vote-link', data: { id: good.id, state: vote_state  }
       - comment_state = good.current_user_commented ? "on" : "off"
       = link_to image_tag("posts/bt_bubble_#{comment_state}@2x.png"), "javascript:void(0)", class: 'd-comment-link', data: { id: good.id }
       - follow_state = good.current_user_followed ? "on" : "off"
 
-      = link_to image_tag("posts/bt_arrows_#{follow_state}@2x.png"), "javascript:void(0)", class: 'd-follow-link', data: { id: good.id }
+      = link_to image_tag("posts/bt_arrows_#{follow_state}@2x.png"), "javascript:void(0)", class: 'd-follow-link', data: { id: good.id, state: follow_state }
       = image_tag 'posts/bt_dots@2x.png'
     br
     - if good.votes_count > 0
