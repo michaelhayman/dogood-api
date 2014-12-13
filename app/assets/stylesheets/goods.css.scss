@@ -3,8 +3,9 @@ $vivid: rgb(43,200,35);
 $vivid-visited: rgb(43,100,35);
 $vivid-hover: rgb(43,220,35);
 $mud: rgb(65, 53, 44);
+$fluffy: #fff;
 $wall: #bbb;
-$cloud: #ccc;
+$cloud: #ddd;
 $storm: darkgray;
 $rain: #444;
 $error: #e54028;
@@ -14,7 +15,8 @@ $pineapple: rgb(249,200,0);
 
 $basefont: San Francisco Text, Helvetica, Arial;
 
-/* global */
+/* Global elements
+----------------------------------------- */
 body {
   color: $rain;
   margin: 0 auto;
@@ -36,6 +38,7 @@ body {
 a {
   cursor: pointer;
   color: $vivid;
+  outline: none;
 }
 
 a:visited {
@@ -46,8 +49,8 @@ a:visited {
   display: none;
 }
 
-/* header */
-
+/* Header
+----------------------------------------- */
 .d-header {
   padding: 0px;
   padding-top: 10px;
@@ -153,8 +156,8 @@ a:visited {
   font-weight: bold;
 }
 
-/* categories */
-
+/* Categories
+----------------------------------------- */
 .d-category-outer {
   width: 100%;
   padding: 0px;
@@ -175,8 +178,8 @@ a:visited {
   }
 }
 
-/* goods */
-
+/* Goods
+----------------------------------------- */
 .d-evidence {
   margin: 0 auto;
   text-align: center;
@@ -270,7 +273,8 @@ hr {
   }
 }
 
-/* reset password */
+/* Reset password
+----------------------------------------- */
 
 .d-reset-password {
   width: 80%;
@@ -329,18 +333,19 @@ hr {
   }
 }
 
-/* modals */
+/* Modals
+----------------------------------------- */
 .white-popup {
   position: relative;
-  background: #FFF;
+  background: $fluffy;
   padding: 20px;
   width: auto;
   max-width: 500px;
   margin: 20px auto;
 }
 
-/* forms */
-
+/* Forms
+----------------------------------------- */
 label {
   display: inline-block;
   margin-bottom: 5px;
@@ -355,22 +360,11 @@ label {
   width: 100%;
   border-radius: 4px;
   border: 1px solid #ccc;
-  background-color: #fff;
+  background-color: $fluffy;
 }
 
 .form-group {
   margin-bottom: 15px;
-}
-
-.btn {
-  border: 1px solid transparent;
-  border-radius: 4px;
-  touch-action: manipulation;
-  padding: 6px 12px;
-  font-size: 14px;
-  background-color: #fff;
-  border-color: #ccc;
-  outline: none;
 }
 
 .d-forgot-password-link {
@@ -410,6 +404,25 @@ label {
 
 .d-first-step {
   text-align: center;
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  touch-action: manipulation;
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: $fluffy;
+  border-color: $cloud;
+  outline: none;
+}
+
+.btn:hover {
+  background-color: $cloud;
+}
+
+.btn:active {
+  background-color: $wall;
 }
 
 .d-button {
@@ -461,8 +474,8 @@ label {
   display: inline;
 }
 
-
-/* post good */
+/* Post good
+----------------------------------------- */
 .d-table {
   table-layout: fixed;
   .d-field-row {
