@@ -8,31 +8,19 @@ var postGood = {
     //this.test();
   },
 
-  test: function() {
-    this.setDone(false);
-  },
-
   attachEvents: function() {
-    this.attachForm();
-  },
-
-  setDone: function(done) {
-    $('.d-first-step').hide();
-    $('.d-second-step').show();
-    $('.d-done').val(done);
-    history.pushState({}, '', '/goods/new/nominate')
-  },
-
-  attachForm: function() {
     var that = this;
-    $('d-nominate').on('click', function(event) {
-      event.preventDefault();
-      that.setDone(false);
+
+    $('.d-nominate').on('change', function(event) {
+      if ($(this).is(':checked')) {
+        $('.d-nominee-row').show();
+      }
     });
 
-    $('.d-ask-for-help').on('click', function(event) {
-      event.preventDefault();
-      that.setDone(true);
+    $('.d-ask-for-help').on('change', function(event) {
+      if ($(this).is(':checked')) {
+        $('.d-nominee-row').hide();
+      }
     });
 
     $('form#d-post-good').on('submit', function(event) {
@@ -40,20 +28,44 @@ var postGood = {
 
       var url = '/goods',
         method = "POST",
-        data = $(this).serialize();
+        data = new FormData($(this)[0]);
+    debugger;
 
       $.ajax({
         url: url,
+        method: method,
         data: data,
-        method: method
+        // enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false
       }).done(function(response, statusCode, xhr) {
         debugger;
+        location.href = location.origin + '/goods/' + response.responseJSON.goods.id;
       }).fail(function(xhr, statusCode, errorThrown) {
         var message = xhr.responseJSON.errors.messages[0];
         app.showError(message, that.dom.$error);
-        xhr.responseJSON
+        debugger;
       });
     });
+
+    $('input[type=file]').change(function(e) {
+      $('#d-evidence-preview').hide();
+      that.readURL(this);
+    });
+  },
+
+  readURL: function(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader(),
+        $preview = $('#d-evidence-preview');
+
+      reader.onload = function (e) {
+        $preview.attr('src', e.target.result);
+        $preview.show();
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
   }
 }
 

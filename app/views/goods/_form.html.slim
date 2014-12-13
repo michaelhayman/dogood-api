@@ -1,25 +1,77 @@
 - content_for :other_javascripts
   = javascript_include_tag 'post_good'
 
-.d-error.alert.alert-danger[style="display: none"]
-  'Error message
-br
-br
-br
-= form_for @good, remote: true, html: { id: 'd-post-good' } do |f|
+- if logged_in?
+  .d-error.alert.alert-danger[style="display: none"]
+    'Error message
 
-  .d-first-step
-    a.d-button-active.d-button.d-nominate Nominate
-    p
-    a.d-button-active.d-button.d-ask-for-help Ask for help
+  br
 
-  .d-second-step[style="display: none"]
-    = f.hidden_field :done, class: 'd-done'
+  = form_for @good, multipart: true, remote: true, html: { class: 'd-table', id: 'd-post-good' } do |f|
 
-    = f.text_area :caption, placeholder: "Write something nice", cols: 50, rows: 14
-    .b-fields-row
-      = f.label :category, class: 'b-field-label'
-      = f.select :category_id, Category.all.collect {|t| [ t.name, t.id ] }, { prompt: "Select category..." }
-    = f.submit
+    .d-field-row
+      .d-field-label
+        = f.label :done, "This is"
+      .d-field
+        ul.d-radiolist
+          li
+            = f.radio_button :done, "0", checked: true, class: 'd-ask-for-help'
+            label a call for help in your community
+          li
+            = f.radio_button :done, "1", class: 'd-nominate'
+            label a story about someone you know
+
+    = f.fields_for :nominee, @good.nominee do |n|
+      .d-field-row.d-nominee-row[style="display: none"]
+        .d-field-label
+          = n.label :full_name
+        .d-field
+          = n.text_field :full_name, placeholder: "Nominee's name", class: 'form-control'
+      .d-field-row.d-nominee-row[style="display: none"]
+        .d-field-label
+          = n.label :email
+        .d-field
+          = n.text_field :email, placeholder: "Nominee's email", class: 'form-control'
 
 
+
+    .d-field-row
+      .d-field-label
+        = f.label :caption
+      .d-field
+        = f.text_area :caption, placeholder: "Write something nice"
+
+    .d-field-row
+      .d-field-label
+        = f.label :evidence, "Photo"
+      .d-field
+        div.d-file-upload.d-button
+          span Add photo
+          = f.file_field :evidence, class: 'd-upload'
+        div.d-evidence
+          img[id="d-evidence-preview" src="#" alt="your image" style="display: none"]
+
+    .d-field-row
+      .d-field-label
+        = f.label :location
+      .d-field
+        = f.text_field :location_name, class: 'form-control', placeholder: 'Start typing a location'
+
+    .d-field-row
+      .d-field-label
+        = f.label :category
+      .d-field
+        - Category.all.each do |category|
+          .d-category-select
+            = f.radio_button :category_id, category.id
+            = f.label :category_id, value: category.id, class: 'd-category-label', style: "color: #{category.colour}" do
+              = image_tag "posts/categories/icon_content_#{category.name_constant}@2x.png", align: 'absmiddle', height: 30, width: 30
+              span[style="color: #{category.colour}"] #{category.name}
+
+    .d-post-button-wrapper
+      - post_type = params[:action] == "new" ? "Create" : "Edit"
+      = f.submit value: "#{post_type} Post", class: "d-button-active d-button d-post-button"
+- else
+  .d-text-center
+    a[href="javascript:void(0)" class="d-open-user-session-dialog-link"] Sign in or create an account
+    |&nbsp; to post

@@ -114,6 +114,11 @@ class GoodsController < ApiController
 
   def new
     @good = Good.new
+    @good.build_nominee
+  end
+
+  def edit
+    @good = Good.find(params[:id])
   end
 
   def create

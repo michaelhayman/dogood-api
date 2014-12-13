@@ -1,0 +1,10 @@
+- content_for :title
+  = "Edit Good"
+
+h1.d-text-center Edit your post
+
+- if @good.user_id == dg_user.id
+  = render 'form'
+- else
+  .d-text-center
+    span Naughty that's not your post
