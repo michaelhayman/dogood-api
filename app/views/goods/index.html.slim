@@ -1,6 +1,5 @@
 - content_for :other_javascripts
   = javascript_include_tag 'goods'
 
-- @goods.each do |g|
-  = render 'individual', good: g
+= render partial: 'goods/individual', collection: @goods, as: :good
 
