@@ -148,7 +148,7 @@ a:visited {
 /* categories */
 
 .d-category-outer {
-  width: 99.5%;
+  width: 100%;
   padding: 0px;
   color: white;
   font-weight: bold;
@@ -170,8 +170,19 @@ a:visited {
 /* goods */
 
 .d-evidence {
-  max-height: 320px;
-  max-width: 320px;
+  margin: 0 auto;
+  text-align: center;
+  img {
+    max-height:320px;
+    max-width:320px;
+  }
+}
+
+hr {
+  height: 1px;
+  border: none;
+  color: $wall;
+  background-color: $wall;
 }
 
 .d-icons {
@@ -216,35 +227,34 @@ a:visited {
   width: 100%;
   .button {
     display: inline-block;
-    height: 60px;
-    width: 60px;
-    background-size: 60px;
+    height: 35px;
+    width: 35px;
     margin-right: 10px;
   }
   .d-vote {
     @extend .button;
-    background: url(asset-path('posts/bt_face_off@2x.png')) center center no-repeat;
+    background: url(asset-path('posts/bt_face_off@2x.png')) center center / 35px no-repeat;
     &.on {
-      background: url(asset-path('posts/bt_face_on@2x.png')) center center no-repeat;
+      background: url(asset-path('posts/bt_face_on@2x.png')) center center / 35px no-repeat;
     }
   }
   .d-comment {
     @extend .button;
-    background: url(asset-path('posts/bt_bubble_off@2x.png')) center center no-repeat;
+    background: url(asset-path('posts/bt_bubble_off@2x.png')) center center / 35px no-repeat;
     &.on {
-      background: url(asset-path('posts/bt_bubble_on@2x.png')) center center no-repeat;
+      background: url(asset-path('posts/bt_bubble_on@2x.png')) center center / 35px no-repeat;
     }
   }
   .d-follow {
     @extend .button;
-    background: url(asset-path('posts/bt_arrows_off@2x.png')) center center no-repeat;
+    background: url(asset-path('posts/bt_arrows_off@2x.png')) center center / 35px no-repeat;
     &.on {
-      background: url(asset-path('posts/bt_arrows_on@2x.png')) center center no-repeat;
+      background: url(asset-path('posts/bt_arrows_on@2x.png')) center center / 35px no-repeat;
     }
   }
   .d-dots {
     @extend .button;
-    background: url(asset-path('posts/bt_dots@2x.png')) center center no-repeat;
+    background: url(asset-path('posts/bt_dots@2x.png')) center center / 35px no-repeat;
   }
 }
 

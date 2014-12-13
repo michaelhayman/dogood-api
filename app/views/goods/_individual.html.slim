@@ -1,12 +1,13 @@
 .d-good
   / = render 'categories/header', category: good.category if !@category.present?
-  .d-evidence[style="height:320; width:320px"]
-    img.d-evidence[style="max-width: 100%" src=good.evidence]
+  - if good.evidence.present?
+    .d-evidence
+      img[src=good.evidence]
   br
   .d-text
     .b-nominee
       - if good.nominee.present?
-        - if good.nominee.user_id.present?
+        - if good.nominee.user_id > 0
           = link_to "Nominee: #{good.nominee.full_name}", user_path(good.nominee.user.slug)
         - else
           = "Nominee: #{good.nominee.full_name}"
@@ -27,16 +28,16 @@
     br
     - votes_exist = good.votes_count > 0 ? "" : "d-hidden"
     .d-votes-link-wrapper[data-count=good.votes_count class="#{votes_exist}"]
-      = link_to pluralize(good.votes_count, 'votes'), good_path(good.slug), class: "d-votes-count"
+      = link_to pluralize(good.votes_count, 'vote'), good_path(good.slug), class: "d-votes-count"
     - if good.comments_count > 0
-      = link_to pluralize(good.comments_count, 'comments'), good_path(good.slug)
+      = link_to pluralize(good.comments_count, 'comment'), good_path(good.slug)
       br
     - if good.followers_count > 0
-      = link_to pluralize(good.followers_count, 'followers'), good_path(good.slug)
+      = link_to pluralize(good.followers_count, 'follower'), good_path(good.slug)
       br
     - followers_exist = good.followers_count > 0 ? "" : "d-hidden"
     .d-follows-link-wrapper[data-count=good.followers_count class="#{followers_exist}"]
-      = link_to pluralize(good.followers_count, 'follows'), good_path(good.slug), class: "d-follows-count"
+      = link_to pluralize(good.followers_count, 'follow'), good_path(good.slug), class: "d-follows-count"
     - good.comments.last(5).each do |c|
       blockquote
         = c.comment

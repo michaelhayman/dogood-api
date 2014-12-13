@@ -1,3 +1,6 @@
+- content_for :other_javascripts
+  = javascript_include_tag 'goods'
+
 = render 'categories/header', category: @category
 
 = render partial: 'goods/individual', collection: @goods, as: :good
