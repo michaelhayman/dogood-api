@@ -4,10 +4,10 @@
 .d-header
   .d-profile-icon-wrapper
     - if !logged_in?
-      a.d-open-user-session-dialog-link.d-header-link[href="javascript:void(0)"]
+      a.d-open-user-session-dialog-link.d-profile.d-header-link[href="javascript:void(0)"]
         .d-profile-icon
     - else
-      a[href="#{user_path(dg_user.slug)}"]
+      a.d-profile[href="#{user_path(dg_user.slug)}"]
         .d-profile-icon
   .d-post-icon-wrapper
     a.d-header-link[href=new_good_path style="outline: none; color: white" class="d-post"]

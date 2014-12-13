@@ -43,6 +43,12 @@ a:visited {
   color: white;
   min-width: 100%;
   clear: both;
+  .d-header-icon {
+    display: inline-block;
+    padding: .75em 1em;
+    font-size: 1.5em;
+    line-height: 1em;
+  }
   .d-header-link {
     color: white;
     outline: none;
@@ -51,6 +57,9 @@ a:visited {
     position: relative;
     float: left;
     margin-left: 10px;
+    .d-profile {
+      @extend .d-header-icon;
+    }
     .d-profile-icon {
       background: url(asset-path('header/profile@2x.png')) center center no-repeat;
       background-size: 20px;
@@ -62,6 +71,9 @@ a:visited {
     float: right;
     position: relative;
     margin-right: 10px;
+    .d-post {
+      @extend .d-header-icon;
+    }
     .d-post-icon {
       background: url(asset-path('header/post@2x.png')) center center no-repeat;
       background-size: 20px;
@@ -71,8 +83,8 @@ a:visited {
   }
   .d-logo-wrapper {
     position: relative;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 60px;
+    margin-right: 60px;
     text-align: center;
     .d-logo {
       background: url(asset-path('header/dg_logo_sm@2x.png')) center center no-repeat;
