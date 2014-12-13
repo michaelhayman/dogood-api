@@ -1,0 +1,32 @@
+- content_for :title
+  = "Rewards"
+
+- if logged_in?
+  h1.d-text-center You have #{dg_user.points} points
+- else
+  h1.d-text-center
+    a.d-open-user-session-dialog-link[href="javascript:void(0)"]
+      |Sign up
+    '
+    |and start earning points!
+
+h1 Rewards on offer
+
+- if logged_in?
+  - if @highlights.present?
+    = render partial: 'individual', collection: @highlights, as: :reward
+  - else
+      span No rewards available, earn some more points!
+
+  h1 Rewards you've claimed
+
+  - if @claimed.present?
+    = render partial: 'individual', collection: @claimed, as: :reward
+  - else
+    span You haven't claimed any rewards yet :(
+
+- else
+  - if @all.present?
+    = render partial: 'individual', collection: @all, as: :reward
+  - else
+    span No rewards available right now.

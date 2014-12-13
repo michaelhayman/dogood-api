@@ -1,0 +1,11 @@
+.d-reward
+  .d-reward-title
+    = reward.title
+  .d-teaser
+    = image_tag reward.teaser.url
+
+  .d-reward-subtitle
+    = reward.subtitle
+  .d-reward-cost
+    = pluralize reward.cost, 'point'
+

@@ -12,21 +12,29 @@ class RewardsController < ApiController
   ]
 
   def index
-    @rewards = Reward.available.includes(:user)
-    render_paginated_index(@rewards)
+    respond_to do |format|
+      format.html {
+        if logged_in?
+          @highlights = Reward.highlights(current_user)
+          @claimed = Reward.claimed(current_user)
+        else
+          @all = Reward.available.includes(:user)
+        end
+      }
+      format.json {
+        @rewards = Reward.available.includes(:user)
+        render_paginated_index(@rewards)
+      }
+    end
   end
 
   def highlights
-    @rewards = Reward.available.
-      sufficient_points(current_user).
-      includes(:user)
+    @rewards = Reward.highlights(current_user)
     render_paginated_index(@rewards)
   end
 
   def claimed
-    @rewards = current_user.
-      rewards.
-      order('claimed_rewards.created_at DESC')
+    @rewards = Reward.claimed(current_user)
     render_paginated_index(@rewards)
   end
 

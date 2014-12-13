@@ -42,5 +42,20 @@ class Reward < ActiveRecord::Base
     reward = where("user_id = ? AND created_at > ?", user_id, 60.seconds.ago)
     reward.present?
   end
+
+
+  class << self
+    def highlights(user)
+      self.available.
+        sufficient_points(user).
+        includes(:user)
+    end
+
+    def claimed(user)
+      user.
+        rewards.
+        order('claimed_rewards.created_at DESC')
+    end
+  end
 end
 

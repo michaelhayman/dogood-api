@@ -544,3 +544,22 @@ textarea {
   height: 100%;
   filter: alpha(opacity=0);
 }
+
+.d-reward {
+  float: left;
+  width: 33%;
+  text-align: center;
+  .d-reward-title {
+    font-weight: bold;
+  }
+  .d-reward-subtitle {
+  }
+  .d-teaser {
+    margin: 0 auto;
+    text-align: center;
+    img {
+      max-height:100px;
+      max-width:100px;
+    }
+  }
+}
