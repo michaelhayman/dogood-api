@@ -3,18 +3,32 @@ $vivid: rgb(43,200,35);
 $vivid-visited: rgb(43,100,35);
 $vivid-hover: rgb(43,220,35);
 $mud: rgb(65, 53, 44);
-$wall: lightgray;
+$wall: #bbb;
+$cloud: #ccc;
 $storm: darkgray;
+$rain: #444;
+$error: #e54028;
+$crimson: #e54028;
+$sky: rgb(87,215,252);
+$pineapple: rgb(249,200,0);
 
 $basefont: San Francisco Text, Helvetica, Arial;
 
 /* global */
 body {
+  color: $rain;
   margin: 0 auto;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   font-family: $basefont;
 }
+
+@media (min-width: 800px) {
+  body {
+    width: 800px;
+  }
+}
+
 .d-text-center {
   text-align: center;
 }
@@ -110,9 +124,6 @@ a:visited {
 }
 
 @media (min-width: 800px) {
-  body {
-    width: 800px;
-  }
   .d-categories {
     width: 200px;
     clear: both;
