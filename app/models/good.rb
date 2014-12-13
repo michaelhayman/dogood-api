@@ -63,7 +63,7 @@ class Good < ActiveRecord::Base
       cached_comments_count * 3 +
       cached_followers_count * 1.5 +
       cached_votes_up desc').
-    where('created_at > ?', 2.weeks.ago)
+    where('created_at > ?', 1.year.ago)
   }
 
   scope :with_location, -> {
