@@ -11,7 +11,21 @@
 .d-splash
 .d-categories
   = render partial: 'categories/header', collection: @categories, as: :category
+  br
 .d-content
+  .d-sizzle-wrapper
+    .d-text-center.d-sizzle
+      span.d-bold Nominate
+      '&nbsp;and
+      span.d-bold reward
+      '&nbsp;good deeds
+    .d-text-center.d-sizzle
+      span.d-bold Volunteer
+      '&nbsp;for good things happening near you
+    .d-text-center.d-sizzle
+      span.d-bold Get help
+      '&nbsp;for social projects and initiatives
+
   .d-goods
     = render partial: 'goods/individual', collection: @goods, as: :good
   .d-tags
