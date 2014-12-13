@@ -11,6 +11,47 @@ var goods = {
 
   attachCommenting: function() {
     $(document).on('click', '.d-comment-link', function() {
+      var id = $(this).data('id'),
+        $box = $('.d-comment-box[data-id='+ id + ']');
+
+      if ($box.is(':hidden')) {
+        $box.show();
+        $box.focus();
+      } else {
+        $box.hide();
+      }
+    });
+
+    $(document).on('click', '.d-comment-button', function() {
+      var that = this,
+        $comment = $(this).parent().find('textarea'),
+        id = $(this).parent().data('id'),
+        deferred,
+        method = 'POST'
+
+      if (app.isLoggedIn) {
+        deferred = $.ajax({
+          url: '/comments',
+          data: {
+            comment: {
+              commentable_id: id,
+              commentable_type: "Good",
+              comment: $comment.val()
+            }
+          },
+          method: method
+        }).done(function(response, statusCode, xhr) {
+          goods.react(that, '.d-comments-link-wrapper', '.d-comments-count', 'comment', '.d-comment', method);
+          $('.d-good[data-id=' +  id + ']').find('.d-comments-block').prepend('<blockquote>' + response.comments.comment + '<br><a href="/users/' + response.comments.user.slug + '">' + response.comments.user.full_name + '</a></blockquote>');
+          $comment.val('');
+        }).fail(function(xhr, statusCode, errorThrown) {
+          alert(xhr.responseJSON.errors.messages[0]);
+        });
+      } else {
+        deferred = app.promptAuth();
+      }
+
+      return deferred;
     });
   },
 

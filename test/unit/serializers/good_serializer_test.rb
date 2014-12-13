@@ -22,6 +22,7 @@ class GoodSerializerTest < DoGood::TestCase
           entities: @comment.entities,
           user: {
             id: @comment.user.id,
+            slug: @comment.user.slug,
             avatar_url: @comment.user.avatar_url,
             full_name: @comment.user.full_name
           },
@@ -35,6 +36,7 @@ class GoodSerializerTest < DoGood::TestCase
         },
         user: {
           id: @good.user.id,
+          slug: @good.user.slug,
           avatar_url: @good.user.avatar_url,
           full_name: @good.user.full_name
         },

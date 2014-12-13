@@ -1,4 +1,4 @@
-.d-good
+.d-good[data-id=good.id]
   / = render 'categories/header', category: good.category if !@category.present?
   - if good.evidence.present?
     .d-evidence
@@ -29,22 +29,20 @@
     - votes_exist = good.votes_count > 0 ? "" : "d-hidden"
     .d-votes-link-wrapper[data-count=good.votes_count class="#{votes_exist}"]
       = link_to pluralize(good.votes_count, 'vote'), good_path(good.slug), class: "d-votes-count"
-    - if good.comments_count > 0
-      = link_to pluralize(good.comments_count, 'comment'), good_path(good.slug)
-      br
-    - if good.followers_count > 0
-      = link_to pluralize(good.followers_count, 'follower'), good_path(good.slug)
-      br
     - followers_exist = good.followers_count > 0 ? "" : "d-hidden"
     .d-follows-link-wrapper[data-count=good.followers_count class="#{followers_exist}"]
       = link_to pluralize(good.followers_count, 'follow'), good_path(good.slug), class: "d-follows-count"
-    - good.comments.last(5).each do |c|
-      blockquote
-        = c.comment
-        br
-        ' -
-        '
-        = link_to c.user.full_name, user_path(c.user.slug)
+    - comments_exist = good.comments_count > 0 ? "" : "d-hidden"
+    .d-comments-link-wrapper[data-count=good.comments_count class="#{comments_exist}"]
+      = link_to pluralize(good.comments_count, 'comment'), good_path(good.slug), class: "d-comments-count"
+    .d-comments-block
+      - good.comments.first(5).each do |c|
+        blockquote
+          = c.comment
+          br
+          ' -
+          '
+          = link_to c.user.full_name, user_path(c.user.slug)
     br
     .d-icons
       - vote_state = good.current_user_voted ? "on" : "off"
@@ -58,5 +56,9 @@
         .d-follow[class=follow_state]
       a.d-dots-link[href="javascript:void(0)" data-id=good.id]
         .d-dots[class=""]
+    br
+    .d-comment-box.form-group[style="display: none" data-id=good.id]
+      textarea[maxlength="50" name="comment" data-id=good.id]
+      input.d-comment-button.btn-default.btn[value="Post" type="button"]
     br
 hr

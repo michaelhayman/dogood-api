@@ -3,6 +3,7 @@ class UserSerializer < ActiveModel::Serializer
   # delegate :cache_key, to: :object
 
   attributes :id,
+    :slug,
     :avatar_url,
     :full_name
 end

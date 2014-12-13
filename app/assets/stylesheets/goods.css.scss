@@ -180,6 +180,19 @@ a:visited {
 
 /* Goods
 ----------------------------------------- */
+.d-comment-box {
+  textarea {
+    @extend .form-control;
+    float: left;
+    width: 75%!important;
+  }
+  .d-comment-button {
+    margin-left: 5px;
+    margin-top: 2px;
+    float: left;
+  }
+}
+
 .d-evidence {
   margin: 0 auto;
   text-align: center;
@@ -499,51 +512,48 @@ label {
   }
 }
 
-textarea {
-  @extend .form-control;
-  font-size: 1em;
-  height: 200px;
-  border: 1px solid #ccc;
-  outline: none;
-  // resize: none;
-  overflow: auto;
-}
-
-.d-category-select {
-  padding-bottom: 10px;
-  img {
-    margin-right: 5px;
-    margin-left: 3px;
+.d-post-page {
+  textarea {
+    @extend .form-control;
+    height: 200px;
   }
-}
 
-.d-radiolist {
-  list-style:none;
-  padding-left:0;
-  margin: 0;
-  padding: 0;
-  margin-top: 2px;
-}
+  .d-category-select {
+    padding-bottom: 10px;
+    img {
+      margin-right: 5px;
+      margin-left: 3px;
+    }
+  }
 
-.d-radiolist li {
-  margin-bottom: 10px;
-}
+  .d-radiolist {
+    list-style:none;
+    padding-left:0;
+    margin: 0;
+    padding: 0;
+    margin-top: 2px;
+  }
 
-.d-radiolist li:after {
-  content:"";
-  clear: both;
-  display: table;
-}
+  .d-radiolist li {
+    margin-bottom: 10px;
+  }
 
-.d-radiolist input[type=radio] {
-  float: left;
-  margin: 5px;
-}
+  .d-radiolist li:after {
+    content:"";
+    clear: both;
+    display: table;
+  }
 
-.d-radiolist label {
-  padding: 2px;
-  margin-left: 5px;
-  display: block;
+  .d-radiolist input[type=radio] {
+    float: left;
+    margin: 5px;
+  }
+
+  .d-radiolist label {
+    padding: 2px;
+    margin-left: 5px;
+    display: block;
+  }
 }
 
 .d-file-upload {

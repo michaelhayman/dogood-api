@@ -3,6 +3,7 @@ class UserSerializerTest < DoGood::TestCase
     {
       users: {
         id: @user.id,
+        slug: @user.slug,
         avatar_url: @user.avatar_url,
         full_name: @user.full_name
       }
