@@ -20,6 +20,13 @@
   .d-text-center
     .d-biography
       = @user.biography
+
+- if logged_in? && dg_user.id == @user.id
+  .d-rewards-wrapper.d-text-center
+    = link_to image_tag('explore/rewards@2x.png', align: 'absmiddle'), rewards_path, class: 'd-rewards-link'
+    br
+    = link_to 'Rewards', rewards_path, class: 'd-rewards-link'
+
 .d-text-center
   .d-record
     = link_to "Nominated for #{pluralize(@user.nominations_for_user_goods_count, 'goods')}", root_path
