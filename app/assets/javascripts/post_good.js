@@ -29,7 +29,6 @@ var postGood = {
       var url = '/goods',
         method = "POST",
         data = new FormData($(this)[0]);
-    debugger;
 
       $.ajax({
         url: url,
@@ -39,12 +38,10 @@ var postGood = {
         processData: false,
         contentType: false
       }).done(function(response, statusCode, xhr) {
-        debugger;
         location.href = location.origin + '/goods/' + response.responseJSON.goods.id;
       }).fail(function(xhr, statusCode, errorThrown) {
         var message = xhr.responseJSON.errors.messages[0];
         app.showError(message, that.dom.$error);
-        debugger;
       });
     });
 
