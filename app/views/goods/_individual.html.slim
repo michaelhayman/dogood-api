@@ -56,6 +56,12 @@
         .d-follow[class=follow_state]
       a.d-dots-link[href="javascript:void(0)" data-id=good.id]
         .d-dots[class=""]
+      .d-dots-dropdown[style="display: none"]
+        - if good.user.id == dg_user.id
+          a.d-delete-post[href="javascript:void(0)" data-id=good.id] Delete
+        - else
+          a.d-report-post[href="javascript:void(0)" data-id=good.id] Report
+
     br
     .d-comment-box.form-group[style="display: none" data-id=good.id]
       textarea[maxlength="50" name="comment" data-id=good.id]

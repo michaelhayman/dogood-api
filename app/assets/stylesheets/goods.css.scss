@@ -193,6 +193,10 @@ a:visited {
   }
 }
 
+.d-delete-post, .d-report-post {
+  color: $crimson!important;
+}
+
 .d-evidence {
   margin: 0 auto;
   text-align: center;
@@ -249,6 +253,7 @@ hr {
 
 .d-icons {
   width: 100%;
+  position: relative;
   .d-icon-button {
     display: inline-block;
     height: 35px;
@@ -284,6 +289,29 @@ hr {
     @extend .d-icon-button;
     background: url(asset-path('posts/bt_dots@2x.png')) center center / 35px no-repeat;
   }
+}
+
+.d-dots-dropdown::before {
+  position: absolute;
+  background: url(asset-path('posts/arrow.png')) no-repeat;
+  background-size: 15px 7px;
+  content: "";
+  display: block;
+  top: -7px;
+  left: 2px;
+  width: 16px;
+  height: 15px;
+}
+.d-dots-dropdown {
+  border: solid lightgray 1px;
+  background-color: white;
+  padding: 5px;
+  position: absolute;
+  height: auto;
+  width: 100px;
+  left: 145px;
+  color: gray;
+  z-index: 999999;
 }
 
 /* Reset password

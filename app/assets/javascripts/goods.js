@@ -6,7 +6,76 @@ var goods = {
   attachEvents: function() {
     this.attachVoting();
     this.attachCommenting();
+    this.attachDots();
     this.attachFollowing();
+  },
+
+  attachDots: function() {
+    $(document).on('click', function() {
+      $('.d-dots-dropdown').hide();
+    });
+
+    $(document).on('click', '.d-dots-link', function(event) {
+      event.stopPropagation();
+      $dropdown = $(this).next();
+      if ($dropdown.is(':visible')) {
+        $dropdown.hide();
+      } else {
+        $dropdown.show();
+      }
+    });
+
+    $(document).on('click', '.d-report-post', function() {
+      var id = $(this).data('id');
+
+      if (goods.confirmAction('report')) {
+        if (app.isLoggedIn) {
+          deferred = $.ajax({
+            url: '/reports',
+            data: {
+              report: {
+                reportable_id: id,
+                reportable_type: "Good"
+              }
+            },
+            method: 'POST'
+          }).done(function(response, statusCode, xhr) {
+            alert('Post was reported.');
+          }).fail(function(xhr, statusCode, errorThrown) {
+            alert(xhr.responseJSON.errors.messages[0]);
+          });
+        } else {
+          deferred = app.promptAuth();
+        }
+        return deferred;
+      }
+    });
+
+    $(document).on('click', '.d-delete-post', function() {
+      var id = $(this).data('id'),
+        deferred;
+
+      if (goods.confirmAction('delete')) {
+        if (app.isLoggedIn) {
+          deferred = $.ajax({
+            url: '/goods/' + id,
+            method: 'DELETE'
+          }).done(function(response, statusCode, xhr) {
+            alert('Post was deleted.');
+            location.reload();
+          }).fail(function(xhr, statusCode, errorThrown) {
+            alert(xhr.responseJSON.errors.messages[0]);
+          });
+        } else {
+          deferred = app.promptAuth();
+        }
+        return deferred;
+      }
+    });
+  },
+
+  confirmAction: function(action) {
+    return confirm('Are you sure you want to ' + action + ' this post?');
   },
 
   attachCommenting: function() {
