@@ -401,6 +401,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
           caption: @good.caption,
           done: true,
           user_id: @good.user.id,
+          category_id: @good.category_id,
           nominee_attributes: {
             full_name: @good.nominee.full_name
           }
@@ -427,6 +428,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
           caption: @good.caption,
           user_id: @good.user.id,
           done: false,
+          category_id: @good.category.id,
           nominee_attributes: {
             full_name: @good.nominee.full_name
           }

@@ -42,6 +42,9 @@ class Good < ActiveRecord::Base
     presence: { message: "Enter a caption." },
     length: { maximum: 500, message: "Please enter a shorter caption." }
 
+  validates :category_id,
+    presence: { message: "Select a category." }
+
   validates :user_id,
     presence: { message: "Goods must be associated with a user." }
 
