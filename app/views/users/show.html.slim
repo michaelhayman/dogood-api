@@ -6,22 +6,32 @@
     .b-pic
       = image_tag @user.avatar_url
     span.b-profile-full-name = @user.full_name
-    .b-second-line
+    - if @user.location.present?
+      .d-profile-location
+        = @user.location
+    .b-second-line.d-rank
       = @user.rank
     .b-followers
       => link_to pluralize(@user.followers_count, 'follower'), following_users_path(type: 'User', id: @user.id)
-      '*
+      span.b-dot &#9679;&nbsp;
       => link_to "#{@user.following_count} following", followers_users_path(type: 'User', id: @user.id)
 
-  = @user.biography
-  '*
-  = @user.location
-  '*
-- if @user.goods.present?
-  h4 Goods
+- if @user.biography.present?
+  .d-text-center
+    .d-biography
+      = @user.biography
+.d-text-center
+  .d-record
+    = link_to "Nominated for #{pluralize(@user.nominations_for_user_goods_count, 'goods')}", root_path
+  .d-record
+    = link_to "Voted on #{pluralize(@user.voted_goods_count, 'goods')}", root_path
+  .d-record
+    = link_to "#{pluralize(@user.followed_goods_count, 'good')} followed", root_path
+  .d-record
+    = link_to "#{pluralize(@user.nominations_by_user_goods_count, 'nomination')} made", root_path
+  .d-record
+    = link_to "#{pluralize(@user.help_wanted_by_user_goods_count, 'help wanted post')}", root_path
 
-  - @user.goods.each do |g|
-    = render 'goods/individual', good: g
 - if logged_in? && dg_user.id == @user.id
   .d-text-center
-    = link_to 'Sign out', destroy_user_session_path, method: :delete
+    = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'd-sign-out', data: { confirm: 'Are you sure you want to sign out?' }
