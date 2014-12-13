@@ -20,6 +20,7 @@ DoGoodApp::Application.routes.draw do
       get :search_by_facebook_ids
       post :social
       get :points
+      get :reset_password
     end
     member do
       get :status
@@ -73,5 +74,4 @@ DoGoodApp::Application.routes.draw do
   get '/500', to: 'errors#exception'
 
   root to: 'home#index'
-  get '/passwords/edit/:id', to: 'custom_passwords#edit'
 end
