@@ -381,10 +381,9 @@ label {
 }
 
 .alert-danger {
-  padding: 10px;
-  border: 1px solid red;
+  padding: 8px;
   color: white;
-  background-color: #ff3333;
+  background-color: $error;
   text-align: center;
 }
 
