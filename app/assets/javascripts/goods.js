@@ -17,7 +17,10 @@ var goods = {
   attachVoting: function() {
     $(document).on('click', '.d-vote-link', function() {
       var that = this,
-        data = {
+        deferred;
+
+      if (app.isLoggedIn) {
+        var data = {
           vote: {
             votable_id: $(this).data('id'),
             votable_type: "Good"
@@ -26,56 +29,64 @@ var goods = {
         method,
         url;
 
-      if ($(this).data('state') === "on") {
-        method = "DELETE";
-        url = '/votes/' + $(this).data('id');
+        if ($(this).data('state') === "on") {
+          method = "DELETE";
+          url = '/votes/' + $(this).data('id');
+        } else {
+          method = "POST";
+          url = '/votes';
+        }
+
+        deferred = $.ajax({
+          url: url,
+          data: data,
+          method: method
+        }).done(function(response, statusCode, xhr) {
+          goods.react(that, '.d-votes-link-wrapper', '.d-votes-count', 'vote', '.d-vote', method);
+        }).fail(function(xhr, statusCode, errorThrown) {
+        });
       } else {
-        method = "POST";
-        url = '/votes';
+        deferred = app.promptAuth();
       }
 
-      $.ajax({
-        url: url,
-        data: data,
-        method: method
-      }).done(function(response, statusCode, xhr) {
-        goods.react(that, '.d-votes-link-wrapper', '.d-votes-count', 'vote', '.d-vote', method);
-      }).fail(function(xhr, statusCode, errorThrown) {
-        debugger;
-      });
+      return deferred;
     });
   },
 
   attachFollowing: function() {
     $(document).on('click', '.d-follow-link', function() {
-      debugger;
       var that = this,
-        data = {
-          follow: {
-            followable_id: $(this).data('id'),
-            followable_type: "Good"
-          }
-        },
-        method,
-        url;
+       deferred,
+       data = {
+         follow: {
+           followable_id: $(this).data('id'),
+           followable_type: "Good"
+         }
+       },
+       method,
+       url;
 
-      if ($(this).data('state') === "on") {
-        method = "DELETE";
-        url = '/follows/' + $(this).data('id');
+      if (app.isLoggedIn) {
+        if ($(this).data('state') === "on") {
+          method = "DELETE";
+          url = '/follows/' + $(this).data('id');
+        } else {
+          method = "POST";
+          url = '/follows';
+        }
+
+        deferred = $.ajax({
+          url: url,
+          data: data,
+          method: method
+        }).done(function(response, statusCode, xhr) {
+          goods.react(that, '.d-follows-link-wrapper', '.d-follows-count', 'follower', '.d-follow', method);
+        }).fail(function(xhr, statusCode, errorThrown) {
+        });
       } else {
-        method = "POST";
-        url = '/follows';
+        deferred = app.promptAuth();
       }
-
-      $.ajax({
-        url: url,
-        data: data,
-        method: method
-      }).done(function(response, statusCode, xhr) {
-        goods.react(that, '.d-follows-link-wrapper', '.d-follows-count', 'follower', '.d-follow', method);
-      }).fail(function(xhr, statusCode, errorThrown) {
-        debugger;
-      });
+      return deferred;
     });
   },
 

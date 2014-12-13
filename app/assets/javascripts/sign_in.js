@@ -1,6 +1,4 @@
 var userSession = {
-  isLoggedIn: $('body').data('logged-in'),
-
   dom: {
     $invocationLink: $('.d-open-user-session-dialog-link'),
     $signIn: $('.d-sign-in'),

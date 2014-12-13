@@ -11,11 +11,21 @@ var app = {
     $(document).on('postGood.APP', function() {
       console.log('hey');
     });
+
+    this.isLoggedIn = $('body').data('logged-in');
+  },
+
+  promptAuth: function() {
+    deferred = $.Deferred();
+
+    $(document).triggerHandler('needsSignIn.APP');
+    return deferred.promise();
   },
 
   errorMessage: function(xhr) {
     return xhr.responseJSON.errors.messages[0];
   },
+
 
   showError: function(message, selector) {
     $(selector).html(message);
