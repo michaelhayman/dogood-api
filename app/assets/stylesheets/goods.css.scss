@@ -136,6 +136,14 @@ a:visited {
   }
 }
 
+.d-rewards-link {
+  color: $crimson!important;
+  img {
+    height: 44px;
+    width: 44px;
+  }
+}
+
 .d-sizzle {
   line-height: 3em;
   color: $rain;
