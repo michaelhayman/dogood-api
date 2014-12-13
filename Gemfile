@@ -51,7 +51,9 @@ gem 'will_paginate', '~> 3.0'
 gem 'geokit-rails', '~> 2.0.0'
 
 # Files
-gem 'carrierwave', '~> 0.9.0'
+gem 'carrierwave', '~> 0.10.0'
+gem 'mini_magick'
+
 gem 'fog', '~> 1.3.1'
 
 gem 'friendly_id'
