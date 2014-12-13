@@ -39,7 +39,7 @@ class Good < ActiveRecord::Base
   validates :nominee, :'validators/nominee' => true
 
   validates :caption,
-    presence: { message: "Enter a name." },
+    presence: { message: "Enter a caption." },
     length: { maximum: 500, message: "Please enter a shorter caption." }
 
   validates :user_id,
