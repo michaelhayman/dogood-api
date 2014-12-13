@@ -233,35 +233,39 @@ hr {
 
 .d-icons {
   width: 100%;
-  .button {
+  .d-icon-button {
     display: inline-block;
     height: 35px;
     width: 35px;
     margin-right: 10px;
+    outline: none;
+  }
+  .d-comment-link, .d-follow-link, .d-dots-link, .d-vote-link {
+    outline: none;
   }
   .d-vote {
-    @extend .button;
+    @extend .d-icon-button;
     background: url(asset-path('posts/bt_face_off@2x.png')) center center / 35px no-repeat;
     &.on {
       background: url(asset-path('posts/bt_face_on@2x.png')) center center / 35px no-repeat;
     }
   }
   .d-comment {
-    @extend .button;
+    @extend .d-icon-button;
     background: url(asset-path('posts/bt_bubble_off@2x.png')) center center / 35px no-repeat;
     &.on {
       background: url(asset-path('posts/bt_bubble_on@2x.png')) center center / 35px no-repeat;
     }
   }
   .d-follow {
-    @extend .button;
+    @extend .d-icon-button;
     background: url(asset-path('posts/bt_arrows_off@2x.png')) center center / 35px no-repeat;
     &.on {
       background: url(asset-path('posts/bt_arrows_on@2x.png')) center center / 35px no-repeat;
     }
   }
   .d-dots {
-    @extend .button;
+    @extend .d-icon-button;
     background: url(asset-path('posts/bt_dots@2x.png')) center center / 35px no-repeat;
   }
 }
