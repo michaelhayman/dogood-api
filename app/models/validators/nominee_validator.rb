@@ -6,13 +6,13 @@ module Validators
 
       if record.done
         if value.present?
-          if value.user_id == record.user.id
+          if value.user_id.present? && value.user_id == record.user.id
             record.errors.add(attribute, error)
           end
-          if value.email == record.user.email
+          if value.email.present? && value.email == record.user.email
             record.errors.add(attribute, error)
           end
-          if value.phone == record.user.phone
+          if value.phone.present? && value.phone == record.user.phone
             record.errors.add(attribute, error)
           end
         end
