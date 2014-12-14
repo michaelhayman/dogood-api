@@ -7,5 +7,5 @@
   h1 #{@user.full_name} Follows
   - if @users.empty?
     ' Not following anyone right now
-
-= render partial: 'individual', collection: @users, as: :user
+  - else
+    = render partial: 'individual', collection: @users, as: :user

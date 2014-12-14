@@ -7,6 +7,6 @@
   h1 Followers
   - if @users.empty?
     ' No followers at the moment
-
-= render partial: 'individual', collection: @users, as: :user
+  - else
+    = render partial: 'individual', collection: @users, as: :user
 
