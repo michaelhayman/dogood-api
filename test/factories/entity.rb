@@ -18,7 +18,7 @@ FactoryGirl.define do
     end
 
     trait :awesome do
-      title "awesome"
+      title "#awesome"
       link_type "tag"
     end
   end

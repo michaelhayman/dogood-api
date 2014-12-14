@@ -118,7 +118,7 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
     end
 
     test "should return goods matching the given tag name" do
-      hashtag = "awesome"
+      hashtag = "#awesome"
 
       @good = FactoryGirl.create(:good, :tagged)
 
