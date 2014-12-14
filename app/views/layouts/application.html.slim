@@ -15,7 +15,7 @@ html
     = stylesheet_link_tag 'application'
     = yield :other_stylesheets
 
-    = javascript_include_tag 'app'
+    = javascript_include_tag 'application'
 
   body[data-logged-in="#{logged_in?}"]
     = render 'common/header'
