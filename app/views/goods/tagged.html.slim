@@ -4,8 +4,7 @@
 - content_for :other_javascripts
   = javascript_include_tag 'goods'
 
-h1.d-text-center
-  = "##{params[:name]}"
+h1.d-text-center = params[:name]
 
 - if @goods.present?
   = good_collection(@goods)

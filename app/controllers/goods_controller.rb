@@ -35,6 +35,11 @@ class GoodsController < ApiController
   end
 
   def tagged
+    # if params missing hash, add it
+    if params[:name].present?
+      params[:name] = "#" + params[:name] unless params[:name].include?("#")
+    end
+
     hashtagged_elements = Tag.link_ids_matching_name(params[:name])
 
     @goods = Good.where(id: hashtagged_elements).
