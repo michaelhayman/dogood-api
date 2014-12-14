@@ -79,6 +79,7 @@ DoGoodApp::Application.routes.draw do
   get '/404', to: 'errors#not_found'
   get '/500', to: 'errors#exception'
 
+  get 'goods/tagged/:name', to: 'goods#tagged', as: :tagged_good_list
   get 'privacy', to: 'home#privacy'
   root to: 'home#index'
 end

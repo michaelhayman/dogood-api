@@ -1,0 +1,16 @@
+- content_for :title
+  = "All good posts"
+
+- content_for :other_javascripts
+  = javascript_include_tag 'goods'
+
+h1.d-text-center
+  = "##{params[:name]}"
+
+- if @goods.present?
+  = good_collection(@goods)
+- else
+  .d-text-center
+    'No posts found matching that tag
+
+

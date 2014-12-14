@@ -43,7 +43,14 @@ class GoodsController < ApiController
 
     @goods = apply_scopes(@goods)
 
-    render_paginated_index(@goods)
+    respond_to do |format|
+      format.html {
+        @goods = paginated_entries(@goods)
+      }
+      format.json {
+        render_paginated_index(@goods)
+      }
+    end
   end
 
   def popular
