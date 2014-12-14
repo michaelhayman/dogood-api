@@ -1,5 +1,9 @@
+- content_for :title
+  = "All good posts"
+
 - content_for :other_javascripts
   = javascript_include_tag 'goods'
 
-= render partial: 'goods/individual', collection: @goods, as: :good
+= good_collection(@goods)
+
 
