@@ -1,3 +1,11 @@
 - content_for :title
   = "Users #{@user.full_name} is following"
 
+= render partial: 'profile', locals: { user: @user }
+
+.d-text-center
+  h1 #{@user.full_name} Follows
+  - if @users.empty?
+    ' Not following anyone right now
+
+= render partial: 'individual', collection: @users, as: :user

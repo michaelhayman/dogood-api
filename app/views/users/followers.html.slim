@@ -1,2 +1,12 @@
 - content_for :title
   = "#{@user.full_name}'s followers"
+
+= render partial: 'profile', locals: { user: @user }
+
+.d-text-center
+  h1 Followers
+  - if @users.empty?
+    ' No followers at the moment
+
+= render partial: 'individual', collection: @users, as: :user
+
