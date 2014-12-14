@@ -35,7 +35,6 @@ DoGoodApp::Application.configure do
 
 
   # config.assets.compile = false
-  config.assets.precompile = false
 
   # config.after_initialize do
   #   Bullet.enable = true
