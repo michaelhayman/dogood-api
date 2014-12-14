@@ -31,3 +31,16 @@
     = good_collection(@goods)
   .d-tags
     = render partial: 'tags/individual', collection: @tags, as: :tag
+
+
+.d-text-center[style="clear: both; padding: 10px"]
+  p
+    |Made with
+    a[href="mailto:support@dogood.mobi"]
+     = image_tag 'posts/categories/icon_content_health@2x.png', align: "absmiddle", alt: "heart", height: 44, width: 44
+    |in Toronto
+  a[href="https://itunes.apple.com/app/do-good/id884588564?mt=8"]
+    = image_tag "app_stores/ios_app_store.png", alt: "Download our app for iPad & iOS", id: "d-ios-app-store", alt: "Download on the iOS app store", width: 178, height: 52
+  p
+    = link_to 'Privacy Policy', privacy_path
+
