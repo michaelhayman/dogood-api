@@ -1,3 +1,8 @@
+/*
+*= require_self
+*= require magnific-popup
+*/
+
 $white: rgb(255,255,255);
 $vivid: rgb(43,200,35);
 $vivid-visited: rgb(43,100,35);
@@ -180,6 +185,10 @@ a:visited {
 
 /* Goods
 ----------------------------------------- */
+.d-time-ago {
+  font-size: 0.5em;
+  color: $wall;
+}
 .d-comment-box {
   textarea {
     @extend .form-control;
