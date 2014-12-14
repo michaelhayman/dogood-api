@@ -1,4 +1,5 @@
 load 'deploy'
+load 'deploy/assets'
 
 require 'capistrano/sidekiq'
 # load 'deploy/assets'
