@@ -17,8 +17,6 @@ var userSession = {
     userSession.setupForgotPassword();
     userSession.attachDialog();
     userSession.dom.$signIn.show();
-
-    userSession.test();
   },
 
   test: function() {
