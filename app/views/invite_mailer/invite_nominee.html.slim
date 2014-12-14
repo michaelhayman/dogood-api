@@ -1,0 +1,42 @@
+html
+  head
+  body
+    table[align="center" width="300" cellpadding="5px"]
+      tr
+        td bgcolor="#2BC823" style="border-collapse: collapse">
+          = image_tag "/images/app_icons/app_icon_300x300.png", alt: "Do Good", width: "300", height: "300"
+      tr
+        td[style="border-collapse: collapse; text-align: center"]
+          h2[style="font-family: 'Helvetica Neue', Arial; color: gray"] You've been nominated!
+      tr
+        td[style="border-collapse: collapse"]
+          span[style="font-family: 'Helvetica Neue', Arial; color: gray;"]
+            = @nominator.full_name
+            |has nominated you for doing a good deed!
+            p Here's what they had to say about you, #{@nominee.full_name}:
+            p
+              blockquote
+                = simple_format @good.caption
+            p
+              Download the app or go to our Web site and see for yourself, plus:
+            br
+            ul
+              li Nominate and reward good deeds
+              li Find good things to do near you
+              li Get help for good projects
+            p
+              center
+                a[href="http://www.dogood.mobi"]
+                  = image_tag "/images/app_stores/ios_app_store.png", alt: "Get for iOS", id: "appstore"
+            p &nbsp;
+            p &nbsp;
+            p
+              center
+                a[href="http://www.dogood.mobi/"]
+                  = image_tag "logos/dg_logo_tiny_green.png"
+      tr
+        td[style="border-collapse: collapse"]
+          p &nbsp;
+          span[style="font-size: 10pt"]
+            center
+              a[style="color: #2BC823" href="*|UNSUB:http://www.dogood.mobi/|*"] Opt out
