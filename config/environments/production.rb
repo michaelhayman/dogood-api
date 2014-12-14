@@ -51,8 +51,8 @@ DoGoodApp::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = true
   config.assets.cache_store = :dalli_store
+  config.serve_static_assets = false
 
   # Use a different cache store in production.
   config.cache_store = :dalli_store
@@ -63,8 +63,6 @@ DoGoodApp::Application.configure do
   #   :entitystore  => client,
   #   :allow_reload => false
   # }
-
-  config.static_cache_control = "public, max-age=2592000"
 
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
