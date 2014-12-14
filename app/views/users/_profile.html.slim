@@ -1,7 +1,7 @@
 .d-profile-block
   .d-text-center
-    .b-pic
-      = image_tag user.avatar_url
+    .d-pic
+      = image_tag user.avatar_url, height: 70, width: 70
     a.b-profile-full-name[href=user_path(user.slug)]
       = user.full_name
     - if user.location.present?
