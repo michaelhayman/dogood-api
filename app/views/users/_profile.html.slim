@@ -14,12 +14,12 @@
     .b-second-line.d-rank
       = user.rank
     .b-followers
-      => link_to pluralize(user.followers_count, 'follower'), followers_users_path(type: 'User', id: user.id)
+      => link_to pluralize(user.followers_count, 'follower'), followers_users_path(type: 'User', id: user.id), class: 'd-followers-text', data: { count: user.followers_count }
       span.b-dot &#9679;&nbsp;
-      => link_to "#{user.following_count} following", following_users_path(type: 'User', id: user.id)
+      => link_to "#{user.following_count} following", following_users_path(type: 'User', id: user.id), class: 'd-following-text', data: { count: user.following_count }
     - if dg_user.id != user.id
       .d-follow-block
-        .d-follow.d-button.d-button-active[data-follow=user.current_user_following.to_s data-id=user.id]
+        .d-follow.d-button.d-button-active[data-following=user.current_user_following.to_s data-id=user.id]
           - if user.current_user_following
             'Following
           - else
