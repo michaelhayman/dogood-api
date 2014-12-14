@@ -2,13 +2,15 @@ module ApplicationHelper
   def ios_app_equivalent_url
     if params[:controller] == "goods"
       if params[:action] == "show"
-        "goods/#{params[:id]}"
+        @good = Good.friendly.find(params[:id])
+        "goods/#{@good.id}"
       elsif params[:action] == "new"
         "goods/new"
       end
     elsif params[:controller] == "users"
       if params[:action] == "show"
-        "users/#{params[:id]}"
+        @user = User.friendly.find(params[:id])
+        "users/#{@user.id}"
       end
     end
   end
