@@ -1,2 +1,7 @@
 .d-user
-  = link_to user.name, user_path(user.slug)
+  .d-pic
+    = image_tag user.avatar_url, height: 40, width: 40
+  .d-info
+    = link_to user.full_name, user_path(user.slug), class: 'd-name'
+    br
+    = user.location

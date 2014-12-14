@@ -3,8 +3,8 @@
 
 = render partial: 'profile', locals: { user: @user }
 
-.d-text-center
-  h1 #{@user.full_name} Follows
+h1.d-text-center #{@user.full_name} Follows
+.d-user-list-block
   - if @users.empty?
     ' Not following anyone right now
   - else

@@ -346,6 +346,27 @@ hr {
   margin-top: 20px;
 }
 
+/* User List
+----------------------------------------- */
+
+.d-user-list-block {
+  margin: 0 auto;
+  width: 85%;
+}
+
+.d-user {
+  .d-pic {
+    float: left;
+    margin-right: 10px;
+  }
+  .d-info {
+    float: left;
+    .d-name {
+      font-weight: bold;
+    }
+  }
+}
+
 /* User
 ----------------------------------------- */
 .d-profile-block {

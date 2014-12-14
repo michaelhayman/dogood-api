@@ -78,6 +78,7 @@ class UsersController < ApiController
     respond_to do |format|
       format.html {
         @user = User.find(params[:id]).decorate
+        @users = @users.decorate
       }
       format.json {
         render_paginated_index(@users, Users::SearchSerializer)
@@ -91,6 +92,7 @@ class UsersController < ApiController
     respond_to do |format|
       format.html {
         @user = User.find(params[:id]).decorate
+        @users = @users.decorate
       }
       format.json {
         render_paginated_index(@users, Users::SearchSerializer)
