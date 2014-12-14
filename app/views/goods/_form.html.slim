@@ -22,14 +22,15 @@
     = f.fields_for :nominee, @good.nominee do |n|
       .d-field-row.d-nominee-row[style="display: none"]
         .d-field-label
-          = n.label :full_name, "Their name"
+          = n.label :full_name, "Name"
         .d-field
           = n.text_field :full_name, placeholder: "Nominee's name", class: 'form-control'
       .d-field-row.d-nominee-row[style="display: none"]
         .d-field-label
-          = n.label :email, "Their email address"
+          = n.label :email, "Email"
         .d-field
           = n.text_field :email, placeholder: "Nominee's email", class: 'form-control'
+          span.d-explanation * Used only to distribute rewards
 
     .d-field-row
       .d-field-label
