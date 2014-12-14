@@ -57,6 +57,12 @@ namespace :deploy do
   end
   after "deploy:finalize_update", "deploy:symlink_config"
 
+  desc "install bower components"
+  task :bower_install, roles: :app do
+    run "cd #{release_path}; bundle exec rake bower:install"
+  end
+  after 'bundle:install', 'deploy:bower_install'
+
   desc "Make sure local git is in sync with remote."
   task :check_revision, roles: :web do
     unless `git rev-parse HEAD` == `git rev-parse origin/master`
