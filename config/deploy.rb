@@ -44,6 +44,7 @@ namespace :deploy do
     sudo "cp #{current_path}/config/sidekiq-workers.conf /etc/init/sidekiq-workers.conf"
     run "mkdir -p #{shared_path}/config"
     put File.read("config/database.vps.yml"), "#{shared_path}/config/database.yml"
+    put File.read("config/skylight.yml"), "#{shared_path}/config/skylight.yml"
     put File.read("config/apple_push_notification_production.pem"), "#{shared_path}/config/apple_push_notification_production.pem"
     puts "Now edit the config files in #{shared_path}."
   end
@@ -51,6 +52,7 @@ namespace :deploy do
 
   task :symlink_config, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/skylight.yml #{release_path}/config/skylight.yml"
     run "ln -nfs #{shared_path}/config/apple_push_notification_production.pem #{release_path}/config/apple_push_notification_production.pem"
   end
   after "deploy:finalize_update", "deploy:symlink_config"
