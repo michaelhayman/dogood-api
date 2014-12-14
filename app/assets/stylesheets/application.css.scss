@@ -472,25 +472,6 @@ label {
   margin-bottom: 15px;
 }
 
-.d-forgot-password-link {
-  margin-left: 30px;
-}
-
-.d-user-session-header {
-  height: 60px;
-  line-height: 60px;
-}
-
-.d-user-session-heading {
-  font-weight: bold;
-  font-size: 20pt;
-  float: left;
-}
-
-.d-create-account-link, .d-sign-in-link {
-  float:right;
-}
-
 .alert-danger {
   padding: 8px;
   color: white;
@@ -507,19 +488,11 @@ label {
   width: 320px;
 }
 
-.d-first-step {
-  text-align: center;
-}
-
-.btn {
-  border: 1px solid transparent;
-  border-radius: 4px;
-  touch-action: manipulation;
-  padding: 6px 12px;
-  font-size: 14px;
-  background-color: $fluffy;
-  border-color: $cloud;
-  outline: none;
+.base-btn {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .btn:hover {
@@ -531,6 +504,8 @@ label {
 }
 
 .d-button {
+  @extend .base-btn;
+  touch-action: manipulation;
   color: $white;
   outline: none;
   font-weight: bold;
@@ -693,3 +668,33 @@ label {
     }
   }
 }
+
+/* Sign in dialog
+--------------------------------------- */
+#d-user-session-dialog {
+  .d-session-button {
+    padding: .5em 1.5em;
+    font-size: 1em;
+    line-height: 1em;
+  }
+
+  .d-user-session-header {
+    height: 60px;
+    line-height: 60px;
+  }
+
+  .d-user-session-heading {
+    font-weight: bold;
+    font-size: 20pt;
+    float: left;
+  }
+
+  .d-create-account-link, .d-sign-in-link {
+    float:right;
+  }
+
+  .d-forgot-password-link {
+    margin-left: 30px;
+  }
+}
+

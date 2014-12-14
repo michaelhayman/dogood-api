@@ -20,7 +20,7 @@
       .form-group
         label Password
         input.form-control[type="password" name="user[password]" value=@password placeholder="Password"]
-      input[type="submit" value="Create Account" class="btn btn-default"]
+      input[type="submit" value="Create Account" class="d-button d-button-active d-session-button"]
 
   .d-sign-in[style="display: none"]
     .d-user-session-header
@@ -35,7 +35,7 @@
         label Password
         input.form-control[type="password" name="user[password]" value=@password placeholder="Password"]
       .form-group
-        input[type="submit" value="Sign In" class="btn btn-default"]
+        input[type="submit" value="Sign In" class="d-button d-button-active d-session-button"]
         = link_to 'Forgot password?', 'javascript:void(0)', class: 'd-forgot-password-link'
 
   .d-forgot-password[style="display: none"]
@@ -47,4 +47,4 @@
       .form-group
         label Password
         input.form-control[type="text" name="user[email]" value=@email placeholder="Email address"]
-      input[type="submit" value="Send Password" class="btn btn-default"]
+      input[type="submit" value="Send Password" class="d-button d-button-active d-session-button"]
