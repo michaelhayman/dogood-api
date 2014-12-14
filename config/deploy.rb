@@ -3,7 +3,7 @@ load "config/deploy/figaro"
 
 server "107.170.146.216", :web, :app, :db, :worker, primary: true
 
-set :default_environment, { 'PATH' => '$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH' }
+set :default_environment, { 'PATH' => '$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/.npm_modules/bin:$PATH' }
 
 set :application, "dg-api"
 set :user, "mhayman"
