@@ -18,7 +18,7 @@ h1 Rewards on offer
   - else
       span No rewards available, earn some more points!
 
-  h1 Rewards you've claimed
+h1 Rewards you've claimed
 
   - if @claimed.present?
     = render partial: 'individual', collection: @claimed, as: :reward
