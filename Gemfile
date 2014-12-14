@@ -12,6 +12,8 @@ gem 'sass-rails'
 
 gem 'bower-rails'
 
+gem 'uglifier'
+
 # Configuration
 gem 'figaro', '~> 0.7.0'
 
