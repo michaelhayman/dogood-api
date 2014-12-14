@@ -26,6 +26,9 @@ var app = {
     return xhr.responseJSON.errors.messages[0];
   },
 
+  pluralize: function(count, text) {
+    return (count + (count == 1 ? ' ' + text : ' ' + text + 's'));
+  },
 
   showError: function(message, selector) {
     $(selector).html(message);
