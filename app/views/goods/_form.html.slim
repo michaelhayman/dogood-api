@@ -5,8 +5,6 @@
   .d-error.alert.alert-danger[style="display: none"]
     'Error message
 
-  br
-
   = form_for @good, multipart: true, remote: true, html: { class: 'd-post-page d-table', id: 'd-post-good' } do |f|
 
     .d-field-row
