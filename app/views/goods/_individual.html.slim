@@ -5,14 +5,14 @@
       img[src=good.evidence]
   br
   .d-text
-    .b-nominee
+    .d-nominee
       - if good.nominee.present?
         - if good.nominee.user_id > 0
           = link_to "Nominee: #{good.nominee.full_name}", user_path(good.nominee.user.slug)
         - else
           = "Nominee: #{good.nominee.full_name}"
     = auto_link(good.caption)
-    .b-poster
+    .d-poster
       '- Posted by
       = link_to good.user.full_name, user_path(good.user.slug)
     br

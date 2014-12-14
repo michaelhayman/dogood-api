@@ -342,54 +342,60 @@ hr {
   background-color: $mud;
   padding-bottom: 20px;
   padding-top: 10px;
-}
+  .d-profile-full-name {
+    color: $vivid!important;
+    line-height: 50px;
+    font-weight: bold;
+    font-size: 25pt;
+    clear: both;
+  }
 
-.b-profile-full-name {
-  color: $vivid!important;
-  line-height: 50px;
-  font-weight: bold;
-  font-size: 25pt;
-  clear: both;
-}
+  .d-profile-location {
+    line-height: 1.1em;
+    font-size: 0.9em;
+    color: white;
+  }
 
-.d-profile-location {
-  line-height: 1.1em;
-  font-size: 0.9em;
-  color: white;
-}
+  .d-rank {
+    color: $pineapple;
+    font-weight: bold;
+    line-height: 2em;
+  }
 
-.d-rank {
-  color: $pineapple;
-  font-weight: bold;
-  line-height: 2em;
+  .d-dot {
+    color: $vivid;
+  }
+
+  .d-settings-block, .d-follow-block {
+    margin: 0 auto;
+    text-align: center;
+    display: inline-block;
+    margin-top: 20px;
+  }
+
+  .d-follow {
+    width:  150px;
+    padding: 10px;
+  }
+
+  .d-settings {
+    @extend .d-follow;
+    width: 200px!important;
+    color: $rain!important;
+  }
+
+  .d-followers {
+    color: white;
+    a {
+      color: white;
+      font-weight: bold;
+    }
+  }
 }
 
 .d-biography {
   line-height: 2.5em;
 }
-
-.b-dot {
-  color: $vivid;
-}
-
-.d-settings-block, .d-follow-block {
-  margin: 0 auto;
-  text-align: center;
-  display: inline-block;
-  margin-top: 20px;
-}
-
-.d-follow {
-  width:  150px;
-  padding: 10px;
-}
-
-.d-settings {
-  @extend .d-follow;
-  width: 200px!important;
-  color: $rain!important;
-}
-
 
 .d-sign-out {
   color: $crimson!important;
@@ -398,14 +404,6 @@ hr {
 
 .d-record {
   line-height: 3em;
-}
-
-.b-followers {
-  color: white;
-  a {
-    color: white;
-    font-weight: bold;
-  }
 }
 
 /* Modals

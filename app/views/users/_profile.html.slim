@@ -6,16 +6,16 @@
     - if user.avatar_url
       .d-pic
         = image_tag user.avatar_url, height: 70, width: 70
-    a.b-profile-full-name[href=user_path(user.slug)]
+    a.d-profile-full-name[href=user_path(user.slug)]
       = user.full_name
     - if user.location.present?
       .d-profile-location
         = user.location
-    .b-second-line.d-rank
+    .d-second-line.d-rank
       = user.rank
-    .b-followers
+    .d-followers
       => link_to pluralize(user.followers_count, 'follower'), followers_users_path(type: 'User', id: user.id), class: 'd-followers-text', data: { count: user.followers_count }
-      span.b-dot &#9679;&nbsp;
+      span.d-dot &#9679;&nbsp;
       => link_to "#{user.following_count} following", following_users_path(type: 'User', id: user.id), class: 'd-following-text', data: { count: user.following_count }
     - if dg_user.id != user.id
       .d-follow-block
