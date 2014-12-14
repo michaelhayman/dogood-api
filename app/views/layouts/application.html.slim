@@ -5,9 +5,12 @@ html
         = yield :title
         = " - "
       = "Do Good"
+
     meta[name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"]
     meta[name="apple-itunes-app" content="app-id=884588564, app-argument=dogood://#{ios_app_equivalent_url}"]
     = yield :other_meta
+
+    = favicon_link_tag 'logos/apple_favicon.png', rel: 'apple-touch-icon', type: 'image/png'
 
     = stylesheet_link_tag 'goods'
     = stylesheet_link_tag 'magnific-popup'
