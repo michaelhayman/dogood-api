@@ -7,5 +7,5 @@
   .d-reward-subtitle
     = reward.subtitle
   .d-reward-cost
-    = pluralize reward.cost, 'point'
+    = pluralize number_with_delimiter(reward.cost, :delimiter => ','), 'point'
 

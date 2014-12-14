@@ -2,7 +2,10 @@
   = "Rewards"
 
 - if logged_in?
-  h1.d-text-center You have #{dg_user.points} points
+  .d-text-center
+    = link_to image_tag('explore/rewards@2x.png', height: 44, width: 44, align: 'absmiddle'), rewards_path, class: 'd-rewards-link', align: 'absmiddle'
+    br
+    h4 You have #{dg_user.points} points to spend
 - else
   h1.d-text-center
     a.d-open-user-session-dialog-link[href="javascript:void(0)"]
@@ -10,23 +13,29 @@
     '
     |and start earning points!
 
-h1 Rewards on offer
 
 - if logged_in?
-  - if @highlights.present?
-    = render partial: 'individual', collection: @highlights, as: :reward
-  - else
-      span No rewards available, earn some more points!
+  .d-rewards-section
+    h2.d-text-center Rewards available
 
-h1 Rewards you've claimed
+    - if @highlights.present?
+      = render partial: 'individual', collection: @highlights, as: :reward
+    - else
+        span No rewards available, earn some more points!
 
-  - if @claimed.present?
-    = render partial: 'individual', collection: @claimed, as: :reward
-  - else
-    span You haven't claimed any rewards yet :(
+  .d-rewards-section
+    h2.d-text-center Rewards you've claimed
+
+    - if @claimed.present?
+      = render partial: 'individual', collection: @claimed, as: :reward
+    - else
+      span.d-text-center You haven't claimed any rewards yet :(
 
 - else
-  - if @all.present?
-    = render partial: 'individual', collection: @all, as: :reward
-  - else
-    span No rewards available right now.
+  .d-rewards-section
+    h2.d-text-center Rewards on offer
+
+    - if @all.present?
+      = render partial: 'individual', collection: @all, as: :reward
+    - else
+      span No rewards available right now.
