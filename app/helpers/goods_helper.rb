@@ -1,6 +1,6 @@
 module GoodsHelper
   def show_page?
-    params[:action] = "show" && params[:controller] == "goods"
+    params[:action] == "show" && params[:controller] == "goods"
   end
 
   def comments_to_show
