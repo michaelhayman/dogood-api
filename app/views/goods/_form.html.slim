@@ -16,24 +16,22 @@
         ul.d-radiolist
           li
             = f.radio_button :done, "0", checked: true, class: 'd-ask-for-help'
-            label a call for help in your community
+            label[for="good_done_0"] a call for help in my community
           li
             = f.radio_button :done, "1", class: 'd-nominate'
-            label a story about someone you know
+            label[for="good_done_1"] a story about someone I know
 
     = f.fields_for :nominee, @good.nominee do |n|
       .d-field-row.d-nominee-row[style="display: none"]
         .d-field-label
-          = n.label :full_name
+          = n.label :full_name, "Their name"
         .d-field
           = n.text_field :full_name, placeholder: "Nominee's name", class: 'form-control'
       .d-field-row.d-nominee-row[style="display: none"]
         .d-field-label
-          = n.label :email
+          = n.label :email, "Their email address"
         .d-field
           = n.text_field :email, placeholder: "Nominee's email", class: 'form-control'
-
-
 
     .d-field-row
       .d-field-label
