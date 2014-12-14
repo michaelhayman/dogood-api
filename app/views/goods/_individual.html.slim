@@ -36,7 +36,7 @@
     .d-comments-link-wrapper[data-count=good.comments_count class="#{comments_exist}"]
       = link_to pluralize(good.comments_count, 'comment'), good_path(good.slug), class: "d-comments-count"
     .d-comments-block
-      - good.comments.first(5).each do |c|
+      - good.comments.first(comments_to_show).each do |c|
         blockquote
           = c.comment
           br
@@ -63,7 +63,7 @@
           a.d-report-post[href="javascript:void(0)" data-id=good.id] Report
 
     br
-    .d-comment-box.form-group[style="display: none" data-id=good.id]
+    .d-comment-box.form-group[style="display: #{comment_box_display}" data-id=good.id]
       textarea[maxlength="50" name="comment" data-id=good.id]
       input.d-comment-button.btn-default.btn[value="Post" type="button"]
     br
