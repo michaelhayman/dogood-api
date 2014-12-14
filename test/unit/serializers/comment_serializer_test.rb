@@ -7,7 +7,7 @@ class CommentSerializerTest < DoGood::TestCase
         entities: @comment.entities,
         user: {
           id: @comment.user.id,
-          slug: @user.slug
+          slug: @user.slug,
           avatar_url: @comment.user.avatar_url,
           full_name: @comment.user.full_name
         }

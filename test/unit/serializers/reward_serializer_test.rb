@@ -14,6 +14,7 @@ class RewardSerializerTest < DoGood::TestCase
         within_budget: @reward.within_budget,
         user: {
           id: @reward.user.id,
+          slug: @reward.user.slug,
           avatar_url: @reward.user.avatar_url,
           full_name: @reward.user.full_name
         }
