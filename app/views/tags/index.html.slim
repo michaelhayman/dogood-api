@@ -1,0 +1,16 @@
+- content_for :title
+  = "Tags"
+
+- content_for :other_javascripts
+  = javascript_include_tag 'goods'
+
+- content_for :other_meta
+  meta[name="description" content="Tags of good deeds done."]
+  meta[name="keywords" content="tags"]
+
+h1.d-text-center Tags
+
+.d-tags
+  ul
+    = render partial: 'tags/individual', collection: @tags, as: :tag
+

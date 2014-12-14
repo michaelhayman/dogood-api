@@ -29,11 +29,15 @@
   .d-goods
     hr
     = good_collection(@goods)
-  .d-tags
-    = render partial: 'tags/individual', collection: @tags, as: :tag
-
 
 .d-text-center[style="clear: both; padding: 10px"]
+  .d-tags-home
+    h4.d-text-center Popular Tags
+    ul
+      = render partial: 'tags/individual', collection: @tags, as: :tag
+    .d-text-center.d-see-more
+      = link_to "More", tags_path
+
   p
     |Made with
     a[href="mailto:support@dogood.mobi"]

@@ -10,7 +10,7 @@ $vivid-hover: rgb(43,220,35);
 $mud: rgb(65, 53, 44);
 $fluffy: #fff;
 $wall: #bbb;
-$cloud: #ddd;
+$cloud: #eee;
 $storm: darkgray;
 $rain: #444;
 $error: #e54028;
@@ -497,14 +497,6 @@ label {
   appearance: none;
 }
 
-.btn:hover {
-  background-color: $cloud;
-}
-
-.btn:active {
-  background-color: $wall;
-}
-
 .d-button {
   @extend .base-btn;
   touch-action: manipulation;
@@ -705,4 +697,39 @@ label {
 
 .d-privacy-wrapper {
   margin: 20px;
+}
+
+/* Tags
+------------------------------------------ */
+
+.d-tags {
+  overflow: auto;
+  padding-bottom: 10px;
+  color: $mud;
+  ul {
+    list-style-type: none;
+    li {
+      margin: 0;
+      padding: 0;
+      display:inline-block;
+      vertical-align: top;
+      width: 50%;
+      float: left;
+    }
+  }
+  .d-see-more {
+    line-height: 50px;
+  }
+}
+
+.d-tags-home {
+  @extend .d-tags;
+  background-color: $cloud;
+  ul {
+    padding: 0;
+    li {
+      list-style-position: inside;
+    }
+
+  }
 }

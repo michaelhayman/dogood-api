@@ -2,6 +2,12 @@ class Tag < Entity
   default_scope { where(link_type: "tag") }
 
   class << self
+    def full_list
+      select(:title).
+        group(:title).
+        order(count: :desc)
+    end
+
     def popular
       select(:title).
         group(:title).
