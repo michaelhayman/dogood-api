@@ -75,26 +75,6 @@ class GoodsController < ApiController
     render_paginated_index(@goods)
   end
 
-  def nominations_for
-    redirect_to "/users/#{params[:user_id]}/nominations_for", status: :moved_permanently
-  end
-
-  def followed_by
-    redirect_to "/users/#{params[:user_id]}/followed_by", status: :moved_permanently
-  end
-
-  def voted_by
-    redirect_to "/users/#{params[:user_id]}/voted_by", status: :moved_permanently
-  end
-
-  def nominations_by
-    redirect_to "/users/#{params[:user_id]}/nominations_by", status: :moved_permanently
-  end
-
-  def help_wanted_by
-    redirect_to "/users/#{params[:user_id]}/help_wanted_by", status: :moved_permanently
-  end
-
   def new
     @good = Good.new
     @good.build_nominee
@@ -143,6 +123,27 @@ class GoodsController < ApiController
     end
   end
 
+  def nominations_for
+    handle_user_redirect(__method__)
+  end
+
+  def followed_by
+    handle_user_redirect(__method__)
+  end
+
+  def voted_by
+    handle_user_redirect(__method__)
+  end
+
+  def nominations_by
+    handle_user_redirect(__method__)
+  end
+
+  def help_wanted_by
+    handle_user_redirect(__method__)
+  end
+
+
   def resource_params
     params.require(:good).permit(
       :caption,
@@ -183,6 +184,10 @@ class GoodsController < ApiController
       end
 
       target
+    end
+
+    def handle_user_redirect(path)
+      redirect_to controller: 'users', action: path, id: params[:user_id], protocol: 'https://', status: :moved_permanently
     end
 end
 

@@ -183,61 +183,61 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
   class GoodsController::NominationsFor < DoGood::ActionControllerTestCase
     test "should return goods that a user was nominated for" do
-      @user = FactoryGirl.build(:user)
+      @user = FactoryGirl.create(:user)
       get :nominations_for, {
         format: :json,
         user_id: @user.id
       }
 
-      assert_redirected_to "/users/#{@user.id}/nominations_for"
+      assert_redirected_to "https://test.host/users/#{@user.id}/nominations_for"
     end
   end
 
   class GoodsController::FollowedBy < DoGood::ActionControllerTestCase
     test "should return goods that a user followed" do
-      @user = FactoryGirl.build(:user)
+      @user = FactoryGirl.create(:user)
       get :followed_by, {
         format: :json,
         user_id: @user.id
       }
 
-      assert_redirected_to "/users/#{@user.id}/followed_by"
+      assert_redirected_to "https://test.host/users/#{@user.id}/followed_by"
     end
   end
 
   class GoodsController::VotedBy < DoGood::ActionControllerTestCase
     test "should return goods that a certain user likes" do
-      @user = FactoryGirl.build(:user)
+      @user = FactoryGirl.create(:user)
       get :voted_by, {
         format: :json,
         user_id: @user.id,
       }
 
-      assert_redirected_to "/users/#{@user.id}/voted_by"
+      assert_redirected_to "https://test.host/users/#{@user.id}/voted_by"
     end
   end
 
   class GoodsController::NominationsBy < DoGood::ActionControllerTestCase
     test "should return goods that a user nominated" do
-      @user = FactoryGirl.build(:user)
+      @user = FactoryGirl.create(:user)
       get :nominations_by, {
         format: :json,
         user_id: @user.id
       }
 
-      assert_redirected_to "/users/#{@user.id}/nominations_by"
+      assert_redirected_to "https://test.host/users/#{@user.id}/nominations_by"
     end
   end
 
   class GoodsController::HelpWantedBy < DoGood::ActionControllerTestCase
     test "should return goods for which a user asked for help" do
-      @user = FactoryGirl.build(:user)
+      @user = FactoryGirl.create(:user)
       get :help_wanted_by, {
         format: :json,
         user_id: @user.id
       }
 
-      assert_redirected_to "/users/#{@user.id}/help_wanted_by"
+      assert_redirected_to "https://test.host/users/#{@user.id}/help_wanted_by"
     end
   end
 
