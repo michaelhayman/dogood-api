@@ -1,0 +1,11 @@
+- content_for :title
+  = "#{@user.full_name}'s nominations of others"
+
+= render partial: 'users/profile', locals: { user: @user }
+
+.d-text-center
+  h1 Nominations Made
+  - if @goods.empty?
+    ' No nominations made at present
+
+= good_collection(@goods)

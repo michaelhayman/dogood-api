@@ -269,6 +269,115 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
     end
   end
 
+  class UsersController::NominationsFor < DoGood::ActionControllerTestCase
+    test "route" do
+      assert_routing '/users/hammy/nominations_for', {
+        controller: "users",
+        action: "nominations_for",
+        id: "hammy"
+      }
+    end
+
+    test "should return goods that a user was nominated for" do
+      @user = FactoryGirl.create(:user)
+
+      nominated_good = FactoryGirl.create(:good, :done)
+      nominated_good.nominee.user_id = @user.id
+      nominated_good.nominee.save!
+
+      not_nominated_good = FactoryGirl.create(:good)
+
+      get :nominations_for, {
+        format: :json,
+        id: @user.id
+      }
+
+      json = jsonify(response)
+      assert_equal 2, Good.all.count
+      assert_equal 1, json.traverse(:goods).count
+    end
+  end
+
+  class UsersController::FollowedBy < DoGood::ActionControllerTestCase
+    test "route" do
+      assert_routing '/users/hammy/followed_by', {
+        controller: "users",
+        action: "followed_by",
+        id: "hammy"
+      }
+    end
+
+    test "should return goods that a user followed" do
+      @user = FactoryGirl.create(:user)
+      followed_good = FactoryGirl.create(:good)
+      posted_good = FactoryGirl.create(:good, user: @user)
+      irrelevant_good = FactoryGirl.create(:good)
+
+      @user.follow(followed_good)
+
+      get :followed_by, {
+        format: :json,
+        id: @user.id
+      }
+
+      json = jsonify(response)
+      assert_equal 3, Good.all.count
+      assert_equal 1, json.traverse(:goods).count
+    end
+  end
+
+  class UsersController::VotedBy < DoGood::ActionControllerTestCase
+    test "route" do
+      assert_routing '/users/hammy/voted_by', {
+        controller: "users",
+        action: "voted_by",
+        id: "hammy"
+      }
+    end
+
+    test "should return goods that a certain user likes" do
+      @user = FactoryGirl.create(:user)
+      liked_good = FactoryGirl.create(:good)
+      unliked_good = FactoryGirl.create(:good)
+
+      @user.likes(liked_good)
+
+      get :voted_by, {
+        format: :json,
+        id: @user.id,
+      }
+
+      json = jsonify(response)
+      assert_equal 2, Good.all.count
+      assert_equal 1, json.traverse(:goods).count
+    end
+  end
+
+  class UsersController::NominationsBy < DoGood::ActionControllerTestCase
+    test "route" do
+      assert_routing '/users/hammy/nominations_by', {
+        controller: "users",
+        action: "nominations_by",
+        id: "hammy"
+      }
+    end
+
+    test "should return goods that a user nominated" do
+      @user = FactoryGirl.create(:user)
+      posted_good = FactoryGirl.create(:good, :done, user: @user)
+      irrelevant_good = FactoryGirl.create(:good)
+
+      get :nominations_by, {
+        format: :json,
+        id: @user.id
+      }
+
+      json = jsonify(response)
+      assert_equal 2, Good.all.count
+      assert_equal 1, json.traverse(:goods).count
+    end
+  end
+
   class UsersControllerTest::UpdateProfile < DoGood::ActionControllerTestCase
     test "route" do
       assert_routing( {

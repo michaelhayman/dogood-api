@@ -1,0 +1,11 @@
+- content_for :title
+  = "#{@user.full_name}'s followed posts"
+
+= render partial: 'users/profile', locals: { user: @user }
+
+.d-text-center
+  h1 #{pluralize(@user.followed_goods_count, 'Post')} Followed
+  - if @goods.empty?
+    ' No followed posts at the minute
+
+= good_collection(@goods)

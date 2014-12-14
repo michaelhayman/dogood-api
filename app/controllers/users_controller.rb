@@ -8,7 +8,12 @@ class UsersController < ApiController
     :search_by_facebook_ids,
     :voters,
     :followers,
-    :following
+    :following,
+    :nominations_for,
+    :followed_by,
+    :voted_by,
+    :nominations_by,
+    :help_wanted_by
   ]
 
   def show
@@ -89,6 +94,91 @@ class UsersController < ApiController
       }
       format.json {
         render_paginated_index(@users, Users::SearchSerializer)
+      }
+    end
+  end
+
+  def nominations_for
+    @user = User.friendly.find(params[:id]).decorate
+    @goods = Good.
+      newest_first.
+      nominations_for_user(@user.id).
+      extra_info
+
+    respond_to do |format|
+      format.html {
+        @goods = @goods.decorate
+      }
+      format.json {
+        render_paginated_index(@goods, nil, "goods")
+      }
+    end
+  end
+
+  def followed_by
+    @user = User.friendly.find(params[:id]).decorate
+    @goods = Good.
+      extra_info.
+      newest_first.
+      followed_by_user(@user.id)
+
+    respond_to do |format|
+      format.html {
+        @goods = @goods.decorate
+      }
+      format.json {
+        render_paginated_index(@goods, nil, "goods")
+      }
+    end
+  end
+
+  def voted_by
+    @user = User.friendly.find(params[:id]).decorate
+    @goods = Good.
+      extra_info.
+      newest_first.
+      voted_by_user(@user.id)
+
+    respond_to do |format|
+      format.html {
+        @goods = @goods.decorate
+      }
+      format.json {
+        render_paginated_index(@goods, nil, "goods")
+      }
+    end
+  end
+
+  def nominations_by
+    @user = User.friendly.find(params[:id]).decorate
+    @goods = Good.
+      newest_first.
+      nominations_by_user(@user.id).
+      extra_info
+
+    respond_to do |format|
+      format.html {
+        @goods = @goods.decorate
+      }
+      format.json {
+        render_paginated_index(@goods, nil, "goods")
+      }
+    end
+  end
+
+  def help_wanted_by
+    @user = User.friendly.find(params[:id]).decorate
+    @goods = Good.
+      newest_first.
+      help_wanted_by_user(@user.id).
+      extra_info
+
+    respond_to do |format|
+      format.html {
+        @goods = @goods.decorate
+      }
+      format.json {
+        render_paginated_index(@goods, nil, "goods")
       }
     end
   end

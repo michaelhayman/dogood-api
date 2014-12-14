@@ -182,131 +182,62 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
   end
 
   class GoodsController::NominationsFor < DoGood::ActionControllerTestCase
-    test "route" do
-      assert_routing '/goods/nominations_for', {
-        controller: "goods",
-        action: "nominations_for"
-      }
-    end
-
     test "should return goods that a user was nominated for" do
-      @user = FactoryGirl.create(:user)
-
-      nominated_good = FactoryGirl.create(:good, :done)
-      nominated_good.nominee.user_id = @user.id
-      nominated_good.nominee.save!
-
-      not_nominated_good = FactoryGirl.create(:good)
-
+      @user = FactoryGirl.build(:user)
       get :nominations_for, {
         format: :json,
         user_id: @user.id
       }
 
-      json = jsonify(response)
-      assert_equal 2, Good.all.count
-      assert_equal 1, json.traverse(:goods).count
+      assert_redirected_to "/users/#{@user.id}/nominations_for"
     end
   end
 
   class GoodsController::FollowedBy < DoGood::ActionControllerTestCase
-    test "route" do
-      assert_routing '/goods/followed_by', {
-        controller: "goods",
-        action: "followed_by"
-      }
-    end
-
     test "should return goods that a user followed" do
-      @user = FactoryGirl.create(:user)
-      followed_good = FactoryGirl.create(:good)
-      posted_good = FactoryGirl.create(:good, user: @user)
-      irrelevant_good = FactoryGirl.create(:good)
-
-      @user.follow(followed_good)
-
+      @user = FactoryGirl.build(:user)
       get :followed_by, {
         format: :json,
         user_id: @user.id
       }
 
-      json = jsonify(response)
-      assert_equal 3, Good.all.count
-      assert_equal 1, json.traverse(:goods).count
+      assert_redirected_to "/users/#{@user.id}/followed_by"
     end
   end
 
   class GoodsController::VotedBy < DoGood::ActionControllerTestCase
-    test "route" do
-      assert_routing '/goods/voted_by', {
-        controller: "goods",
-        action: "voted_by"
-      }
-    end
-
     test "should return goods that a certain user likes" do
-      @user = FactoryGirl.create(:user)
-      liked_good = FactoryGirl.create(:good)
-      unliked_good = FactoryGirl.create(:good)
-
-      @user.likes(liked_good)
-
+      @user = FactoryGirl.build(:user)
       get :voted_by, {
         format: :json,
         user_id: @user.id,
       }
 
-      json = jsonify(response)
-      assert_equal 2, Good.all.count
-      assert_equal 1, json.traverse(:goods).count
+      assert_redirected_to "/users/#{@user.id}/voted_by"
     end
   end
 
   class GoodsController::NominationsBy < DoGood::ActionControllerTestCase
-    test "route" do
-      assert_routing '/goods/nominations_by', {
-        controller: "goods",
-        action: "nominations_by"
-      }
-    end
-
     test "should return goods that a user nominated" do
-      @user = FactoryGirl.create(:user)
-      posted_good = FactoryGirl.create(:good, :done, user: @user)
-      irrelevant_good = FactoryGirl.create(:good)
-
+      @user = FactoryGirl.build(:user)
       get :nominations_by, {
         format: :json,
         user_id: @user.id
       }
 
-      json = jsonify(response)
-      assert_equal 2, Good.all.count
-      assert_equal 1, json.traverse(:goods).count
+      assert_redirected_to "/users/#{@user.id}/nominations_by"
     end
   end
 
   class GoodsController::HelpWantedBy < DoGood::ActionControllerTestCase
-    test "route" do
-      assert_routing '/goods/help_wanted_by', {
-        controller: "goods",
-        action: "help_wanted_by"
-      }
-    end
-
     test "should return goods for which a user asked for help" do
-      @user = FactoryGirl.create(:user)
-      posted_good = FactoryGirl.create(:good, user: @user)
-      irrelevant_good = FactoryGirl.create(:good)
-
+      @user = FactoryGirl.build(:user)
       get :help_wanted_by, {
         format: :json,
         user_id: @user.id
       }
 
-      json = jsonify(response)
-      assert_equal 2, Good.all.count
-      assert_equal 1, json.traverse(:goods).count
+      assert_redirected_to "/users/#{@user.id}/help_wanted_by"
     end
   end
 

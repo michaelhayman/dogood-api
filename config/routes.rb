@@ -25,6 +25,12 @@ DoGoodApp::Application.routes.draw do
     member do
       get :status
       get :rank
+
+      get :nominations_for
+      get :followed_by
+      get :voted_by
+      get :nominations_by
+      get :help_wanted_by
     end
   end
 

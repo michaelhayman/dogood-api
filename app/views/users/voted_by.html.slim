@@ -1,0 +1,11 @@
+- content_for :title
+  = "#{@user.full_name}'s votes"
+
+= render partial: 'users/profile', locals: { user: @user }
+
+.d-text-center
+  h1 Voted on #{pluralize(@user.voted_goods_count, 'Posts')}
+  - if @goods.empty?
+    ' No votes at present
+
+= good_collection(@goods)

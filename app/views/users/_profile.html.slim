@@ -1,0 +1,15 @@
+.d-profile-block
+  .d-text-center
+    .b-pic
+      = image_tag user.avatar_url
+    a.b-profile-full-name[href=user_path(user.slug)]
+      = user.full_name
+    - if user.location.present?
+      .d-profile-location
+        = user.location
+    .b-second-line.d-rank
+      = user.rank
+    .b-followers
+      => link_to pluralize(user.followers_count, 'follower'), followers_users_path(type: 'User', id: user.id)
+      span.b-dot &#9679;&nbsp;
+      => link_to "#{user.following_count} following", following_users_path(type: 'User', id: user.id)

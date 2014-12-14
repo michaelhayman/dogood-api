@@ -6,12 +6,7 @@ class GoodsController < ApiController
     :show,
     :tagged,
     :popular,
-    :nearby,
-    :nominations_for,
-    :followed_by,
-    :voted_by,
-    :nominations_by,
-    :help_wanted_by
+    :nearby
   ]
 
   def index
@@ -69,47 +64,23 @@ class GoodsController < ApiController
   end
 
   def nominations_for
-    @goods = Good.
-      newest_first.
-      nominations_for_user(params[:user_id]).
-      extra_info
-
-    render_paginated_index(@goods)
+    redirect_to "/users/#{params[:user_id]}/nominations_for", status: :moved_permanently
   end
 
   def followed_by
-    @goods = apply_scopes(Good.
-      newest_first.
-      followed_by_user(params[:user_id]).
-      extra_info)
-
-    render_paginated_index(@goods)
+    redirect_to "/users/#{params[:user_id]}/followed_by", status: :moved_permanently
   end
 
   def voted_by
-    @goods = apply_scopes(Good.
-      newest_first.
-      voted_by_user(params[:user_id]))
-
-    render_paginated_index(@goods)
+    redirect_to "/users/#{params[:user_id]}/voted_by", status: :moved_permanently
   end
 
   def nominations_by
-    @goods = Good.
-      newest_first.
-      nominations_by_user(params[:user_id]).
-      extra_info
-
-    render_paginated_index(@goods)
+    redirect_to "/users/#{params[:user_id]}/nominations_by", status: :moved_permanently
   end
 
   def help_wanted_by
-    @goods = Good.
-      newest_first.
-      help_wanted_by_user(params[:user_id]).
-      extra_info
-
-    render_paginated_index(@goods)
+    redirect_to "/users/#{params[:user_id]}/help_wanted_by", status: :moved_permanently
   end
 
   def new

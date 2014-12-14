@@ -1,0 +1,11 @@
+- content_for :title
+  = "#{@user.full_name}'s help wanted posts"
+
+= render partial: 'users/profile', locals: { user: @user }
+
+.d-text-center
+  h1 Help Wanted Posts
+  - if @goods.empty?
+    ' No calls for help
+
+= good_collection(@goods)
