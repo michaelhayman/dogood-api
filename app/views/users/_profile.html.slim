@@ -1,7 +1,11 @@
+- content_for :other_javascripts
+  = javascript_include_tag 'profile'
+
 .d-profile-block
   .d-text-center
-    .d-pic
-      = image_tag user.avatar_url, height: 70, width: 70
+    - if user.avatar_url
+      .d-pic
+        = image_tag user.avatar_url, height: 70, width: 70
     a.b-profile-full-name[href=user_path(user.slug)]
       = user.full_name
     - if user.location.present?
@@ -13,3 +17,14 @@
       => link_to pluralize(user.followers_count, 'follower'), followers_users_path(type: 'User', id: user.id)
       span.b-dot &#9679;&nbsp;
       => link_to "#{user.following_count} following", following_users_path(type: 'User', id: user.id)
+    - if dg_user.id != user.id
+      .d-follow-block
+        .d-follow.d-button.d-button-active[data-follow=user.current_user_following.to_s data-id=user.id]
+          - if user.current_user_following
+            'Following
+          - else
+            'Follow
+    - elsif logged_in? && false == true
+      .d-settings-block
+        a.d-settings.d-button[href=""]
+          ' Settings

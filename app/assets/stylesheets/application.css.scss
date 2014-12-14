@@ -336,7 +336,8 @@ hr {
   margin-top: 20px;
 }
 
-/* user */
+/* User
+----------------------------------------- */
 .d-profile-block {
   background-color: $mud;
   padding-bottom: 20px;
@@ -370,6 +371,25 @@ hr {
 .b-dot {
   color: $vivid;
 }
+
+.d-settings-block, .d-follow-block {
+  margin: 0 auto;
+  text-align: center;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.d-follow {
+  width:  150px;
+  padding: 10px;
+}
+
+.d-settings {
+  @extend .d-follow;
+  width: 200px!important;
+  color: $rain!important;
+}
+
 
 .d-sign-out {
   color: $crimson!important;
