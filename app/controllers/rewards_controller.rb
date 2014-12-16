@@ -14,6 +14,7 @@ class RewardsController < ApiController
   def index
     respond_to do |format|
       format.html {
+        @rewards_selected = "selected"
         if logged_in?
           @highlights = Reward.highlights(current_user)
           @claimed = Reward.claimed(current_user)

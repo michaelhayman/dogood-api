@@ -21,5 +21,6 @@ html
     = render 'common/header'
     = render 'users/sign_in' unless logged_in?
     = yield
+
     = yield :other_javascripts
 

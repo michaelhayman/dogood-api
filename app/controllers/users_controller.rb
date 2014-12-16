@@ -16,6 +16,12 @@ class UsersController < ApiController
     :help_wanted_by
   ]
 
+  before_filter :set_selected
+
+  def set_selected
+    @profile_selected = "selected"
+  end
+
   def show
     @user = User.friendly.find(params[:id]).decorate
 

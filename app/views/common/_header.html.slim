@@ -3,12 +3,6 @@
 
 .d-header
   .d-profile-icon-wrapper
-    - if !logged_in?
-      a.d-open-user-session-dialog-link.d-profile.d-header-link[href="javascript:void(0)"]
-        .d-profile-icon
-    - else
-      a.d-profile[href="#{user_path(dg_user.slug)}"]
-        .d-profile-icon
   .d-post-icon-wrapper
     a.d-header-link[href=new_good_path style="outline: none; color: white" class="d-post"]
       .d-post-icon
@@ -16,3 +10,18 @@
     a[href="/"]
       .d-logo
 
+#d-footer
+  - @explore_selected = !@rewards_selected && !@starred_selected && !@profile_selected ? "selected" : nil
+  .tab.first-tab[class="#{@explore_selected}"]
+    = link_to 'Explore', root_path
+  / .tab[class="#{@starred_selected}"]
+    = link_to 'Starred', root_path
+  .tab[class="#{@rewards_selected}"]
+    = link_to 'Rewards', rewards_path
+  .tab[class="#{@profile_selected}"]
+    - if !logged_in?
+      a.d-open-user-session-dialog-link[href="javascript:void(0)"]
+        'Join
+    - else
+      a[href="#{user_path(dg_user.slug)}"]
+        'Profile
