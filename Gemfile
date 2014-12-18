@@ -60,6 +60,8 @@ gem 'fog', '~> 1.3.1'
 
 gem 'friendly_id'
 
+gem 'rails-assets-fastclick'
+
 gem 'slim'
 
 # New Relic

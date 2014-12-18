@@ -1,9 +1,12 @@
 //= require jquery/dist/jquery
 //= require jquery-ujs/src/rails
+//= require fastclick
 //= require magnific-popup/dist/jquery.magnific-popup
 
 var app = {
   init: function() {
+    this.attachFastClick();
+
     $(document).on('needsSignIn.APP', function() {
 
     });
@@ -36,6 +39,10 @@ var app = {
       $(selector).fadeOut();
       n();
     });
+  },
+
+  attachFastClick: function() {
+    FastClick.attach(document.body);
   }
 }
 
