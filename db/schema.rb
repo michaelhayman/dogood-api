@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141214200737) do
+ActiveRecord::Schema.define(version: 20141216213444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -236,6 +236,14 @@ ActiveRecord::Schema.define(version: 20141214200737) do
   add_index "rewards", ["user_id"], name: "index_rewards_on_user_id", using: :btree
 
   create_table "sashes", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "searches", force: true do |t|
+    t.json     "data"
+    t.string   "sha"
+    t.boolean  "processed"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
