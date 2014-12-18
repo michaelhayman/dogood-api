@@ -344,6 +344,17 @@ hr {
   width: 80%;
   margin: 0 auto;
   margin-top: 20px;
+  .d-reset-password-heading {
+    font-weight: bold;
+    font-size: 20pt;
+    float: left;
+    margin-bottom: 20px;
+  }
+  .d-reset-password-button {
+    padding: .5em 1.5em;
+    font-size: 1em;
+    line-height: 1em;
+  }
 }
 
 /* User List
