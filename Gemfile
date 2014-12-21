@@ -86,6 +86,7 @@ end
 
 group :development, :test do
   gem 'simplecov', '~> 0.8.2'
+  gem 'mechanize'
 end
 
 # Heroku
