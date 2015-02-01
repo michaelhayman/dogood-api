@@ -59,8 +59,6 @@ gem 'fog', '~> 1.26'
 
 gem 'friendly_id'
 
-gem 'rails-assets-fastclick'
-
 gem 'slim'
 
 # New Relic
@@ -68,6 +66,10 @@ gem 'newrelic_rpm', '~> 3.6.6.147'
 
 # Unstable gems - lock to known working version
 gem 'memoist', '0.11.0'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-fastclick', '~> 1.0.6'
+end
 
 group :development do
   gem 'capistrano', '~> 2.15.5'
