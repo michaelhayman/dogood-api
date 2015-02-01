@@ -81,5 +81,6 @@ DoGoodApp::Application.routes.draw do
 
   get 'goods/tagged/:name', to: 'goods#tagged', as: :tagged_good_list
   get 'privacy', to: 'home#privacy'
+  get '/terms.html', to: 'home#terms'
   root to: 'home#index'
 end
