@@ -1,7 +1,7 @@
-//= require jquery/dist/jquery
-//= require jquery-ujs/src/rails
+//= require jquery
+//= require jquery-ujs
 //= require fastclick
-//= require magnific-popup/dist/jquery.magnific-popup
+//= require magnific-popup
 
 var app = {
   init: function() {

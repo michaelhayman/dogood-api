@@ -9,8 +9,6 @@ gem 'rails_autolink'
 
 gem 'sass-rails'
 
-gem 'bower-rails'
-
 gem 'uglifier'
 
 # Configuration
@@ -69,6 +67,9 @@ gem 'memoist', '0.11.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-fastclick', '~> 1.0.6'
+  gem 'rails-assets-typeahead.js', '~> 0.10.5'
+  gem 'rails-assets-magnific-popup', '~> 1.0.0'
+  gem 'rails-assets-jquery-ujs', '~> 1.0.3'
 end
 
 group :development do
