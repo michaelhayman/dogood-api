@@ -399,7 +399,7 @@ DEPENDENCIES
   capistrano-sidekiq!
   carrierwave (~> 0.10.0)
   dalli (~> 2.6.4)
-  devise
+  devise (~> 3.4)
   draper (~> 1.0)
   factory_girl_rails
   faker

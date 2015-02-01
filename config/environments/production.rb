@@ -51,19 +51,13 @@ DoGoodApp::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.assets.cache_store = :dalli_store
-  config.serve_static_assets = false
+  config.serve_static_files = false
 
-  # Use a different cache store in production.
-  config.cache_store = :dalli_store
-
-  client = Dalli::Client.new
   # config.action_dispatch.rack_cache = {
   #   :metastore    => client,
   #   :entitystore  => client,
   #   :allow_reload => false
   # }
-
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -76,7 +70,7 @@ DoGoodApp::Application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { :host => 'dogood.mobi' }
-  config.action_controller.asset_host = "http://www.dogood.mobi"
+  config.action_controller.asset_host = "http://localhost:3003"
   config.action_mailer.asset_host = config.action_controller.asset_host
 
   ActionMailer::Base.smtp_settings = {

@@ -101,7 +101,7 @@ class GoodsController < ApiController
 
       render json: @good.decorate, root: "goods"
       if @good.send_invite?
-        InviteMailer.invite_nominee(@good).deliver
+        InviteMailer.invite_nominee(@good).deliver_now
       end
     else
       message = @good.errors.full_messages.first || "Couldn't save good."

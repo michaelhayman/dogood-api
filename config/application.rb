@@ -33,6 +33,10 @@ module DoGoodApp
 
     config.exceptions_app = self.routes
 
+    config.active_record.raise_in_transactional_callbacks = true
+
+    config.active_support.test_order = :random
+
     config.middleware.use Rack::Cors do
       allow do
         origins '*'

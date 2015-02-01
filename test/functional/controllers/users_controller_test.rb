@@ -58,6 +58,11 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
   end
 
   class UsersControllerTest::SearchByEmails < DoGood::ActionControllerTestCase
+    def setup
+      super
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+    end
+
     test "route" do
       assert_routing '/users/search_by_emails', {
         controller: "users",
@@ -253,6 +258,9 @@ class UsersControllerTest < DoGood::ActionControllerTestCase
 
     test "query" do
       @bob = FactoryGirl.create(:user, :bob)
+      sign_in @bob
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+
       @tony = FactoryGirl.create(:user, :tony)
       @bob.follow @tony
 

@@ -243,8 +243,10 @@ class GoodsControllerTest < DoGood::ActionControllerTestCase
 
   class GoodsController::Create < DoGood::ActionControllerTestCase
     def setup
+      super
       @user = FactoryGirl.create(:user)
       sign_in @user
+      @request.env["devise.mapping"] = Devise.mappings[:user]
     end
 
     test "route" do

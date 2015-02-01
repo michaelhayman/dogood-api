@@ -6,7 +6,7 @@ class InviteMailerTest < DoGood::TestCase
   end
 
   test "send invite" do
-    @email = InviteMailer.invite_nominee(@good).deliver
+    @email = InviteMailer.invite_nominee(@good).deliver_now
 
     refute ActionMailer::Base.deliveries.empty?
     assert_match(/You've been nominated/, @email.encoded)
@@ -16,7 +16,7 @@ class InviteMailerTest < DoGood::TestCase
   test "don't send invite if no email address is present" do
     ActionMailer::Base.deliveries = []
     @good.nominee.email = nil
-    @email = InviteMailer.invite_nominee(@good).deliver
+    @email = InviteMailer.invite_nominee(@good).deliver_now
 
     assert ActionMailer::Base.deliveries.empty?
   end
