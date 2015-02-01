@@ -55,7 +55,7 @@ gem 'geokit-rails', github: 'geokit/geokit-rails'
 gem 'carrierwave', '~> 0.10.0'
 gem 'mini_magick'
 
-gem 'fog'#, '~> 1.3.1'
+gem 'fog', '~> 1.26'
 
 gem 'friendly_id'
 

@@ -404,7 +404,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   figaro (~> 0.7.0)
-  fog
+  fog (~> 1.26)
   friendly_id
   geokit-rails!
   guard-minitest
