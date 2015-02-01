@@ -2,8 +2,7 @@ source 'https://rubygems.org'
 
 ruby "2.1.5"
 
-gem 'railties', '4.1.8'
-gem 'rails', '4.1.8'
+gem 'rails', '4.2'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'rails_autolink'
@@ -18,7 +17,7 @@ gem 'uglifier'
 gem 'figaro', '~> 0.7.0'
 
 # Authentication
-gem 'devise', '~> 3.2.0'
+gem 'devise', '~> 3.4'
 
 # Notifications
 gem 'houston', '~> 2.1'
@@ -44,19 +43,19 @@ gem 'merit', '~> 2.1.1'
 gem 'pg', '~> 0.17.0'
 
 # JSON
-gem 'active_model_serializers', '~> 0.8.1'
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers', branch: '0-8-stable'
 
 # Pagination
 gem 'will_paginate', '~> 3.0'
 
 # Geo
-gem 'geokit-rails', '~> 2.0.0'
+gem 'geokit-rails', github: 'geokit/geokit-rails'
 
 # Files
 gem 'carrierwave', '~> 0.10.0'
 gem 'mini_magick'
 
-gem 'fog', '~> 1.3.1'
+gem 'fog'#, '~> 1.3.1'
 
 gem 'friendly_id'
 
@@ -68,7 +67,7 @@ gem 'slim'
 gem 'newrelic_rpm', '~> 3.6.6.147'
 
 # Unstable gems - lock to known working version
-gem 'memoist', '0.9.1'
+gem 'memoist', '0.11.0'
 
 group :development do
   gem 'capistrano', '~> 2.15.5'
