@@ -13,7 +13,7 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 
 set :scm, "git"
-set :repository, "git@github.com:michaelhayman/#{application}.git"
+set :repository, "git@bitbucket.org:michaelhayman/dg-api.git"
 set :branch, "master"
 
 set :normalize_asset_timestamps, false
